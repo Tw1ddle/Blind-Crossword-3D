@@ -7,6 +7,7 @@
 
 class Puzzle3D;
 class Grid3DGraphicsScene;
+class WordTableModel;
 
 namespace Ui
 {
@@ -26,11 +27,16 @@ private:
     Puzzle3D* m_Puzzle;
     PuzzleLoader m_PuzzleLoader;
     Grid3DGraphicsScene* m_GraphicsScene;
+    WordTableModel* m_WordTableModel;
+
     static const QString m_DefaultSaveFolder;
 
 private slots:
     void loadFile();
     void saveFile();
+
+signals:
+    void puzzleLoaded();
 };
 
 #endif // MAINWINDOW_H

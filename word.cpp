@@ -2,20 +2,26 @@
 
 Word::Word()
 {
-    m_Word = "";
 }
 
-Word::Word(QString word)
+Word::Word(std::vector<Letter> word)
 {
     m_Word = word;
 }
 
 unsigned int Word::getLength()
 {
-    return m_Word.length();
+    return m_Word.size();
 }
 
-QString Word::getWord()
+QString Word::getString()
 {
-    return m_Word;
+    QString word;
+
+    for(unsigned int i = 0; i < m_Word.size(); i++)
+    {
+        word.push_back(m_Word.at(i).getLetter());
+    }
+
+    return word;
 }

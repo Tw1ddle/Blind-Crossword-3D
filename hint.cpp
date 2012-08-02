@@ -9,7 +9,7 @@ Hint::Hint(QString hint)
     m_Hint = hint;
 }
 
-QString Hint::getHint()
+QString Hint::getString()
 {
     return m_Hint;
 }

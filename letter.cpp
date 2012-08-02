@@ -10,7 +10,7 @@ Letter::Letter(QChar letter, uivec3 location)
 
 QChar Letter::getLetter()
 {
-    return m_Letter;
+    return m_Letter.toUpper();
 }
 
 uivec3 Letter::getLocation()

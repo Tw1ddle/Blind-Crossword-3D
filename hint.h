@@ -9,7 +9,7 @@ public:
     Hint();
     Hint(QString hint);
 
-    QString getHint();
+    QString getString();
 
 private:
     QString m_Hint;

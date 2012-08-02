@@ -5,20 +5,18 @@
 #include <vector>
 
 #include "letter.h"
-#include "uivec3.h"
 
 class Word
 {
 public:
     Word();
-    Word(QString word);
+    Word(std::vector<Letter> word);
 
-    QString getWord();
+    QString getString();
     unsigned int getLength();
 
 private:
-    QString m_Word;
-    std::vector<Letter*> m_LettersRefs;
+    std::vector<Letter> m_Word;
 };
 
 #endif // WORD_H

@@ -2,6 +2,7 @@
 
 #include <QPainter>
 #include <QTimer>
+#include <assert.h>
 
 Grid3DGraphicsScene::Grid3DGraphicsScene(uivec3* size, std::vector<Letter>* letters) :
     QGraphicsScene(), m_RefGridSize(size), m_RefWorkingLetters(letters), m_IsGridBuilt(false)
@@ -15,26 +16,24 @@ void Grid3DGraphicsScene::drawBackground(QPainter *painter, const QRectF &rect)
 
     buildGrid();
 
+    assert(m_RefWorkingLetters->size() == m_GridPolygons.size());
+
     for(unsigned int i = 0; i < m_GridPolygons.size(); i++)
     {
-        if(i < m_RefWorkingLetters->size())
-        {
-            if(QString(m_RefWorkingLetters->at(i).getLetter()) == QString(" "))
+        if(QString(m_RefWorkingLetters->at(i).getLetter()) == QChar())
             {
-                painter->setBrush(QBrush(Qt::red, Qt::SolidPattern));
+                painter->setBrush(QBrush(Qt::lightGray, Qt::SolidPattern));
             }
             else
             {
                 painter->setBrush(QBrush(Qt::NoBrush));
             }
-        }
 
         painter->drawPolygon(m_GridPolygons.at(i));
 
-        if(i < m_RefWorkingLetters->size())
-        {
-            painter->drawText(m_GridPolygons.at(i).boundingRect(), m_RefWorkingLetters->at(i).getLetter());
-        }
+        QRect bRect = m_GridPolygons.at(i).boundingRect();
+        bRect.center();
+        painter->drawText(m_GridPolygons.at(i).boundingRect(), Qt::AlignCenter, m_RefWorkingLetters->at(i).getLetter());
     }
 
      QTimer::singleShot(150, this, SLOT(update()));

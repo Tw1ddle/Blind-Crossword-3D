@@ -17,12 +17,14 @@ SOURCES += main.cpp\
     uivec3.cpp \
     crosswordentry3d.cpp \
     hint.cpp \
-    wordlistview.cpp \
     direction.cpp \
     puzzle3d.cpp \
     letter.cpp \
     puzzleloader.cpp \
-    grid3dgraphicsview.cpp
+    grid3dgraphicsview.cpp \
+    wordtablemodel.cpp \
+    wordtableview.cpp \
+    eventfilters.cpp
 
 HEADERS  += mainwindow.h \
     word.h \
@@ -30,11 +32,13 @@ HEADERS  += mainwindow.h \
     uivec3.h \
     crosswordentry3d.h \
     hint.h \
-    wordlistview.h \
     direction.h \
     puzzle3d.h \
     letter.h \
     puzzleloader.h \
-    grid3dgraphicsview.h
+    grid3dgraphicsview.h \
+    wordtablemodel.h \
+    wordtableview.h \
+    eventfilters.h
 
 FORMS    += mainwindow.ui

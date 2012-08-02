@@ -2,7 +2,6 @@
 #include "puzzle3d.h"
 
 #include <QFile>
-
 #include <QRegExp>
 #include <QTextStream>
 #include <QList>
@@ -75,13 +74,13 @@ void PuzzleLoader::readInXWC3D(Puzzle3D &puzzle, QStringList& linelist)
             {
                 if(currentLine.at(x) == '1')
                 {
-                    puzzle.m_Letters.push_back(Letter(QChar(), uivec3(x, y, z)));
-                    puzzle.m_WorkingLetters.push_back(Letter(QChar(), uivec3(x, y, z)));
+                    puzzle.m_SolutionLetters.push_back(Letter(QChar(), uivec3(x, y, z)));
+                    puzzle.m_WorkingLetters.push_back(Letter(QChar(95u), uivec3(x, y, z)));
                 }
                 else
                 {
-                    puzzle.m_Letters.push_back(Letter(currentLine.at(x), uivec3(x, y, z)));
-                    puzzle.m_WorkingLetters.push_back(Letter(QChar(95u), uivec3(x, y, z)));
+                    puzzle.m_SolutionLetters.push_back(Letter(currentLine.at(x), uivec3(x, y, z)));
+                    puzzle.m_WorkingLetters.push_back(Letter(QChar(), uivec3(x, y, z)));
                 }
             }
         }
@@ -103,10 +102,23 @@ void PuzzleLoader::readInXWC3D(Puzzle3D &puzzle, QStringList& linelist)
         uivec3 startingPosition(posX, posY, posZ);
 
         unsigned int length = list.takeFirst().toUInt();
-        Word word(list.takeFirst());
-        Hint hint(list.takeFirst());
 
-        assert(length == word.getLength());
+        std::vector<Letter> letters;
+        QString wordString = list.takeFirst();
+        for(unsigned int j = 0; j < length; j++)
+        {
+            QChar letterChar = wordString.at(j);
+            uivec3 letterPosition = startingPosition;
+            letterPosition.setX(letterPosition.getX() + j);
+
+            letters.push_back(Letter(letterChar, letterPosition));
+        }
+        Word word(letters);
+
+        assert(length == wordString.length());
+        assert(length == letters.size());
+
+        Hint hint(list.takeFirst());
 
         puzzle.m_CrosswordEntries.push_back(CrosswordEntry3D(direction, number, startingPosition, word, hint));
     }
@@ -127,10 +139,23 @@ void PuzzleLoader::readInXWC3D(Puzzle3D &puzzle, QStringList& linelist)
         uivec3 startingPosition(posX, posY, posZ);
 
         unsigned int length = list.takeFirst().toUInt();
-        Word word(list.takeFirst());
-        Hint hint(list.takeFirst());
 
-        assert(length == word.getLength());
+        std::vector<Letter> letters;
+        QString wordString = list.takeFirst();
+        for(unsigned int j = 0; j < length; j++)
+        {
+            QChar letterChar = wordString.at(j);
+            uivec3 letterPosition = startingPosition;
+            letterPosition.setY(letterPosition.getY() + j);
+
+            letters.push_back(Letter(letterChar, letterPosition));
+        }
+        Word word(letters);
+
+        assert(length == wordString.length());
+        assert(length == letters.size());
+
+        Hint hint(list.takeFirst());
 
         puzzle.m_CrosswordEntries.push_back(CrosswordEntry3D(direction, number, startingPosition, word, hint));
     }
@@ -151,10 +176,23 @@ void PuzzleLoader::readInXWC3D(Puzzle3D &puzzle, QStringList& linelist)
         uivec3 startingPosition(posX, posY, posZ);
 
         unsigned int length = list.takeFirst().toUInt();
-        Word word(list.takeFirst());
-        Hint hint(list.takeFirst());
 
-        assert(length == word.getLength());
+        std::vector<Letter> letters;
+        QString wordString = list.takeFirst();
+        for(unsigned int j = 0; j < length; j++)
+        {
+            QChar letterChar = wordString.at(j);
+            uivec3 letterPosition = startingPosition;
+            letterPosition.setZ(letterPosition.getZ() + j);
+
+            letters.push_back(Letter(letterChar, letterPosition));
+        }
+        Word word(letters);
+
+        assert(length == wordString.length());
+        assert(length == letters.size());
+
+        Hint hint(list.takeFirst());
 
         puzzle.m_CrosswordEntries.push_back(CrosswordEntry3D(direction, number, startingPosition, word, hint));
     }

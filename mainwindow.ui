@@ -16,11 +16,17 @@
   <widget class="QWidget" name="centralWidget">
    <layout class="QHBoxLayout" name="horizontalLayout">
     <item>
-     <widget class="QListWidget" name="listWidget">
+     <widget class="WordTableView" name="wordTableView">
       <property name="minimumSize">
        <size>
         <width>400</width>
         <height>600</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>16777215</width>
+        <height>16777215</height>
        </size>
       </property>
      </widget>
@@ -132,6 +138,11 @@
    <extends>QGraphicsView</extends>
    <header>grid3dgraphicsview.h</header>
   </customwidget>
+  <customwidget>
+   <class>WordTableView</class>
+   <extends>QTableView</extends>
+   <header>wordtableview.h</header>
+  </customwidget>
  </customwidgets>
  <resources/>
  <connections>
@@ -180,6 +191,22 @@
     <hint type="destinationlabel">
      <x>587</x>
      <y>321</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionShow_Grid</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>graphicsView</receiver>
+   <slot>setVisible(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>865</x>
+     <y>331</y>
     </hint>
    </hints>
   </connection>

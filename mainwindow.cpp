@@ -2,6 +2,7 @@
 #include "ui_mainwindow.h"
 #include "puzzle3d.h"
 #include "grid3dgraphicsscene.h"
+#include "wordtablemodel.h"
 
 #include <QFileDialog>
 
@@ -14,9 +15,14 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
 
     m_Puzzle = new Puzzle3D();
-    m_GraphicsScene = new Grid3DGraphicsScene(&m_Puzzle->getDimensions(), &m_Puzzle->getWorkingLetters());
 
+    m_GraphicsScene = new Grid3DGraphicsScene(&m_Puzzle->getDimensions(), &m_Puzzle->getRefWorkingLetters());
     ui->graphicsView->setScene(m_GraphicsScene);
+
+    m_WordTableModel = new WordTableModel(&m_Puzzle->getRefCrosswordEntries());
+    ui->wordTableView->setModel(m_WordTableModel);
+
+    connect(this, SIGNAL(puzzleLoaded()), m_WordTableModel, SLOT(crosswordEntriesChanged()));
 }
 
 MainWindow::~MainWindow()
@@ -31,6 +37,8 @@ void MainWindow::loadFile()
     if(!res.isNull())
     {
         m_PuzzleLoader.loadPuzzle(*m_Puzzle, res);
+
+        emit puzzleLoaded();
     }
 }
 
