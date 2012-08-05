@@ -9,12 +9,12 @@ Direction::Direction(Directions::DIRECTION direction)
     this->m_Direction = direction;
 }
 
-QString Direction::getDirectionName()
+QString Direction::getDirectionName() const
 {
     return m_Direction.second;
 }
 
-unsigned int Direction::getDirectionType()
+unsigned int Direction::getDirectionType() const
 {
     return m_Direction.first;
 }

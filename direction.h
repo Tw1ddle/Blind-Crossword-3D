@@ -20,8 +20,8 @@ public:
 
     void setDirection(Directions::DIRECTION direction);
 
-    QString getDirectionName();
-    unsigned int getDirectionType();
+    QString getDirectionName() const;
+    unsigned int getDirectionType() const;
 
 private:
     Directions::DIRECTION m_Direction;

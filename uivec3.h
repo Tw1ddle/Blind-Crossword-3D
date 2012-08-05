@@ -7,9 +7,9 @@ public:
     uivec3(unsigned int x, unsigned int y, unsigned int z);
     uivec3();
 
-    unsigned int getX();
-    unsigned int getY();
-    unsigned int getZ();
+    unsigned int getX() const;
+    unsigned int getY() const;
+    unsigned int getZ() const;
     void setX(unsigned int x);
     void setY(unsigned int y);
     void setZ(unsigned int z);

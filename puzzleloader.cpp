@@ -21,7 +21,7 @@ void PuzzleLoader::loadPuzzle(Puzzle3D &puzzle, QString filePath)
     QFile file(filePath);
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
     {
-        return; // Oh dear
+        return;
     }
 
     QTextStream in(&file);
@@ -62,26 +62,21 @@ void PuzzleLoader::readInXWC3D(Puzzle3D &puzzle, QStringList& linelist)
     unsigned int gridX = linelist.takeFirst().toUInt();
     unsigned int gridY = linelist.takeFirst().toUInt();
     unsigned int gridZ = linelist.takeFirst().toUInt();
-    puzzle.m_GridDimensions = uivec3(gridX, gridY, gridZ);
+    puzzle.setDimensions(uivec3(gridX, gridY, gridZ));
 
-    for(unsigned int z = 0; z < puzzle.m_GridDimensions.getZ(); z++)
+    for(unsigned int line = 0; line < (gridY * gridZ); line++)
     {
-        for(unsigned int y = 0; y < puzzle.m_GridDimensions.getY(); y++)
-        {
-            QString currentLine = linelist.takeFirst();
+        QString currentLine = linelist.takeFirst();
 
-            for(unsigned int x = 0; x < puzzle.m_GridDimensions.getX(); x++)
+        for(unsigned int ch = 0; ch < gridX; ch++)
+        {
+            if(currentLine.at(ch) == '1')
             {
-                if(currentLine.at(x) == '1')
-                {
-                    puzzle.m_SolutionLetters.push_back(Letter(QChar(), uivec3(x, y, z)));
-                    puzzle.m_WorkingLetters.push_back(Letter(QChar(95u), uivec3(x, y, z)));
-                }
-                else
-                {
-                    puzzle.m_SolutionLetters.push_back(Letter(currentLine.at(x), uivec3(x, y, z)));
-                    puzzle.m_WorkingLetters.push_back(Letter(QChar(), uivec3(x, y, z)));
-                }
+                puzzle.getRefWorkingGrid().push_back(Letter(QChar(), uivec3(ch, line % gridY, line/gridZ)));
+            }
+            else
+            {
+                puzzle.getRefWorkingGrid().push_back(Letter(QChar(46), uivec3(ch, line % gridY, line/gridZ)));
             }
         }
     }
@@ -96,9 +91,9 @@ void PuzzleLoader::readInXWC3D(Puzzle3D &puzzle, QStringList& linelist)
 
         unsigned int number = list.takeFirst().toUInt();
 
-        unsigned int posX = list.takeFirst().toUInt();
-        unsigned int posY = list.takeFirst().toUInt();
-        unsigned int posZ = list.takeFirst().toUInt();
+        unsigned int posX = list.takeFirst().toUInt() - 1;
+        unsigned int posY = list.takeFirst().toUInt() - 1;
+        unsigned int posZ = list.takeFirst().toUInt() - 1;
         uivec3 startingPosition(posX, posY, posZ);
 
         unsigned int length = list.takeFirst().toUInt();
@@ -118,9 +113,9 @@ void PuzzleLoader::readInXWC3D(Puzzle3D &puzzle, QStringList& linelist)
         assert(length == wordString.length());
         assert(length == letters.size());
 
-        Hint hint(list.takeFirst());
+       Clue clue(list.takeFirst());
 
-        puzzle.m_CrosswordEntries.push_back(CrosswordEntry3D(direction, number, startingPosition, word, hint));
+        puzzle.m_CrosswordEntries.push_back(CrosswordEntry3D(direction, number, word, clue));
     }
 
     unsigned int numAway = linelist.takeFirst().toUInt();
@@ -133,9 +128,9 @@ void PuzzleLoader::readInXWC3D(Puzzle3D &puzzle, QStringList& linelist)
 
         unsigned int number = list.takeFirst().toUInt();
 
-        unsigned int posX = list.takeFirst().toUInt();
-        unsigned int posY = list.takeFirst().toUInt();
-        unsigned int posZ = list.takeFirst().toUInt();
+        unsigned int posX = list.takeFirst().toUInt() - 1;
+        unsigned int posY = list.takeFirst().toUInt() - 1;
+        unsigned int posZ = list.takeFirst().toUInt() - 1;
         uivec3 startingPosition(posX, posY, posZ);
 
         unsigned int length = list.takeFirst().toUInt();
@@ -155,9 +150,9 @@ void PuzzleLoader::readInXWC3D(Puzzle3D &puzzle, QStringList& linelist)
         assert(length == wordString.length());
         assert(length == letters.size());
 
-        Hint hint(list.takeFirst());
+        Clue clue(list.takeFirst());
 
-        puzzle.m_CrosswordEntries.push_back(CrosswordEntry3D(direction, number, startingPosition, word, hint));
+        puzzle.m_CrosswordEntries.push_back(CrosswordEntry3D(direction, number, word, clue));
     }
 
     unsigned int numThrough = linelist.takeFirst().toUInt();
@@ -170,9 +165,9 @@ void PuzzleLoader::readInXWC3D(Puzzle3D &puzzle, QStringList& linelist)
 
         unsigned int number = list.takeFirst().toUInt();
 
-        unsigned int posX = list.takeFirst().toUInt();
-        unsigned int posY = list.takeFirst().toUInt();
-        unsigned int posZ = list.takeFirst().toUInt();
+        unsigned int posX = list.takeFirst().toUInt() - 1;
+        unsigned int posY = list.takeFirst().toUInt() - 1;
+        unsigned int posZ = list.takeFirst().toUInt() - 1;
         uivec3 startingPosition(posX, posY, posZ);
 
         unsigned int length = list.takeFirst().toUInt();
@@ -192,9 +187,9 @@ void PuzzleLoader::readInXWC3D(Puzzle3D &puzzle, QStringList& linelist)
         assert(length == wordString.length());
         assert(length == letters.size());
 
-        Hint hint(list.takeFirst());
+        Clue clue(list.takeFirst());
 
-        puzzle.m_CrosswordEntries.push_back(CrosswordEntry3D(direction, number, startingPosition, word, hint));
+        puzzle.m_CrosswordEntries.push_back(CrosswordEntry3D(direction, number, word, clue));
     }
 }
 

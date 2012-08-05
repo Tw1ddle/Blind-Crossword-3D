@@ -4,31 +4,36 @@
 #include <QGraphicsScene>
 #include <vector>
 
+#include "gridrect.h"
+
 #include "uivec3.h"
 #include "letter.h"
+#include "crosswordentry3d.h"
+#include "lettergrid.h"
 
 class Grid3DGraphicsScene : public QGraphicsScene
 {
     Q_OBJECT
 public:
-    Grid3DGraphicsScene(uivec3* size, std::vector<Letter>* letters);
+    Grid3DGraphicsScene(LetterGrid* letters, std::vector<CrosswordEntry3D>* entries);
+    ~Grid3DGraphicsScene();
 
     void drawBackground(QPainter *painter, const QRectF &rect);
 
 private:
-    void buildGrid();
+    LetterGrid* m_RefWorkingGrid;
+    std::vector<CrosswordEntry3D>* m_RefCrosswordEntries;
 
-    uivec3* m_RefGridSize;
     bool m_IsGridBuilt;
-    std::vector<QPolygon> m_GridPolygons;
-    std::vector<Letter>* m_RefWorkingLetters;
 
     float m_SceneWidth;
     float m_SceneHeight;
     
 signals:
-    
+
 public slots:
+    void buildGrid();
+    void addWordHighlight();
 };
 
 #endif // GRID3DGRAPHICSSCENE_H

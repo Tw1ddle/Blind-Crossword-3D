@@ -16,7 +16,7 @@
   <widget class="QWidget" name="centralWidget">
    <layout class="QHBoxLayout" name="horizontalLayout">
     <item>
-     <widget class="WordTableView" name="wordTableView">
+     <widget class="WordTableViewController" name="wordTableView">
       <property name="minimumSize">
        <size>
         <width>400</width>
@@ -34,7 +34,7 @@
     <item>
      <widget class="Grid3DGraphicsView" name="graphicsView">
       <property name="sizePolicy">
-       <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+       <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
         <horstretch>0</horstretch>
         <verstretch>0</verstretch>
        </sizepolicy>
@@ -139,9 +139,9 @@
    <header>grid3dgraphicsview.h</header>
   </customwidget>
   <customwidget>
-   <class>WordTableView</class>
+   <class>WordTableViewController</class>
    <extends>QTableView</extends>
-   <header>wordtableview.h</header>
+   <header>wordtableviewcontroller.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

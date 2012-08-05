@@ -16,29 +16,35 @@ SOURCES += main.cpp\
     grid3dgraphicsscene.cpp \
     uivec3.cpp \
     crosswordentry3d.cpp \
-    hint.cpp \
     direction.cpp \
     puzzle3d.cpp \
     letter.cpp \
     puzzleloader.cpp \
     grid3dgraphicsview.cpp \
     wordtablemodel.cpp \
-    wordtableview.cpp \
-    eventfilters.cpp
+    eventfilters.cpp \
+    clue.cpp \
+    guessworddialog.cpp \
+    wordtableviewcontroller.cpp \
+    quitmessagebox.cpp \
+    lettergrid.cpp
 
 HEADERS  += mainwindow.h \
     word.h \
     grid3dgraphicsscene.h \
     uivec3.h \
     crosswordentry3d.h \
-    hint.h \
     direction.h \
     puzzle3d.h \
     letter.h \
     puzzleloader.h \
     grid3dgraphicsview.h \
     wordtablemodel.h \
-    wordtableview.h \
-    eventfilters.h
+    eventfilters.h \
+    clue.h \
+    guessworddialog.h \
+    wordtableviewcontroller.h \
+    quitmessagebox.h \
+    lettergrid.h
 
 FORMS    += mainwindow.ui

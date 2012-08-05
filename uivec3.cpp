@@ -14,17 +14,17 @@ uivec3::uivec3(unsigned int x, unsigned int y, unsigned int z)
     this->z = z;
 }
 
-unsigned int uivec3::getX()
+unsigned int uivec3::getX() const
 {
     return x;
 }
 
-unsigned int uivec3::getY()
+unsigned int uivec3::getY() const
 {
     return y;
 }
 
-unsigned int uivec3::getZ()
+unsigned int uivec3::getZ() const
 {
     return z;
 }

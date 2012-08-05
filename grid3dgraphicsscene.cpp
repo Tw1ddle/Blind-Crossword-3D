@@ -2,10 +2,16 @@
 
 #include <QPainter>
 #include <QTimer>
+#include <QList>
+#include <QGraphicsItem>
 #include <assert.h>
 
-Grid3DGraphicsScene::Grid3DGraphicsScene(uivec3* size, std::vector<Letter>* letters) :
-    QGraphicsScene(), m_RefGridSize(size), m_RefWorkingLetters(letters), m_IsGridBuilt(false)
+Grid3DGraphicsScene::Grid3DGraphicsScene(LetterGrid* letters, std::vector<CrosswordEntry3D>* entries) :
+    QGraphicsScene(), m_RefWorkingGrid(letters), m_RefCrosswordEntries(entries), m_IsGridBuilt(false)
+{
+}
+
+Grid3DGraphicsScene::~Grid3DGraphicsScene()
 {
 }
 
@@ -13,80 +19,59 @@ void Grid3DGraphicsScene::drawBackground(QPainter *painter, const QRectF &rect)
 {
     m_SceneWidth = rect.size().width();
     m_SceneHeight = rect.size().height();
+    QPen pen;
+    pen.setWidth(0);
+    pen.setCosmetic(true);
+    painter->setPen(pen);
 
-    buildGrid();
-
-    assert(m_RefWorkingLetters->size() == m_GridPolygons.size());
-
-    for(unsigned int i = 0; i < m_GridPolygons.size(); i++)
+    for(unsigned int i = 0; i < items().size(); i++)
     {
-        if(QString(m_RefWorkingLetters->at(i).getLetter()) == QChar())
-            {
-                painter->setBrush(QBrush(Qt::lightGray, Qt::SolidPattern));
-            }
-            else
-            {
-                painter->setBrush(QBrush(Qt::NoBrush));
-            }
+        if(m_RefWorkingGrid->getLetterAtIndex(i).getChar() == QChar())
+        {
+            painter->setBrush(QBrush(Qt::lightGray, Qt::SolidPattern));
+        }
 
-        painter->drawPolygon(m_GridPolygons.at(i));
-
-        QRect bRect = m_GridPolygons.at(i).boundingRect();
-        bRect.center();
-        painter->drawText(m_GridPolygons.at(i).boundingRect(), Qt::AlignCenter, m_RefWorkingLetters->at(i).getLetter());
+        painter->drawText(items().at(i)->boundingRect(), Qt::AlignCenter, m_RefWorkingGrid->getLetterAtIndex(items().size() - 1 - i).getChar());
     }
 
-     QTimer::singleShot(150, this, SLOT(update()));
+     QTimer::singleShot(100, this, SLOT(update()));
 }
 
 void Grid3DGraphicsScene::buildGrid()
 {
     m_IsGridBuilt = true;
-    m_GridPolygons.clear();
+
+    this->clear();
 
     float puzzleWidth = m_SceneWidth * 0.9f;
     float puzzleHeight = m_SceneHeight * 0.8f;
 
-    float squareWidth = puzzleWidth/((float)m_RefGridSize->getX());
-    float squareHeight = puzzleHeight/((float)m_RefGridSize->getY() * (float)m_RefGridSize->getZ());
+    float squareWidth = puzzleWidth/((float)m_RefWorkingGrid->getDimensions().getX());
+    float squareHeight = puzzleHeight/((float)m_RefWorkingGrid->getDimensions().getY() * (float)m_RefWorkingGrid->getDimensions().getZ());
 
-    float numGrids = m_RefGridSize->getZ();
+    float numGrids = m_RefWorkingGrid->getDimensions().getZ();
 
     float puzzleWidthOffset = m_SceneWidth * 0.05f;
     float puzzleHeightOffset = m_SceneHeight * 0.05f;
 
     float gridSpacing = puzzleHeightOffset/2.0f;
 
-    for(unsigned int z = 0; z < m_RefGridSize->getZ(); z++)
+    for(unsigned int z = 0; z < m_RefWorkingGrid->getDimensions().getZ(); z++)
     {
-        for(unsigned int y = 0 ; y < m_RefGridSize->getY(); y++)
+        for(unsigned int y = 0 ; y < m_RefWorkingGrid->getDimensions().getY(); y++)
         {
-            for(unsigned int x = 0; x < m_RefGridSize->getX(); x++)
+            for(unsigned int x = 0; x < m_RefWorkingGrid->getDimensions().getX(); x++)
             {
                 float sqX = puzzleWidthOffset + squareWidth * x;
                 float sqY = puzzleHeightOffset + squareHeight * y;
 
-                float x1 = sqX;
-                float y1 = sqY;
-
-                float x2 = sqX;
-                float y2 = sqY + squareHeight;
-
-                float x3 = sqX + squareWidth;
-                float y3 = sqY + squareHeight;
-
-                float x4 = sqX + squareWidth;
-                float y4 = sqY;
-
-                QVector<QPoint> points;
-                points.push_back(QPoint(x1, y1));
-                points.push_back(QPoint(x2, y2));
-                points.push_back(QPoint(x3, y3));
-                points.push_back(QPoint(x4, y4));
-
-                m_GridPolygons.push_back(QPolygon(points));
+                this->addRect(sqX, sqY + squareHeight/2.0f, squareWidth, squareHeight, QPen(), QBrush(Qt::NoBrush));
             }
         }
         puzzleHeightOffset += puzzleHeight/numGrids + gridSpacing;
     }
+}
+
+void Grid3DGraphicsScene::addWordHighlight()
+{
 }

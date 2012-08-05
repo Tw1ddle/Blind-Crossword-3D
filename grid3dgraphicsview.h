@@ -4,6 +4,8 @@
 #include <QGraphicsView>
 #include <QResizeEvent>
 
+class CrosswordEntry3D;
+
 class Grid3DGraphicsView : public QGraphicsView
 {
     Q_OBJECT
@@ -14,9 +16,7 @@ protected:
     void resizeEvent(QResizeEvent *event);
     
 signals:
-
-public slots:
-    
+    void crosswordEntryPressed(CrosswordEntry3D& entry);
 };
 
 #endif // GRID3DGRAPHICSVIEW_H

@@ -8,6 +8,8 @@
 class Puzzle3D;
 class Grid3DGraphicsScene;
 class WordTableModel;
+class QItemSelection;
+class QShortcut;
 
 namespace Ui
 {
@@ -21,6 +23,9 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
+
+protected:
+    void closeEvent(QCloseEvent* event);
     
 private:
     Ui::MainWindow* ui;
@@ -31,9 +36,19 @@ private:
 
     static const QString m_DefaultSaveFolder;
 
+    void createShortcuts();
+    QShortcut* m_ExitShortcut;
+    QShortcut* m_LoadShortcut;
+    QShortcut* m_SaveShortcut;
+    QShortcut* m_HelpShortcut;
+
 private slots:
     void loadFile();
     void saveFile();
+    void exitConfirmation();
+    void openHelp();
+
+    void tableSelectionChanged(const QItemSelection&);
 
 signals:
     void puzzleLoaded();

@@ -2,28 +2,32 @@
 
 #include <assert.h>
 
-CrosswordEntry3D::CrosswordEntry3D(Direction direction, unsigned int number, uivec3 startingPosition, Word word, Hint hint)
+CrosswordEntry3D::CrosswordEntry3D(Direction direction, unsigned int number, Word word, Clue clue)
 {
     m_WordDirection = direction;
     m_EntryNumber = number;
-    m_StartingPosition = startingPosition;
     m_SolutionWord = word;
-    m_Hint = hint;
+    m_Clue = clue;
 
     m_GuessedWord = QString(m_SolutionWord.getLength(), QChar(46));
 }
 
-Word CrosswordEntry3D::getSolution()
+uivec3 CrosswordEntry3D::getStartingPosition() const
+{
+    return m_SolutionWord.getLetterPositions().at(0);
+}
+
+Word CrosswordEntry3D::getSolution() const
 {
     return m_SolutionWord;
 }
 
-Hint CrosswordEntry3D::getHint()
+Clue CrosswordEntry3D::getClue() const
 {
-    return m_Hint;
+    return m_Clue;
 }
 
-QString CrosswordEntry3D::getGuess()
+QString CrosswordEntry3D::getGuess() const
 {
     return m_GuessedWord;
 }
