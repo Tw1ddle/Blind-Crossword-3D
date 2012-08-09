@@ -5,11 +5,12 @@
 
 #include "puzzleloader.h"
 
-class Puzzle3D;
+class BCrossword3D;
 class Grid3DGraphicsScene;
 class WordTableModel;
 class QItemSelection;
 class QShortcut;
+class ITextToSpeech;
 
 namespace Ui
 {
@@ -29,26 +30,35 @@ protected:
     
 private:
     Ui::MainWindow* ui;
-    Puzzle3D* m_Puzzle;
+
+    BCrossword3D* m_Puzzle;
     PuzzleLoader m_PuzzleLoader;
     Grid3DGraphicsScene* m_GraphicsScene;
     WordTableModel* m_WordTableModel;
 
     static const QString m_DefaultSaveFolder;
+    static const QString m_HelpFileLocation;
+    static const QString m_LicenseFileLocation;
 
     void createShortcuts();
     QShortcut* m_ExitShortcut;
     QShortcut* m_LoadShortcut;
     QShortcut* m_SaveShortcut;
     QShortcut* m_HelpShortcut;
+    QShortcut* m_ScoreShortcut;
+    QShortcut* m_FilePropertiesShortcut;
 
 private slots:
     void loadFile();
     void saveFile();
+    void showFileProperties();
     void exitConfirmation();
     void openHelp();
+    void showAboutScreen();
+    void scoreCrossword();
+    void viewLicense();
 
-    void tableSelectionChanged(const QItemSelection&);
+    void showError(QString title, QString error);
 
 signals:
     void puzzleLoaded();

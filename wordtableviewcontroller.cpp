@@ -12,10 +12,8 @@
 #include "guessworddialog.h"
 
 WordTableViewController::WordTableViewController(QWidget *parent) :
-    QTableView(parent)
+    QTableView(parent), QAccessibleWidget(parent)
 {
-    setSelectionMode(QAbstractItemView::SingleSelection);
-
     horizontalHeader()->setResizeMode(QHeaderView::ResizeToContents);
 }
 
@@ -25,14 +23,14 @@ bool WordTableViewController::enterGuess()
 
     if(currentSelection.isValid())
     {
-        QString wordAtSelection = currentSelection.sibling(currentSelection.row(), 0).data().toString();
+        QString wordAtSelection = currentSelection.sibling(currentSelection.row(), 1).data().toString();
 
         assert(wordAtSelection.length() != 0);
 
         GuessWordDialog dialog;
         if(dialog.exec())
         {
-            QString guess = dialog.wordText->text();
+            QString guess = dialog.wordText->text().toUpper();
 
             if(validateGuess(guess, wordAtSelection.length()))
             {
@@ -45,6 +43,11 @@ bool WordTableViewController::enterGuess()
     return false;
 }
 
+bool WordTableViewController::resetGuess()
+{
+    return false; //TODO
+}
+
 void WordTableViewController::keyPressEvent(QKeyEvent *event)
 {
     QTableView::keyPressEvent(event);
@@ -53,6 +56,30 @@ void WordTableViewController::keyPressEvent(QKeyEvent *event)
     {
         enterGuess();
     }
+
+    if(event->key() == Qt::Key_Delete)
+    {
+        resetGuess();
+    }
+}
+
+int WordTableViewController::sizeHintForColumn(int column) const
+{
+    int maxWidth = 0;
+
+    QFontMetrics fm = QFontMetrics(this->font());
+
+    for(unsigned int i = 0; i < model()->rowCount(); i++)
+    {
+        int width = fm.width(this->model()->index(i, column).data().toString()) + 20;
+
+        if(width > maxWidth)
+        {
+            maxWidth = width;
+        }
+    }
+
+    return maxWidth;
 }
 
 bool WordTableViewController::validateGuess(QString guess, unsigned int requiredLength)
@@ -60,30 +87,28 @@ bool WordTableViewController::validateGuess(QString guess, unsigned int required
     if(guess.length() != requiredLength)
     {
         QMessageBox::information(this, tr("Invalid word"), tr("The word entered must be the correct length."));
-        return false;
     }
     else if(guess.contains(QRegExp("\\s")))
     {
         QMessageBox::information(this, tr("Invalid word"), tr("The word must not contain spaces."));
-        return false;
     }
     else if(guess.contains(QRegExp("\\d")))
     {
         QMessageBox::information(this, tr("Invalid word"), tr("The word must not contain numbers."));
-        return false;
     }
     else if(guess.contains(QRegExp("[^a-zA-Z\\.]")))
     {
         QMessageBox::information(this, tr("Invalid word"), tr("The word must not contain non-word characters."));
-        return false;
     }
     else
     {
         return true;
     }
+
+    return false;
 }
 
-void WordTableViewController::intersectingWordError()
+void WordTableViewController::conflictingWordError()
 {
-    QMessageBox::information(this, tr("Invalid word"), tr("The word conflicts with an existing word."));
+    QMessageBox::information(this, tr("Invalid word"), tr("The word conflicts with an intersecting word."));
 }

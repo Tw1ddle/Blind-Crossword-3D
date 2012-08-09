@@ -14,6 +14,11 @@ public:
     void setY(unsigned int y);
     void setZ(unsigned int z);
 
+    bool operator==(const uivec3& vec) const;
+
+    unsigned int toYXZGridIndex(uivec3 gridDimensions) const;
+    unsigned int toXYZGridIndex(uivec3 gridDimensions) const;
+
 private:
     unsigned int x, y, z;
 };

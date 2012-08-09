@@ -9,9 +9,11 @@ class Letter
 public:
     Letter(QChar letter, uivec3 location);
 
-    QChar getChar() const;
     void setChar(QChar letter);
+    QChar getChar() const;
     uivec3 getLocation() const;
+
+    bool operator==(const Letter& letter) const;
 
 private:
     QChar m_Letter;

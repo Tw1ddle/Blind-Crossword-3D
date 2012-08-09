@@ -13,7 +13,18 @@ public:
     explicit Grid3DGraphicsView(QWidget *parent = 0);
 
 protected:
-    void resizeEvent(QResizeEvent *event);
+    virtual void wheelEvent(QWheelEvent *event);
+
+private:
+    const static double wheelZoomFactor;
+    int m_NumScheduledScalings;
+
+public slots:
+    void updateSceneRect(const QRectF &rect);
+    void zoomAnimationFinished();
+    void scalingTime(qreal x);
+
+    void print();
     
 signals:
     void crosswordEntryPressed(CrosswordEntry3D& entry);

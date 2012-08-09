@@ -1,13 +1,14 @@
 #include "grid3dgraphicsscene.h"
 
 #include <QPainter>
-#include <QTimer>
 #include <QList>
 #include <QGraphicsItem>
 #include <assert.h>
 
+#include "graphicsgriditem.h"
+
 Grid3DGraphicsScene::Grid3DGraphicsScene(LetterGrid* letters, std::vector<CrosswordEntry3D>* entries) :
-    QGraphicsScene(), m_RefWorkingGrid(letters), m_RefCrosswordEntries(entries), m_IsGridBuilt(false)
+    QGraphicsScene(), m_RefGrid(letters), m_RefCrosswordEntries(entries)
 {
 }
 
@@ -15,63 +16,53 @@ Grid3DGraphicsScene::~Grid3DGraphicsScene()
 {
 }
 
-void Grid3DGraphicsScene::drawBackground(QPainter *painter, const QRectF &rect)
+void Grid3DGraphicsScene::build2DGrid(unsigned int xDim, unsigned int yDim, uivec3 offset, unsigned int gridNumber)
 {
-    m_SceneWidth = rect.size().width();
-    m_SceneHeight = rect.size().height();
-    QPen pen;
-    pen.setWidth(0);
-    pen.setCosmetic(true);
-    painter->setPen(pen);
-
-    for(unsigned int i = 0; i < items().size(); i++)
+    for(unsigned int y = 0; y < yDim; y++)
     {
-        if(m_RefWorkingGrid->getLetterAtIndex(i).getChar() == QChar())
+        for(unsigned int x = 0; x < xDim; x++)
         {
-            painter->setBrush(QBrush(Qt::lightGray, Qt::SolidPattern));
+            unsigned int index = uivec3(x, y, gridNumber).toXYZGridIndex(uivec3(xDim, yDim, 0));
+            Letter letter = m_RefGrid->getLetterAt(index);
+
+            GraphicsGridItem* item = new GraphicsGridItem(letter, gridNumber);
+            item->setPos(QPointF(x * GraphicsGridItem::s_Size + offset.getX(), y * GraphicsGridItem::s_Size));
+
+            if(letter.getChar() != QChar())
+            {
+                item->setColor(Qt::white);
+            }
+            else
+            {
+                item->setColor(QColor(20, 20, 20));
+            }
+
+            addItem(item);
         }
-
-        painter->drawText(items().at(i)->boundingRect(), Qt::AlignCenter, m_RefWorkingGrid->getLetterAtIndex(items().size() - 1 - i).getChar());
     }
-
-     QTimer::singleShot(100, this, SLOT(update()));
 }
 
-void Grid3DGraphicsScene::buildGrid()
+void Grid3DGraphicsScene::buildPuzzleGrid()
 {
-    m_IsGridBuilt = true;
-
     this->clear();
 
-    float puzzleWidth = m_SceneWidth * 0.9f;
-    float puzzleHeight = m_SceneHeight * 0.8f;
-
-    float squareWidth = puzzleWidth/((float)m_RefWorkingGrid->getDimensions().getX());
-    float squareHeight = puzzleHeight/((float)m_RefWorkingGrid->getDimensions().getY() * (float)m_RefWorkingGrid->getDimensions().getZ());
-
-    float numGrids = m_RefWorkingGrid->getDimensions().getZ();
-
-    float puzzleWidthOffset = m_SceneWidth * 0.05f;
-    float puzzleHeightOffset = m_SceneHeight * 0.05f;
-
-    float gridSpacing = puzzleHeightOffset/2.0f;
-
-    for(unsigned int z = 0; z < m_RefWorkingGrid->getDimensions().getZ(); z++)
+    for(unsigned int z = 0; z < m_RefGrid->getDimensions().getZ(); z++)
     {
-        for(unsigned int y = 0 ; y < m_RefWorkingGrid->getDimensions().getY(); y++)
-        {
-            for(unsigned int x = 0; x < m_RefWorkingGrid->getDimensions().getX(); x++)
-            {
-                float sqX = puzzleWidthOffset + squareWidth * x;
-                float sqY = puzzleHeightOffset + squareHeight * y;
-
-                this->addRect(sqX, sqY + squareHeight/2.0f, squareWidth, squareHeight, QPen(), QBrush(Qt::NoBrush));
-            }
-        }
-        puzzleHeightOffset += puzzleHeight/numGrids + gridSpacing;
+        build2DGrid(m_RefGrid->getDimensions().getX(), m_RefGrid->getDimensions().getY(), uivec3(z * (m_RefGrid->getDimensions().getZ()) * GraphicsGridItem::s_Size, 0, 0), z);
     }
+
+    for(unsigned int i = 0; i < m_RefCrosswordEntries->size(); i++)
+    {
+        unsigned int entryNumber = m_RefCrosswordEntries->at(i).getEntryNumber();
+        uivec3 startingPos =  m_RefCrosswordEntries->at(i).getStartingPosition();
+        unsigned int index = m_RefCrosswordEntries->at(i).getStartingPosition().toYXZGridIndex(m_RefGrid->getDimensions());
+        GraphicsGridItem* item = static_cast<GraphicsGridItem*> (items().at(items().size() - 1 - index));
+        item->setCrosswordEntryNumber(entryNumber);
+    }
+
+    setSceneRect(itemsBoundingRect());
 }
 
-void Grid3DGraphicsScene::addWordHighlight()
+void Grid3DGraphicsScene::highlightSelection()
 {
 }

@@ -4,8 +4,8 @@
 
 Letter::Letter(QChar letter, uivec3 location)
 {
-    this->m_Letter = letter;
-    this->m_Location = location;
+    m_Letter = letter;
+    m_Location = location;
 }
 
 QChar Letter::getChar() const
@@ -21,4 +21,9 @@ void Letter::setChar(QChar letter)
 uivec3 Letter::getLocation() const
 {
     return m_Location;
+}
+
+bool Letter::operator ==(const Letter &letter) const
+{
+    return ((m_Letter == letter.getChar()) && m_Location == letter.getLocation());
 }

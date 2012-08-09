@@ -2,9 +2,8 @@
 #define GRID3DGRAPHICSSCENE_H
 
 #include <QGraphicsScene>
+#include <QGraphicsRectItem>
 #include <vector>
-
-#include "gridrect.h"
 
 #include "uivec3.h"
 #include "letter.h"
@@ -18,22 +17,15 @@ public:
     Grid3DGraphicsScene(LetterGrid* letters, std::vector<CrosswordEntry3D>* entries);
     ~Grid3DGraphicsScene();
 
-    void drawBackground(QPainter *painter, const QRectF &rect);
-
 private:
-    LetterGrid* m_RefWorkingGrid;
+    LetterGrid* m_RefGrid;
     std::vector<CrosswordEntry3D>* m_RefCrosswordEntries;
 
-    bool m_IsGridBuilt;
-
-    float m_SceneWidth;
-    float m_SceneHeight;
-    
-signals:
+    void build2DGrid(unsigned int xDim, unsigned int yDim, uivec3 offset, unsigned int gridNumber);
 
 public slots:
-    void buildGrid();
-    void addWordHighlight();
+    void buildPuzzleGrid();
+    void highlightSelection();
 };
 
 #endif // GRID3DGRAPHICSSCENE_H

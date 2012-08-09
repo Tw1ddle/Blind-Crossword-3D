@@ -4,6 +4,7 @@
 
 const QString wordColumnHeader = "Word";
 const QString clueColumnHeader = "Clue";
+const QString entryNumberColumnHeader = "Entry";
 
 WordTableModel::WordTableModel(std::vector<CrosswordEntry3D>* refCrosswordEntries, LetterGrid* refWorkingGrid, QObject *parent) :
     QAbstractTableModel(parent)
@@ -14,12 +15,16 @@ WordTableModel::WordTableModel(std::vector<CrosswordEntry3D>* refCrosswordEntrie
 
 int WordTableModel::rowCount(const QModelIndex& parent) const
 {
-    return m_UserCrosswordEntries.size();
+    Q_UNUSED(parent);
+
+    return m_RefCrosswordEntries->size();
 }
 
 int WordTableModel::columnCount(const QModelIndex& parent) const
 {
-    return 2;
+    Q_UNUSED(parent);
+
+    return 3;
 }
 
 QVariant WordTableModel::data(const QModelIndex& index, int role) const
@@ -29,7 +34,7 @@ QVariant WordTableModel::data(const QModelIndex& index, int role) const
         return QVariant();
     }
 
-    if (index.row() >= m_UserCrosswordEntries.size() || index.row() < 0)
+    if (index.row() >= m_RefCrosswordEntries->size() || index.row() < 0)
     {
         return QVariant();
     }
@@ -38,11 +43,19 @@ QVariant WordTableModel::data(const QModelIndex& index, int role) const
     {
         if (index.column() == 0)
         {
-            return m_UserCrosswordEntries.at(index.row()).getGuess();
+            unsigned int entryNum = m_RefCrosswordEntries->at(index.row()).getEntryNumber();
+            QString entryDirectionName = m_RefCrosswordEntries->at(index.row()).getDirection().getDirectionName();
+            QString entry = QString::number(entryNum).append(QString(" ")).append(entryDirectionName);
+
+            return entry;
         }
         else if (index.column() == 1)
         {
-            return m_UserCrosswordEntries.at(index.row()).getClue().getString();
+            return m_RefCrosswordEntries->at(index.row()).getGuess().getString();
+        }
+        else if(index.column() == 2)
+        {
+            return m_RefCrosswordEntries->at(index.row()).getClue().getString();
         }
     }
     return QVariant();
@@ -60,9 +73,12 @@ QVariant WordTableModel::headerData(int section, Qt::Orientation orientation, in
         switch (section)
         {
             case 0:
-                return wordColumnHeader;
+                return entryNumberColumnHeader;
 
             case 1:
+                return wordColumnHeader;
+
+            case 2:
                 return clueColumnHeader;
 
             default:
@@ -74,14 +90,13 @@ QVariant WordTableModel::headerData(int section, Qt::Orientation orientation, in
 
 bool WordTableModel::existsConflictingWords(QString word, QModelIndex index)
 {
-    CrosswordEntry3D currentEntry = m_UserCrosswordEntries.at(index.row());
+    CrosswordEntry3D currentEntry = m_RefCrosswordEntries->at(index.row());
 
     bool conflict = false;
     for(unsigned int i = 0; i < word.size(); i++)
     {
-        if(currentEntry.getGuess().at(i) == word.at(i) || currentEntry.getGuess().at(i) == QChar(46) || word.at(i) == QChar(46))
+        if(currentEntry.getGuess().getString().at(i) == word.at(i) || currentEntry.getGuess().getString().at(i) == QChar(46) || word.at(i) == QChar(46))
         {
-
         }
         else
         {
@@ -94,11 +109,6 @@ bool WordTableModel::existsConflictingWords(QString word, QModelIndex index)
 
 void WordTableModel::crosswordEntriesChanged()
 {
-    for(int i = 0; i < m_RefCrosswordEntries->size(); i++)
-    {
-        m_UserCrosswordEntries.push_back(m_RefCrosswordEntries->at(i));
-    }
-
     beginResetModel();
     endResetModel();
 }
@@ -111,17 +121,7 @@ void WordTableModel::guessEntered(QString word, QModelIndex index)
         return;
     }
 
-    m_UserCrosswordEntries.at(index.row()).setGuess(word);
+    m_RefCrosswordEntries->at(index.row()).setGuessString(word);
 
-    CrosswordEntry3D currentEntry = m_UserCrosswordEntries.at(index.row());
-
-    std::vector<uivec3> letterPositions = currentEntry.getSolution().getLetterPositions();
-
-    for(unsigned int i = 0; i < word.size(); i++)
-    {
-        m_RefWorkingGrid->setLetterAtLocation(word.at(i), letterPositions.at(i));
-    }
-
-    beginResetModel();
-    endResetModel();
+    emit guessValidated();
 }

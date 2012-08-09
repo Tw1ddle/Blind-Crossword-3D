@@ -9,7 +9,6 @@ QT       += core gui
 TARGET = BlindCrossword3D
 TEMPLATE = app
 
-
 SOURCES += main.cpp\
         mainwindow.cpp \
     word.cpp \
@@ -22,12 +21,14 @@ SOURCES += main.cpp\
     puzzleloader.cpp \
     grid3dgraphicsview.cpp \
     wordtablemodel.cpp \
-    eventfilters.cpp \
     clue.cpp \
     guessworddialog.cpp \
     wordtableviewcontroller.cpp \
-    quitmessagebox.cpp \
-    lettergrid.cpp
+    lettergrid.cpp \
+    graphicsgriditem.cpp \
+    itexttospeech.cpp \
+    singleton.cpp \
+    ttsimpl.cpp
 
 HEADERS  += mainwindow.h \
     word.h \
@@ -40,11 +41,15 @@ HEADERS  += mainwindow.h \
     puzzleloader.h \
     grid3dgraphicsview.h \
     wordtablemodel.h \
-    eventfilters.h \
     clue.h \
     guessworddialog.h \
     wordtableviewcontroller.h \
-    quitmessagebox.h \
-    lettergrid.h
+    lettergrid.h \
+    graphicsgriditem.h \
+    itexttospeech.h \
+    singleton.h \
+    ttsimpl.h
+
+
 
 FORMS    += mainwindow.ui

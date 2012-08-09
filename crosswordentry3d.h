@@ -9,20 +9,26 @@
 class CrosswordEntry3D
 {
 public:
-    CrosswordEntry3D(Direction direction, unsigned int number, Word word, Clue clue);
+    CrosswordEntry3D(Direction direction, unsigned int number, QString solution, Word guess, Clue clue);
 
     uivec3 getStartingPosition() const;
-    Word getSolution() const;
+    Letter getStartingLetter() const;
+    QString getSolution() const;
     Clue getClue() const;
+    Direction getDirection() const;
+    unsigned int getEntryNumber() const;
 
-    QString getGuess() const;
-    void setGuess(QString word);
+    bool isGuessCorrect() const;
+    Word getGuess() const;
+    void setGuessString(QString word);
+
+    void resetGuessString();
 
 private:
     unsigned int m_EntryNumber;
     Direction m_WordDirection;
-    Word m_SolutionWord;
-    QString m_GuessedWord;
+    QString m_SolutionString;
+    Word m_GuessedWord;
     Clue m_Clue;
 };
 

@@ -4,9 +4,11 @@
 #include <QTableView>
 #include <QModelIndex>
 
+#include <QAccessibleWidget>
+
 class CrosswordEntry3D;
 
-class WordTableViewController : public QTableView
+class WordTableViewController : public QTableView, public QAccessibleWidget
 {
     Q_OBJECT
 public:
@@ -14,16 +16,18 @@ public:
 
 protected:
     virtual void keyPressEvent(QKeyEvent *event);
+    virtual int sizeHintForColumn(int column) const;
 
  private:
     bool enterGuess();
+    bool resetGuess();
     bool validateGuess(QString guess, unsigned int requiredLength);
 
 signals:
     void guessSubmitted(QString guess, QModelIndex index);
 
 public slots:
-    void intersectingWordError();
+    void conflictingWordError();
 };
 
 #endif // WORDTABLEVIEWCONTROLLER_H

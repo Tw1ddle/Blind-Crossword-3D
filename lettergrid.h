@@ -13,22 +13,22 @@ public:
 
     void push_back(Letter letter);
 
-    Letter getLetterAtLocation(uivec3 location) const;
-    void setLetterAtLocation(QChar letter, uivec3 location);
+    unsigned int getSize() const;
 
-    Letter getLetterAtIndex(unsigned int index) const;
-    void setLetterAtIndex(QChar letter, unsigned int index);
+    Letter* getRefLetterAt(uivec3 location);
+
+    Letter getLetterAt(uivec3 location) const;
+    Letter getLetterAt(unsigned int index) const;
+    void setLetterAt(QChar letter, uivec3 location);
+    void setLetterAt(QChar letter, unsigned int index);
 
     uivec3 getDimensions() const;
     void setDimensions(uivec3 dimensions);
 
     void clear();
-
-    static uivec3 indexToGrid(unsigned int index, uivec3 gridDimensions);
-    static unsigned int gridToIndex(uivec3 gridCoordinate, uivec3 gridDimensions);
-
 private:
     unsigned int getIndex(uivec3 location) const;
+    unsigned int getIndex2(uivec3 location) const;
     uivec3 m_GridDimensions;
     std::vector<Letter> m_Letters;
 };

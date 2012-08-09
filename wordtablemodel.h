@@ -9,6 +9,7 @@
 
 extern const QString wordColumnHeader;
 extern const QString clueColumnHeader;
+extern const QString entryNumberColumnHeader;
 
 class WordTableModel : public QAbstractTableModel
 {
@@ -24,12 +25,12 @@ public:
 private:
     std::vector<CrosswordEntry3D>* m_RefCrosswordEntries;
     LetterGrid* m_RefWorkingGrid;
-    std::vector<CrosswordEntry3D> m_UserCrosswordEntries;
 
     bool existsConflictingWords(QString word, QModelIndex index);
 
 signals:
     void conflictingWordError();
+    void guessValidated();
 
 public slots:
     void crosswordEntriesChanged();

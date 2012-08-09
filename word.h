@@ -11,15 +11,16 @@ class Word
 {
 public:
     Word();
-    Word(std::vector<Letter> word);
+    Word(std::vector<Letter*> word);
 
     QString getString() const;
     unsigned int getLength() const;
+    std::vector<uivec3> getGridPositions() const;
 
-    std::vector<uivec3> getLetterPositions() const;
+    void setString(QString string);
 
 private:
-    std::vector<Letter> m_Word;
+    std::vector<Letter*> m_Word;
 };
 
 #endif // WORD_H
