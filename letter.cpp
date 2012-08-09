@@ -1,7 +1,5 @@
 #include "letter.h"
 
-#include <assert.h>
-
 Letter::Letter(QChar letter, uivec3 location)
 {
     m_Letter = letter;

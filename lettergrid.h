@@ -2,9 +2,9 @@
 #define LETTERGRID_H
 
 #include <vector>
+
 #include "letter.h"
 #include "uivec3.h"
-
 
 class LetterGrid
 {

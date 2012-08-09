@@ -1,15 +1,16 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "puzzle3d.h"
-#include "grid3dgraphicsscene.h"
-#include "wordtablemodel.h"
 
 #include <QFileDialog>
 #include <QShortcut>
 #include <QMessageBox>
+#include <QCloseEvent>
 #include <QDesktopServices>
 #include <QUrl>
 
+#include "puzzle3d.h"
+#include "grid3dgraphicsscene.h"
+#include "wordtablemodel.h"
 #include "itexttospeech.h"
 
 const QString MainWindow::m_DefaultSaveFolder = QString("/Crosswords");

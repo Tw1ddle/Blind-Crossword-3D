@@ -8,7 +8,8 @@
 #include "uivec3.h"
 #include "letter.h"
 #include "crosswordentry3d.h"
-#include "lettergrid.h"
+
+class LetterGrid;
 
 class Grid3DGraphicsScene : public QGraphicsScene
 {

@@ -1,11 +1,12 @@
 #include "graphicsgriditem.h"
 
-#include "letter.h"
 #include <QFont>
 #include <QPainter>
 
-const float GraphicsGridItem::s_CrosswordLetterScale = 0.8f;
-const float GraphicsGridItem::s_CrosswordEntryNumberScale = 0.20f;
+#include "letter.h"
+
+const float GraphicsGridItem::sc_CrosswordLetterScale = 0.8f;
+const float GraphicsGridItem::sc_CrosswordEntryNumberScale = 0.20f;
 
 GraphicsGridItem::GraphicsGridItem(Letter letter, unsigned int gridId, QGraphicsItem *parent) :
     QGraphicsItem(parent), m_Letter(letter)
@@ -24,12 +25,7 @@ GraphicsGridItem::GraphicsGridItem(Letter letter, unsigned int gridId, QGraphics
 
 QRectF GraphicsGridItem::boundingRect() const
 {
-    return QRectF(0, 0, s_Size, s_Size);
-}
-
-Letter GraphicsGridItem::getLetter()
-{
-    return m_Letter;
+    return QRectF(0, 0, sc_Size, sc_Size);
 }
 
 void GraphicsGridItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
@@ -43,16 +39,16 @@ void GraphicsGridItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *
     painter->setBrush(QBrush(m_Color));
     painter->setPen(pen);
 
-    painter->drawRect(0, 0, s_Size, s_Size);
+    painter->drawRect(0, 0, sc_Size, sc_Size);
 
     pen.setColor(Qt::black);
     painter->setPen(pen);
 
-    if(m_Letter.getChar() != QChar())
+    if(!m_Letter.getChar().isNull())
     {
         QFont font;
         font.setFamily("Georgia");
-        font.setPixelSize(s_Size * s_CrosswordLetterScale);
+        font.setPixelSize(sc_Size * sc_CrosswordLetterScale);
         painter->setFont(font);
         painter->drawText(boundingRect(), Qt::AlignCenter, m_Letter.getChar());
     }
@@ -61,7 +57,7 @@ void GraphicsGridItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *
     {
         QFont font;
         font.setFamily("Georgia");
-        font.setPixelSize(s_Size * s_CrosswordEntryNumberScale);
+        font.setPixelSize(sc_Size * sc_CrosswordEntryNumberScale);
         painter->setFont(font);
         painter->drawText(boundingRect(), Qt::AlignTop | Qt::AlignLeft, m_CrosswordEntryNumber);
     }

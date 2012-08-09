@@ -14,11 +14,6 @@ public:
     explicit GuessWordDialog(QWidget *parent = 0);
     
     QLineEdit* wordText;
-
-private:
-    QLabel* wordLabel;
-    QPushButton* okButton;
-    QPushButton* cancelButton;
 };
 
 #endif // GUESSWORDDIALOG_H

@@ -2,7 +2,6 @@
 #define TTSIMPL_H
 
 #include "itexttospeech.h"
-#include <sapi.h>
 
 class TTSImpl : public ITextToSpeech
 {

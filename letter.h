@@ -1,8 +1,9 @@
 #ifndef LETTER_H
 #define LETTER_H
 
-#include "uivec3.h"
 #include <QChar>
+
+#include "uivec3.h"
 
 class Letter
 {
@@ -12,7 +13,6 @@ public:
     void setChar(QChar letter);
     QChar getChar() const;
     uivec3 getLocation() const;
-
     bool operator==(const Letter& letter) const;
 
 private:

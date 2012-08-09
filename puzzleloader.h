@@ -3,6 +3,7 @@
 
 #include <QString>
 #include <QStringList>
+
 #include "direction.h"
 
 class BCrossword3D;

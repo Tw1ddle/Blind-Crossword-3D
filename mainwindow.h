@@ -10,7 +10,6 @@ class Grid3DGraphicsScene;
 class WordTableModel;
 class QItemSelection;
 class QShortcut;
-class ITextToSpeech;
 
 namespace Ui
 {

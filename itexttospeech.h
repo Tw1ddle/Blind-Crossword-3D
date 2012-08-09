@@ -1,8 +1,9 @@
 #ifndef ITEXTTOSPEECH_H
 #define ITEXTTOSPEECH_H
 
-#include "singleton.h"
 #include <QString>
+
+#include "singleton.h"
 
 #ifndef _WINDEF_
     typedef unsigned long DWORD;

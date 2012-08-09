@@ -13,9 +13,9 @@ public:
     Word();
     Word(std::vector<Letter*> word);
 
+    std::vector<uivec3> getGridLocations() const;
     QString getString() const;
     unsigned int getLength() const;
-    std::vector<uivec3> getGridPositions() const;
 
     void setString(QString string);
 

@@ -15,20 +15,18 @@ public:
 
     void setCrosswordEntryNumber(unsigned int entryNumber);
     void setColor(QColor color);
+
     QRectF boundingRect() const;
 
-    Letter getLetter();
-
-    static const unsigned int s_Size = 50u;
-
+    static const unsigned int sc_Size = 50u;
 private:
     QColor m_Color;
     Letter m_Letter;
     QString m_CrosswordEntryNumber;
     unsigned int m_GridId;
 
-    static const float s_CrosswordLetterScale;
-    static const float s_CrosswordEntryNumberScale;
+    static const float sc_CrosswordLetterScale;
+    static const float sc_CrosswordEntryNumberScale;
 };
 
 #endif // GRAPHICSGRIDITEM_H

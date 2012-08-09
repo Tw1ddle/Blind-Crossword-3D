@@ -1,4 +1,5 @@
 #include "wordtablemodel.h"
+
 #include <QMessageBox>
 #include <QString>
 

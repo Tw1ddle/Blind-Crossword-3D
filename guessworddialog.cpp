@@ -1,13 +1,9 @@
 #include "guessworddialog.h"
 
-#include <QLabel>
-#include <QPushButton>
 #include <QLineEdit>
 #include <QShortcut>
 
 #include <QVBoxLayout>
-
-#include <QAccessible>
 
 GuessWordDialog::GuessWordDialog(QWidget *parent) :
     QDialog(parent)

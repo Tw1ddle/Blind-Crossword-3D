@@ -1,5 +1,7 @@
 #include "puzzle3d.h"
 
+#include <QMessageBox>
+
 BCrossword3D::BCrossword3D() : m_CrosswordLoaded(false)
 {
 }
@@ -54,7 +56,6 @@ unsigned int BCrossword3D::removeIncorrectEntries()
             entriesRemoved++;
         }
     }
-
     return entriesRemoved;
 }
 
@@ -72,5 +73,4 @@ void BCrossword3D::showInformation(QWidget* parent)
         QMessageBox::information(parent, tr("Crossword properties"),
                                  tr("No crossword loaded!"));
     }
-
 }

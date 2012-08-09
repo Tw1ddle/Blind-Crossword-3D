@@ -1,15 +1,11 @@
 #ifndef PUZZLE3D_H
 #define PUZZLE3D_H
 
-#include <vector>
 #include <QString>
-#include <QMessageBox>
+#include <vector>
 
-#include "uivec3.h"
-#include "letter.h"
 #include "crosswordentry3d.h"
 #include "puzzleloader.h"
-#include "direction.h"
 #include "lettergrid.h"
 
 class BCrossword3D : public QObject

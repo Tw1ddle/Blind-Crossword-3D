@@ -26,7 +26,7 @@ void Word::setString(QString string)
     }
 }
 
-std::vector<uivec3> Word::getGridPositions() const
+std::vector<uivec3> Word::getGridLocations() const
 {
     std::vector<uivec3> positions;
 

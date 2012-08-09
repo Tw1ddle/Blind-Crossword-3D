@@ -1,10 +1,9 @@
 #include "grid3dgraphicsview.h"
 
+#include <QResizeEvent>
 #include <QTimeLine>
 #include <QPrinter>
 #include <QPrintDialog>
-
-#include <QtOpenGL/QGLContext>
 
 const double Grid3DGraphicsView::wheelZoomFactor = 1.25;
 

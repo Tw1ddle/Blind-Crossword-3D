@@ -1,11 +1,9 @@
 #include "grid3dgraphicsscene.h"
 
-#include <QPainter>
-#include <QList>
 #include <QGraphicsItem>
-#include <assert.h>
 
 #include "graphicsgriditem.h"
+#include "lettergrid.h"
 
 Grid3DGraphicsScene::Grid3DGraphicsScene(LetterGrid* letters, std::vector<CrosswordEntry3D>* entries) :
     QGraphicsScene(), m_RefGrid(letters), m_RefCrosswordEntries(entries)
@@ -26,7 +24,7 @@ void Grid3DGraphicsScene::build2DGrid(unsigned int xDim, unsigned int yDim, uive
             Letter letter = m_RefGrid->getLetterAt(index);
 
             GraphicsGridItem* item = new GraphicsGridItem(letter, gridNumber);
-            item->setPos(QPointF(x * GraphicsGridItem::s_Size + offset.getX(), y * GraphicsGridItem::s_Size));
+            item->setPos(QPointF(x * GraphicsGridItem::sc_Size + offset.getX(), y * GraphicsGridItem::sc_Size));
 
             if(letter.getChar() != QChar())
             {
@@ -48,7 +46,7 @@ void Grid3DGraphicsScene::buildPuzzleGrid()
 
     for(unsigned int z = 0; z < m_RefGrid->getDimensions().getZ(); z++)
     {
-        build2DGrid(m_RefGrid->getDimensions().getX(), m_RefGrid->getDimensions().getY(), uivec3(z * (m_RefGrid->getDimensions().getZ()) * GraphicsGridItem::s_Size, 0, 0), z);
+        build2DGrid(m_RefGrid->getDimensions().getX(), m_RefGrid->getDimensions().getY(), uivec3(z * (m_RefGrid->getDimensions().getZ()) * GraphicsGridItem::sc_Size, 0, 0), z);
     }
 
     for(unsigned int i = 0; i < m_RefCrosswordEntries->size(); i++)

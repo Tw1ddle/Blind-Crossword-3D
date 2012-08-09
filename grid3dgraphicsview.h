@@ -2,7 +2,6 @@
 #define GRID3DGRAPHICSVIEW_H
 
 #include <QGraphicsView>
-#include <QResizeEvent>
 
 class CrosswordEntry3D;
 
@@ -19,11 +18,10 @@ private:
     const static double wheelZoomFactor;
     int m_NumScheduledScalings;
 
-public slots:
+private slots:
     void updateSceneRect(const QRectF &rect);
     void zoomAnimationFinished();
     void scalingTime(qreal x);
-
     void print();
     
 signals:

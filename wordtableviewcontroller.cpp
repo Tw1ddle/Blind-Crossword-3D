@@ -6,13 +6,12 @@
 #include <QKeyEvent>
 #include <QLineEdit>
 #include <QMessageBox>
-
-#include "assert.h"
+#include <assert.h>
 
 #include "guessworddialog.h"
 
 WordTableViewController::WordTableViewController(QWidget *parent) :
-    QTableView(parent), QAccessibleWidget(parent)
+    QTableView(parent)
 {
     horizontalHeader()->setResizeMode(QHeaderView::ResizeToContents);
 }

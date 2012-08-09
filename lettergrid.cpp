@@ -47,7 +47,7 @@ Letter* LetterGrid::getRefLetterAt(uivec3 location)
 void LetterGrid::clear()
 {
     m_Letters.clear();
-    m_GridDimensions = uivec3();
+    m_GridDimensions = uivec3(0u, 0u, 0u);
 }
 
 unsigned int LetterGrid::getSize() const

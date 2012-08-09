@@ -4,6 +4,7 @@
 #include <QAbstractTableModel>
 #include <QString>
 #include <QModelIndex>
+
 #include "crosswordentry3d.h"
 #include "lettergrid.h"
 

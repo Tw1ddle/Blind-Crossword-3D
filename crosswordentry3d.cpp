@@ -13,12 +13,7 @@ CrosswordEntry3D::CrosswordEntry3D(Direction direction, unsigned int number, QSt
 
 uivec3 CrosswordEntry3D::getStartingPosition() const
 {
-    return m_GuessedWord.getGridPositions().at(0);
-}
-
-Letter CrosswordEntry3D::getStartingLetter() const
-{
-    return Letter(m_SolutionString.at(0), m_GuessedWord.getGridPositions().at(0));
+    return m_GuessedWord.getGridLocations().at(0);
 }
 
 QString CrosswordEntry3D::getSolution() const

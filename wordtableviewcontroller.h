@@ -4,11 +4,9 @@
 #include <QTableView>
 #include <QModelIndex>
 
-#include <QAccessibleWidget>
-
 class CrosswordEntry3D;
 
-class WordTableViewController : public QTableView, public QAccessibleWidget
+class WordTableViewController : public QTableView
 {
     Q_OBJECT
 public:

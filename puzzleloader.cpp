@@ -2,14 +2,12 @@
 #include "puzzle3d.h"
 
 #include <QFile>
-#include <QRegExp>
 #include <QTextStream>
-#include <QList>
 #include <QStringList>
 #include <QString>
-#include "direction.h"
-
 #include <assert.h>
+
+#include "direction.h"
 
 PuzzleLoader::PuzzleLoader()
 {
