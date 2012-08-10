@@ -22,17 +22,19 @@ class PuzzleLoader : public QObject
 public:
     PuzzleLoader();
 
-    void savePuzzle(BCrossword3D& puzzle, QString filePath, QString extension);
+    bool savePuzzle(BCrossword3D& puzzle, QString filePath, QString extension);
     void loadPuzzle(BCrossword3D& puzzle, QString filePath, QString extension);
 
 private:
-    void readInXWC3D(BCrossword3D &puzzle, QStringList& linelist);
-    void readInXWC(BCrossword3D &puzzle, QStringList& linelist);
+    bool readInXWC3D(BCrossword3D& puzzle, QStringList& linelist);
+    bool readInXWC(BCrossword3D& puzzle, QStringList& linelist);
 
     QStringList saveAsXWC(BCrossword3D &puzzle);
+    QStringList saveAsXWC3D(BCrossword3D& puzzle);
+
     QStringList saveXWC3DCrosswordEntryBlock(QStringList& linelist, Direction entryDirection);
 
-    void writeToFile(QStringList& linelist);
+    bool writeToFile(QStringList& linelist);
 
 signals:
     void loaderError(const QString&, const QString&);

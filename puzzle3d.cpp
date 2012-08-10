@@ -21,7 +21,7 @@ std::vector<CrosswordEntry3D> &BCrossword3D::getRefCrosswordEntries()
     return m_CrosswordEntries;
 }
 
-void BCrossword3D::clearPuzzle()
+void BCrossword3D::clear()
 {
     m_PuzzleTitle.clear();
     m_AuthorTitle.clear();
@@ -59,18 +59,31 @@ unsigned int BCrossword3D::removeIncorrectEntries()
     return entriesRemoved;
 }
 
-void BCrossword3D::showInformation(QWidget* parent)
+QString BCrossword3D::getScoreString() const
 {
     if(m_CrosswordLoaded)
     {
-        QMessageBox::information(parent, tr("Crossword properties"),
-                                 QString("Title: ").append(m_PuzzleTitle).append("\n").
-                                 append(QString("Author: ")).append(QString(m_AuthorTitle)).append("\n").
-                                 append(QString("Crossword Type: ")).append(QString(m_PuzzleType)));
+        return QString(tr("The current score for this crossword is: ")).
+                append(QString::number(scoreSolution())).
+                append(tr(" out of ")).
+                append(QString::number(m_CrosswordEntries.size())).append(". ");
     }
     else
     {
-        QMessageBox::information(parent, tr("Crossword properties"),
-                                 tr("No crossword loaded!"));
+        return QString(tr("There is no crossword loaded, so one cannot be scored."));
+    }
+}
+
+QString BCrossword3D::getInformationString() const
+{
+    if(m_CrosswordLoaded)
+    {
+        return QString(tr("Crossword title: ")).append(m_PuzzleTitle).append(". \n").
+                append(tr("Author: ")).append(m_AuthorTitle).append(". \n").
+                append(tr("Type: ")).append(m_PuzzleType);
+    }
+    else
+    {
+        return QString(tr("There is no crossword loaded."));
     }
 }

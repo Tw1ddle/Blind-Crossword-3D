@@ -10,25 +10,25 @@
 
 class BCrossword3D : public QObject
 {
-    Q_OBJECT
     friend class PuzzleLoader;
 
 public:
     BCrossword3D();
 
-    void setDimensions(uivec3 dimensions);
-
     LetterGrid& getRefGrid();
     std::vector<CrosswordEntry3D>& getRefCrosswordEntries();
 
-    void clearPuzzle();
+    void setDimensions(uivec3 dimensions);
 
-    unsigned int scoreSolution() const;
+    QString getScoreString() const;
+    QString getInformationString() const;
+
     unsigned int removeIncorrectEntries();
 
-    void showInformation(QWidget* parent);
-
 private:
+    void clear();
+    unsigned int scoreSolution() const;
+
     LetterGrid m_Grid;
 
     std::vector<CrosswordEntry3D> m_CrosswordEntries;

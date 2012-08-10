@@ -28,7 +28,9 @@ SOURCES += main.cpp\
     graphicsgriditem.cpp \
     itexttospeech.cpp \
     singleton.cpp \
-    ttsimpl.cpp
+    ttsimpl.cpp \
+    quitdialog.cpp \
+    shortcutkeys.cpp
 
 HEADERS  += mainwindow.h \
     word.h \
@@ -48,7 +50,9 @@ HEADERS  += mainwindow.h \
     graphicsgriditem.h \
     itexttospeech.h \
     singleton.h \
-    ttsimpl.h
+    ttsimpl.h \
+    quitdialog.h \
+    shortcutkeys.h
 
 
 

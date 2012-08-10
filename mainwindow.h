@@ -10,6 +10,7 @@ class Grid3DGraphicsScene;
 class WordTableModel;
 class QItemSelection;
 class QShortcut;
+class QSortFilterProxyModel;
 
 namespace Ui
 {
@@ -34,6 +35,7 @@ private:
     PuzzleLoader m_PuzzleLoader;
     Grid3DGraphicsScene* m_GraphicsScene;
     WordTableModel* m_WordTableModel;
+    QSortFilterProxyModel* m_ProxyModel;
 
     static const QString m_DefaultSaveFolder;
     static const QString m_HelpFileLocation;
@@ -46,16 +48,30 @@ private:
     QShortcut* m_HelpShortcut;
     QShortcut* m_ScoreShortcut;
     QShortcut* m_FilePropertiesShortcut;
+    QShortcut* m_FilterTableViewShortcut;
+
+    QChar m_ExitShortcutKey;
+    QChar m_LoadShortcutKey;
+    QChar m_SaveShortcutKey;
+    QChar m_HelpShortcutKey;
+    QChar m_ScoreShortcutKey;
+    QChar m_FilePropertiesShortcutKey;
+    QChar m_FilterTableViewShortcutKey;
+
+    QString getIntroString();
 
 private slots:
-    void loadFile();
-    void saveFile();
+    void loadCrossword();
+    void saveCrossword();
     void showFileProperties();
     void exitConfirmation();
     void openHelp();
-    void showAboutScreen();
+    void showAbout();
     void scoreCrossword();
     void viewLicense();
+    void toggleGrid(bool hidden);
+
+    void cycleTableViewFilter();
 
     void showError(QString title, QString error);
 

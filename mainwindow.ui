@@ -45,6 +45,12 @@
        <bool>false</bool>
       </property>
       <widget class="WordTableViewController" name="wordTableView">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
        <property name="minimumSize">
         <size>
          <width>400</width>
@@ -175,13 +181,13 @@
     <property name="title">
      <string>File</string>
     </property>
-    <addaction name="actionOpen"/>
+    <addaction name="actionLoad_Open"/>
     <addaction name="actionSave_Crossword"/>
-    <addaction name="actionPrint"/>
-    <addaction name="actionProperties"/>
+    <addaction name="actionPrint_Crossword"/>
+    <addaction name="actionCrossword_Properties"/>
     <addaction name="actionExit"/>
    </widget>
-   <widget class="QMenu" name="menuAbout">
+   <widget class="QMenu" name="menuOptions">
     <property name="accessibleName">
      <string>Options Menu</string>
     </property>
@@ -190,7 +196,7 @@
     </property>
     <addaction name="actionShow_Grid"/>
    </widget>
-   <widget class="QMenu" name="menuAbout_2">
+   <widget class="QMenu" name="menuAbout">
     <property name="accessibleName">
      <string>Help Menu</string>
     </property>
@@ -198,20 +204,20 @@
      <string>Help</string>
     </property>
     <addaction name="actionOnline_Help"/>
-    <addaction name="actionView_License"/>
-    <addaction name="actionAbout_2"/>
+    <addaction name="actionShow_License"/>
+    <addaction name="actionShow_About"/>
     <addaction name="separator"/>
    </widget>
    <addaction name="menuFile"/>
+   <addaction name="menuOptions"/>
    <addaction name="menuAbout"/>
-   <addaction name="menuAbout_2"/>
   </widget>
   <action name="actionAbout">
    <property name="text">
     <string>About</string>
    </property>
   </action>
-  <action name="actionOpen">
+  <action name="actionLoad_Open">
    <property name="text">
     <string>Load Crossword</string>
    </property>
@@ -231,7 +237,7 @@
     <string>View Help In Web Browser</string>
    </property>
   </action>
-  <action name="actionAbout_2">
+  <action name="actionShow_About">
    <property name="text">
     <string>About</string>
    </property>
@@ -247,12 +253,12 @@
     <string>Show Grid</string>
    </property>
   </action>
-  <action name="actionProperties">
+  <action name="actionCrossword_Properties">
    <property name="text">
     <string>Properties</string>
    </property>
   </action>
-  <action name="actionPrint">
+  <action name="actionPrint_Crossword">
    <property name="enabled">
     <bool>false</bool>
    </property>
@@ -263,7 +269,7 @@
     <bool>false</bool>
    </property>
   </action>
-  <action name="actionView_License">
+  <action name="actionShow_License">
    <property name="text">
     <string>View License</string>
    </property>
@@ -288,10 +294,10 @@
  <resources/>
  <connections>
   <connection>
-   <sender>actionOpen</sender>
+   <sender>actionLoad_Open</sender>
    <signal>triggered()</signal>
    <receiver>MainWindow</receiver>
-   <slot>loadFile()</slot>
+   <slot>loadCrossword()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>-1</x>
@@ -323,7 +329,7 @@
    <sender>actionSave_Crossword</sender>
    <signal>triggered()</signal>
    <receiver>MainWindow</receiver>
-   <slot>saveFile()</slot>
+   <slot>saveCrossword()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>-1</x>
@@ -336,7 +342,7 @@
    </hints>
   </connection>
   <connection>
-   <sender>actionProperties</sender>
+   <sender>actionCrossword_Properties</sender>
    <signal>triggered()</signal>
    <receiver>MainWindow</receiver>
    <slot>showFileProperties()</slot>
@@ -352,10 +358,10 @@
    </hints>
   </connection>
   <connection>
-   <sender>actionAbout_2</sender>
+   <sender>actionShow_About</sender>
    <signal>triggered()</signal>
    <receiver>MainWindow</receiver>
-   <slot>showAboutScreen()</slot>
+   <slot>showAbout()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>-1</x>
@@ -386,21 +392,21 @@
   <connection>
    <sender>actionShow_Grid</sender>
    <signal>toggled(bool)</signal>
-   <receiver>graphicsView</receiver>
-   <slot>setVisible(bool)</slot>
+   <receiver>MainWindow</receiver>
+   <slot>toggleGrid(bool)</slot>
    <hints>
     <hint type="sourcelabel">
      <x>-1</x>
      <y>-1</y>
     </hint>
     <hint type="destinationlabel">
-     <x>865</x>
-     <y>331</y>
+     <x>587</x>
+     <y>321</y>
     </hint>
    </hints>
   </connection>
   <connection>
-   <sender>actionPrint</sender>
+   <sender>actionPrint_Crossword</sender>
    <signal>triggered()</signal>
    <receiver>graphicsView</receiver>
    <slot>print()</slot>
@@ -416,7 +422,7 @@
    </hints>
   </connection>
   <connection>
-   <sender>actionView_License</sender>
+   <sender>actionShow_License</sender>
    <signal>triggered()</signal>
    <receiver>MainWindow</receiver>
    <slot>viewLicense()</slot>
@@ -433,11 +439,12 @@
   </connection>
  </connections>
  <slots>
-  <slot>loadFile()</slot>
-  <slot>saveFile()</slot>
+  <slot>loadCrossword()</slot>
+  <slot>saveCrossword()</slot>
   <slot>showFileProperties()</slot>
-  <slot>showAboutScreen()</slot>
+  <slot>showAbout()</slot>
   <slot>openHelp()</slot>
   <slot>viewLicense()</slot>
+  <slot>toggleGrid(bool)</slot>
  </slots>
 </ui>

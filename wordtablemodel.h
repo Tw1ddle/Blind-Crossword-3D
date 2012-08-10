@@ -29,13 +29,15 @@ private:
 
     bool existsConflictingWords(QString word, QModelIndex index);
 
-signals:
-    void conflictingWordError();
-    void guessValidated();
-
 public slots:
     void crosswordEntriesChanged();
-    void guessEntered(QString word, QModelIndex indes);
+    void amendGuess(QModelIndex index);
+    void enterGuess(QString word, QModelIndex index);
+
+signals:
+    void conflictingWordError();
+    void guessValidated(QString);
+    void guessAmended(QString);
 };
 
 #endif // WORDTABLEMODEL_H

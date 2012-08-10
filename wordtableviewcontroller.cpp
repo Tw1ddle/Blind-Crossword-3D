@@ -6,19 +6,32 @@
 #include <QKeyEvent>
 #include <QLineEdit>
 #include <QMessageBox>
+#include <QShortcut>
+#include <QSortFilterProxyModel>
 #include <assert.h>
 
+#include "itexttospeech.h"
 #include "guessworddialog.h"
 
 WordTableViewController::WordTableViewController(QWidget *parent) :
     QTableView(parent)
 {
     horizontalHeader()->setResizeMode(QHeaderView::ResizeToContents);
+
+    setSortingEnabled(true);
+    setTabKeyNavigation(false);
 }
 
 bool WordTableViewController::enterGuess()
 {
-    QModelIndex currentSelection = selectionModel()->currentIndex();
+    ITextToSpeech::instance().speak(tr("Enter your answer"));
+
+    // Risky!
+    const QSortFilterProxyModel* proxy = dynamic_cast<const QSortFilterProxyModel*>(model());
+
+    assert(proxy);
+
+    QModelIndex currentSelection = proxy->mapToSource(selectionModel()->currentIndex());
 
     if(currentSelection.isValid())
     {
@@ -29,9 +42,9 @@ bool WordTableViewController::enterGuess()
         GuessWordDialog dialog;
         if(dialog.exec())
         {
-            QString guess = dialog.wordText->text().toUpper();
+            QString guess = dialog.getLineEdit()->text().toUpper();
 
-            if(validateGuess(guess, wordAtSelection.length()))
+            if(validateInput(guess, wordAtSelection.length()))
             {
                 emit(guessSubmitted(guess, currentSelection));
                 return true;
@@ -42,11 +55,6 @@ bool WordTableViewController::enterGuess()
     return false;
 }
 
-bool WordTableViewController::resetGuess()
-{
-    return false; //TODO
-}
-
 void WordTableViewController::keyPressEvent(QKeyEvent *event)
 {
     QTableView::keyPressEvent(event);
@@ -55,10 +63,77 @@ void WordTableViewController::keyPressEvent(QKeyEvent *event)
     {
         enterGuess();
     }
-
-    if(event->key() == Qt::Key_Delete)
+    else if(event->key() == Qt::Key_W)
     {
-        resetGuess();
+        readCurrentGuess();
+    }
+    else if(event->key() == Qt::Key_E)
+    {
+        readCurrentEntryNumber();
+    }
+    else if(event->key() == Qt::Key_C)
+    {
+        readCurrentClue();
+    }
+    else if(event->key() == Qt::Key_B)
+    {
+        readWordLengths();
+    }
+    else if(event->key() == Qt::Key_V)
+    {
+        const QSortFilterProxyModel* proxy = dynamic_cast<const QSortFilterProxyModel*>(model());
+        assert(proxy);
+        QModelIndex currentSelection = proxy->mapToSource(selectionModel()->currentIndex());
+
+        if(currentSelection.isValid())
+        {
+            emit guessAmendationRequested(currentSelection);
+        }
+    }
+}
+
+void WordTableViewController::currentChanged(const QModelIndex &current, const QModelIndex &previous)
+{
+    if(current.isValid())
+    {
+        QString entryNumberAtSelection = current.sibling(current.row(), 0).data().toString();
+        QString wordAtSelection = current.sibling(current.row(), 1).data().toString();
+        QString clueAtSelection = current.sibling(current.row(), 2).data().toString();
+
+        assert(!entryNumberAtSelection.isNull());
+        assert(!wordAtSelection.isNull());
+        assert(!clueAtSelection.isNull());
+
+        if(wordAtSelection.contains(QRegExp("[a-zA-Z]")))
+        {
+            if(wordAtSelection.contains(QRegExp("[\\.]")))
+            {
+                QString spelledOutWord;
+                for(unsigned int i = 0; i < wordAtSelection.size(); i++)
+                {
+                    if(wordAtSelection.at(i) == Qt::Key_Period)
+                    {
+                        spelledOutWord.append(" dot. ");
+                    }
+                    else
+                    {
+                        spelledOutWord.append(QString(" ").append(wordAtSelection.at(i))).append(". ");
+                    }
+                }
+                ITextToSpeech::instance().speak(entryNumberAtSelection.append(". ").append
+                                                (spelledOutWord).append(". ").append(clueAtSelection.append(".")));
+                return;
+            }
+            else
+            {
+                ITextToSpeech::instance().speak(entryNumberAtSelection.append(". ").append
+                                                    (wordAtSelection).append("."));
+                return;
+            }
+        }
+
+        ITextToSpeech::instance().speak(entryNumberAtSelection.append(". ").append
+                                        (wordAtSelection).append(". ").append(clueAtSelection.append(".")));
     }
 }
 
@@ -81,33 +156,104 @@ int WordTableViewController::sizeHintForColumn(int column) const
     return maxWidth;
 }
 
-bool WordTableViewController::validateGuess(QString guess, unsigned int requiredLength)
+void WordTableViewController::keyboardSearch(const QString &search)
+{
+}
+
+bool WordTableViewController::validateInput(QString guess, unsigned int requiredLength)
 {
     if(guess.length() != requiredLength)
     {
-        QMessageBox::information(this, tr("Invalid word"), tr("The word entered must be the correct length."));
+        ITextToSpeech::instance().speak(tr("The word has to be ").append(QString::number(requiredLength)).append( tr("characters long.")));
     }
     else if(guess.contains(QRegExp("\\s")))
     {
-        QMessageBox::information(this, tr("Invalid word"), tr("The word must not contain spaces."));
+        ITextToSpeech::instance().speak(tr("The word must not contain spaces."));
     }
     else if(guess.contains(QRegExp("\\d")))
     {
-        QMessageBox::information(this, tr("Invalid word"), tr("The word must not contain numbers."));
+        ITextToSpeech::instance().speak(tr("The word must not contain numbers."));
     }
     else if(guess.contains(QRegExp("[^a-zA-Z\\.]")))
     {
-        QMessageBox::information(this, tr("Invalid word"), tr("The word must not contain non-word characters."));
+        ITextToSpeech::instance().speak(tr("The word must not contain non-word characters."));
     }
     else
     {
         return true;
     }
-
     return false;
 }
 
 void WordTableViewController::conflictingWordError()
 {
-    QMessageBox::information(this, tr("Invalid word"), tr("The word conflicts with an intersecting word."));
+    ITextToSpeech::instance().speak(tr("The word conflicts with an intersecting word."));
+}
+
+void WordTableViewController::reportGuessAccepted(QString guess)
+{
+    ITextToSpeech::instance().speak(guess.append(tr(" entered.")));
+}
+
+void WordTableViewController::reportGuessAmended(QString removedLetters)
+{
+    if(removedLetters.isNull())
+    {
+        ITextToSpeech::instance().speak(tr("There are no incorrectly guessed letters"));
+    }
+    else
+    {
+        ITextToSpeech::instance().speak(tr("Incorrect letters have been removed from your guess"));
+    }
+}
+
+void WordTableViewController::readCurrentEntryNumber()
+{
+    QModelIndex currentSelection = selectionModel()->currentIndex();
+    QString entryAtSelection = currentSelection.sibling(currentSelection.row(), 0).data().toString();
+
+    ITextToSpeech::instance().speak(entryAtSelection.append("."));
+}
+
+void WordTableViewController::readCurrentGuess()
+{
+    QModelIndex currentSelection = selectionModel()->currentIndex();
+    QString wordAtSelection = currentSelection.sibling(currentSelection.row(), 1).data().toString();
+
+    if(wordAtSelection.contains(QRegExp("[^\\.]")))
+    {
+        QString spelledOutWord;
+        for(unsigned int i = 0; i < wordAtSelection.size(); i++)
+        {
+            if(wordAtSelection.at(i) == Qt::Key_Period)
+            {
+                spelledOutWord.append("dot.");
+            }
+            else
+            {
+                spelledOutWord.append(wordAtSelection.at(i)).append(".");
+            }
+        }
+        ITextToSpeech::instance().speak(spelledOutWord);
+    }
+    else
+    {
+        ITextToSpeech::instance().speak(wordAtSelection.append("."));
+    }
+}
+
+void WordTableViewController::readCurrentClue()
+{
+    QModelIndex currentSelection = selectionModel()->currentIndex();
+    QString clueAtSelection = currentSelection.sibling(currentSelection.row(), 2).data().toString();
+
+    ITextToSpeech::instance().speak(clueAtSelection.append("."));
+}
+
+void WordTableViewController::readWordLengths()
+{
+    QModelIndex currentSelection = selectionModel()->currentIndex();
+    QString wordLengthsAtSelection = currentSelection.sibling(currentSelection.row(), 3).data().toString();
+
+    ITextToSpeech::instance().speak(wordLengthsAtSelection.append("."));
 }

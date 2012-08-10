@@ -13,7 +13,14 @@ class GuessWordDialog : public QDialog
 public:
     explicit GuessWordDialog(QWidget *parent = 0);
     
-    QLineEdit* wordText;
+    QLineEdit* getLineEdit();
+
+public slots:
+    void readText(const QString& text);
+    void readOnDimissal();
+
+ private:
+    QLineEdit* m_WordEdit;
 };
 
 #endif // GUESSWORDDIALOG_H

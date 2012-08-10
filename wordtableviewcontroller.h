@@ -5,6 +5,7 @@
 #include <QModelIndex>
 
 class CrosswordEntry3D;
+class QShortcut;
 
 class WordTableViewController : public QTableView
 {
@@ -14,18 +15,28 @@ public:
 
 protected:
     virtual void keyPressEvent(QKeyEvent *event);
+    virtual void currentChanged(const QModelIndex &current, const QModelIndex &previous);
     virtual int sizeHintForColumn(int column) const;
+
+    void keyboardSearch(const QString &search);
 
  private:
     bool enterGuess();
-    bool resetGuess();
-    bool validateGuess(QString guess, unsigned int requiredLength);
+    bool validateInput(QString guess, unsigned int requiredLength);
+
+    void readCurrentEntryNumber();
+    void readCurrentGuess();
+    void readCurrentClue();
+    void readWordLengths();
+
+private slots:
+    void conflictingWordError();
+    void reportGuessAccepted(QString guess);
+    void reportGuessAmended(QString removedLetters);
 
 signals:
     void guessSubmitted(QString guess, QModelIndex index);
-
-public slots:
-    void conflictingWordError();
+    void guessAmendationRequested(QModelIndex index);
 };
 
 #endif // WORDTABLEVIEWCONTROLLER_H

@@ -11,17 +11,19 @@
 
 #ifdef _WIN32
 #include <sapi.h>
-    const static DWORD csDefaultSpeechOptions = SPF_ASYNC | SPF_PURGEBEFORESPEAK;
-#elif
-    const static DWORD csDefaultSpeechOptions = 0;
+//#elif
+// Other platforms here
 #endif
+
+extern const DWORD csSynchronousSpeechOptions;
+extern const DWORD csAsynchronousSpeechOptions;
 
 class ITextToSpeech : public Singleton<ITextToSpeech>
 {
 public:
     ~ITextToSpeech() {}
 
-    virtual bool speak(QString text, DWORD options = csDefaultSpeechOptions) = 0;
+    virtual bool speak(QString text, DWORD options = csAsynchronousSpeechOptions) = 0;
 
 protected:
     ITextToSpeech() {}

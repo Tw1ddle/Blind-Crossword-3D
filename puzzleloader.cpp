@@ -15,7 +15,7 @@ PuzzleLoader::PuzzleLoader()
 
 void PuzzleLoader::loadPuzzle(BCrossword3D &puzzle, QString filePath, QString extension)
 {
-    puzzle.clearPuzzle();
+    puzzle.clear();
 
     QFile file(filePath);
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
@@ -36,43 +36,57 @@ void PuzzleLoader::loadPuzzle(BCrossword3D &puzzle, QString filePath, QString ex
         }
     } while (!currentLine.isNull());
 
-    puzzle.m_CrosswordLoaded = true;
-
     if(extension == FileFormats::XWC3D)
     {
-        readInXWC3D(puzzle, linelist);
+        puzzle.m_CrosswordLoaded = readInXWC3D(puzzle, linelist);
     }
     else if(extension == FileFormats::XWC)
     {
-        readInXWC(puzzle, linelist);
+         puzzle.m_CrosswordLoaded = readInXWC(puzzle, linelist);
+    }
+
+    if(!puzzle.m_CrosswordLoaded)
+    {
+        puzzle.clear();
     }
 }
 
-void PuzzleLoader::savePuzzle(BCrossword3D &puzzle, QString filePath, QString extension)
+bool PuzzleLoader::savePuzzle(BCrossword3D &puzzle, QString filePath, QString extension)
 {
     if(puzzle.getRefCrosswordEntries().size() <= 0 || puzzle.getRefGrid().getSize() <= 0 || !puzzle.m_CrosswordLoaded)
     {
         emit(loaderError(tr("Save error"), tr("There is no puzzle loaded, so there is no puzzle to save")));
-        return;
+        return false;
     }
 
     if(puzzle.getRefGrid().getDimensions().getZ() > 1 && extension != FileFormats::XWC3D)
     {
         emit(loaderError(tr("Save error"), tr("The current puzzle is a 3D puzzle, and cannot be saved in a 2D puzzle format")));
-        return;
+        return false;
     }
 
     QFile file(filePath);
     if (!file.open(QIODevice::WriteOnly | QIODevice::Text))
     {
         emit(loaderError(tr("File error"), tr("Failed to open save file for writing")));
-        return;
+        return false;
     }
+
+    if(extension == FileFormats::XWC3D)
+    {
+        return writeToFile(saveAsXWC(puzzle));
+    }
+    else if(extension == FileFormats::XWC)
+    {
+        return writeToFile(saveAsXWC3D(puzzle));
+    }
+
+    return false;
 }
 
-void PuzzleLoader::readInXWC3D(BCrossword3D &puzzle, QStringList& linelist)
+bool PuzzleLoader::readInXWC3D(BCrossword3D &puzzle, QStringList& linelist)
 {
-    static const QString errorTitle = QString("Crossword load error");
+    static const QString errorTitle = tr("XWC3D crossword load error");
 
     puzzle.m_PuzzleTitle = linelist.takeFirst();
     puzzle.m_AuthorTitle = linelist.takeFirst();
@@ -81,7 +95,7 @@ void PuzzleLoader::readInXWC3D(BCrossword3D &puzzle, QStringList& linelist)
     if(puzzle.m_PuzzleTitle.isNull() || puzzle.m_AuthorTitle.isNull() || puzzle.m_PuzzleType.isNull())
     {
         emit(loaderError(errorTitle, tr("Missing author name, author title or puzzle type specifier")));
-        return;
+        return false;
     }
 
     unsigned int gridY = linelist.takeFirst().toUInt();
@@ -92,7 +106,7 @@ void PuzzleLoader::readInXWC3D(BCrossword3D &puzzle, QStringList& linelist)
     if(gridY <= 0 || gridX <= 0 || gridZ <= 0)
     {
         emit(loaderError(errorTitle, tr("Invalid crossword grid dimensions")));
-        return;
+        return false;
     }
 
     for(unsigned int z = 0; z < gridZ; z++)
@@ -118,7 +132,7 @@ void PuzzleLoader::readInXWC3D(BCrossword3D &puzzle, QStringList& linelist)
     if(puzzle.getRefGrid().getSize() != (gridX * gridY * gridZ))
     {
         emit(loaderError(errorTitle, tr("Invalid crossword grid layout")));
-        return;
+        return false;
     }
 
     unsigned int numAcross = linelist.takeFirst().toUInt();
@@ -150,8 +164,11 @@ void PuzzleLoader::readInXWC3D(BCrossword3D &puzzle, QStringList& linelist)
         }
         Word word(letters);
 
-        assert(length == wordString.length());
-        assert(length == letters.size());
+        if(length != wordString.length() || length != letters.size())
+        {
+            emit(loaderError(errorTitle, tr("Invalid clue entry in file")));
+            return false;
+        }
 
        Clue clue(list.takeFirst());
 
@@ -187,8 +204,11 @@ void PuzzleLoader::readInXWC3D(BCrossword3D &puzzle, QStringList& linelist)
         }
         Word word(letters);
 
-        assert(length == wordString.length());
-        assert(length == letters.size());
+        if(length != wordString.length() || length != letters.size())
+        {
+            emit(loaderError(errorTitle, tr("Invalid clue entry in file")));
+            return false;
+        }
 
         Clue clue(list.takeFirst());
 
@@ -224,24 +244,43 @@ void PuzzleLoader::readInXWC3D(BCrossword3D &puzzle, QStringList& linelist)
         }
         Word word(letters);
 
-        assert(length == wordString.length());
-        assert(length == letters.size());
+        if(length != wordString.length() || length != letters.size())
+        {
+            emit(loaderError(errorTitle, tr("Invalid clue entry in file")));
+            return false;
+        }
 
         Clue clue(list.takeFirst());
 
         puzzle.m_CrosswordEntries.push_back(CrosswordEntry3D(direction, number, wordString, word, clue));
     }
+
+    return true;
 }
 
-void PuzzleLoader::readInXWC(BCrossword3D &puzzle, QStringList& linelist)
+bool PuzzleLoader::readInXWC(BCrossword3D &puzzle, QStringList& linelist)
 {
+    QString errorTitle = tr("XWC format crossword load error");
+
     puzzle.m_PuzzleTitle = linelist.takeFirst();
     puzzle.m_AuthorTitle = linelist.takeFirst();
     puzzle.m_PuzzleType = linelist.takeFirst();
 
+    if(puzzle.m_PuzzleTitle.isNull() || puzzle.m_AuthorTitle.isNull() || puzzle.m_PuzzleType.isNull())
+    {
+        emit(loaderError(errorTitle, tr("Missing author name, author title or puzzle type specifier")));
+        return false;
+    }
+
     unsigned int gridY = linelist.takeFirst().toUInt();
     unsigned int gridX = linelist.takeFirst().toUInt();
     puzzle.setDimensions(uivec3(gridX, gridY, 1));
+
+    if(gridY <= 0 || gridX <= 0)
+    {
+        emit(loaderError(errorTitle, tr("Invalid crossword grid dimensions")));
+        return false;
+    }
 
     for(unsigned int x = 0; x < gridX; x++)
     {
@@ -258,6 +297,12 @@ void PuzzleLoader::readInXWC(BCrossword3D &puzzle, QStringList& linelist)
                 puzzle.getRefGrid().push_back(Letter(QChar(46), uivec3(x , ch, 0)));
             }
         }
+    }
+
+    if(puzzle.getRefGrid().getSize() != (gridX * gridY))
+    {
+        emit(loaderError(errorTitle, tr("Invalid crossword grid layout")));
+        return false;
     }
 
     unsigned int numAcross = linelist.takeFirst().toUInt();
@@ -288,8 +333,11 @@ void PuzzleLoader::readInXWC(BCrossword3D &puzzle, QStringList& linelist)
         }
         Word word(letters);
 
-        assert(length == wordString.length());
-        assert(length == letters.size());
+        if(length != wordString.length() || length != letters.size())
+        {
+            emit(loaderError(errorTitle, tr("Invalid clue entry in file")));
+            return false;
+        }
 
        Clue clue(list.takeFirst());
 
@@ -324,16 +372,35 @@ void PuzzleLoader::readInXWC(BCrossword3D &puzzle, QStringList& linelist)
         }
         Word word(letters);
 
-        assert(length == wordString.length());
-        assert(length == letters.size());
+        if(length != wordString.length() || length != letters.size())
+        {
+            emit(loaderError(errorTitle, tr("Invalid clue entry in file")));
+            return false;
+        }
 
         Clue clue(list.takeFirst());
 
         puzzle.m_CrosswordEntries.push_back(CrosswordEntry3D(direction, number, wordString, word, clue));
     }
+
+    return true;
 }
 
 QStringList PuzzleLoader::saveAsXWC(BCrossword3D &puzzle)
+{
+    QStringList linelist;
+    linelist.push_back(puzzle.m_PuzzleTitle);
+    linelist.push_back(puzzle.m_AuthorTitle);
+    linelist.push_back(puzzle.m_PuzzleType);
+    linelist.push_back(QString::number(puzzle.getRefGrid().getDimensions().getX()));
+    linelist.push_back(QString::number(puzzle.getRefGrid().getDimensions().getY()));
+
+
+
+    return linelist;
+}
+
+QStringList PuzzleLoader::saveAsXWC3D(BCrossword3D &puzzle)
 {
     QStringList linelist;
     linelist.push_back(puzzle.m_PuzzleTitle);
@@ -348,8 +415,9 @@ QStringList PuzzleLoader::saveAsXWC(BCrossword3D &puzzle)
     return linelist;
 }
 
-void PuzzleLoader::writeToFile(QStringList& linelist)
+bool PuzzleLoader::writeToFile(QStringList& linelist)
 {
+    return false;
 }
 
 QStringList PuzzleLoader::saveXWC3DCrosswordEntryBlock(QStringList &linelist, Direction entryDirection)
