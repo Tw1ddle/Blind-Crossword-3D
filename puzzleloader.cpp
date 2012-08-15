@@ -13,19 +13,24 @@ PuzzleLoader::PuzzleLoader()
 {
 }
 
-void PuzzleLoader::loadPuzzle(BCrossword3D &puzzle, QString filePath, QString extension)
+bool PuzzleLoader::loadPuzzle(BCrossword3D &puzzle, QString filePath, QString extension)
 {
     puzzle.clear();
 
     QFile file(filePath);
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
     {
-        return;
+        return false;
     }
 
     QTextStream in(&file);
     QString currentLine;
     QStringList linelist;
+
+    if(in.atEnd())
+    {
+        return false;
+    }
 
     do
     {
@@ -38,7 +43,7 @@ void PuzzleLoader::loadPuzzle(BCrossword3D &puzzle, QString filePath, QString ex
 
     if(extension == FileFormats::XWC3D)
     {
-        puzzle.m_CrosswordLoaded = readInXWC3D(puzzle, linelist);
+         puzzle.m_CrosswordLoaded = readInXWC3D(puzzle, linelist);
     }
     else if(extension == FileFormats::XWC)
     {
@@ -48,7 +53,10 @@ void PuzzleLoader::loadPuzzle(BCrossword3D &puzzle, QString filePath, QString ex
     if(!puzzle.m_CrosswordLoaded)
     {
         puzzle.clear();
+        return false;
     }
+
+    return true;
 }
 
 bool PuzzleLoader::savePuzzle(BCrossword3D &puzzle, QString filePath, QString extension)
@@ -74,11 +82,15 @@ bool PuzzleLoader::savePuzzle(BCrossword3D &puzzle, QString filePath, QString ex
 
     if(extension == FileFormats::XWC3D)
     {
-        return writeToFile(saveAsXWC(puzzle));
+        return writeToFile(saveAsXWC3D(puzzle), file);
     }
     else if(extension == FileFormats::XWC)
     {
-        return writeToFile(saveAsXWC3D(puzzle));
+        return writeToFile(saveAsXWC(puzzle), file);
+    }
+    else
+    {
+        emit(loaderError(tr("File format error"), tr("File format not recognised")));
     }
 
     return false;
@@ -87,6 +99,8 @@ bool PuzzleLoader::savePuzzle(BCrossword3D &puzzle, QString filePath, QString ex
 bool PuzzleLoader::readInXWC3D(BCrossword3D &puzzle, QStringList& linelist)
 {
     static const QString errorTitle = tr("XWC3D crossword load error");
+
+    puzzle.m_CrosswordFileFormat = FileFormats::XWC3D;
 
     puzzle.m_PuzzleTitle = linelist.takeFirst();
     puzzle.m_AuthorTitle = linelist.takeFirst();
@@ -123,7 +137,8 @@ bool PuzzleLoader::readInXWC3D(BCrossword3D &puzzle, QStringList& linelist)
                 }
                 else
                 {
-                    puzzle.getRefGrid().push_back(Letter(QChar(46), uivec3(x % gridZ , ch, z)));
+                    // Here, we may want to load partially solved crossword grids (depending on the crossword type, presumably)
+                    puzzle.getRefGrid().push_back(Letter(QChar(Qt::Key_Period), uivec3(x % gridZ , ch, z)));
                 }
             }
         }
@@ -170,9 +185,20 @@ bool PuzzleLoader::readInXWC3D(BCrossword3D &puzzle, QStringList& linelist)
             return false;
         }
 
-       Clue clue(list.takeFirst());
+        // Breaks on brackets in clues...
 
-       puzzle.m_CrosswordEntries.push_back(CrosswordEntry3D(direction, number, wordString, word, clue));
+       QStringList clueDecomp = list.takeFirst().split("(");
+       Clue clue(clueDecomp.takeFirst());
+
+       QStringList wordComponents = clueDecomp.takeFirst().remove(")").split(QRegExp(","));
+
+       std::vector<unsigned int> wordComponentLengths;
+       while(!wordComponents.isEmpty())
+       {
+           wordComponentLengths.push_back(wordComponents.takeFirst().toUInt());
+       }
+
+       puzzle.m_CrosswordEntries.push_back(CrosswordEntry3D(direction, number, wordString, word, wordComponentLengths, clue));
     }
 
     unsigned int numAway = linelist.takeFirst().toUInt();
@@ -210,9 +236,20 @@ bool PuzzleLoader::readInXWC3D(BCrossword3D &puzzle, QStringList& linelist)
             return false;
         }
 
-        Clue clue(list.takeFirst());
+        // Breaks on brackets in clues...
 
-        puzzle.m_CrosswordEntries.push_back(CrosswordEntry3D(direction, number, wordString, word, clue));
+       QStringList clueDecomp = list.takeFirst().split("(");
+       Clue clue(clueDecomp.takeFirst());
+
+       QStringList wordComponents = clueDecomp.takeFirst().remove(")").split(QRegExp(","));
+
+       std::vector<unsigned int> wordComponentLengths;
+       while(!wordComponents.isEmpty())
+       {
+           wordComponentLengths.push_back(wordComponents.takeFirst().toUInt());
+       }
+
+        puzzle.m_CrosswordEntries.push_back(CrosswordEntry3D(direction, number, wordString, word, wordComponentLengths, clue));
     }
 
     unsigned int numThrough = linelist.takeFirst().toUInt();
@@ -250,9 +287,20 @@ bool PuzzleLoader::readInXWC3D(BCrossword3D &puzzle, QStringList& linelist)
             return false;
         }
 
-        Clue clue(list.takeFirst());
+        // Breaks on brackets in clues...
 
-        puzzle.m_CrosswordEntries.push_back(CrosswordEntry3D(direction, number, wordString, word, clue));
+       QStringList clueDecomp = list.takeFirst().split("(");
+       Clue clue(clueDecomp.takeFirst());
+
+       QStringList wordComponents = clueDecomp.takeFirst().remove(")").split(QRegExp(","));
+
+       std::vector<unsigned int> wordComponentLengths;
+       while(!wordComponents.isEmpty())
+       {
+           wordComponentLengths.push_back(wordComponents.takeFirst().toUInt());
+       }
+
+        puzzle.m_CrosswordEntries.push_back(CrosswordEntry3D(direction, number, wordString, word, wordComponentLengths, clue));
     }
 
     return true;
@@ -261,6 +309,8 @@ bool PuzzleLoader::readInXWC3D(BCrossword3D &puzzle, QStringList& linelist)
 bool PuzzleLoader::readInXWC(BCrossword3D &puzzle, QStringList& linelist)
 {
     QString errorTitle = tr("XWC format crossword load error");
+
+    puzzle.m_CrosswordFileFormat = FileFormats::XWC;
 
     puzzle.m_PuzzleTitle = linelist.takeFirst();
     puzzle.m_AuthorTitle = linelist.takeFirst();
@@ -294,7 +344,7 @@ bool PuzzleLoader::readInXWC(BCrossword3D &puzzle, QStringList& linelist)
             }
             else
             {
-                puzzle.getRefGrid().push_back(Letter(QChar(46), uivec3(x , ch, 0)));
+                puzzle.getRefGrid().push_back(Letter(QChar(Qt::Key_Period), uivec3(x , ch, 0)));
             }
         }
     }
@@ -339,9 +389,20 @@ bool PuzzleLoader::readInXWC(BCrossword3D &puzzle, QStringList& linelist)
             return false;
         }
 
-       Clue clue(list.takeFirst());
+        // Breaks on brackets in clues...
 
-       puzzle.m_CrosswordEntries.push_back(CrosswordEntry3D(direction, number, wordString, word, clue));
+       QStringList clueDecomp = list.takeFirst().split("(");
+       Clue clue(clueDecomp.takeFirst());
+
+       QStringList wordComponents = clueDecomp.takeFirst().remove(")").split(QRegExp(","));
+
+       std::vector<unsigned int> wordComponentLengths;
+       while(!wordComponents.isEmpty())
+       {
+           wordComponentLengths.push_back(wordComponents.takeFirst().toUInt());
+       }
+
+       puzzle.m_CrosswordEntries.push_back(CrosswordEntry3D(direction, number, wordString, word, wordComponentLengths, clue));
     }
 
     unsigned int numAway = linelist.takeFirst().toUInt();
@@ -378,9 +439,20 @@ bool PuzzleLoader::readInXWC(BCrossword3D &puzzle, QStringList& linelist)
             return false;
         }
 
-        Clue clue(list.takeFirst());
+        // Breaks on brackets in clues...
 
-        puzzle.m_CrosswordEntries.push_back(CrosswordEntry3D(direction, number, wordString, word, clue));
+       QStringList clueDecomp = list.takeFirst().split("(");
+       Clue clue(clueDecomp.takeFirst());
+
+       QStringList wordComponents = clueDecomp.takeFirst().remove(")").split(QRegExp(","));
+
+       std::vector<unsigned int> wordComponentLengths;
+       while(!wordComponents.isEmpty())
+       {
+           wordComponentLengths.push_back(wordComponents.takeFirst().toUInt());
+       }
+
+        puzzle.m_CrosswordEntries.push_back(CrosswordEntry3D(direction, number, wordString, word, wordComponentLengths, clue));
     }
 
     return true;
@@ -395,7 +467,69 @@ QStringList PuzzleLoader::saveAsXWC(BCrossword3D &puzzle)
     linelist.push_back(QString::number(puzzle.getRefGrid().getDimensions().getX()));
     linelist.push_back(QString::number(puzzle.getRefGrid().getDimensions().getY()));
 
+    QStringList gridlist;
+    for(unsigned int i = 0; i < puzzle.getRefGrid().getSize(); i+=puzzle.getRefGrid().getDimensions().getY())
+    {
+        QString gridString;
+        for(unsigned int y = 0; y < puzzle.getRefGrid().getDimensions().getY(); y++)
+        {
+            if(puzzle.getRefGrid().getLetterAt(i + y).getChar().isNull())
+            {
+                gridString.push_back(Qt::Key_1);
+            }
+            else
+            {
+                gridString.push_back(puzzle.getRefGrid().getLetterAt(i + y).getChar());
+            }
+        }
+        gridlist.push_back(gridString);
+    }
+    linelist += gridlist;
 
+    unsigned int acrossEntries = 0;
+    unsigned int awayEntries = 0;
+
+    for(unsigned int i = 0; i < puzzle.getRefCrosswordEntries().size(); i++)
+    {
+        if(puzzle.getRefCrosswordEntries().at(i).getDirection() == Directions::ACROSS)
+        {
+            acrossEntries++;
+        }
+        if(puzzle.getRefCrosswordEntries().at(i).getDirection() == Directions::AWAY)
+        {
+            awayEntries++;
+        }
+    }
+
+    linelist.push_back(QString::number(acrossEntries));
+    for(unsigned int i = 0; i < acrossEntries; i++)
+    {
+        CrosswordEntry3D entry = puzzle.getRefCrosswordEntries().at(i);
+        QString entryString = QString::number(entry.getEntryNumber()).append("|")
+                .append(QString::number(entry.getStartingPosition().getX() + 1)).append("|")
+                .append(QString::number(entry.getStartingPosition().getY() + 1)).append(("|"))
+                .append(QString::number(entry.getSolution().size())).append("|")
+                .append(entry.getSolution()).append("|")
+                .append(entry.getClue().getString()).append(" ")
+                .append(entry.getWordComponentsStringWithFormatting());
+
+        linelist.push_back(entryString);
+    }
+
+    linelist.push_back(QString::number(awayEntries));
+    for(unsigned int i = acrossEntries; i < awayEntries + acrossEntries; i++)
+    {
+        CrosswordEntry3D entry = puzzle.getRefCrosswordEntries().at(i);
+        QString entryString = QString::number(entry.getEntryNumber()).append("|")
+                .append(QString::number(entry.getStartingPosition().getX() + 1)).append("|")
+                .append(QString::number(entry.getStartingPosition().getY() + 1)).append(("|"))
+                .append(QString::number(entry.getSolution().size())).append("|")
+                .append(entry.getSolution()).append("|")
+                .append(entry.getClue().getString()).append(" ")
+                .append(entry.getWordComponentsStringWithFormatting());
+
+        linelist.push_back(entryString);
+    }
 
     return linelist;
 }
@@ -410,13 +544,111 @@ QStringList PuzzleLoader::saveAsXWC3D(BCrossword3D &puzzle)
     linelist.push_back(QString::number(puzzle.getRefGrid().getDimensions().getY()));
     linelist.push_back(QString::number(puzzle.getRefGrid().getDimensions().getZ()));
 
+    QStringList gridlist;
+    for(unsigned int i = 0; i < puzzle.getRefGrid().getSize(); i+=puzzle.getRefGrid().getDimensions().getY())
+    {
+        QString gridString;
+        for(unsigned int y = 0; y < puzzle.getRefGrid().getDimensions().getY(); y++)
+        {
+            if(puzzle.getRefGrid().getLetterAt(i + y).getChar().isNull())
+            {
+                gridString.push_back(Qt::Key_1);
+            }
+            else
+            {
+                gridString.push_back(puzzle.getRefGrid().getLetterAt(i + y).getChar());
+            }
+        }
+        gridlist.push_back(gridString);
+    }
+    linelist += gridlist;
 
+    unsigned int acrossEntries = 0;
+    unsigned int awayEntries = 0;
+    unsigned int downEntries = 0;
+
+    for(unsigned int i = 0; i < puzzle.getRefCrosswordEntries().size(); i++)
+    {
+        if(puzzle.getRefCrosswordEntries().at(i).getDirection() == Directions::ACROSS)
+        {
+            acrossEntries++;
+        }
+        if(puzzle.getRefCrosswordEntries().at(i).getDirection() == Directions::AWAY)
+        {
+            awayEntries++;
+        }
+        if(puzzle.getRefCrosswordEntries().at(i).getDirection() == Directions::DOWN)
+        {
+            downEntries++;
+        }
+    }
+
+    linelist.push_back(QString::number(acrossEntries));
+    for(unsigned int i = 0; i < acrossEntries; i++)
+    {
+        CrosswordEntry3D entry = puzzle.getRefCrosswordEntries().at(i);
+        QString entryString = QString::number(entry.getEntryNumber()).append("|")
+                .append(QString::number(entry.getStartingPosition().getX() + 1)).append("|")
+                .append(QString::number(entry.getStartingPosition().getY() + 1)).append(("|"))
+                .append(QString::number(entry.getStartingPosition().getZ() + 1)).append(("|"))
+                .append(QString::number(entry.getSolution().size())).append("|")
+                .append(entry.getSolution()).append("|")
+                .append(entry.getClue().getString()).append(" ")
+                .append(entry.getWordComponentsStringWithFormatting());
+
+        linelist.push_back(entryString);
+    }
+
+    linelist.push_back(QString::number(awayEntries));
+    for(unsigned int i = acrossEntries; i < awayEntries + acrossEntries; i++)
+    {
+        CrosswordEntry3D entry = puzzle.getRefCrosswordEntries().at(i);
+        QString entryString = QString::number(entry.getEntryNumber()).append("|")
+                .append(QString::number(entry.getStartingPosition().getX() + 1)).append("|")
+                .append(QString::number(entry.getStartingPosition().getY() + 1)).append(("|"))
+                .append(QString::number(entry.getStartingPosition().getZ() + 1)).append(("|"))
+                .append(QString::number(entry.getSolution().size())).append("|")
+                .append(entry.getSolution()).append("|")
+                .append(entry.getClue().getString()).append(" ")
+                .append(entry.getWordComponentsStringWithFormatting());
+
+        linelist.push_back(entryString);
+    }
+
+    linelist.push_back(QString::number(downEntries));
+    for(unsigned int i = acrossEntries + awayEntries; i < acrossEntries + awayEntries + downEntries; i++)
+    {
+        CrosswordEntry3D entry = puzzle.getRefCrosswordEntries().at(i);
+        QString entryString = QString::number(entry.getEntryNumber()).append("|")
+                .append(QString::number(entry.getStartingPosition().getX() + 1)).append("|")
+                .append(QString::number(entry.getStartingPosition().getY() + 1)).append(("|"))
+                .append(QString::number(entry.getStartingPosition().getZ() + 1)).append(("|"))
+                .append(QString::number(entry.getSolution().size())).append("|")
+                .append(entry.getSolution()).append("|")
+                .append(entry.getClue().getString()).append(" ")
+                .append(entry.getWordComponentsStringWithFormatting());
+
+        linelist.push_back(entryString);
+    }
 
     return linelist;
 }
 
-bool PuzzleLoader::writeToFile(QStringList& linelist)
+bool PuzzleLoader::writeToFile(QStringList& linelist, QFile& file)
 {
+    QTextStream out(&file);
+
+    while(!linelist.isEmpty())
+    {
+        out << linelist.takeFirst();
+        out << "\n";
+    }
+
+    if(out.status() == QTextStream::Ok)
+    {
+        return true;
+    }
+
     return false;
 }
 

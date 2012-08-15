@@ -11,7 +11,7 @@
 class CrosswordEntry3D
 {
 public:
-    CrosswordEntry3D(Direction direction, unsigned int number, QString solution, Word guess, Clue clue);
+    CrosswordEntry3D(Direction direction, unsigned int number, QString solution, Word guess, std::vector<unsigned int> wordComponentLengths, Clue clue);
 
     unsigned int getEntryNumber() const;
     Direction getDirection() const;
@@ -25,9 +25,13 @@ public:
     void resetGuessString();
     void setGuessString(QString word);
 
+    QString getWordComponentsString();
+    QString getWordComponentsStringWithFormatting();
+
 private:
     unsigned int m_EntryNumber;
     Direction m_WordDirection;
+    std::vector<unsigned int> m_WordComponentLengths;
     QString m_SolutionString;
     Word m_GuessedWord;
     Clue m_Clue;

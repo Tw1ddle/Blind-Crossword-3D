@@ -16,7 +16,6 @@ class Grid3DGraphicsScene : public QGraphicsScene
     Q_OBJECT
 public:
     Grid3DGraphicsScene(LetterGrid* letters, std::vector<CrosswordEntry3D>* entries);
-    ~Grid3DGraphicsScene();
 
 private:
     LetterGrid* m_RefGrid;

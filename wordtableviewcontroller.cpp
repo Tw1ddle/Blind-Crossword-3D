@@ -12,13 +12,14 @@
 
 #include "itexttospeech.h"
 #include "guessworddialog.h"
+#include "shortcutkeys.h"
 
 WordTableViewController::WordTableViewController(QWidget *parent) :
     QTableView(parent)
 {
     horizontalHeader()->setResizeMode(QHeaderView::ResizeToContents);
 
-    setSortingEnabled(true);
+  //  setSortingEnabled(true);
     setTabKeyNavigation(false);
 }
 
@@ -55,85 +56,76 @@ bool WordTableViewController::enterGuess()
     return false;
 }
 
+bool WordTableViewController::amendGuess()
+{
+    const QSortFilterProxyModel* proxy = dynamic_cast<const QSortFilterProxyModel*>(model());
+    assert(proxy);
+
+    QModelIndex currentSelection = proxy->mapToSource(selectionModel()->currentIndex());
+
+    if(currentSelection.isValid())
+    {
+        QString wordAtSelection = currentSelection.sibling(currentSelection.row(), 1).data().toString();
+
+        assert(wordAtSelection.length() != 0);
+
+        emit guessAmendationRequested(wordAtSelection, currentSelection);
+
+        return true;
+    }
+
+    return false;
+}
+
 void WordTableViewController::keyPressEvent(QKeyEvent *event)
 {
     QTableView::keyPressEvent(event);
 
-    if(event->key() == Qt::Key_Enter || event->key() == Qt::Key_Return)
+    if(event->key() == ShortcutKeys::enterGuessKey)
     {
         enterGuess();
     }
-    else if(event->key() == Qt::Key_W)
+    else if(event->key() == ShortcutKeys::amendGuessKey)
+    {
+        amendGuess();
+    }
+    else if(event->key() == ShortcutKeys::readCurrentGuessKey)
     {
         readCurrentGuess();
     }
-    else if(event->key() == Qt::Key_E)
+    else if(event->key() == ShortcutKeys::readCurrentEntryNumberKey)
     {
         readCurrentEntryNumber();
     }
-    else if(event->key() == Qt::Key_C)
+    else if(event->key() == ShortcutKeys::readCurrentClueKey)
     {
         readCurrentClue();
     }
-    else if(event->key() == Qt::Key_B)
+    else if(event->key() == ShortcutKeys::readCurrentWordLengthsKey)
     {
         readWordLengths();
-    }
-    else if(event->key() == Qt::Key_V)
-    {
-        const QSortFilterProxyModel* proxy = dynamic_cast<const QSortFilterProxyModel*>(model());
-        assert(proxy);
-        QModelIndex currentSelection = proxy->mapToSource(selectionModel()->currentIndex());
-
-        if(currentSelection.isValid())
-        {
-            emit guessAmendationRequested(currentSelection);
-        }
     }
 }
 
 void WordTableViewController::currentChanged(const QModelIndex &current, const QModelIndex &previous)
 {
+    Q_UNUSED(previous);
+
     if(current.isValid())
     {
         QString entryNumberAtSelection = current.sibling(current.row(), 0).data().toString();
-        QString wordAtSelection = current.sibling(current.row(), 1).data().toString();
+        QString wordAtSelection = current.sibling(current.row(), 1).data().toString(); // Really weird delimiter appears, \000 at the end of this string after the assertions (at least from watching the debugger)
         QString clueAtSelection = current.sibling(current.row(), 2).data().toString();
+        QString wordLengthsAtSelection = current.sibling(current.row(), 3).data().toString();
 
         assert(!entryNumberAtSelection.isNull());
         assert(!wordAtSelection.isNull());
         assert(!clueAtSelection.isNull());
+        assert(!wordLengthsAtSelection.isNull());
 
-        if(wordAtSelection.contains(QRegExp("[a-zA-Z]")))
-        {
-            if(wordAtSelection.contains(QRegExp("[\\.]")))
-            {
-                QString spelledOutWord;
-                for(unsigned int i = 0; i < wordAtSelection.size(); i++)
-                {
-                    if(wordAtSelection.at(i) == Qt::Key_Period)
-                    {
-                        spelledOutWord.append(" dot. ");
-                    }
-                    else
-                    {
-                        spelledOutWord.append(QString(" ").append(wordAtSelection.at(i))).append(". ");
-                    }
-                }
-                ITextToSpeech::instance().speak(entryNumberAtSelection.append(". ").append
-                                                (spelledOutWord).append(". ").append(clueAtSelection.append(".")));
-                return;
-            }
-            else
-            {
-                ITextToSpeech::instance().speak(entryNumberAtSelection.append(". ").append
-                                                    (wordAtSelection).append("."));
-                return;
-            }
-        }
+        QString line = entryNumberAtSelection.append(". ").append(clueAtSelection.append(". ")).append(wordLengthsAtSelection).append(".");
 
-        ITextToSpeech::instance().speak(entryNumberAtSelection.append(". ").append
-                                        (wordAtSelection).append(". ").append(clueAtSelection.append(".")));
+        ITextToSpeech::instance().speak(line);
     }
 }
 
@@ -143,7 +135,7 @@ int WordTableViewController::sizeHintForColumn(int column) const
 
     QFontMetrics fm = QFontMetrics(this->font());
 
-    for(unsigned int i = 0; i < model()->rowCount(); i++)
+    for(int i = 0; i < model()->rowCount(); i++)
     {
         int width = fm.width(this->model()->index(i, column).data().toString()) + 20;
 
@@ -158,6 +150,7 @@ int WordTableViewController::sizeHintForColumn(int column) const
 
 void WordTableViewController::keyboardSearch(const QString &search)
 {
+    Q_UNUSED(search);
 }
 
 bool WordTableViewController::validateInput(QString guess, unsigned int requiredLength)
@@ -220,25 +213,14 @@ void WordTableViewController::readCurrentGuess()
     QModelIndex currentSelection = selectionModel()->currentIndex();
     QString wordAtSelection = currentSelection.sibling(currentSelection.row(), 1).data().toString();
 
-    if(wordAtSelection.contains(QRegExp("[^\\.]")))
+    if(wordAtSelection.contains(QRegExp("[\\.]")))
     {
-        QString spelledOutWord;
-        for(unsigned int i = 0; i < wordAtSelection.size(); i++)
-        {
-            if(wordAtSelection.at(i) == Qt::Key_Period)
-            {
-                spelledOutWord.append("dot.");
-            }
-            else
-            {
-                spelledOutWord.append(wordAtSelection.at(i)).append(".");
-            }
-        }
+        QString spelledOutWord = QString("<spell>").append(wordAtSelection).append("</spell>");
         ITextToSpeech::instance().speak(spelledOutWord);
     }
     else
     {
-        ITextToSpeech::instance().speak(wordAtSelection.append("."));
+        ITextToSpeech::instance().speak(wordAtSelection);
     }
 }
 

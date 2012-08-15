@@ -69,6 +69,8 @@ void Grid3DGraphicsView::zoomAnimationFinished()
 
 void Grid3DGraphicsView::scalingTime(qreal x)
 {
-    float factor = 1.0f + static_cast<float>(m_NumScheduledScalings) / 300.0f;
+    Q_UNUSED(x);
+
+    float factor = 1.0f + static_cast<float>(m_NumScheduledScalings) / 450.0f;
     scale(factor, factor);
 }

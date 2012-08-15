@@ -50,14 +50,6 @@ private:
     QShortcut* m_FilePropertiesShortcut;
     QShortcut* m_FilterTableViewShortcut;
 
-    QChar m_ExitShortcutKey;
-    QChar m_LoadShortcutKey;
-    QChar m_SaveShortcutKey;
-    QChar m_HelpShortcutKey;
-    QChar m_ScoreShortcutKey;
-    QChar m_FilePropertiesShortcutKey;
-    QChar m_FilterTableViewShortcutKey;
-
     QString getIntroString();
 
 private slots:

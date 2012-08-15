@@ -22,8 +22,12 @@ public:
 
     QString getScoreString() const;
     QString getInformationString() const;
+    QString getPuzzleTitle() const;
+    FileFormats::FORMAT getPuzzleFormat() const;
 
     unsigned int removeIncorrectEntries();
+
+
 
 private:
     void clear();
@@ -37,6 +41,7 @@ private:
     QString m_PuzzleType;
 
     bool m_CrosswordLoaded;
+    FileFormats::FORMAT m_CrosswordFileFormat;
 };
 
 #endif // PUZZLE3D_H

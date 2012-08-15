@@ -7,7 +7,7 @@
 const QString wordColumnHeader = "Word";
 const QString clueColumnHeader = "Clue";
 const QString entryNumberColumnHeader = "Entry";
-const QString wordLengthColumnHeader = "Word Lengths";
+const QString wordLengthColumnHeader = "Word Length";
 
 
 WordTableModel::WordTableModel(std::vector<CrosswordEntry3D>* refCrosswordEntries, LetterGrid* refWorkingGrid, QObject *parent) :
@@ -63,7 +63,7 @@ QVariant WordTableModel::data(const QModelIndex& index, int role) const
         }
         else if(index.column() == 3)
         {
-            return m_RefCrosswordEntries->at(index.row()).getClue().getString();
+            return m_RefCrosswordEntries->at(index.row()).getWordComponentsString();
         }
     }
     return QVariant();
@@ -104,7 +104,7 @@ bool WordTableModel::existsConflictingWords(QString word, QModelIndex index)
     CrosswordEntry3D currentEntry = m_RefCrosswordEntries->at(index.row());
 
     bool conflict = false;
-    for(unsigned int i = 0; i < word.size(); i++)
+    for(int i = 0; i < word.size(); i++)
     {
         if(currentEntry.getGuess().getString().at(i) == word.at(i) || currentEntry.getGuess().getString().at(i) == QChar(Qt::Key_Period) || word.at(i) == QChar(Qt::Key_Period))
         {
@@ -124,7 +124,7 @@ void WordTableModel::crosswordEntriesChanged()
     endResetModel();
 }
 
-void WordTableModel::amendGuess(QModelIndex index)
+void WordTableModel::amendGuess(QString word, QModelIndex index)
 {
     QString amendedGuess;
     QString removedLetters;
@@ -132,8 +132,10 @@ void WordTableModel::amendGuess(QModelIndex index)
     QString solution = m_RefCrosswordEntries->at(index.row()).getSolution();
 
     assert(guess.size() == solution.size());
+    assert(guess.size() == word.size());
+    assert(word.size() == solution.size());
 
-    for(unsigned int i = 0; i < guess.size(); i++)
+    for(int i = 0; i < guess.size(); i++)
     {
         if(guess.at(i) == solution.at(i))
         {
@@ -152,8 +154,9 @@ void WordTableModel::amendGuess(QModelIndex index)
 
     m_RefCrosswordEntries->at(index.row()).setGuessString(amendedGuess);
 
-    beginResetModel();
-    endResetModel();
+    int rows = rowCount(QModelIndex()) - 1;
+    int columns = columnCount(QModelIndex()) - 1;
+    emit dataChanged(this->index(0, 0), this->index(rows, columns));
 
     emit guessAmended(removedLetters);
 }
@@ -168,8 +171,10 @@ void WordTableModel::enterGuess(QString word, QModelIndex index)
 
     m_RefCrosswordEntries->at(index.row()).setGuessString(word);
 
-    beginResetModel();
-    endResetModel();
+    // Pointer data members in the data source w/ rows affecting other rows means we have to update the whole table when a guess is amended or removed (determining which rows are changed otherwise is inconvenient)
+    int rows = rowCount(QModelIndex()) - 1;
+    int columns = columnCount(QModelIndex()) - 1;
+    emit dataChanged(this->index(0, 0), this->index(rows, columns));
 
     emit guessValidated(word);
 }

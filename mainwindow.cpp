@@ -14,6 +14,8 @@
 #include "wordtablemodel.h"
 #include "itexttospeech.h"
 #include "quitdialog.h"
+#include "filedialog.h"
+#include "shortcutkeys.h"
 
 const QString MainWindow::m_DefaultSaveFolder = QString("/Crosswords");
 const QString MainWindow::m_HelpFileLocation = QString("/Help/index.html");
@@ -24,6 +26,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    setWindowIcon(QIcon(":/icon.ico"));
+
     createShortcuts();
 
     m_Puzzle = new BCrossword3D();
@@ -36,19 +40,20 @@ MainWindow::MainWindow(QWidget *parent) :
     m_ProxyModel->setSourceModel(m_WordTableModel);
     ui->wordTableView->setModel(m_ProxyModel);
 
-
     connect(this, SIGNAL(puzzleLoaded()), m_WordTableModel, SLOT(crosswordEntriesChanged()));
     connect(this, SIGNAL(puzzleLoaded()), ui->wordTableView, SLOT(setFocus(Qt::OtherFocusReason)));
     connect(this, SIGNAL(puzzleLoaded()), m_GraphicsScene, SLOT(buildPuzzleGrid()));
 
-    connect(ui->wordTableView, SIGNAL(guessSubmitted(QString, QModelIndex)), m_WordTableModel, SLOT(enterGuess(QString, QModelIndex)));
-
     connect(m_WordTableModel, SIGNAL(conflictingWordError()), ui->wordTableView, SLOT(conflictingWordError()));
+
+    connect(ui->wordTableView, SIGNAL(guessSubmitted(QString, QModelIndex)), m_WordTableModel, SLOT(enterGuess(QString, QModelIndex)));
+    connect(ui->wordTableView, SIGNAL(guessAmendationRequested(QString, QModelIndex)), m_WordTableModel, SLOT(amendGuess(QString, QModelIndex)));
+
+    connect(m_WordTableModel, SIGNAL(guessValidated(QString)), ui->wordTableView, SLOT(reportGuessAccepted(QString)));
+    connect(m_WordTableModel, SIGNAL(guessAmended(QString)), ui->wordTableView, SLOT(reportGuessAmended(QString)));
+
     connect(m_WordTableModel, SIGNAL(guessValidated(QString)), m_GraphicsScene, SLOT(buildPuzzleGrid()));
     connect(m_WordTableModel, SIGNAL(guessAmended(QString)), m_GraphicsScene, SLOT(buildPuzzleGrid()));
-    connect(m_WordTableModel, SIGNAL(guessValidated(QString)), ui->wordTableView, SLOT(reportGuessAccepted(QString)));
-    connect(ui->wordTableView, SIGNAL(guessAmendationRequested(QModelIndex)), m_WordTableModel, SLOT(amendGuess(QModelIndex)));
-    connect(m_WordTableModel, SIGNAL(guessAmended(QString)), ui->wordTableView, SLOT(reportGuessAmended(QString)));
 
     connect(&m_PuzzleLoader, SIGNAL(loaderError(QString, QString)), this, SLOT(showError(QString, QString)));
 
@@ -80,40 +85,88 @@ void MainWindow::closeEvent(QCloseEvent* event)
 
 void MainWindow::loadCrossword()
 {
+    QDir dir;
+    QString savePath;
+    if(dir.exists(dir.absolutePath().append(m_DefaultSaveFolder)))
+    {
+        savePath = dir.absolutePath().append(m_DefaultSaveFolder);
+    }
+    else
+    {
+        savePath = dir.absolutePath();
+    }
+
     ITextToSpeech::instance().speak(tr("Opening load crossword dialog."));
 
-    QDir dir;
-    QString path = QFileDialog::getOpenFileName(this,
-                                                tr("Choose a crossword puzzle to open"),
-                                                dir.absolutePath().append(m_DefaultSaveFolder),
-                                                tr("Crossword 3D (*.xwc3d);;Crossword Compiler (*.xwc)"));
+    QStringList fileNameFilter;
+    fileNameFilter.push_back(QString("*.xwc"));
+    fileNameFilter.push_back(QString("*.xwc3d"));
+
+    FileDialog crosswordDialog(this,
+                               tr("Choose a crossword to load"),
+                               savePath,
+                               tr("Crossword 3D (*.xwc3d);;Crossword Compiler (*.xwc)"),
+                               fileNameFilter);
+
+    QString path;
+    if(crosswordDialog.exec())
+    {
+         path = crosswordDialog.getSelectedFilePath();
+    }
     if(!path.isNull())
     {
         QFileInfo fileInfo(path);
         QString extension = fileInfo.suffix();
 
-        m_PuzzleLoader.loadPuzzle(*m_Puzzle, path, extension);
-
-        emit puzzleLoaded();
+        if(m_PuzzleLoader.loadPuzzle(*m_Puzzle, path, extension))
+        {
+            emit puzzleLoaded();
+            ITextToSpeech::instance().speak(fileInfo.fileName().append(" was loaded successfully."));
+        }
+    }
+    else
+    {
+        ITextToSpeech::instance().speak(tr("No file was selected."));
     }
 }
 
 void MainWindow::saveCrossword()
 {
-    ITextToSpeech::instance().speak(tr("Opening save crossword dialog."));
-
     QDir dir;
-    QString path = QFileDialog::getSaveFileName(this,
-                                                tr("Save as"),
-                                                dir.absolutePath().append(m_DefaultSaveFolder),
-                                                tr("Crossword 3D (*.xwc3d);;Crossword Compiler (*.xwc)"));
+    QString path = dir.absolutePath()
+            .append(m_DefaultSaveFolder)
+            .append("/")
+            .append(m_Puzzle->getPuzzleTitle())
+            .append(".")
+            .append(m_Puzzle->getPuzzleFormat());
 
-    if(!path.isNull())
+    QFileInfo fileInfo(path);
+
+    unsigned int extraTag = 1;
+    QString separatorTag = QString("_");
+    while(dir.exists(path))
     {
-        QFileInfo fileInfo(path);
-        QString extension = fileInfo.suffix();
+        QString updatedFileName = fileInfo.baseName()
+                .append(separatorTag)
+                .append(QString::number(extraTag))
+                .append(".")
+                .append(m_Puzzle->getPuzzleFormat());
 
-        m_PuzzleLoader.savePuzzle(*m_Puzzle, path, extension);
+        path = dir.absolutePath()
+                .append(m_DefaultSaveFolder)
+                .append("/")
+                .append(updatedFileName);
+
+        extraTag++;
+    }
+
+    QFileInfo updatedFileInfo(path);
+    if(m_PuzzleLoader.savePuzzle(*m_Puzzle, path, m_Puzzle->getPuzzleFormat()))
+    {
+        ITextToSpeech::instance().speak(tr("Crossword was saved as: ")
+                                        .append(updatedFileInfo.fileName())
+                                        .append(". In folder: ")
+                                        .append(updatedFileInfo.filePath()));
     }
 }
 
@@ -160,8 +213,9 @@ void MainWindow::toggleGrid(bool hidden)
 
 void MainWindow::cycleTableViewFilter()
 {
+    const static unsigned int cs_NumFilters = 2;
     static unsigned int s_Filter = 0;
-    QRegExp filterUnstarted = QRegExp("[]", Qt::CaseInsensitive, QRegExp::FixedString);
+    QRegExp filterUnstarted = QRegExp("\\.*", Qt::CaseInsensitive, QRegExp::FixedString);
     QRegExp filterCompleted = QRegExp("", Qt::CaseInsensitive, QRegExp::FixedString);
     QRegExp filterNone = QRegExp("", Qt::CaseInsensitive, QRegExp::FixedString);
 
@@ -185,7 +239,7 @@ void MainWindow::cycleTableViewFilter()
     }
 
     s_Filter++;
-    if(s_Filter > 2)
+    if(s_Filter > cs_NumFilters)
     {
         s_Filter = 0;
     }
@@ -225,46 +279,38 @@ void MainWindow::showError(QString title, QString error)
 
 void MainWindow::createShortcuts()
 {
-    m_LoadShortcutKey = Qt::Key_L;
-    m_SaveShortcutKey = Qt::Key_S;
-    m_HelpShortcutKey = Qt::Key_H;
-    m_ExitShortcutKey = Qt::Key_Q;
-    m_ScoreShortcutKey = Qt::Key_K;
-    m_FilePropertiesShortcutKey = Qt::Key_P;
-    m_FilterTableViewShortcutKey = Qt::Key_F;
-
-    m_LoadShortcut = new QShortcut(QKeySequence(m_LoadShortcutKey), this);
+    m_LoadShortcut = new QShortcut(QKeySequence(ShortcutKeys::loadShortcutKey), this);
     connect(m_LoadShortcut, SIGNAL(activated()), this, SLOT(loadCrossword()));
 
-    m_SaveShortcut = new QShortcut(QKeySequence(m_SaveShortcutKey), this);
+    m_SaveShortcut = new QShortcut(QKeySequence(ShortcutKeys::saveShortcutKey), this);
     connect(m_SaveShortcut, SIGNAL(activated()), this, SLOT(saveCrossword()));
 
-    m_HelpShortcut = new QShortcut(QKeySequence(m_HelpShortcutKey), this);
+    m_HelpShortcut = new QShortcut(QKeySequence(ShortcutKeys::helpShortcutKey), this);
     connect(m_HelpShortcut, SIGNAL(activated()), this, SLOT(openHelp()));
 
-    m_ExitShortcut = new QShortcut(QKeySequence(m_ExitShortcutKey), this);
+    m_ExitShortcut = new QShortcut(QKeySequence(ShortcutKeys::exitShortcutKey), this);
     connect(m_ExitShortcut, SIGNAL(activated()), this, SLOT(exitConfirmation()));
 
-    m_ScoreShortcut = new QShortcut(QKeySequence(m_ScoreShortcutKey), this);
+    m_ScoreShortcut = new QShortcut(QKeySequence(ShortcutKeys::scoreShortcutKey), this);
     connect(m_ScoreShortcut, SIGNAL(activated()), this, SLOT(scoreCrossword()));
 
-    m_FilePropertiesShortcut = new QShortcut(QKeySequence(m_FilePropertiesShortcutKey), this);
+    m_FilePropertiesShortcut = new QShortcut(QKeySequence(ShortcutKeys::filePropertiesShortcutKey), this);
     connect(m_FilePropertiesShortcut, SIGNAL(activated()), this, SLOT(showFileProperties()));
 
-    m_FilterTableViewShortcut = new QShortcut(QKeySequence(m_FilterTableViewShortcutKey), this);
+    m_FilterTableViewShortcut = new QShortcut(QKeySequence(ShortcutKeys::filterTableViewShortcutKey), this);
     connect(m_FilterTableViewShortcut, SIGNAL(activated()), this, SLOT(cycleTableViewFilter()));
 }
 
 QString MainWindow::getIntroString()
 {
-    return QString(tr("Welcome to BCrossword 3D. Press ").append(m_LoadShortcutKey).append(" to load a crossword. "))
-            .append("Press ").append(m_ExitShortcutKey).append(" to quit the program. ")
-            .append("Press ").append(m_HelpShortcutKey).append(" to open a help document in your web browser. Use your screen reader to read the document");
+    return QString(tr("Welcome to Blind Crossword 3D. Press ").append(ShortcutKeys::loadShortcutKey).append(" to load a crossword. "))
+            .append("Press ").append(ShortcutKeys::exitShortcutKey).append(" to quit the program. ")
+            .append("Press ").append(ShortcutKeys::helpShortcutKey).append(" to open a help document in your web browser. Use your screen reader to read the document");
 }
 
 void MainWindow::showAbout()
 {
-    ITextToSpeech::instance().speak(tr("BCrossword3D is a 2D and 3D crossword puzzle game for the visually impaired."));
+    ITextToSpeech::instance().speak(tr("Blind Crossword3D is a 2D and 3D crossword puzzle game for the blind or partially sighted."));
 }
 
 void MainWindow::exitConfirmation()

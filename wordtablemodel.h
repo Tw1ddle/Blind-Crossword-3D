@@ -16,7 +16,7 @@ class WordTableModel : public QAbstractTableModel
 {
     Q_OBJECT
 public:
-    explicit WordTableModel(std::vector<CrosswordEntry3D>* refCrosswordEntries, LetterGrid* refWorkingGrid, QObject *parent = 0);
+    WordTableModel(std::vector<CrosswordEntry3D>* refCrosswordEntries, LetterGrid* refWorkingGrid, QObject *parent = 0);
 
     int rowCount(const QModelIndex& parent) const;
     int columnCount(const QModelIndex& parent) const;
@@ -31,7 +31,7 @@ private:
 
 public slots:
     void crosswordEntriesChanged();
-    void amendGuess(QModelIndex index);
+    void amendGuess(QString word, QModelIndex index);
     void enterGuess(QString word, QModelIndex index);
 
 signals:

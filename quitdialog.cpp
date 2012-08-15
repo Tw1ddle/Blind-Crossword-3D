@@ -11,10 +11,10 @@ QuitDialog::QuitDialog(QWidget *parent) :
 {
     setWindowFlags(Qt::Dialog | Qt::WindowTitleHint);
 
-    m_QuitTitle = tr("Quit BCrossword 3D");
+    m_QuitTitle = tr("Quit Blind Crossword 3D");
     m_QuitBody = tr("Are you sure you want to quit the program? Press Y to quit. Press N to return to the crossword puzzle.");
 
-    m_AcceptedText = tr("Thank you for playing BCrossword 3D.");
+    m_AcceptedText = tr("Thank you for playing Blind Crossword 3D.");
     m_RejectedText = tr("Continue to solve the crossword puzzle.");
 
     QGridLayout *gLayout = new QGridLayout;

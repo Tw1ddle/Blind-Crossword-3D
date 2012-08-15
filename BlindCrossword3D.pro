@@ -30,7 +30,8 @@ SOURCES += main.cpp\
     singleton.cpp \
     ttsimpl.cpp \
     quitdialog.cpp \
-    shortcutkeys.cpp
+    shortcutkeys.cpp \
+    filedialog.cpp
 
 HEADERS  += mainwindow.h \
     word.h \
@@ -52,8 +53,12 @@ HEADERS  += mainwindow.h \
     singleton.h \
     ttsimpl.h \
     quitdialog.h \
-    shortcutkeys.h
+    shortcutkeys.h \
+    filedialog.h
 
 
 
 FORMS    += mainwindow.ui
+
+RESOURCES += \
+    resources.qrc

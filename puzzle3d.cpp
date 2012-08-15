@@ -28,6 +28,8 @@ void BCrossword3D::clear()
     m_PuzzleType.clear();
     m_Grid.clear();
     m_CrosswordEntries.clear();
+    m_CrosswordFileFormat.clear();
+    m_CrosswordLoaded = false;
 }
 
 unsigned int BCrossword3D::scoreSolution() const
@@ -86,4 +88,14 @@ QString BCrossword3D::getInformationString() const
     {
         return QString(tr("There is no crossword loaded."));
     }
+}
+
+QString BCrossword3D::getPuzzleTitle() const
+{
+    return m_PuzzleTitle;
+}
+
+FileFormats::FORMAT BCrossword3D::getPuzzleFormat() const
+{
+    return m_CrosswordFileFormat;
 }

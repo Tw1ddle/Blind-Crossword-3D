@@ -9,7 +9,7 @@
 class GraphicsGridItem : public QGraphicsItem
 {
 public:
-    explicit GraphicsGridItem(Letter letter, unsigned int gridId, QGraphicsItem *parent = 0);
+    GraphicsGridItem(Letter letter, unsigned int gridId, QGraphicsItem *parent = 0);
 
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
 

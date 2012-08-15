@@ -22,6 +22,7 @@ protected:
 
  private:
     bool enterGuess();
+    bool amendGuess();
     bool validateInput(QString guess, unsigned int requiredLength);
 
     void readCurrentEntryNumber();
@@ -36,7 +37,7 @@ private slots:
 
 signals:
     void guessSubmitted(QString guess, QModelIndex index);
-    void guessAmendationRequested(QModelIndex index);
+    void guessAmendationRequested(QString guess, QModelIndex index);
 };
 
 #endif // WORDTABLEVIEWCONTROLLER_H

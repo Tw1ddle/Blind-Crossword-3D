@@ -2,12 +2,13 @@
 
 #include <assert.h>
 
-CrosswordEntry3D::CrosswordEntry3D(Direction direction, unsigned int number, QString solution, Word guess, Clue clue)
+CrosswordEntry3D::CrosswordEntry3D(Direction direction, unsigned int number, QString solution, Word guess, std::vector<unsigned int> wordComponentLengths, Clue clue)
 {
     m_WordDirection = direction;
     m_EntryNumber = number;
     m_SolutionString = solution;
     m_GuessedWord = guess;
+    m_WordComponentLengths = wordComponentLengths;
     m_Clue = clue;
 }
 
@@ -36,6 +37,28 @@ void CrosswordEntry3D::setGuessString(QString word)
     assert(m_GuessedWord.getLength() == m_SolutionString.length());
 
     m_GuessedWord.setString(word);
+}
+
+QString CrosswordEntry3D::getWordComponentsString()
+{
+    QString comp;
+    for(unsigned int i = 0; i < m_WordComponentLengths.size(); i++)
+    {
+        comp.append(QString::number(m_WordComponentLengths.at(i))).append(" ");
+    }
+
+    return comp.trimmed();
+}
+
+QString CrosswordEntry3D::getWordComponentsStringWithFormatting()
+{
+    QString comp;
+    comp.append(Qt::Key_ParenLeft);
+    for(unsigned int i = 0; i < m_WordComponentLengths.size(); i++)
+    {
+        comp.append(QString::number(m_WordComponentLengths.at(i))).append(",");
+    }
+    return comp.replace(comp.size() - 1, 1, Qt::Key_ParenRight).trimmed();
 }
 
 void CrosswordEntry3D::resetGuessString()

@@ -10,21 +10,17 @@ Grid3DGraphicsScene::Grid3DGraphicsScene(LetterGrid* letters, std::vector<Crossw
 {
 }
 
-Grid3DGraphicsScene::~Grid3DGraphicsScene()
-{
-}
-
 void Grid3DGraphicsScene::build2DGrid(unsigned int xDim, unsigned int yDim, uivec3 offset, unsigned int gridNumber)
 {
-    for(unsigned int y = 0; y < yDim; y++)
+    for(unsigned int x = 0; x < xDim; x++)
     {
-        for(unsigned int x = 0; x < xDim; x++)
+        for(unsigned int y = 0; y < yDim; y++)
         {
-            unsigned int index = uivec3(x, y, gridNumber).toXYZGridIndex(uivec3(xDim, yDim, 0));
+            unsigned int index = uivec3(x, y, gridNumber).toGridIndex(uivec3(xDim, yDim, 0));
             Letter letter = m_RefGrid->getLetterAt(index);
 
             GraphicsGridItem* item = new GraphicsGridItem(letter, gridNumber);
-            item->setPos(QPointF(x * GraphicsGridItem::sc_Size + offset.getX(), y * GraphicsGridItem::sc_Size));
+            item->setPos(QPointF(y * GraphicsGridItem::sc_Size + offset.getY(), x * GraphicsGridItem::sc_Size));
 
             if(letter.getChar() != QChar())
             {
@@ -46,14 +42,14 @@ void Grid3DGraphicsScene::buildPuzzleGrid()
 
     for(unsigned int z = 0; z < m_RefGrid->getDimensions().getZ(); z++)
     {
-        build2DGrid(m_RefGrid->getDimensions().getX(), m_RefGrid->getDimensions().getY(), uivec3(z * (m_RefGrid->getDimensions().getZ()) * GraphicsGridItem::sc_Size, 0, 0), z);
+        build2DGrid(m_RefGrid->getDimensions().getX(), m_RefGrid->getDimensions().getY(), uivec3(0, z * (m_RefGrid->getDimensions().getZ()) * GraphicsGridItem::sc_Size, 0), z);
     }
 
     for(unsigned int i = 0; i < m_RefCrosswordEntries->size(); i++)
     {
         unsigned int entryNumber = m_RefCrosswordEntries->at(i).getEntryNumber();
         uivec3 startingPos =  m_RefCrosswordEntries->at(i).getStartingPosition();
-        unsigned int index = m_RefCrosswordEntries->at(i).getStartingPosition().toYXZGridIndex(m_RefGrid->getDimensions());
+        unsigned int index = m_RefCrosswordEntries->at(i).getStartingPosition().toGridIndex(m_RefGrid->getDimensions());
         GraphicsGridItem* item = static_cast<GraphicsGridItem*> (items().at(items().size() - 1 - index));
         item->setCrosswordEntryNumber(entryNumber);
     }
