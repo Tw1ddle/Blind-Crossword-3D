@@ -79,31 +79,41 @@ bool WordTableViewController::amendGuess()
 
 void WordTableViewController::keyPressEvent(QKeyEvent *event)
 {
+    QString str = event->text();
+
     QTableView::keyPressEvent(event);
 
-    if(event->key() == ShortcutKeys::enterGuessKey)
+    if(event->modifiers() & Qt::ControlModifier)
     {
-        enterGuess();
+        QChar pressedKey = static_cast<QChar>(event->key());
+        QTableView::keyboardSearch(QString(pressedKey));
     }
-    else if(event->key() == ShortcutKeys::amendGuessKey)
+    else
     {
-        amendGuess();
-    }
-    else if(event->key() == ShortcutKeys::readCurrentGuessKey)
-    {
-        readCurrentGuess();
-    }
-    else if(event->key() == ShortcutKeys::readCurrentEntryNumberKey)
-    {
-        readCurrentEntryNumber();
-    }
-    else if(event->key() == ShortcutKeys::readCurrentClueKey)
-    {
-        readCurrentClue();
-    }
-    else if(event->key() == ShortcutKeys::readCurrentWordLengthsKey)
-    {
-        readWordLengths();
+        if(event->key() == ShortcutKeys::enterGuessKey)
+        {
+            enterGuess();
+        }
+        else if(event->key() == ShortcutKeys::amendGuessKey)
+        {
+            amendGuess();
+        }
+        else if(event->key() == ShortcutKeys::readCurrentGuessKey)
+        {
+            readCurrentGuess();
+        }
+        else if(event->key() == ShortcutKeys::readCurrentEntryNumberKey)
+        {
+            readCurrentEntryNumber();
+        }
+        else if(event->key() == ShortcutKeys::readCurrentClueKey)
+        {
+            readCurrentClue();
+        }
+        else if(event->key() == ShortcutKeys::readCurrentWordLengthsKey)
+        {
+            readWordLengths();
+        }
     }
 }
 
@@ -113,17 +123,28 @@ void WordTableViewController::currentChanged(const QModelIndex &current, const Q
 
     if(current.isValid())
     {
+        const QSortFilterProxyModel* proxy = dynamic_cast<const QSortFilterProxyModel*>(model());
+        assert(proxy);
+
+        QModelIndex currentSelection = proxy->mapToSource(current);
+        QModelIndex previousSelection = proxy->mapToSource(previous);
+        emit(modelIndexChanged(currentSelection, previousSelection));
+
         QString entryNumberAtSelection = current.sibling(current.row(), 0).data().toString();
         QString wordAtSelection = current.sibling(current.row(), 1).data().toString(); // Really weird delimiter appears, \000 at the end of this string after the assertions (at least from watching the debugger)
         QString clueAtSelection = current.sibling(current.row(), 2).data().toString();
-        QString wordLengthsAtSelection = current.sibling(current.row(), 3).data().toString();
+        QString wordLengthsAtSelection = current.sibling(current.row(), 3).data().toString().append(" letters");
 
         assert(!entryNumberAtSelection.isNull());
         assert(!wordAtSelection.isNull());
         assert(!clueAtSelection.isNull());
         assert(!wordLengthsAtSelection.isNull());
 
-        QString line = entryNumberAtSelection.append(". ").append(clueAtSelection.append(". ")).append(wordLengthsAtSelection).append(".");
+        QString line = entryNumberAtSelection.
+                append(". ").
+                append(clueAtSelection).
+                append(". ").
+                append(wordLengthsAtSelection);
 
         ITextToSpeech::instance().speak(line);
     }
@@ -150,7 +171,7 @@ int WordTableViewController::sizeHintForColumn(int column) const
 
 void WordTableViewController::keyboardSearch(const QString &search)
 {
-    Q_UNUSED(search);
+   // QTableView::keyboardSearch(search);
 }
 
 bool WordTableViewController::validateInput(QString guess, unsigned int requiredLength)
@@ -185,7 +206,9 @@ void WordTableViewController::conflictingWordError()
 
 void WordTableViewController::reportGuessAccepted(QString guess)
 {
-    ITextToSpeech::instance().speak(guess.append(tr(" entered.")));
+    ITextToSpeech::instance().setMode(SPEECH_MODES::spellingOutSpeech);
+    ITextToSpeech::instance().speak(guess);
+    ITextToSpeech::instance().setMode(SPEECH_MODES::normalSpeech);
 }
 
 void WordTableViewController::reportGuessAmended(QString removedLetters)
@@ -213,10 +236,13 @@ void WordTableViewController::readCurrentGuess()
     QModelIndex currentSelection = selectionModel()->currentIndex();
     QString wordAtSelection = currentSelection.sibling(currentSelection.row(), 1).data().toString();
 
-    if(wordAtSelection.contains(QRegExp("[\\.]")))
+    if(wordAtSelection.contains(QRegExp("(\\.+)")))
     {
-        QString spelledOutWord = QString("<spell>").append(wordAtSelection).append("</spell>");
+        QString spelledOutWord = wordAtSelection;
+
+        ITextToSpeech::instance().setMode(SPEECH_MODES::spellingOutSpeech);
         ITextToSpeech::instance().speak(spelledOutWord);
+        ITextToSpeech::instance().setMode(SPEECH_MODES::normalSpeech);
     }
     else
     {
@@ -237,5 +263,7 @@ void WordTableViewController::readWordLengths()
     QModelIndex currentSelection = selectionModel()->currentIndex();
     QString wordLengthsAtSelection = currentSelection.sibling(currentSelection.row(), 3).data().toString();
 
-    ITextToSpeech::instance().speak(wordLengthsAtSelection.append("."));
+    ITextToSpeech::instance().setMode(SPEECH_MODES::spellingOutSpeech);
+    ITextToSpeech::instance().speak(wordLengthsAtSelection);
+    ITextToSpeech::instance().setMode(SPEECH_MODES::normalSpeech);
 }

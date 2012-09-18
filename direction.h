@@ -9,7 +9,9 @@ namespace Directions
 
     const DIRECTION ACROSS("Across");
     const DIRECTION AWAY("Away");
+    const DIRECTION UP("Up");
     const DIRECTION DOWN("Down");
+    const DIRECTION WINDING("Winding");
 }
 
 class Direction

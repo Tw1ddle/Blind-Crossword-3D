@@ -38,6 +38,7 @@ private slots:
 signals:
     void guessSubmitted(QString guess, QModelIndex index);
     void guessAmendationRequested(QString guess, QModelIndex index);
+    void modelIndexChanged(const QModelIndex& selected, const QModelIndex& deselected);
 };
 
 #endif // WORDTABLEVIEWCONTROLLER_H

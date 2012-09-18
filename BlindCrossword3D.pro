@@ -27,18 +27,18 @@ SOURCES += main.cpp\
     lettergrid.cpp \
     graphicsgriditem.cpp \
     itexttospeech.cpp \
-    singleton.cpp \
     ttsimpl.cpp \
     quitdialog.cpp \
     shortcutkeys.cpp \
-    filedialog.cpp
+    filedialog.cpp \
+    xwc3dloader.cpp \
+    xwcloader.cpp
 
 HEADERS  += mainwindow.h \
     word.h \
     grid3dgraphicsscene.h \
     uivec3.h \
     crosswordentry3d.h \
-    direction.h \
     puzzle3d.h \
     letter.h \
     puzzleloader.h \
@@ -54,7 +54,9 @@ HEADERS  += mainwindow.h \
     ttsimpl.h \
     quitdialog.h \
     shortcutkeys.h \
-    filedialog.h
+    filedialog.h \
+    xwc3dloader.h \
+    xwcloader.h
 
 
 

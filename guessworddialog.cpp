@@ -39,7 +39,7 @@ void GuessWordDialog::readText(const QString &text)
 {
     if(text.size() >= 1)
     {
-        ITextToSpeech::instance().speak(QString("<spell>").append(text.at(text.size() - 1)).append("</spell>"));
+        ITextToSpeech::instance().speak(text.at(text.size() - 1));
     }
 }
 

@@ -44,7 +44,12 @@ QString CrosswordEntry3D::getWordComponentsString()
     QString comp;
     for(unsigned int i = 0; i < m_WordComponentLengths.size(); i++)
     {
-        comp.append(QString::number(m_WordComponentLengths.at(i))).append(" ");
+        comp.append(QString::number(m_WordComponentLengths.at(i)));
+
+        if(i != m_WordComponentLengths.size() - 1)
+        {
+            comp.append(",");
+        }
     }
 
     return comp.trimmed();
@@ -56,7 +61,7 @@ QString CrosswordEntry3D::getWordComponentsStringWithFormatting()
     comp.append(Qt::Key_ParenLeft);
     for(unsigned int i = 0; i < m_WordComponentLengths.size(); i++)
     {
-        comp.append(QString::number(m_WordComponentLengths.at(i))).append(",");
+        comp.append(QString::number(m_WordComponentLengths.at(i))).append(";");
     }
     return comp.replace(comp.size() - 1, 1, Qt::Key_ParenRight).trimmed();
 }

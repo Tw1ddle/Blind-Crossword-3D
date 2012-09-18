@@ -14,6 +14,7 @@ namespace FileFormats
     typedef QString FORMAT;
 
     const FORMAT XWC3D = "xwc3d";
+    const FORMAT XWCR3D = "xwcr3d";
     const FORMAT XWC = "xwc";
 }
 
@@ -28,6 +29,7 @@ public:
 
 private:
     bool readInXWC3D(BCrossword3D& puzzle, QStringList& linelist);
+    bool readInXWC3Dv2(BCrossword3D& puzzle, QStringList& linelist);
     bool readInXWC(BCrossword3D& puzzle, QStringList& linelist);
 
     QStringList saveAsXWC(BCrossword3D& puzzle);

@@ -16,6 +16,8 @@ public:
     void setCrosswordEntryNumber(unsigned int entryNumber);
     void setColor(QColor color);
 
+    QString getCrosswordEntryNumber() const;
+
     QRectF boundingRect() const;
 
     static const unsigned int sc_Size = 50u;

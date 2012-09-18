@@ -2,6 +2,8 @@
 #include <atlbase.h>
 #include <atlcom.h>
 
+#include <QRegExp>
+
 TTSImpl instance;
 
 TTSImpl::TTSImpl()
@@ -22,6 +24,8 @@ TTSImpl::TTSImpl()
     {
         m_Initialised = false;
     }
+
+    setMode(SPEECH_MODES::normalSpeech);
 }
 
 TTSImpl::~TTSImpl()
@@ -31,6 +35,8 @@ TTSImpl::~TTSImpl()
 
 bool TTSImpl::speak(QString text, DWORD options)
 {
+    preprocessText(text);
+
     wchar_t* array = new wchar_t[text.size() + 1];
     text.toWCharArray(array);
     array[text.size()] = 0;
@@ -40,4 +46,41 @@ bool TTSImpl::speak(QString text, DWORD options)
     delete[] array;
 
     return success;
+}
+
+void TTSImpl::preprocessText(QString& text)
+{
+    if(m_Mode == SPEECH_MODES::spellingOutSpeech)
+    {
+        QRegExp regexp("(\\.+)");
+        regexp.setMinimal(false);
+
+        while(text.contains(regexp))
+        {
+            if(regexp.matchedLength() == 1)
+            {
+                text.replace(regexp.cap(0),
+                             QString("</spell> ").
+                             append(" dot, ").
+                             append("<spell>"));
+            }
+            else
+            {
+                text.replace(regexp.cap(0),
+                             QString("</spell> ").
+                             append(QString::number(regexp.matchedLength())).append(" dots, ").
+                             append("<spell>"));
+            }
+        }
+
+        text.prepend("<spell>");
+        text.append("</spell>");
+    }
+}
+
+bool TTSImpl::setMode(QString mode)
+{
+    m_Mode = mode;
+
+    return true;
 }

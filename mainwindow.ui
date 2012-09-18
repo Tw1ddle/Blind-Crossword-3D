@@ -69,6 +69,9 @@
          <pointsize>14</pointsize>
         </font>
        </property>
+       <property name="contextMenuPolicy">
+        <enum>Qt::DefaultContextMenu</enum>
+       </property>
        <property name="accessibleName">
         <string>Crossword Table</string>
        </property>
@@ -81,6 +84,15 @@
        <property name="horizontalScrollBarPolicy">
         <enum>Qt::ScrollBarAsNeeded</enum>
        </property>
+       <property name="editTriggers">
+        <set>QAbstractItemView::NoEditTriggers</set>
+       </property>
+       <property name="tabKeyNavigation">
+        <bool>false</bool>
+       </property>
+       <property name="alternatingRowColors">
+        <bool>false</bool>
+       </property>
        <property name="selectionMode">
         <enum>QAbstractItemView::SingleSelection</enum>
        </property>
@@ -89,6 +101,9 @@
        </property>
        <property name="gridStyle">
         <enum>Qt::DashLine</enum>
+       </property>
+       <property name="sortingEnabled">
+        <bool>true</bool>
        </property>
        <attribute name="horizontalHeaderCascadingSectionResizes">
         <bool>false</bool>
@@ -109,8 +124,8 @@
        </property>
        <property name="minimumSize">
         <size>
-         <width>600</width>
-         <height>600</height>
+         <width>640</width>
+         <height>480</height>
         </size>
        </property>
        <property name="font">
@@ -131,7 +146,7 @@
         <enum>Qt::ScrollBarAlwaysOff</enum>
        </property>
        <property name="backgroundBrush">
-        <brush brushstyle="SolidPattern">
+        <brush brushstyle="NoBrush">
          <color alpha="255">
           <red>234</red>
           <green>234</green>
@@ -155,7 +170,7 @@
         <enum>QGraphicsView::NoAnchor</enum>
        </property>
        <property name="viewportUpdateMode">
-        <enum>QGraphicsView::SmartViewportUpdate</enum>
+        <enum>QGraphicsView::FullViewportUpdate</enum>
        </property>
       </widget>
      </widget>
@@ -228,6 +243,9 @@
    </property>
   </action>
   <action name="actionSave_Crossword">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
    <property name="text">
     <string>Save Crossword</string>
    </property>

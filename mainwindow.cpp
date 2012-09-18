@@ -32,7 +32,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     m_Puzzle = new BCrossword3D();
 
-    m_GraphicsScene = new Grid3DGraphicsScene(&m_Puzzle->getRefGrid(), &m_Puzzle->getRefCrosswordEntries());
+    m_GraphicsScene = new Grid3DGraphicsScene(&m_Puzzle->getRefGrid(), &m_Puzzle->getRefCrosswordEntries(), &m_Puzzle->getRefPuzzleBackgroundImage());
     ui->graphicsView->setScene(m_GraphicsScene);
 
     m_WordTableModel = new WordTableModel(&m_Puzzle->getRefCrosswordEntries(), &m_Puzzle->getRefGrid());
@@ -48,12 +48,14 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect(ui->wordTableView, SIGNAL(guessSubmitted(QString, QModelIndex)), m_WordTableModel, SLOT(enterGuess(QString, QModelIndex)));
     connect(ui->wordTableView, SIGNAL(guessAmendationRequested(QString, QModelIndex)), m_WordTableModel, SLOT(amendGuess(QString, QModelIndex)));
+    connect(ui->wordTableView, SIGNAL(modelIndexChanged(const QModelIndex&, const QModelIndex&)), m_WordTableModel, SLOT(tableViewSelectionChanged(const QModelIndex&, const QModelIndex&)));
 
     connect(m_WordTableModel, SIGNAL(guessValidated(QString)), ui->wordTableView, SLOT(reportGuessAccepted(QString)));
     connect(m_WordTableModel, SIGNAL(guessAmended(QString)), ui->wordTableView, SLOT(reportGuessAmended(QString)));
 
     connect(m_WordTableModel, SIGNAL(guessValidated(QString)), m_GraphicsScene, SLOT(buildPuzzleGrid()));
     connect(m_WordTableModel, SIGNAL(guessAmended(QString)), m_GraphicsScene, SLOT(buildPuzzleGrid()));
+    connect(m_WordTableModel, SIGNAL(crosswordEntrySelectionChanged(unsigned int)), m_GraphicsScene, SLOT(highlightSelection(unsigned int)));
 
     connect(&m_PuzzleLoader, SIGNAL(loaderError(QString, QString)), this, SLOT(showError(QString, QString)));
 
@@ -73,7 +75,7 @@ void MainWindow::closeEvent(QCloseEvent* event)
 
     if(dialog.exec())
     {
-        ITextToSpeech::instance().speak(dialog.getAcceptedText(), csSynchronousSpeechOptions);
+        ITextToSpeech::instance().speak(dialog.getAcceptedText(), csDefaultSynchronousSpeechOptions);
         event->accept();
     }
     else
@@ -175,6 +177,11 @@ void MainWindow::showFileProperties()
     ITextToSpeech::instance().speak(m_Puzzle->getInformationString());
 }
 
+void MainWindow::showFileThemePhrase()
+{
+    ITextToSpeech::instance().speak(m_Puzzle->getPuzzleThemePhrase());
+}
+
 void MainWindow::viewLicense()
 {
     QDir dir;
@@ -211,27 +218,40 @@ void MainWindow::toggleGrid(bool hidden)
     }
 }
 
+void MainWindow::cycleSpeechMode()
+{
+    const static unsigned int cs_NumSpeechModes = 2;
+
+
+}
+
 void MainWindow::cycleTableViewFilter()
 {
-    const static unsigned int cs_NumFilters = 2;
+    const static unsigned int cs_NumFilters = 3;
     static unsigned int s_Filter = 0;
-    QRegExp filterUnstarted = QRegExp("\\.*", Qt::CaseInsensitive, QRegExp::FixedString);
-    QRegExp filterCompleted = QRegExp("", Qt::CaseInsensitive, QRegExp::FixedString);
-    QRegExp filterNone = QRegExp("", Qt::CaseInsensitive, QRegExp::FixedString);
+    QRegExp filterUnstarted = QRegExp("^[a-zA-Z]+$");
+    QRegExp filterPartial = QRegExp("(\\.+)");
+    QRegExp filterCompleted = QRegExp("(\\.+)");
+    QRegExp filterNone = QRegExp("");
 
     switch(s_Filter)
     {
         case 0:
-            m_ProxyModel->setFilterRegExp(filterCompleted);
+            m_ProxyModel->setFilterRegExp(filterUnstarted);
             m_ProxyModel->setFilterKeyColumn(1);
             ITextToSpeech::instance().speak(tr("Filtering unstarted crossword entries."));
             break;
         case 1:
-            m_ProxyModel->setFilterRegExp(filterUnstarted);
+            m_ProxyModel->setFilterRegExp(filterCompleted);
             m_ProxyModel->setFilterKeyColumn(1);
             ITextToSpeech::instance().speak(tr("Filtering completed crossword entries."));
             break;
         case 2:
+            m_ProxyModel->setFilterRegExp(filterPartial);
+            m_ProxyModel->setFilterKeyColumn(1);
+            ITextToSpeech::instance().speak(tr("Filtering partially completed crossword entries."));
+            break;
+        case 3:
              m_ProxyModel->setFilterRegExp(filterNone);
              m_ProxyModel->setFilterKeyColumn(1);
              ITextToSpeech::instance().speak(tr("Filtering disabled."));
@@ -301,7 +321,7 @@ void MainWindow::createShortcuts()
     connect(m_FilterTableViewShortcut, SIGNAL(activated()), this, SLOT(cycleTableViewFilter()));
 }
 
-QString MainWindow::getIntroString()
+QString MainWindow::getIntroString() const
 {
     return QString(tr("Welcome to Blind Crossword 3D. Press ").append(ShortcutKeys::loadShortcutKey).append(" to load a crossword. "))
             .append("Press ").append(ShortcutKeys::exitShortcutKey).append(" to quit the program. ")

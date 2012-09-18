@@ -16,6 +16,11 @@ LetterGrid &BCrossword3D::getRefGrid()
     return m_Grid;
 }
 
+QPixmap& BCrossword3D::getRefPuzzleBackgroundImage()
+{
+    return m_BackgroundImage;
+}
+
 std::vector<CrosswordEntry3D> &BCrossword3D::getRefCrosswordEntries()
 {
     return m_CrosswordEntries;
@@ -26,10 +31,14 @@ void BCrossword3D::clear()
     m_PuzzleTitle.clear();
     m_AuthorTitle.clear();
     m_PuzzleType.clear();
+    m_PuzzleThemePhrase.clear();
+    m_PuzzleNotes.clear();
     m_Grid.clear();
     m_CrosswordEntries.clear();
     m_CrosswordFileFormat.clear();
     m_CrosswordLoaded = false;
+    m_BackgroundImage.detach();
+    m_CrosswordFileFormat.clear();
 }
 
 unsigned int BCrossword3D::scoreSolution() const
@@ -93,6 +102,11 @@ QString BCrossword3D::getInformationString() const
 QString BCrossword3D::getPuzzleTitle() const
 {
     return m_PuzzleTitle;
+}
+
+QString BCrossword3D::getPuzzleThemePhrase() const
+{
+    return m_PuzzleThemePhrase;
 }
 
 FileFormats::FORMAT BCrossword3D::getPuzzleFormat() const

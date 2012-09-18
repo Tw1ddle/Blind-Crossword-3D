@@ -4,6 +4,7 @@
 #include <QAbstractTableModel>
 #include <QString>
 #include <QModelIndex>
+#include <QItemSelection>
 
 #include "crosswordentry3d.h"
 #include "lettergrid.h"
@@ -33,11 +34,14 @@ public slots:
     void crosswordEntriesChanged();
     void amendGuess(QString word, QModelIndex index);
     void enterGuess(QString word, QModelIndex index);
+    void tableViewSelectionChanged(const QModelIndex& current, const QModelIndex& previous);
 
 signals:
     void conflictingWordError();
     void guessValidated(QString);
     void guessAmended(QString);
+
+    void crosswordEntrySelectionChanged(unsigned int newCrosswordEntryNumber);
 };
 
 #endif // WORDTABLEMODEL_H

@@ -9,7 +9,6 @@ const QString clueColumnHeader = "Clue";
 const QString entryNumberColumnHeader = "Entry";
 const QString wordLengthColumnHeader = "Word Length";
 
-
 WordTableModel::WordTableModel(std::vector<CrosswordEntry3D>* refCrosswordEntries, LetterGrid* refWorkingGrid, QObject *parent) :
     QAbstractTableModel(parent)
 {
@@ -177,4 +176,11 @@ void WordTableModel::enterGuess(QString word, QModelIndex index)
     emit dataChanged(this->index(0, 0), this->index(rows, columns));
 
     emit guessValidated(word);
+}
+
+void WordTableModel::tableViewSelectionChanged(const QModelIndex& current, const QModelIndex& previous)
+{
+    unsigned int newCrosswordEntryNumber = m_RefCrosswordEntries->at(current.row()).getEntryNumber();
+
+    emit crosswordEntrySelectionChanged(newCrosswordEntryNumber);
 }

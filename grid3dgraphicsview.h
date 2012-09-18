@@ -23,9 +23,6 @@ private slots:
     void zoomAnimationFinished();
     void scalingTime(qreal x);
     void print();
-    
-signals:
-    void crosswordEntryPressed(CrosswordEntry3D& entry);
 };
 
 #endif // GRID3DGRAPHICSVIEW_H

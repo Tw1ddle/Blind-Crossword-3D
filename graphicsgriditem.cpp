@@ -72,3 +72,8 @@ void GraphicsGridItem::setColor(QColor color)
 {
     m_Color = color;
 }
+
+QString GraphicsGridItem::getCrosswordEntryNumber() const
+{
+    return m_CrosswordEntryNumber;
+}

@@ -50,12 +50,13 @@ private:
     QShortcut* m_FilePropertiesShortcut;
     QShortcut* m_FilterTableViewShortcut;
 
-    QString getIntroString();
+    QString getIntroString() const;
 
 private slots:
     void loadCrossword();
     void saveCrossword();
     void showFileProperties();
+    void showFileThemePhrase();
     void exitConfirmation();
     void openHelp();
     void showAbout();
@@ -63,6 +64,7 @@ private slots:
     void viewLicense();
     void toggleGrid(bool hidden);
 
+    void cycleSpeechMode();
     void cycleTableViewFilter();
 
     void showError(QString title, QString error);

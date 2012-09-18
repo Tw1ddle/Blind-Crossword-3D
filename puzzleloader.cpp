@@ -306,6 +306,34 @@ bool PuzzleLoader::readInXWC3D(BCrossword3D &puzzle, QStringList& linelist)
     return true;
 }
 
+bool PuzzleLoader::readInXWC3Dv2(BCrossword3D &puzzle, QStringList &linelist)
+{
+    QString errorTitle = tr("XWC format crossword load error");
+
+    puzzle.m_CrosswordFileFormat = FileFormats::XWC3D;
+
+    puzzle.m_PuzzleTitle = linelist.takeFirst();
+    puzzle.m_AuthorTitle = linelist.takeFirst();
+    puzzle.m_PuzzleType = linelist.takeFirst();
+
+    if(puzzle.m_PuzzleTitle.isNull() || puzzle.m_AuthorTitle.isNull() || puzzle.m_PuzzleType.isNull())
+    {
+        emit(loaderError(errorTitle, tr("Missing author name, author title or puzzle type specifier")));
+        return false;
+    }
+
+    unsigned int gridX = linelist.takeFirst().toUInt();
+    unsigned int gridY = linelist.takeFirst().toUInt();
+    unsigned int gridZ = linelist.takeFirst().toUInt();
+    puzzle.setDimensions(uivec3(gridX, gridY, gridZ));
+
+    if(gridY <= 0 || gridX <= 0)
+    {
+        emit(loaderError(errorTitle, tr("Invalid crossword grid dimensions")));
+        return false;
+    }
+}
+
 bool PuzzleLoader::readInXWC(BCrossword3D &puzzle, QStringList& linelist)
 {
     QString errorTitle = tr("XWC format crossword load error");
