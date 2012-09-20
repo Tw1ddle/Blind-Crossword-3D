@@ -19,7 +19,6 @@ WordTableViewController::WordTableViewController(QWidget *parent) :
 {
     horizontalHeader()->setResizeMode(QHeaderView::ResizeToContents);
 
-  //  setSortingEnabled(true);
     setTabKeyNavigation(false);
 }
 
@@ -27,9 +26,7 @@ bool WordTableViewController::enterGuess()
 {
     ITextToSpeech::instance().speak(tr("Enter your answer"));
 
-    // Risky!
     const QSortFilterProxyModel* proxy = dynamic_cast<const QSortFilterProxyModel*>(model());
-
     assert(proxy);
 
     QModelIndex currentSelection = proxy->mapToSource(selectionModel()->currentIndex());

@@ -11,6 +11,7 @@
 #include "crosswordentry3d.h"
 
 class LetterGrid;
+class GraphicsGridItem;
 
 class Grid3DGraphicsScene : public QGraphicsScene
 {
@@ -26,14 +27,18 @@ private:
     std::vector<CrosswordEntry3D>* m_RefCrosswordEntries;
     QPixmap* m_RefBackgroundImage;
 
+    std::vector<GraphicsGridItem*> m_GraphicsGridItems;
+
     unsigned int m_CurrentlySelectedCrosswordEntryNumber;
     unsigned int m_PreviousSelectedCrosswordEntryNumber;
 
     void build2DGrid(unsigned int xDim, unsigned int yDim, uivec3 offset, unsigned int gridNumber);
 
+
 public slots:
     void buildPuzzleGrid();
-    void highlightSelection(unsigned int selectedCrosswordEntryNumber);
+    void repaintPuzzleGrid();
+    void highlightSelection(CrosswordEntry3D selectedCrosswordEntry);
 };
 
 #endif // GRID3DGRAPHICSSCENE_H

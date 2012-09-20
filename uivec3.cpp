@@ -44,6 +44,11 @@ void uivec3::setZ(unsigned int z)
     this->z = z;
 }
 
+uivec3 uivec3::operator -(const uivec3 &vec) const
+{
+    return uivec3(this->x - vec.getX(), this->y - vec.getY(), this->z - vec.getZ());
+}
+
 bool uivec3::operator ==(const uivec3 &vec) const
 {
     return (x == vec.getX() && y == vec.getY() && z == vec.getZ());
@@ -51,5 +56,5 @@ bool uivec3::operator ==(const uivec3 &vec) const
 
 unsigned int uivec3::toGridIndex(uivec3 gridDimensions) const
 {
-    return getY() + gridDimensions.getY() * getX() + gridDimensions.getY() * gridDimensions.getX() * getZ();
+    return getX() + gridDimensions.getX() * getY() + gridDimensions.getY() * gridDimensions.getX() * getZ();
 }

@@ -29,7 +29,6 @@ public:
 
 private:
     bool readInXWC3D(BCrossword3D& puzzle, QStringList& linelist);
-    bool readInXWC3Dv2(BCrossword3D& puzzle, QStringList& linelist);
     bool readInXWC(BCrossword3D& puzzle, QStringList& linelist);
 
     QStringList saveAsXWC(BCrossword3D& puzzle);

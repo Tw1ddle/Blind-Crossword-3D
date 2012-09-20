@@ -4,8 +4,8 @@
 #include <QMainWindow>
 
 #include "puzzleloader.h"
+#include "puzzle3d.h"
 
-class BCrossword3D;
 class Grid3DGraphicsScene;
 class WordTableModel;
 class QItemSelection;
@@ -31,7 +31,7 @@ protected:
 private:
     Ui::MainWindow* ui;
 
-    BCrossword3D* m_Puzzle;
+    BCrossword3D m_Puzzle;
     PuzzleLoader m_PuzzleLoader;
     Grid3DGraphicsScene* m_GraphicsScene;
     WordTableModel* m_WordTableModel;

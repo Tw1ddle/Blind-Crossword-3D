@@ -21,6 +21,7 @@ public:
     Direction(Directions::DIRECTION direction);
 
     bool operator==(const Direction& direction);
+    bool operator!=(const Direction& direction);
     QString getDirectionName() const;
 
 private:

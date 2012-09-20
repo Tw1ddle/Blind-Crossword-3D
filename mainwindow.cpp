@@ -30,12 +30,10 @@ MainWindow::MainWindow(QWidget *parent) :
 
     createShortcuts();
 
-    m_Puzzle = new BCrossword3D();
-
-    m_GraphicsScene = new Grid3DGraphicsScene(&m_Puzzle->getRefGrid(), &m_Puzzle->getRefCrosswordEntries(), &m_Puzzle->getRefPuzzleBackgroundImage());
+    m_GraphicsScene = new Grid3DGraphicsScene(&m_Puzzle.getRefGrid(), &m_Puzzle.getRefCrosswordEntries(), &m_Puzzle.getRefPuzzleBackgroundImage());
     ui->graphicsView->setScene(m_GraphicsScene);
 
-    m_WordTableModel = new WordTableModel(&m_Puzzle->getRefCrosswordEntries(), &m_Puzzle->getRefGrid());
+    m_WordTableModel = new WordTableModel(&m_Puzzle.getRefCrosswordEntries(), &m_Puzzle.getRefGrid());
     m_ProxyModel = new QSortFilterProxyModel(this);
     m_ProxyModel->setSourceModel(m_WordTableModel);
     ui->wordTableView->setModel(m_ProxyModel);
@@ -53,9 +51,9 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(m_WordTableModel, SIGNAL(guessValidated(QString)), ui->wordTableView, SLOT(reportGuessAccepted(QString)));
     connect(m_WordTableModel, SIGNAL(guessAmended(QString)), ui->wordTableView, SLOT(reportGuessAmended(QString)));
 
-    connect(m_WordTableModel, SIGNAL(guessValidated(QString)), m_GraphicsScene, SLOT(buildPuzzleGrid()));
-    connect(m_WordTableModel, SIGNAL(guessAmended(QString)), m_GraphicsScene, SLOT(buildPuzzleGrid()));
-    connect(m_WordTableModel, SIGNAL(crosswordEntrySelectionChanged(unsigned int)), m_GraphicsScene, SLOT(highlightSelection(unsigned int)));
+    connect(m_WordTableModel, SIGNAL(guessValidated(QString)), m_GraphicsScene, SLOT(repaintPuzzleGrid()));
+    connect(m_WordTableModel, SIGNAL(guessAmended(QString)), m_GraphicsScene, SLOT(repaintPuzzleGrid()));
+    connect(m_WordTableModel, SIGNAL(crosswordEntrySelectionChanged(CrosswordEntry3D)), m_GraphicsScene, SLOT(highlightSelection(CrosswordEntry3D)));
 
     connect(&m_PuzzleLoader, SIGNAL(loaderError(QString, QString)), this, SLOT(showError(QString, QString)));
 
@@ -120,7 +118,7 @@ void MainWindow::loadCrossword()
         QFileInfo fileInfo(path);
         QString extension = fileInfo.suffix();
 
-        if(m_PuzzleLoader.loadPuzzle(*m_Puzzle, path, extension))
+        if(m_PuzzleLoader.loadPuzzle(m_Puzzle, path, extension))
         {
             emit puzzleLoaded();
             ITextToSpeech::instance().speak(fileInfo.fileName().append(" was loaded successfully."));
@@ -138,9 +136,9 @@ void MainWindow::saveCrossword()
     QString path = dir.absolutePath()
             .append(m_DefaultSaveFolder)
             .append("/")
-            .append(m_Puzzle->getPuzzleTitle())
+            .append(m_Puzzle.getPuzzleTitle())
             .append(".")
-            .append(m_Puzzle->getPuzzleFormat());
+            .append(m_Puzzle.getPuzzleFormat());
 
     QFileInfo fileInfo(path);
 
@@ -152,7 +150,7 @@ void MainWindow::saveCrossword()
                 .append(separatorTag)
                 .append(QString::number(extraTag))
                 .append(".")
-                .append(m_Puzzle->getPuzzleFormat());
+                .append(m_Puzzle.getPuzzleFormat());
 
         path = dir.absolutePath()
                 .append(m_DefaultSaveFolder)
@@ -163,7 +161,7 @@ void MainWindow::saveCrossword()
     }
 
     QFileInfo updatedFileInfo(path);
-    if(m_PuzzleLoader.savePuzzle(*m_Puzzle, path, m_Puzzle->getPuzzleFormat()))
+    if(m_PuzzleLoader.savePuzzle(m_Puzzle, path, m_Puzzle.getPuzzleFormat()))
     {
         ITextToSpeech::instance().speak(tr("Crossword was saved as: ")
                                         .append(updatedFileInfo.fileName())
@@ -174,12 +172,12 @@ void MainWindow::saveCrossword()
 
 void MainWindow::showFileProperties()
 {
-    ITextToSpeech::instance().speak(m_Puzzle->getInformationString());
+    ITextToSpeech::instance().speak(m_Puzzle.getInformationString());
 }
 
 void MainWindow::showFileThemePhrase()
 {
-    ITextToSpeech::instance().speak(m_Puzzle->getPuzzleThemePhrase());
+    ITextToSpeech::instance().speak(m_Puzzle.getPuzzleThemePhrase());
 }
 
 void MainWindow::viewLicense()
@@ -227,12 +225,13 @@ void MainWindow::cycleSpeechMode()
 
 void MainWindow::cycleTableViewFilter()
 {
-    const static unsigned int cs_NumFilters = 3;
+    const static unsigned int cs_NumFilters = 4;
     static unsigned int s_Filter = 0;
     QRegExp filterUnstarted = QRegExp("^[a-zA-Z]+$");
     QRegExp filterPartial = QRegExp("(\\.+)");
     QRegExp filterCompleted = QRegExp("(\\.+)");
     QRegExp filterNone = QRegExp("");
+    QRegExp filterIncidentCrosswordEntries = QRegExp("");
 
     switch(s_Filter)
     {
@@ -256,6 +255,8 @@ void MainWindow::cycleTableViewFilter()
              m_ProxyModel->setFilterKeyColumn(1);
              ITextToSpeech::instance().speak(tr("Filtering disabled."));
             break;
+       case 4:
+            m_ProxyModel->setFilterKeyColumn(0);
     }
 
     s_Filter++;
@@ -289,7 +290,7 @@ void MainWindow::openHelp()
 
 void MainWindow::scoreCrossword()
 {
-    ITextToSpeech::instance().speak(m_Puzzle->getScoreString());
+    ITextToSpeech::instance().speak(m_Puzzle.getScoreString());
 }
 
 void MainWindow::showError(QString title, QString error)

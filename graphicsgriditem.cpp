@@ -8,12 +8,12 @@
 const float GraphicsGridItem::sc_CrosswordLetterScale = 0.8f;
 const float GraphicsGridItem::sc_CrosswordEntryNumberScale = 0.30f;
 
-GraphicsGridItem::GraphicsGridItem(Letter letter, unsigned int gridId, QGraphicsItem *parent) :
-    QGraphicsItem(parent), m_Letter(letter)
+GraphicsGridItem::GraphicsGridItem(Letter* letter, unsigned int gridId, QGraphicsItem *parent) :
+    QGraphicsItem(parent), m_LetterRef(letter)
 {
     m_GridId = gridId;
 
-    if(letter.getChar() == QChar())
+    if(letter->getChar() == QChar())
     {
         m_Color = QColor(Qt::gray);
     }
@@ -44,13 +44,13 @@ void GraphicsGridItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *
     pen.setColor(Qt::black);
     painter->setPen(pen);
 
-    if(!m_Letter.getChar().isNull())
+    if(!m_LetterRef->getChar().isNull())
     {
         QFont font;
         font.setFamily("Georgia");
         font.setPixelSize(sc_Size * sc_CrosswordLetterScale);
         painter->setFont(font);
-        painter->drawText(boundingRect(), Qt::AlignCenter, m_Letter.getChar());
+        painter->drawText(boundingRect(), Qt::AlignCenter, m_LetterRef->getChar());
     }
 
     if(!m_CrosswordEntryNumber.isNull())

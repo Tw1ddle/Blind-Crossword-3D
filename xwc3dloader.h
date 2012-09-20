@@ -5,11 +5,19 @@
 
 #include "puzzle3d.h"
 
-namespace XWC3DLoader
+class XWC3DLoader
 {
-    bool loadXWC3DMetaData(BCrossword3D& puzzle, QStringList& linelist);
-    bool loadXWC3DGrid(BCrossword3D& puzzle, QStringList& linelist);
-    bool loadXWC3DClues(BCrossword3D& puzzle, QStringList& linelist);
-}
+public:
+    bool loadMetaData(BCrossword3D& puzzle, QStringList& linelist);
+    bool loadGrid(BCrossword3D& puzzle, QStringList& linelist);
+    bool loadClues(BCrossword3D& puzzle, QStringList& linelist);
+
+private:
+    bool loadAcrossClues(BCrossword3D& puzzle, QStringList& linelist);
+    bool loadAwayClues(BCrossword3D& puzzle, QStringList& linelist);
+    bool loadDownClues(BCrossword3D& puzzle, QStringList& linelist);
+    bool loadUpClues(BCrossword3D& puzzle, QStringList& linelist);
+    bool loadWindingClues(BCrossword3D& puzzle, QStringList& linelist);
+};
 
 #endif // XWC3DLOADER_H

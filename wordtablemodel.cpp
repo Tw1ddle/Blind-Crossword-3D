@@ -46,9 +46,9 @@ QVariant WordTableModel::data(const QModelIndex& index, int role) const
     {
         if (index.column() == 0)
         {
-            unsigned int entryNum = m_RefCrosswordEntries->at(index.row()).getEntryNumber();
+            QString entryString = m_RefCrosswordEntries->at(index.row()).getEntryString();
             QString entryDirectionName = m_RefCrosswordEntries->at(index.row()).getDirection().getDirectionName();
-            QString entry = QString::number(entryNum).append(QString(" ")).append(entryDirectionName);
+            QString entry = entryString.append(QString(" - ")).append(entryDirectionName);
 
             return entry;
         }
@@ -180,7 +180,7 @@ void WordTableModel::enterGuess(QString word, QModelIndex index)
 
 void WordTableModel::tableViewSelectionChanged(const QModelIndex& current, const QModelIndex& previous)
 {
-    unsigned int newCrosswordEntryNumber = m_RefCrosswordEntries->at(current.row()).getEntryNumber();
+    CrosswordEntry3D newCrosswordEntry = m_RefCrosswordEntries->at(current.row());
 
-    emit crosswordEntrySelectionChanged(newCrosswordEntryNumber);
+    emit crosswordEntrySelectionChanged(newCrosswordEntry);
 }

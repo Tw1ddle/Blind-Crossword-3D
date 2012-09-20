@@ -41,7 +41,7 @@ signals:
     void guessValidated(QString);
     void guessAmended(QString);
 
-    void crosswordEntrySelectionChanged(unsigned int newCrosswordEntryNumber);
+    void crosswordEntrySelectionChanged(CrosswordEntry3D newCrosswordEntrySelection);
 };
 
 #endif // WORDTABLEMODEL_H

@@ -32,7 +32,8 @@ SOURCES += main.cpp\
     shortcutkeys.cpp \
     filedialog.cpp \
     xwc3dloader.cpp \
-    xwcloader.cpp
+    xwcloader.cpp \
+    xwc3drloader.cpp
 
 HEADERS  += mainwindow.h \
     word.h \
@@ -56,7 +57,8 @@ HEADERS  += mainwindow.h \
     shortcutkeys.h \
     filedialog.h \
     xwc3dloader.h \
-    xwcloader.h
+    xwcloader.h \
+    xwc3drloader.h
 
 
 

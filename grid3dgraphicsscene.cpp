@@ -1,11 +1,12 @@
 #include "grid3dgraphicsscene.h"
 
 #include <QGraphicsItem>
-#include <QDir>
+#include <QGraphicsView>
 #include <QPainter>
 
 #include "graphicsgriditem.h"
 #include "lettergrid.h"
+
 
 Grid3DGraphicsScene::Grid3DGraphicsScene(LetterGrid* letters, std::vector<CrosswordEntry3D>* entries, QPixmap* backgroundImage) :
     QGraphicsScene(), m_RefGrid(letters), m_RefCrosswordEntries(entries), m_RefBackgroundImage(backgroundImage), m_PreviousSelectedCrosswordEntryNumber(1u), m_CurrentlySelectedCrosswordEntryNumber(1u)
@@ -19,17 +20,20 @@ void Grid3DGraphicsScene::drawBackground(QPainter *painter, const QRectF &rect)
 
 void Grid3DGraphicsScene::build2DGrid(unsigned int xDim, unsigned int yDim, uivec3 offset, unsigned int gridNumber)
 {
-    for(unsigned int x = 0; x < xDim; x++)
+    QGraphicsItemGroup* grid = new QGraphicsItemGroup();
+    grid->setFlag(QGraphicsItem::ItemIsMovable);
+
+    for(unsigned int y = 0; y < yDim; y++)
     {
-        for(unsigned int y = 0; y < yDim; y++)
+        for(unsigned int x = 0; x < xDim; x++)
         {
-            unsigned int index = uivec3(x, y, gridNumber).toGridIndex(uivec3(xDim, yDim, 0));
-            Letter letter = m_RefGrid->getLetterAt(index);
+            uivec3 index = uivec3(x, y, gridNumber);
+            Letter* letter = m_RefGrid->getRefLetterAt(index);
 
             GraphicsGridItem* item = new GraphicsGridItem(letter, gridNumber);
-            item->setPos(QPointF(y * GraphicsGridItem::sc_Size + offset.getY(), x * GraphicsGridItem::sc_Size));
+            item->setPos(QPointF(x * GraphicsGridItem::sc_Size + offset.getX(), y * GraphicsGridItem::sc_Size));
 
-            if(letter.getChar() != QChar())
+            if(letter->getChar() != QChar())
             {
                 item->setColor(Qt::white);
             }
@@ -38,67 +42,77 @@ void Grid3DGraphicsScene::build2DGrid(unsigned int xDim, unsigned int yDim, uive
                 item->setColor(QColor(20, 20, 20));
             }
 
+            item->setParentItem(grid);
+
+            m_GraphicsGridItems.push_back(item);
             addItem(item);
+            grid->addToGroup(item);
         }
     }
+
+    addItem(grid);
 }
 
 void Grid3DGraphicsScene::buildPuzzleGrid()
 {
     this->clear();
+    m_GraphicsGridItems.clear();
 
     m_CurrentlySelectedCrosswordEntryNumber = 1;
     m_PreviousSelectedCrosswordEntryNumber = 1;
 
-    QString path = "/Backgrounds";
-    path.append("/").append("sunset.jpg");
-    QDir dir;
-    QString imagePath;
-    if(dir.exists(dir.absolutePath().append(path)))
-    {
-        imagePath = dir.absolutePath().append(path);
-    }
-    m_RefBackgroundImage = new QPixmap(imagePath);
-
     for(unsigned int z = 0; z < m_RefGrid->getDimensions().getZ(); z++)
     {
-        build2DGrid(m_RefGrid->getDimensions().getX(), m_RefGrid->getDimensions().getY(), uivec3(0, z * (m_RefGrid->getDimensions().getZ()) * GraphicsGridItem::sc_Size, 0), z);
+        build2DGrid(m_RefGrid->getDimensions().getX(), m_RefGrid->getDimensions().getY(), uivec3(z * (m_RefGrid->getDimensions().getX() + 1) * GraphicsGridItem::sc_Size, 0, 0), z);
     }
 
     for(unsigned int i = 0; i < m_RefCrosswordEntries->size(); i++)
     {
-        unsigned int entryNumber = m_RefCrosswordEntries->at(i).getEntryNumber();
-        uivec3 startingPos =  m_RefCrosswordEntries->at(i).getStartingPosition();
-        unsigned int index = m_RefCrosswordEntries->at(i).getStartingPosition().toGridIndex(m_RefGrid->getDimensions());
-        GraphicsGridItem* item = static_cast<GraphicsGridItem*> (items().at(items().size() - index - 1));
-        item->setCrosswordEntryNumber(entryNumber);
-    }
+        if(m_RefCrosswordEntries->at(i).getDirection() != Directions::WINDING)
+        {
+            unsigned int entryNumber = m_RefCrosswordEntries->at(i).getEntryString().toUInt();
+            uivec3 startingPos =  m_RefCrosswordEntries->at(i).getStartingPosition();
 
-    highlightSelection(m_CurrentlySelectedCrosswordEntryNumber);
+            uivec3 index = m_RefCrosswordEntries->at(i).getStartingPosition();
+
+            GraphicsGridItem* item = m_GraphicsGridItems.at(index.toGridIndex(m_RefGrid->getDimensions()));
+            item->setCrosswordEntryNumber(entryNumber);
+        }
+    }
 
     setSceneRect(itemsBoundingRect());
+
+    repaintPuzzleGrid();
 }
 
-void Grid3DGraphicsScene::highlightSelection(unsigned int selectedCrosswordEntryNumber)
+void Grid3DGraphicsScene::repaintPuzzleGrid()
 {
-    m_CurrentlySelectedCrosswordEntryNumber = selectedCrosswordEntryNumber;
-
-    for(unsigned int i = 0; i < items().size(); i++)
-    {
-        GraphicsGridItem* currentItem = static_cast<GraphicsGridItem*>(items().at(i));
-
-        if(currentItem->getCrosswordEntryNumber().toUInt() == m_PreviousSelectedCrosswordEntryNumber)
-        {
-            currentItem->setColor(Qt::white);
-        }
-
-        if(currentItem->getCrosswordEntryNumber().toUInt() == selectedCrosswordEntryNumber)
-        {
-            currentItem->setColor(Qt::cyan);
-        }
-    }
-
     update();
+}
 
-    m_PreviousSelectedCrosswordEntryNumber = selectedCrosswordEntryNumber;
+void Grid3DGraphicsScene::highlightSelection(CrosswordEntry3D selectedCrosswordEntry)
+{
+    if(selectedCrosswordEntry.getDirection() != Directions::WINDING)
+    {
+        m_CurrentlySelectedCrosswordEntryNumber = selectedCrosswordEntry.getEntryString().toUInt();
+
+        for(unsigned int i = 0; i < m_GraphicsGridItems.size(); i++)
+        {
+            GraphicsGridItem* currentItem = m_GraphicsGridItems.at(i);
+
+            if(currentItem->getCrosswordEntryNumber().toUInt() == m_PreviousSelectedCrosswordEntryNumber)
+            {
+                currentItem->setColor(Qt::white);
+            }
+
+            if(currentItem->getCrosswordEntryNumber().toUInt() == selectedCrosswordEntry.getEntryString().toUInt())
+            {
+                currentItem->setColor(Qt::cyan);
+            }
+        }
+
+        update();
+
+        m_PreviousSelectedCrosswordEntryNumber = selectedCrosswordEntry.getEntryString().toUInt();
+    }
 }

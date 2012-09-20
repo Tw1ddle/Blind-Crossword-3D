@@ -1,6 +1,9 @@
 #include "puzzle3d.h"
 
 #include <QMessageBox>
+#include <QDir>
+
+const QString BCrossword3D::m_BackgroundImagesFolder = "/Backgrounds";
 
 BCrossword3D::BCrossword3D() : m_CrosswordLoaded(false)
 {
@@ -33,6 +36,7 @@ void BCrossword3D::clear()
     m_PuzzleType.clear();
     m_PuzzleThemePhrase.clear();
     m_PuzzleNotes.clear();
+    m_ThemePhraseCoordinates.clear();
     m_Grid.clear();
     m_CrosswordEntries.clear();
     m_CrosswordFileFormat.clear();
@@ -53,6 +57,22 @@ unsigned int BCrossword3D::scoreSolution() const
         }
     }
     return score;
+}
+
+bool BCrossword3D::loadBackgroundImage(QString filename)
+{
+    QString path = m_BackgroundImagesFolder;
+    path.append("/").append(filename);
+
+    QDir dir;
+    if(dir.exists(dir.absolutePath().append(path)))
+    {
+        m_BackgroundImage = QPixmap(dir.absolutePath().append(path));
+
+        return true;
+    }
+
+    return false;
 }
 
 unsigned int BCrossword3D::removeIncorrectEntries()

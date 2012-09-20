@@ -19,7 +19,6 @@ private:
     int m_NumScheduledScalings;
 
 private slots:
-    void updateSceneRect(const QRectF &rect);
     void zoomAnimationFinished();
     void scalingTime(qreal x);
     void print();

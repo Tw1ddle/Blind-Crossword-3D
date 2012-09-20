@@ -48,11 +48,6 @@ void Grid3DGraphicsView::print()
     }
 }
 
-void Grid3DGraphicsView::updateSceneRect(const QRectF &rect)
-{
-    fitInView(rect, Qt::KeepAspectRatioByExpanding);
-}
-
 // http://qt-project.org/wiki/SmoothZoomInQGraphicsView
 void Grid3DGraphicsView::zoomAnimationFinished()
 {
