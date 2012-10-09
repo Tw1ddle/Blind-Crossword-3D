@@ -1,5 +1,5 @@
 #include "puzzleloader.h"
-#include "puzzle3d.h"
+#include "puzzlebase.h"
 
 #include <QFile>
 #include <QTextStream>
@@ -7,16 +7,15 @@
 #include <QString>
 #include <assert.h>
 
-#include "direction.h"
-
 #include "xwcloader.h"
 #include "xwc3dloader.h"
+#include "xwcr3dloader.h"
 
 PuzzleLoader::PuzzleLoader()
 {
 }
 
-bool PuzzleLoader::loadPuzzle(BCrossword3D &puzzle, QString filePath, QString extension)
+bool PuzzleLoader::loadPuzzle(PuzzleBase &puzzle, QString filePath, QString extension)
 {
     puzzle.clear();
 
@@ -46,11 +45,15 @@ bool PuzzleLoader::loadPuzzle(BCrossword3D &puzzle, QString filePath, QString ex
 
     if(extension == FileFormats::XWC3D)
     {
-         puzzle.m_CrosswordLoaded = readInXWC3D(puzzle, linelist);
+         puzzle.m_CrosswordLoaded = readInFile(XWC3DLoader(), puzzle, linelist);
     }
     else if(extension == FileFormats::XWC)
     {
-         puzzle.m_CrosswordLoaded = readInXWC(puzzle, linelist);
+         puzzle.m_CrosswordLoaded = readInFile(XWCLoader(), puzzle, linelist);
+    }
+    else if(extension == FileFormats::XWCR3D)
+    {
+        puzzle.m_CrosswordLoaded = readInFile(XWCR3DLoader(), puzzle, linelist);
     }
 
     if(!puzzle.m_CrosswordLoaded)
@@ -62,7 +65,7 @@ bool PuzzleLoader::loadPuzzle(BCrossword3D &puzzle, QString filePath, QString ex
     return true;
 }
 
-bool PuzzleLoader::savePuzzle(BCrossword3D &puzzle, QString filePath, QString extension)
+bool PuzzleLoader::savePuzzle(PuzzleBase &puzzle, QString filePath, QString extension)
 {
     if(puzzle.getRefCrosswordEntries().size() <= 0 || puzzle.getRefGrid().getSize() <= 0 || !puzzle.m_CrosswordLoaded)
     {
@@ -91,6 +94,10 @@ bool PuzzleLoader::savePuzzle(BCrossword3D &puzzle, QString filePath, QString ex
     {
         return writeToFile(saveAsXWC(puzzle), file);
     }
+    else if(extension == FileFormats::XWCR3D)
+    {
+        return writeToFile(saveAsXWCR3D(puzzle), file);
+    }
     else
     {
         emit(loaderError(tr("File format error"), tr("File format not recognised")));
@@ -99,21 +106,21 @@ bool PuzzleLoader::savePuzzle(BCrossword3D &puzzle, QString filePath, QString ex
     return false;
 }
 
-bool PuzzleLoader::readInXWC(BCrossword3D &puzzle, QStringList& linelist)
+bool PuzzleLoader::readInFile(PuzzleLoaderInterface& loader, PuzzleBase& puzzle, QStringList& linelist)
 {
-    XWCLoader xwcLoader;
+    puzzle.clear();
 
-    if(!xwcLoader.loadMetaData(puzzle, linelist))
+    if(!loader.loadMetaData(puzzle, linelist))
     {
         emit(loaderError(tr("Loader error"), tr("Error loading crossword metadata")));
         return false;
     }
-    if(!xwcLoader.loadGrid(puzzle, linelist))
+    if(!loader.loadGrid(puzzle, linelist))
     {
         emit(loaderError(tr("Loader error"), tr("Error loading crossword grid")));
         return false;
     }
-    if(!xwcLoader.loadClues(puzzle, linelist))
+    if(!loader.loadClues(puzzle, linelist))
     {
         emit(loaderError(tr("Loader error"), tr("Error loading crossword clues")));
         return false;
@@ -122,7 +129,7 @@ bool PuzzleLoader::readInXWC(BCrossword3D &puzzle, QStringList& linelist)
     return true;
 }
 
-QStringList PuzzleLoader::saveAsXWC(BCrossword3D &puzzle)
+QStringList PuzzleLoader::saveAsXWC(PuzzleBase &puzzle)
 {
     XWCLoader xwcLoader;
 
@@ -144,30 +151,12 @@ QStringList PuzzleLoader::saveAsXWC(BCrossword3D &puzzle)
     return linesToSave;
 }
 
-bool PuzzleLoader::readInXWC3D(BCrossword3D &puzzle, QStringList& linelist)
+QStringList PuzzleLoader::saveAsXWC3D(PuzzleBase &puzzle)
 {
-    XWC3DLoader xwc3dLoader;
-
-    if(!xwc3dLoader.loadMetaData(puzzle, linelist))
-    {
-        emit(loaderError(tr("Loader error"), tr("Error loading crossword metadata")));
-        return false;
-    }
-    if(!xwc3dLoader.loadGrid(puzzle, linelist))
-    {
-        emit(loaderError(tr("Loader error"), tr("Error loading crossword grid")));
-        return false;
-    }
-    if(!xwc3dLoader.loadClues(puzzle, linelist))
-    {
-        emit(loaderError(tr("Loader error"), tr("Error loading crossword clues")));
-        return false;
-    }
-
-    return true;
+    return QStringList();
 }
 
-QStringList PuzzleLoader::saveAsXWC3D(BCrossword3D &puzzle)
+QStringList PuzzleLoader::saveAsXWCR3D(PuzzleBase &puzzle)
 {
     return QStringList();
 }
@@ -188,9 +177,4 @@ bool PuzzleLoader::writeToFile(QStringList& linelist, QFile& file)
     }
 
     return false;
-}
-
-QStringList PuzzleLoader::saveXWC3DCrosswordEntryBlock(QStringList &linelist, Direction entryDirection)
-{
-    return QStringList();
 }

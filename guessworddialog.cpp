@@ -30,7 +30,7 @@ GuessWordDialog::GuessWordDialog(QWidget *parent) :
     setWindowTitle(tr("Enter word"));
 }
 
-QLineEdit *GuessWordDialog::getLineEdit()
+QLineEdit* GuessWordDialog::getLineEdit()
 {
     return m_WordEdit;
 }

@@ -34,7 +34,7 @@ FileDialog::FileDialog(QWidget* parent, const QString& caption, const QString& d
     connect(m_View, SIGNAL(clicked(QModelIndex)), this, SLOT(onSelectionChanged(QModelIndex)));
 }
 
-QString FileDialog::getSelectedFilePath()
+QString FileDialog::getSelectedFilePath() const
 {
     return m_CurrentFilePath;
 }

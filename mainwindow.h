@@ -4,7 +4,7 @@
 #include <QMainWindow>
 
 #include "puzzleloader.h"
-#include "puzzle3d.h"
+#include "puzzlebase.h"
 
 class Grid3DGraphicsScene;
 class WordTableModel;
@@ -31,8 +31,8 @@ protected:
 private:
     Ui::MainWindow* ui;
 
-    BCrossword3D m_Puzzle;
     PuzzleLoader m_PuzzleLoader;
+    PuzzleBase* m_Puzzle;
     Grid3DGraphicsScene* m_GraphicsScene;
     WordTableModel* m_WordTableModel;
     QSortFilterProxyModel* m_ProxyModel;
@@ -49,6 +49,8 @@ private:
     QShortcut* m_ScoreShortcut;
     QShortcut* m_FilePropertiesShortcut;
     QShortcut* m_FilterTableViewShortcut;
+    QShortcut* m_CycleSpeechModeShortcut;
+    QShortcut* m_ReadCrosswordThemePhraseShortcut;
 
     QString getIntroString() const;
 
@@ -63,11 +65,13 @@ private slots:
     void scoreCrossword();
     void viewLicense();
     void toggleGrid(bool hidden);
-
+    void readCrosswordThemePhrase();
     void cycleSpeechMode();
     void cycleTableViewFilter();
 
-    void showError(QString title, QString error);
+    void checkIfPuzzleWasCompleted();
+
+    void raiseError(QString title, QString error);
 
 signals:
     void puzzleLoaded();

@@ -16,6 +16,19 @@ unsigned int Word::getLength() const
     return m_Word.size();
 }
 
+bool Word::containsLetter(Letter *letter) const
+{
+    for(unsigned int i = 0; i < m_Word.size(); i++)
+    {
+        if(m_Word.at(i) == letter)
+        {
+            return true;
+        }
+    }
+
+    return false;
+}
+
 void Word::setString(QString string)
 {
     assert(string.length() == m_Word.size());

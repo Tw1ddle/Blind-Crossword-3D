@@ -23,8 +23,10 @@ extern const DWORD csSpeakPunctuationOption;
 
 namespace SPEECH_MODES
 {
-    const QString normalSpeech = "phoneticSpeech";
-    const QString spellingOutSpeech = "spellingOutSpeech";
+    typedef QString SPEECHMODE;
+
+    const SPEECHMODE normalSpeech = "normalSpeech";
+    const SPEECHMODE spellingOutSpeech = "spellingOutSpeech";
 }
 
 class ITextToSpeech : public Singleton<ITextToSpeech>
@@ -33,7 +35,8 @@ public:
     ~ITextToSpeech() {}
 
     virtual bool speak(QString text, DWORD options = csDefaultAsynchronousSpeechOptions) = 0;
-    virtual bool setMode(QString mode) = 0;
+    virtual bool setMode(SPEECH_MODES::SPEECHMODE mode) = 0;
+    virtual SPEECH_MODES::SPEECHMODE getMode() = 0;
 
 protected:
     ITextToSpeech() {}

@@ -12,6 +12,10 @@ namespace Directions
     const DIRECTION UP("Up");
     const DIRECTION DOWN("Down");
     const DIRECTION WINDING("Winding");
+
+    const DIRECTION CLOCKWISE("Clockwise");
+    const DIRECTION ANTICLOCKWISE("AntiClockwise");
+    const DIRECTION DIAMETRIC("Diametric");
 }
 
 class Direction

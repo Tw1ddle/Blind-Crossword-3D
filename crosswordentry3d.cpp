@@ -6,20 +6,20 @@ CrosswordEntry3D::CrosswordEntry3D(Direction direction, QString entry, QString s
 {
     m_WordDirection = direction;
     m_EntryString = entry;
-    m_SolutionString = solution;
-    m_GuessedWord = guess;
-    m_WordComponentLengths = wordComponentLengths;
+    m_Solution = solution;
+    m_Guess = guess;
+    m_SolutionComponentLengths = wordComponentLengths;
     m_Clue = clue;
 }
 
 uivec3 CrosswordEntry3D::getStartingPosition() const
 {
-    return m_GuessedWord.getGridLocations().at(0);
+    return m_Guess.getGridLocations().at(0);
 }
 
 QString CrosswordEntry3D::getSolution() const
 {
-    return m_SolutionString;
+    return m_Solution;
 }
 
 Clue CrosswordEntry3D::getClue() const
@@ -29,24 +29,24 @@ Clue CrosswordEntry3D::getClue() const
 
 Word CrosswordEntry3D::getGuess() const
 {
-    return m_GuessedWord;
+    return m_Guess;
 }
 
-void CrosswordEntry3D::setGuessString(QString word)
+void CrosswordEntry3D::setGuess(QString word)
 {
-    assert(m_GuessedWord.getLength() == m_SolutionString.length());
+    assert(m_Guess.getLength() == m_Solution.length());
 
-    m_GuessedWord.setString(word);
+    m_Guess.setString(word);
 }
 
-QString CrosswordEntry3D::getWordComponentsString() const
+QString CrosswordEntry3D::getSolutionComponentLengths() const
 {
     QString comp;
-    for(unsigned int i = 0; i < m_WordComponentLengths.size(); i++)
+    for(unsigned int i = 0; i < m_SolutionComponentLengths.size(); i++)
     {
-        comp.append(QString::number(m_WordComponentLengths.at(i)));
+        comp.append(QString::number(m_SolutionComponentLengths.at(i)));
 
-        if(i != m_WordComponentLengths.size() - 1)
+        if(i != m_SolutionComponentLengths.size() - 1)
         {
             comp.append(",");
         }
@@ -55,14 +55,14 @@ QString CrosswordEntry3D::getWordComponentsString() const
     return comp.trimmed();
 }
 
-void CrosswordEntry3D::resetGuessString()
+void CrosswordEntry3D::resetGuess()
 {
-    m_GuessedWord.setString(QString(m_GuessedWord.getString().size(), QChar(46)));
+    m_Guess.setString(QString(m_Guess.getString().size(), QChar(46)));
 }
 
 bool CrosswordEntry3D::isGuessCorrect() const
 {
-    if(m_GuessedWord.getString() == m_SolutionString)
+    if(m_Guess.getString() == m_Solution)
     {
         return true;
     }
@@ -72,12 +72,17 @@ bool CrosswordEntry3D::isGuessCorrect() const
     }
 }
 
+bool CrosswordEntry3D::containsLetter(Letter* letter) const
+{
+    return m_Guess.containsLetter(letter);
+}
+
 Direction CrosswordEntry3D::getDirection() const
 {
     return m_WordDirection;
 }
 
-QString CrosswordEntry3D::getEntryString() const
+QString CrosswordEntry3D::getEntryName() const
 {
     return m_EntryString;
 }

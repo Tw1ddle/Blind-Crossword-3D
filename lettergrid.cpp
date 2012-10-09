@@ -4,12 +4,6 @@ LetterGrid::LetterGrid()
 {
 }
 
-
-Letter LetterGrid::getLetterAt(unsigned int index) const
-{
-    return m_Letters.at(index);
-}
-
 uivec3 LetterGrid::getDimensions() const
 {
     return m_GridDimensions;
@@ -25,9 +19,14 @@ void LetterGrid::push_back(Letter letter)
     m_Letters.push_back(letter);
 }
 
-Letter* LetterGrid::getRefLetterAt(uivec3 location)
+Letter* LetterGrid::getRefLetterAt(unsigned int index)
 {
-    return &m_Letters.at(location.toGridIndex(m_GridDimensions));
+    return &m_Letters.at(index);
+}
+
+const Letter* LetterGrid::getLetterAt(unsigned int index) const
+{
+    return &m_Letters.at(index);
 }
 
 void LetterGrid::clear()

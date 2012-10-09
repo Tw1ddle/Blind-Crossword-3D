@@ -16,7 +16,6 @@ SOURCES += main.cpp\
     uivec3.cpp \
     crosswordentry3d.cpp \
     direction.cpp \
-    puzzle3d.cpp \
     letter.cpp \
     puzzleloader.cpp \
     grid3dgraphicsview.cpp \
@@ -33,14 +32,17 @@ SOURCES += main.cpp\
     filedialog.cpp \
     xwc3dloader.cpp \
     xwcloader.cpp \
-    xwc3drloader.cpp
+    xwcr3dloader.cpp \
+    gridpuzzle.cpp \
+    discpuzzle.cpp \
+    puzzlebase.cpp \
+    puzzleloaderinterface.cpp
 
 HEADERS  += mainwindow.h \
     word.h \
     grid3dgraphicsscene.h \
     uivec3.h \
     crosswordentry3d.h \
-    puzzle3d.h \
     letter.h \
     puzzleloader.h \
     grid3dgraphicsview.h \
@@ -58,7 +60,12 @@ HEADERS  += mainwindow.h \
     filedialog.h \
     xwc3dloader.h \
     xwcloader.h \
-    xwc3drloader.h
+    xwcr3dloader.h \
+    gridpuzzle.h \
+    discpuzzle.h \
+    puzzlebase.h \
+    puzzleloaderinterface.h \
+    fileformats.h
 
 
 

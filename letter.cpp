@@ -8,7 +8,7 @@ Letter::Letter(QChar letter, uivec3 location)
 
 QChar Letter::getChar() const
 {
-    return m_Letter.toUpper();
+    return m_Letter;
 }
 
 void Letter::setChar(QChar letter)

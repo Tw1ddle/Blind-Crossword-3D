@@ -16,6 +16,7 @@ public:
     std::vector<uivec3> getGridLocations() const;
     QString getString() const;
     unsigned int getLength() const;
+    bool containsLetter(Letter* letter) const; // compares pointers
 
     void setString(QString string);
 

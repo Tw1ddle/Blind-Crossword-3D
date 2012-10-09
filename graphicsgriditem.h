@@ -9,7 +9,7 @@
 class GraphicsGridItem : public QGraphicsItem
 {
 public:
-    GraphicsGridItem(Letter* letter, unsigned int gridId, QGraphicsItem *parent = 0);
+    GraphicsGridItem(const Letter* letter, unsigned int gridId, QGraphicsItem *parent = 0);
 
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
 
@@ -22,8 +22,8 @@ public:
 
     static const unsigned int sc_Size = 50u;
 private:
+    const Letter* m_LetterRef;
     QColor m_Color;
-    Letter* m_LetterRef;
     QString m_CrosswordEntryNumber;
     unsigned int m_GridId;
 

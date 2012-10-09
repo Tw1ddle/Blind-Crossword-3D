@@ -84,3 +84,8 @@ bool TTSImpl::setMode(QString mode)
 
     return true;
 }
+
+SPEECH_MODES::SPEECHMODE TTSImpl::getMode()
+{
+    return m_Mode;
+}

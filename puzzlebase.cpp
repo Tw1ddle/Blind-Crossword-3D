@@ -1,35 +1,43 @@
-#include "puzzle3d.h"
+#include "puzzlebase.h"
 
 #include <QMessageBox>
 #include <QDir>
 
-const QString BCrossword3D::m_BackgroundImagesFolder = "/Backgrounds";
-
-BCrossword3D::BCrossword3D() : m_CrosswordLoaded(false)
+PuzzleBase::PuzzleBase() : m_CrosswordLoaded(false)
 {
 }
 
-void BCrossword3D::setDimensions(uivec3 dimensions)
+void PuzzleBase::setDimensions(uivec3 dimensions)
 {
     m_Grid.setDimensions(dimensions);
 }
 
-LetterGrid &BCrossword3D::getRefGrid()
+LetterGrid &PuzzleBase::getRefGrid()
 {
     return m_Grid;
 }
 
-QPixmap& BCrossword3D::getRefPuzzleBackgroundImage()
-{
-    return m_BackgroundImage;
-}
-
-std::vector<CrosswordEntry3D> &BCrossword3D::getRefCrosswordEntries()
+std::vector<CrosswordEntry3D>& PuzzleBase::getRefCrosswordEntries()
 {
     return m_CrosswordEntries;
 }
 
-void BCrossword3D::clear()
+const LetterGrid& PuzzleBase::getGrid() const
+{
+    return m_Grid;
+}
+
+const QPixmap& PuzzleBase::getPuzzleBackgroundImage() const
+{
+    return m_BackgroundImage;
+}
+
+const std::vector<CrosswordEntry3D>& PuzzleBase::getCrosswordEntries() const
+{
+    return m_CrosswordEntries;
+}
+
+void PuzzleBase::clear()
 {
     m_PuzzleTitle.clear();
     m_AuthorTitle.clear();
@@ -45,7 +53,7 @@ void BCrossword3D::clear()
     m_CrosswordFileFormat.clear();
 }
 
-unsigned int BCrossword3D::scoreSolution() const
+unsigned int PuzzleBase::scoreSolution() const
 {
     unsigned int score = 0;
 
@@ -59,23 +67,7 @@ unsigned int BCrossword3D::scoreSolution() const
     return score;
 }
 
-bool BCrossword3D::loadBackgroundImage(QString filename)
-{
-    QString path = m_BackgroundImagesFolder;
-    path.append("/").append(filename);
-
-    QDir dir;
-    if(dir.exists(dir.absolutePath().append(path)))
-    {
-        m_BackgroundImage = QPixmap(dir.absolutePath().append(path));
-
-        return true;
-    }
-
-    return false;
-}
-
-unsigned int BCrossword3D::removeIncorrectEntries()
+unsigned int PuzzleBase::removeIncorrectEntries()
 {
     unsigned int entriesRemoved = 0;
 
@@ -83,14 +75,23 @@ unsigned int BCrossword3D::removeIncorrectEntries()
     {
         if(!m_CrosswordEntries.at(i).isGuessCorrect())
         {
-            m_CrosswordEntries.at(i).resetGuessString();
+            m_CrosswordEntries.at(i).resetGuess();
             entriesRemoved++;
         }
     }
     return entriesRemoved;
 }
 
-QString BCrossword3D::getScoreString() const
+std::vector<unsigned int> PuzzleBase::getIntersectingCrosswordEntryIds(unsigned int crosswordEntryId) const
+{
+    std::vector<unsigned int> intersectingIds;
+
+    //todo
+
+    return intersectingIds;
+}
+
+QString PuzzleBase::getScoreString() const
 {
     if(m_CrosswordLoaded)
     {
@@ -105,13 +106,14 @@ QString BCrossword3D::getScoreString() const
     }
 }
 
-QString BCrossword3D::getInformationString() const
+QString PuzzleBase::getInformationString() const
 {
     if(m_CrosswordLoaded)
     {
         return QString(tr("Crossword title: ")).append(m_PuzzleTitle).append(". \n").
                 append(tr("Author: ")).append(m_AuthorTitle).append(". \n").
-                append(tr("Type: ")).append(m_PuzzleType);
+                append(tr("Type: ")).append(m_PuzzleType).append(". \n").
+                append(tr("Theme phrase: ")).append(m_PuzzleThemePhrase);
     }
     else
     {
@@ -119,17 +121,24 @@ QString BCrossword3D::getInformationString() const
     }
 }
 
-QString BCrossword3D::getPuzzleTitle() const
+QString PuzzleBase::getPuzzleTitle() const
 {
     return m_PuzzleTitle;
 }
 
-QString BCrossword3D::getPuzzleThemePhrase() const
+QString PuzzleBase::getPuzzleThemePhrase() const
 {
-    return m_PuzzleThemePhrase;
+    QString themePhrase;
+
+    for(unsigned int i = 0; i < m_ThemePhraseCoordinates.size(); i++)
+    {
+        themePhrase.append(this->getGrid().getLetterAt(toGridIndex(m_ThemePhraseCoordinates.at(i) - uivec3(1, 1, 1)))->getChar());
+    }
+
+    return themePhrase;
 }
 
-FileFormats::FORMAT BCrossword3D::getPuzzleFormat() const
+FileFormats::FORMAT PuzzleBase::getPuzzleFormat() const
 {
     return m_CrosswordFileFormat;
 }

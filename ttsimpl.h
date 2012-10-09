@@ -10,7 +10,8 @@ public:
     ~TTSImpl();
 
     virtual bool speak(QString text, DWORD options);
-    virtual bool setMode(QString mode);
+    virtual bool setMode(SPEECH_MODES::SPEECHMODE mode);
+    virtual SPEECH_MODES::SPEECHMODE getMode();
 
 private:
     void preprocessText(QString& text);

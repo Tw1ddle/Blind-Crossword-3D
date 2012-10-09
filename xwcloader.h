@@ -3,21 +3,23 @@
 
 #include <QStringList>
 
-#include "puzzle3d.h"
+#include "puzzlebase.h"
+#include "puzzleloader.h"
 
-class XWCLoader
+class XWCLoader : public PuzzleLoaderInterface
 {
 public:
-    bool loadMetaData(BCrossword3D& puzzle, QStringList& linelist);
-    bool loadGrid(BCrossword3D& puzzle, QStringList& linelist);
-    bool loadClues(BCrossword3D& puzzle, QStringList& linelist);
+    bool loadMetaData(PuzzleBase& puzzle, QStringList& linelist);
+    bool loadGrid(PuzzleBase& puzzle, QStringList& linelist);
+    bool loadClues(PuzzleBase& puzzle, QStringList& linelist);
 
-    bool saveMetaData(BCrossword3D& puzzle, QStringList& linelist);
-    bool saveGrid(BCrossword3D& puzzle, QStringList& linelist);
-    bool saveClues(BCrossword3D& puzzle, QStringList& linelist);
+    bool saveMetaData(PuzzleBase& puzzle, QStringList& linelist);
+    bool saveGrid(PuzzleBase& puzzle, QStringList& linelist);
+    bool saveClues(PuzzleBase& puzzle, QStringList& linelist);
+
 private:
-    bool loadAcrossClues(BCrossword3D& puzzle, QStringList& linelist);
-    bool loadAwayClues(BCrossword3D& puzzle, QStringList& linelist);
+    bool loadAcrossClues(PuzzleBase& puzzle, QStringList& linelist);
+    bool loadAwayClues(PuzzleBase& puzzle, QStringList& linelist);
 };
 
 #endif // XWCLOADER_H

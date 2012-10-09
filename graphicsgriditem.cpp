@@ -8,7 +8,7 @@
 const float GraphicsGridItem::sc_CrosswordLetterScale = 0.8f;
 const float GraphicsGridItem::sc_CrosswordEntryNumberScale = 0.30f;
 
-GraphicsGridItem::GraphicsGridItem(Letter* letter, unsigned int gridId, QGraphicsItem *parent) :
+GraphicsGridItem::GraphicsGridItem(const Letter* letter, unsigned int gridId, QGraphicsItem *parent) :
     QGraphicsItem(parent), m_LetterRef(letter)
 {
     m_GridId = gridId;

@@ -12,6 +12,8 @@ namespace ShortcutKeys
     extern const QChar scoreShortcutKey;
     extern const QChar filePropertiesShortcutKey;
     extern const QChar filterTableViewShortcutKey;
+    extern const QChar cycleSpeechModeShortcutKey;
+    extern const QChar readCrosswordThemePhraseKey;
 
     extern const QChar enterGuessKey;
     extern const QChar amendGuessKey;

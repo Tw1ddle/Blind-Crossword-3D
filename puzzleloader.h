@@ -5,18 +5,9 @@
 #include <QStringList>
 #include <QFile>
 
-#include "direction.h"
+#include "puzzleloaderinterface.h"
 
-class BCrossword3D;
-
-namespace FileFormats
-{
-    typedef QString FORMAT;
-
-    const FORMAT XWC3D = "xwc3d";
-    const FORMAT XWCR3D = "xwcr3d";
-    const FORMAT XWC = "xwc";
-}
+class PuzzleBase;
 
 class PuzzleLoader : public QObject
 {
@@ -24,17 +15,15 @@ class PuzzleLoader : public QObject
 public:
     PuzzleLoader();
 
-    bool savePuzzle(BCrossword3D& puzzle, QString filePath, QString extension);
-    bool loadPuzzle(BCrossword3D& puzzle, QString filePath, QString extension);
+    bool savePuzzle(PuzzleBase& puzzle, QString filePath, QString extension);
+    bool loadPuzzle(PuzzleBase& puzzle, QString filePath, QString extension);
 
 private:
-    bool readInXWC3D(BCrossword3D& puzzle, QStringList& linelist);
-    bool readInXWC(BCrossword3D& puzzle, QStringList& linelist);
+    bool readInFile(PuzzleLoaderInterface& loader, PuzzleBase& puzzle, QStringList& linelist);
 
-    QStringList saveAsXWC(BCrossword3D& puzzle);
-    QStringList saveAsXWC3D(BCrossword3D& puzzle);
-
-    QStringList saveXWC3DCrosswordEntryBlock(QStringList& linelist, Direction entryDirection);
+    QStringList saveAsXWC(PuzzleBase& puzzle);
+    QStringList saveAsXWC3D(PuzzleBase& puzzle);
+    QStringList saveAsXWCR3D(PuzzleBase& puzzle);
 
     bool writeToFile(QStringList& linelist, QFile& file);
 

@@ -19,7 +19,7 @@ class FileDialog : public QDialog
 public:
     FileDialog(QWidget* parent = 0, const QString& caption = QString(), const QString& directory = QString(), const QString& nameFilter = QString(), const QStringList& filter = QStringList());
     
-    QString getSelectedFilePath();
+    QString getSelectedFilePath() const;
 
 private:
     QFileSystemModel* m_Model;

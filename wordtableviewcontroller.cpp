@@ -128,7 +128,7 @@ void WordTableViewController::currentChanged(const QModelIndex &current, const Q
         emit(modelIndexChanged(currentSelection, previousSelection));
 
         QString entryNumberAtSelection = current.sibling(current.row(), 0).data().toString();
-        QString wordAtSelection = current.sibling(current.row(), 1).data().toString(); // Really weird delimiter appears, \000 at the end of this string after the assertions (at least from watching the debugger)
+        QString wordAtSelection = current.sibling(current.row(), 1).data().toString();
         QString clueAtSelection = current.sibling(current.row(), 2).data().toString();
         QString wordLengthsAtSelection = current.sibling(current.row(), 3).data().toString().append(" letters");
 
@@ -203,9 +203,12 @@ void WordTableViewController::conflictingWordError()
 
 void WordTableViewController::reportGuessAccepted(QString guess)
 {
+    SPEECH_MODES::SPEECHMODE mode = ITextToSpeech::instance().getMode();
+
     ITextToSpeech::instance().setMode(SPEECH_MODES::spellingOutSpeech);
     ITextToSpeech::instance().speak(guess);
-    ITextToSpeech::instance().setMode(SPEECH_MODES::normalSpeech);
+
+    ITextToSpeech::instance().setMode(mode);
 }
 
 void WordTableViewController::reportGuessAmended(QString removedLetters)
@@ -237,9 +240,12 @@ void WordTableViewController::readCurrentGuess()
     {
         QString spelledOutWord = wordAtSelection;
 
+        SPEECH_MODES::SPEECHMODE mode = ITextToSpeech::instance().getMode();
+
         ITextToSpeech::instance().setMode(SPEECH_MODES::spellingOutSpeech);
         ITextToSpeech::instance().speak(spelledOutWord);
-        ITextToSpeech::instance().setMode(SPEECH_MODES::normalSpeech);
+
+        ITextToSpeech::instance().setMode(mode);
     }
     else
     {
@@ -260,7 +266,10 @@ void WordTableViewController::readWordLengths()
     QModelIndex currentSelection = selectionModel()->currentIndex();
     QString wordLengthsAtSelection = currentSelection.sibling(currentSelection.row(), 3).data().toString();
 
+    SPEECH_MODES::SPEECHMODE mode = ITextToSpeech::instance().getMode();
+
     ITextToSpeech::instance().setMode(SPEECH_MODES::spellingOutSpeech);
     ITextToSpeech::instance().speak(wordLengthsAtSelection);
-    ITextToSpeech::instance().setMode(SPEECH_MODES::normalSpeech);
+
+    ITextToSpeech::instance().setMode(mode);
 }

@@ -1,7 +1,7 @@
 #include "xwcloader.h"
 
 
-bool XWCLoader::loadMetaData(BCrossword3D& puzzle, QStringList& linelist)
+bool XWCLoader::loadMetaData(PuzzleBase& puzzle, QStringList& linelist)
 {
     puzzle.m_CrosswordFileFormat = FileFormats::XWC;
 
@@ -26,7 +26,7 @@ bool XWCLoader::loadMetaData(BCrossword3D& puzzle, QStringList& linelist)
     return true;
 }
 
-bool XWCLoader::loadGrid(BCrossword3D& puzzle, QStringList& linelist)
+bool XWCLoader::loadGrid(PuzzleBase& puzzle, QStringList& linelist)
 {
     unsigned int gridX = puzzle.getRefGrid().getDimensions().getX();
     unsigned int gridY = puzzle.getRefGrid().getDimensions().getY();
@@ -56,7 +56,7 @@ bool XWCLoader::loadGrid(BCrossword3D& puzzle, QStringList& linelist)
     return true;
 }
 
-bool XWCLoader::loadClues(BCrossword3D& puzzle, QStringList& linelist)
+bool XWCLoader::loadClues(PuzzleBase& puzzle, QStringList& linelist)
 {
     if(!loadAcrossClues(puzzle, linelist))
     {
@@ -70,7 +70,7 @@ bool XWCLoader::loadClues(BCrossword3D& puzzle, QStringList& linelist)
     return true;
 }
 
-bool XWCLoader::loadAcrossClues(BCrossword3D &puzzle, QStringList &linelist)
+bool XWCLoader::loadAcrossClues(PuzzleBase &puzzle, QStringList &linelist)
 {
     unsigned int numAcross = linelist.takeFirst().toUInt();
 
@@ -102,7 +102,7 @@ bool XWCLoader::loadAcrossClues(BCrossword3D &puzzle, QStringList &linelist)
             uivec3 letterPosition = startingPosition;
             letterPosition.setX(letterPosition.getX() + j);
 
-            letters.push_back(puzzle.getRefGrid().getRefLetterAt(letterPosition));
+            letters.push_back(puzzle.getRefGrid().getRefLetterAt(puzzle.toGridIndex(letterPosition)));
         }
         Word word(letters);
 
@@ -130,7 +130,7 @@ bool XWCLoader::loadAcrossClues(BCrossword3D &puzzle, QStringList &linelist)
 }
 
 
-bool XWCLoader::loadAwayClues(BCrossword3D &puzzle, QStringList &linelist)
+bool XWCLoader::loadAwayClues(PuzzleBase &puzzle, QStringList &linelist)
 {
     unsigned int numAway = linelist.takeFirst().toUInt();
 
@@ -156,7 +156,7 @@ bool XWCLoader::loadAwayClues(BCrossword3D &puzzle, QStringList &linelist)
             uivec3 letterPosition = startingPosition;
             letterPosition.setY(letterPosition.getY() + j);
 
-            letters.push_back(puzzle.getRefGrid().getRefLetterAt(letterPosition));
+            letters.push_back(puzzle.getRefGrid().getRefLetterAt(puzzle.toGridIndex(letterPosition)));
         }
         Word word(letters);
 
@@ -184,7 +184,7 @@ bool XWCLoader::loadAwayClues(BCrossword3D &puzzle, QStringList &linelist)
     return true;
 }
 
-bool XWCLoader::saveMetaData(BCrossword3D &puzzle, QStringList &linelist)
+bool XWCLoader::saveMetaData(PuzzleBase &puzzle, QStringList &linelist)
 {
     linelist.push_back(puzzle.m_PuzzleTitle);
     linelist.push_back(puzzle.m_AuthorTitle);
@@ -195,7 +195,7 @@ bool XWCLoader::saveMetaData(BCrossword3D &puzzle, QStringList &linelist)
     return true;
 }
 
-bool XWCLoader::saveGrid(BCrossword3D &puzzle, QStringList &linelist)
+bool XWCLoader::saveGrid(PuzzleBase &puzzle, QStringList &linelist)
 {
     QStringList gridlist;
     for(unsigned int i = 0; i < puzzle.getRefGrid().getSize(); i+=puzzle.getRefGrid().getDimensions().getY())
@@ -203,13 +203,13 @@ bool XWCLoader::saveGrid(BCrossword3D &puzzle, QStringList &linelist)
         QString gridString;
         for(unsigned int y = 0; y < puzzle.getRefGrid().getDimensions().getY(); y++)
         {
-            if(puzzle.getRefGrid().getLetterAt(i + y).getChar().isNull())
+            if(puzzle.getRefGrid().getLetterAt(i + y)->getChar().isNull())
             {
                 gridString.push_back(Qt::Key_1);
             }
             else
             {
-                gridString.push_back(puzzle.getRefGrid().getLetterAt(i + y).getChar());
+                gridString.push_back(puzzle.getRefGrid().getLetterAt(i + y)->getChar());
             }
         }
         gridlist.push_back(gridString);
@@ -219,7 +219,7 @@ bool XWCLoader::saveGrid(BCrossword3D &puzzle, QStringList &linelist)
     return true;
 }
 
-bool XWCLoader::saveClues(BCrossword3D &puzzle, QStringList &linelist)
+bool XWCLoader::saveClues(PuzzleBase &puzzle, QStringList &linelist)
 {
     unsigned int acrossEntries = 0;
     unsigned int awayEntries = 0;
@@ -240,13 +240,13 @@ bool XWCLoader::saveClues(BCrossword3D &puzzle, QStringList &linelist)
     for(unsigned int i = 0; i < acrossEntries; i++)
     {
         CrosswordEntry3D entry = puzzle.getRefCrosswordEntries().at(i);
-        QString entryString = entry.getEntryString().append("|")
+        QString entryString = entry.getEntryName().append("|")
                 .append(QString::number(entry.getStartingPosition().getX() + 1)).append("|")
                 .append(QString::number(entry.getStartingPosition().getY() + 1)).append(("|"))
                 .append(QString::number(entry.getSolution().size())).append("|")
                 .append(entry.getSolution()).append("|")
                 .append(entry.getClue().getString()).append(" ")
-                .append(entry.getWordComponentsString().prepend("(").append(")"));
+                .append(entry.getSolutionComponentLengths().prepend("(").append(")"));
 
         linelist.push_back(entryString);
     }
@@ -255,13 +255,13 @@ bool XWCLoader::saveClues(BCrossword3D &puzzle, QStringList &linelist)
     for(unsigned int i = acrossEntries; i < awayEntries + acrossEntries; i++)
     {
         CrosswordEntry3D entry = puzzle.getRefCrosswordEntries().at(i);
-        QString entryString = entry.getEntryString().append("|")
+        QString entryString = entry.getEntryName().append("|")
                 .append(QString::number(entry.getStartingPosition().getX() + 1)).append("|")
                 .append(QString::number(entry.getStartingPosition().getY() + 1)).append(("|"))
                 .append(QString::number(entry.getSolution().size())).append("|")
                 .append(entry.getSolution()).append("|")
                 .append(entry.getClue().getString()).append(" ")
-                .append(entry.getWordComponentsString().prepend("(").append(")"));
+                .append(entry.getSolutionComponentLengths().prepend("(").append(")"));
 
         linelist.push_back(entryString);
     }

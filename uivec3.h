@@ -17,9 +17,6 @@ public:
     uivec3 operator-(const uivec3& vec) const;
     bool operator==(const uivec3& vec) const;
 
-    unsigned int toGridIndex(uivec3 gridDimensions) const;
-    uivec3 fromGridIndex(unsigned int index, uivec3 gridDimensions) const;
-
 private:
     unsigned int x, y, z;
 };

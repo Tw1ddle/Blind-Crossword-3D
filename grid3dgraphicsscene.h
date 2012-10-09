@@ -9,6 +9,7 @@
 #include "uivec3.h"
 #include "letter.h"
 #include "crosswordentry3d.h"
+#include "puzzlebase.h"
 
 class LetterGrid;
 class GraphicsGridItem;
@@ -17,15 +18,16 @@ class Grid3DGraphicsScene : public QGraphicsScene
 {
     Q_OBJECT
 public:
-    Grid3DGraphicsScene(LetterGrid* letters, std::vector<CrosswordEntry3D>* entries, QPixmap* backgroundImage);
+    Grid3DGraphicsScene(PuzzleBase* puzzle);
 
 protected:
     void drawBackground(QPainter *painter, const QRectF &rect);
 
 private:
-    LetterGrid* m_RefGrid;
-    std::vector<CrosswordEntry3D>* m_RefCrosswordEntries;
-    QPixmap* m_RefBackgroundImage;
+    const PuzzleBase* m_RefPuzzle;
+    const LetterGrid* m_RefGrid;
+    const std::vector<CrosswordEntry3D>* m_RefCrosswordEntries;
+    const QPixmap* m_RefBackgroundImage;
 
     std::vector<GraphicsGridItem*> m_GraphicsGridItems;
 
@@ -33,7 +35,6 @@ private:
     unsigned int m_PreviousSelectedCrosswordEntryNumber;
 
     void build2DGrid(unsigned int xDim, unsigned int yDim, uivec3 offset, unsigned int gridNumber);
-
 
 public slots:
     void buildPuzzleGrid();

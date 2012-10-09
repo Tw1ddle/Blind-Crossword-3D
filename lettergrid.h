@@ -11,18 +11,16 @@ class LetterGrid
 public:
     LetterGrid();
 
+    const Letter* getLetterAt(unsigned int index) const;
+    Letter* getRefLetterAt(unsigned int index);
+
     void push_back(Letter letter);
-
     unsigned int getSize() const;
-
-    Letter* getRefLetterAt(uivec3 location);
-
-    Letter getLetterAt(unsigned int index) const;
+    void clear();
 
     uivec3 getDimensions() const;
     void setDimensions(uivec3 dimensions);
 
-    void clear();
 private:
     uivec3 m_GridDimensions;
     std::vector<Letter> m_Letters;

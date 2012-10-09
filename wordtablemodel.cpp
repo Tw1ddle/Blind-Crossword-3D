@@ -9,11 +9,12 @@ const QString clueColumnHeader = "Clue";
 const QString entryNumberColumnHeader = "Entry";
 const QString wordLengthColumnHeader = "Word Length";
 
-WordTableModel::WordTableModel(std::vector<CrosswordEntry3D>* refCrosswordEntries, LetterGrid* refWorkingGrid, QObject *parent) :
+WordTableModel::WordTableModel(PuzzleBase* puzzle, QObject *parent) :
     QAbstractTableModel(parent)
 {
-    m_RefWorkingGrid = refWorkingGrid;
-    m_RefCrosswordEntries = refCrosswordEntries;
+    m_RefPuzzle = puzzle;
+    m_RefWorkingGrid = &puzzle->getGrid();
+    m_RefCrosswordEntries = &puzzle->getRefCrosswordEntries();
 }
 
 int WordTableModel::rowCount(const QModelIndex& parent) const
@@ -46,7 +47,7 @@ QVariant WordTableModel::data(const QModelIndex& index, int role) const
     {
         if (index.column() == 0)
         {
-            QString entryString = m_RefCrosswordEntries->at(index.row()).getEntryString();
+            QString entryString = m_RefCrosswordEntries->at(index.row()).getEntryName();
             QString entryDirectionName = m_RefCrosswordEntries->at(index.row()).getDirection().getDirectionName();
             QString entry = entryString.append(QString(" - ")).append(entryDirectionName);
 
@@ -62,7 +63,7 @@ QVariant WordTableModel::data(const QModelIndex& index, int role) const
         }
         else if(index.column() == 3)
         {
-            return m_RefCrosswordEntries->at(index.row()).getWordComponentsString();
+            return m_RefCrosswordEntries->at(index.row()).getSolutionComponentLengths();
         }
     }
     return QVariant();
@@ -151,7 +152,7 @@ void WordTableModel::amendGuess(QString word, QModelIndex index)
         }
     }
 
-    m_RefCrosswordEntries->at(index.row()).setGuessString(amendedGuess);
+    m_RefCrosswordEntries->at(index.row()).setGuess(amendedGuess);
 
     int rows = rowCount(QModelIndex()) - 1;
     int columns = columnCount(QModelIndex()) - 1;
@@ -168,7 +169,7 @@ void WordTableModel::enterGuess(QString word, QModelIndex index)
         return;
     }
 
-    m_RefCrosswordEntries->at(index.row()).setGuessString(word);
+    m_RefCrosswordEntries->at(index.row()).setGuess(word);
 
     // Pointer data members in the data source w/ rows affecting other rows means we have to update the whole table when a guess is amended or removed (determining which rows are changed otherwise is inconvenient)
     int rows = rowCount(QModelIndex()) - 1;
