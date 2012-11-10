@@ -32,22 +32,6 @@ void Grid3DGraphicsView::wheelEvent(QWheelEvent *event)
     anim->start();
 }
 
-void Grid3DGraphicsView::print()
-{
-    QPrinter printer;
-
-    QPrintDialog* printDialog = new QPrintDialog(&printer, this);
-
-    if(printDialog->exec() == QDialog::Accepted)
-    {
-        QPainter painter(&printer);
-        painter.setRenderHint(QPainter::TextAntialiasing);
-        painter.setRenderHint(QPainter::HighQualityAntialiasing);
-
-        scene()->render(&painter);
-    }
-}
-
 // http://qt-project.org/wiki/SmoothZoomInQGraphicsView
 void Grid3DGraphicsView::zoomAnimationFinished()
 {

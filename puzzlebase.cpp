@@ -1,10 +1,41 @@
 #include "puzzlebase.h"
 
+#include <assert.h>
+
 #include <QMessageBox>
 #include <QDir>
 
-PuzzleBase::PuzzleBase() : m_CrosswordLoaded(false)
+#include "crosswordtypes.h"
+
+PuzzleBase::PuzzleBase() : m_CrosswordLoaded(false), m_FileFormatVersion(1u)
 {
+}
+
+unsigned int PuzzleBase::toGridIndex(uivec3 index) const
+{
+    if(m_CrosswordFileFormat == FileFormats::XWC || m_CrosswordFileFormat == FileFormats::XWC3D)
+    {
+        return index.getX() + getGrid().getDimensions().getX() * index.getY() + getGrid().getDimensions().getY() * getGrid().getDimensions().getX() * index.getZ();
+    }
+    else if(m_CrosswordFileFormat == FileFormats::XWCR3D)
+    {
+        if(index.getY() == 0) // disc center
+        {
+            return index.getZ() + index.getZ() * (getGrid().getDimensions().getY() - 1) * getGrid().getDimensions().getX();
+        }
+        else
+        {
+            return 1
+                    + index.getZ()
+                    + index.getX()
+                    + (index.getY() - 1) * getGrid().getDimensions().getX()
+                    + index.getZ() * (getGrid().getDimensions().getY() - 1) * getGrid().getDimensions().getX();
+        }
+    }
+    else
+    {
+        assert(false);
+    }
 }
 
 void PuzzleBase::setDimensions(uivec3 dimensions)
@@ -32,6 +63,11 @@ const QPixmap& PuzzleBase::getPuzzleBackgroundImage() const
     return m_BackgroundImage;
 }
 
+const std::vector<uivec3>& PuzzleBase::getThemePhraseCoordinates() const
+{
+    return m_ThemePhraseCoordinates;
+}
+
 const std::vector<CrosswordEntry3D>& PuzzleBase::getCrosswordEntries() const
 {
     return m_CrosswordEntries;
@@ -48,9 +84,13 @@ void PuzzleBase::clear()
     m_Grid.clear();
     m_CrosswordEntries.clear();
     m_CrosswordFileFormat.clear();
+    m_FileFormatVersion = 0.0f;
+
     m_CrosswordLoaded = false;
+
     m_BackgroundImage.detach();
-    m_CrosswordFileFormat.clear();
+    m_BackgroundImage = NULL;
+
 }
 
 unsigned int PuzzleBase::scoreSolution() const
@@ -93,16 +133,23 @@ std::vector<unsigned int> PuzzleBase::getIntersectingCrosswordEntryIds(unsigned 
 
 QString PuzzleBase::getScoreString() const
 {
-    if(m_CrosswordLoaded)
+    if(m_PuzzleType != CrosswordTypes::WITHOUT_ANSWERS)
     {
-        return QString(tr("The current score for this crossword is: ")).
-                append(QString::number(scoreSolution())).
-                append(tr(" out of ")).
-                append(QString::number(m_CrosswordEntries.size())).append(". ");
+        if(m_CrosswordLoaded)
+        {
+            return QString("The current score for this crossword is: ").
+                    append(QString::number(scoreSolution())).
+                    append(" out of ").
+                    append(QString::number(m_CrosswordEntries.size())).append(". ");
+        }
+        else
+        {
+            return QString("There is no crossword loaded, so one cannot be scored.");
+        }
     }
     else
     {
-        return QString(tr("There is no crossword loaded, so one cannot be scored."));
+        return QString("This crossword does not have answers included, so cannot be scored.");
     }
 }
 
@@ -110,14 +157,14 @@ QString PuzzleBase::getInformationString() const
 {
     if(m_CrosswordLoaded)
     {
-        return QString(tr("Crossword title: ")).append(m_PuzzleTitle).append(". \n").
-                append(tr("Author: ")).append(m_AuthorTitle).append(". \n").
-                append(tr("Type: ")).append(m_PuzzleType).append(". \n").
-                append(tr("Theme phrase: ")).append(m_PuzzleThemePhrase);
+        return QString("Crossword title: ").append(m_PuzzleTitle).append(". \n").
+                append("Author: ").append(m_AuthorTitle).append(". \n").
+                append("Type: ").append(m_PuzzleType).append(". \n").
+                append("Theme phrase: ").append(m_PuzzleThemePhrase);
     }
     else
     {
-        return QString(tr("There is no crossword loaded."));
+        return QString("There is no crossword loaded.");
     }
 }
 
@@ -141,4 +188,14 @@ QString PuzzleBase::getPuzzleThemePhrase() const
 FileFormats::FORMAT PuzzleBase::getPuzzleFormat() const
 {
     return m_CrosswordFileFormat;
+}
+
+CrosswordTypes::CROSSWORD_TYPE PuzzleBase::getPuzzleType() const
+{
+    return m_PuzzleType;
+}
+
+bool PuzzleBase::isComplete() const
+{
+    return (scoreSolution() == m_CrosswordEntries.size());
 }

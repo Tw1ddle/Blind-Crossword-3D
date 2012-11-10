@@ -199,6 +199,7 @@
     <addaction name="actionLoad_Open"/>
     <addaction name="actionSave_Crossword"/>
     <addaction name="actionPrint_Crossword"/>
+    <addaction name="actionEmail_Crossword"/>
     <addaction name="actionCrossword_Properties"/>
     <addaction name="actionExit"/>
    </widget>
@@ -290,6 +291,11 @@
   <action name="actionShow_License">
    <property name="text">
     <string>View License</string>
+   </property>
+  </action>
+  <action name="actionEmail_Crossword">
+   <property name="text">
+    <string>Email</string>
    </property>
   </action>
  </widget>
@@ -424,26 +430,42 @@
    </hints>
   </connection>
   <connection>
-   <sender>actionPrint_Crossword</sender>
+   <sender>actionShow_License</sender>
    <signal>triggered()</signal>
-   <receiver>graphicsView</receiver>
-   <slot>print()</slot>
+   <receiver>MainWindow</receiver>
+   <slot>viewLicense()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>-1</x>
      <y>-1</y>
     </hint>
     <hint type="destinationlabel">
-     <x>865</x>
-     <y>331</y>
+     <x>587</x>
+     <y>321</y>
     </hint>
    </hints>
   </connection>
   <connection>
-   <sender>actionShow_License</sender>
+   <sender>actionPrint_Crossword</sender>
    <signal>triggered()</signal>
    <receiver>MainWindow</receiver>
-   <slot>viewLicense()</slot>
+   <slot>printCrossword()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>587</x>
+     <y>321</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionEmail_Crossword</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>emailCrossword()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>-1</x>
@@ -464,5 +486,7 @@
   <slot>openHelp()</slot>
   <slot>viewLicense()</slot>
   <slot>toggleGrid(bool)</slot>
+  <slot>printCrossword()</slot>
+  <slot>emailCrossword()</slot>
  </slots>
 </ui>

@@ -1,34 +1,32 @@
-#include "wordtablemodel.h"
+  #include "wordtablemodel.h"
 
 #include <QMessageBox>
 #include <QString>
 #include <assert.h>
 
+const QString identifierColumnHeader = "Identifier";
 const QString wordColumnHeader = "Word";
 const QString clueColumnHeader = "Clue";
 const QString entryNumberColumnHeader = "Entry";
 const QString wordLengthColumnHeader = "Word Length";
 
-WordTableModel::WordTableModel(PuzzleBase* puzzle, QObject *parent) :
-    QAbstractTableModel(parent)
+WordTableModel::WordTableModel(const PuzzleBase& puzzle, std::vector<CrosswordEntry3D>& refCrosswordEntries, QObject *parent) :
+    QAbstractTableModel(parent), m_RefPuzzle(puzzle), m_RefCrosswordEntries(refCrosswordEntries), m_RefWorkingGrid(puzzle.getGrid())
 {
-    m_RefPuzzle = puzzle;
-    m_RefWorkingGrid = &puzzle->getGrid();
-    m_RefCrosswordEntries = &puzzle->getRefCrosswordEntries();
 }
 
 int WordTableModel::rowCount(const QModelIndex& parent) const
 {
     Q_UNUSED(parent);
 
-    return m_RefCrosswordEntries->size();
+    return m_RefCrosswordEntries.size();
 }
 
 int WordTableModel::columnCount(const QModelIndex& parent) const
 {
     Q_UNUSED(parent);
 
-    return 4;
+    return 5;
 }
 
 QVariant WordTableModel::data(const QModelIndex& index, int role) const
@@ -38,32 +36,36 @@ QVariant WordTableModel::data(const QModelIndex& index, int role) const
         return QVariant();
     }
 
-    if (index.row() >= m_RefCrosswordEntries->size() || index.row() < 0)
+    if (index.row() >= m_RefCrosswordEntries.size() || index.row() < 0)
     {
         return QVariant();
     }
 
     if (role == Qt::DisplayRole)
     {
-        if (index.column() == 0)
+        if(index.column() == 0)
         {
-            QString entryString = m_RefCrosswordEntries->at(index.row()).getEntryName();
-            QString entryDirectionName = m_RefCrosswordEntries->at(index.row()).getDirection().getDirectionName();
-            QString entry = entryString.append(QString(" - ")).append(entryDirectionName);
+            return m_RefCrosswordEntries.at(index.row()).getIdentifier();
+        }
+        if (index.column() == 1)
+        {
+            QString entryString = m_RefCrosswordEntries.at(index.row()).getEntryName();
+            QString entryDirectionName = m_RefCrosswordEntries.at(index.row()).getDirection().getString();
+            QString entry = entryString.append(QString(" ")).append(entryDirectionName);
 
             return entry;
         }
-        else if (index.column() == 1)
+        else if (index.column() == 2)
         {
-            return m_RefCrosswordEntries->at(index.row()).getGuess().getString();
-        }
-        else if(index.column() == 2)
-        {
-            return m_RefCrosswordEntries->at(index.row()).getClue().getString();
+            return m_RefCrosswordEntries.at(index.row()).getGuess().getString();
         }
         else if(index.column() == 3)
         {
-            return m_RefCrosswordEntries->at(index.row()).getSolutionComponentLengths();
+            return m_RefCrosswordEntries.at(index.row()).getClue().getString();
+        }
+        else if(index.column() == 4)
+        {
+            return m_RefCrosswordEntries.at(index.row()).getSolutionComponentLengths();
         }
     }
     return QVariant();
@@ -81,15 +83,18 @@ QVariant WordTableModel::headerData(int section, Qt::Orientation orientation, in
         switch (section)
         {
             case 0:
-                return entryNumberColumnHeader;
+                return identifierColumnHeader;
 
             case 1:
-                return wordColumnHeader;
+                return entryNumberColumnHeader;
 
             case 2:
-                return clueColumnHeader;
+                return wordColumnHeader;
 
             case 3:
+                return clueColumnHeader;
+
+            case 4:
                 return wordLengthColumnHeader;
 
             default:
@@ -101,7 +106,7 @@ QVariant WordTableModel::headerData(int section, Qt::Orientation orientation, in
 
 bool WordTableModel::existsConflictingWords(QString word, QModelIndex index)
 {
-    CrosswordEntry3D currentEntry = m_RefCrosswordEntries->at(index.row());
+    CrosswordEntry3D currentEntry = m_RefCrosswordEntries.at(index.row());
 
     bool conflict = false;
     for(int i = 0; i < word.size(); i++)
@@ -126,39 +131,48 @@ void WordTableModel::crosswordEntriesChanged()
 
 void WordTableModel::amendGuess(QString word, QModelIndex index)
 {
-    QString amendedGuess;
-    QString removedLetters;
-    QString guess = m_RefCrosswordEntries->at(index.row()).getGuess().getString();
-    QString solution = m_RefCrosswordEntries->at(index.row()).getSolution();
-
-    assert(guess.size() == solution.size());
-    assert(guess.size() == word.size());
-    assert(word.size() == solution.size());
-
-    for(int i = 0; i < guess.size(); i++)
+    if(m_RefPuzzle.getPuzzleType() == CrosswordTypes::WITHOUT_ANSWERS)
     {
-        if(guess.at(i) == solution.at(i))
-        {
-            amendedGuess.push_back(solution.at(i));
-        }
-        else
-        {
-            amendedGuess.push_back(Qt::Key_Period);
+        emit guessAmendationRequestRejected();
 
-            if(guess.at(i) != Qt::Key_Period)
+        return;
+    }
+    else
+    {
+        QString amendedGuess;
+        QString removedLetters;
+        QString guess = m_RefCrosswordEntries.at(index.row()).getGuess().getString();
+        QString solution = m_RefCrosswordEntries.at(index.row()).getSolution();
+
+        assert(guess.size() == solution.size());
+        assert(guess.size() == word.size());
+        assert(word.size() == solution.size());
+
+        for(int i = 0; i < guess.size(); i++)
+        {
+            if(guess.at(i) == solution.at(i))
             {
-                removedLetters.push_back(guess.at(i));
+                amendedGuess.push_back(solution.at(i));
+            }
+            else
+            {
+                amendedGuess.push_back(Qt::Key_Period);
+
+                if(guess.at(i) != Qt::Key_Period)
+                {
+                    removedLetters.push_back(guess.at(i));
+                }
             }
         }
+
+        m_RefCrosswordEntries.at(index.row()).setGuess(amendedGuess);
+
+        int rows = rowCount(QModelIndex()) - 1;
+        int columns = columnCount(QModelIndex()) - 1;
+        emit dataChanged(this->index(0, 0), this->index(rows, columns));
+
+        emit guessAmended(removedLetters);
     }
-
-    m_RefCrosswordEntries->at(index.row()).setGuess(amendedGuess);
-
-    int rows = rowCount(QModelIndex()) - 1;
-    int columns = columnCount(QModelIndex()) - 1;
-    emit dataChanged(this->index(0, 0), this->index(rows, columns));
-
-    emit guessAmended(removedLetters);
 }
 
 void WordTableModel::enterGuess(QString word, QModelIndex index)
@@ -169,7 +183,7 @@ void WordTableModel::enterGuess(QString word, QModelIndex index)
         return;
     }
 
-    m_RefCrosswordEntries->at(index.row()).setGuess(word);
+    m_RefCrosswordEntries.at(index.row()).setGuess(word);
 
     // Pointer data members in the data source w/ rows affecting other rows means we have to update the whole table when a guess is amended or removed (determining which rows are changed otherwise is inconvenient)
     int rows = rowCount(QModelIndex()) - 1;
@@ -181,7 +195,7 @@ void WordTableModel::enterGuess(QString word, QModelIndex index)
 
 void WordTableModel::tableViewSelectionChanged(const QModelIndex& current, const QModelIndex& previous)
 {
-    CrosswordEntry3D newCrosswordEntry = m_RefCrosswordEntries->at(current.row());
+    CrosswordEntry3D newCrosswordEntry = m_RefCrosswordEntries.at(current.row());
 
     emit crosswordEntrySelectionChanged(newCrosswordEntry);
 }

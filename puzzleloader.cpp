@@ -17,8 +17,6 @@ PuzzleLoader::PuzzleLoader()
 
 bool PuzzleLoader::loadPuzzle(PuzzleBase &puzzle, QString filePath, QString extension)
 {
-    puzzle.clear();
-
     QFile file(filePath);
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
     {
@@ -43,13 +41,16 @@ bool PuzzleLoader::loadPuzzle(PuzzleBase &puzzle, QString filePath, QString exte
         }
     } while (!currentLine.isNull());
 
+
+    puzzle.clear();
+
     if(extension == FileFormats::XWC3D)
     {
-         puzzle.m_CrosswordLoaded = readInFile(XWC3DLoader(), puzzle, linelist);
+        puzzle.m_CrosswordLoaded = readInFile(XWC3DLoader(), puzzle, linelist);
     }
     else if(extension == FileFormats::XWC)
     {
-         puzzle.m_CrosswordLoaded = readInFile(XWCLoader(), puzzle, linelist);
+        puzzle.m_CrosswordLoaded = readInFile(XWCLoader(), puzzle, linelist);
     }
     else if(extension == FileFormats::XWCR3D)
     {

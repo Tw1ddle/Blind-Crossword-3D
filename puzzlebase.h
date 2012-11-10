@@ -11,21 +11,25 @@
 #include "puzzleloader.h"
 #include "lettergrid.h"
 #include "fileformats.h"
+#include "crosswordtypes.h"
 
-class PuzzleBase : public QObject
+class GraphicsGridItem;
+
+class PuzzleBase
 {
+    friend class PuzzleLoader;
+
     friend class PuzzleLoaderInterface;
     friend class XWC3DLoader;
     friend class XWCLoader;
     friend class XWCR3DLoader;
-    friend class PuzzleLoader;
 
 public:
     PuzzleBase();
 
-    virtual unsigned int toGridIndex(uivec3 index) const = 0;
+    unsigned int toGridIndex(uivec3 index) const;
 
-    virtual std::vector<unsigned int> getIntersectingCrosswordEntryIds(unsigned int crosswordEntryId) const;
+    std::vector<unsigned int> getIntersectingCrosswordEntryIds(unsigned int crosswordEntryId) const;
     unsigned int removeIncorrectEntries();
 
     QString getPuzzleTitle() const;
@@ -33,10 +37,13 @@ public:
     QString getPuzzleThemePhrase() const;
     QString getScoreString() const;
     FileFormats::FORMAT getPuzzleFormat() const;
+    CrosswordTypes::CROSSWORD_TYPE getPuzzleType() const;
+    bool isComplete() const;
 
     const LetterGrid& getGrid() const;
     const std::vector<CrosswordEntry3D>& getCrosswordEntries() const;
     const QPixmap& getPuzzleBackgroundImage() const;
+    const std::vector<uivec3>& getThemePhraseCoordinates() const;
 
     std::vector<CrosswordEntry3D>& getRefCrosswordEntries();
 
@@ -61,6 +68,7 @@ private:
 
     bool m_CrosswordLoaded;
     FileFormats::FORMAT m_CrosswordFileFormat;
+    unsigned int m_FileFormatVersion;
 };
 
 #endif // PUZZLEBASE_H

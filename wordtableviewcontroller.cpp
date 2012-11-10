@@ -33,7 +33,7 @@ bool WordTableViewController::enterGuess()
 
     if(currentSelection.isValid())
     {
-        QString wordAtSelection = currentSelection.sibling(currentSelection.row(), 1).data().toString();
+        QString wordAtSelection = currentSelection.sibling(currentSelection.row(), 2).data().toString();
 
         assert(wordAtSelection.length() != 0);
 
@@ -127,17 +127,21 @@ void WordTableViewController::currentChanged(const QModelIndex &current, const Q
         QModelIndex previousSelection = proxy->mapToSource(previous);
         emit(modelIndexChanged(currentSelection, previousSelection));
 
-        QString entryNumberAtSelection = current.sibling(current.row(), 0).data().toString();
-        QString wordAtSelection = current.sibling(current.row(), 1).data().toString();
-        QString clueAtSelection = current.sibling(current.row(), 2).data().toString();
-        QString wordLengthsAtSelection = current.sibling(current.row(), 3).data().toString().append(" letters");
+        QString identifierAtSelection = current.sibling(current.row(), 0).data().toString();
+        QString entryNumberAtSelection = current.sibling(current.row(), 1).data().toString();
+        QString wordAtSelection = current.sibling(current.row(), 2).data().toString();
+        QString clueAtSelection = current.sibling(current.row(), 3).data().toString();
+        QString wordLengthsAtSelection = current.sibling(current.row(), 4).data().toString().append(" letters");
 
+        assert(!identifierAtSelection.isNull());
         assert(!entryNumberAtSelection.isNull());
         assert(!wordAtSelection.isNull());
         assert(!clueAtSelection.isNull());
         assert(!wordLengthsAtSelection.isNull());
 
-        QString line = entryNumberAtSelection.
+        QString line = identifierAtSelection.
+                append(". ").
+                append(entryNumberAtSelection).
                 append(". ").
                 append(clueAtSelection).
                 append(". ").
@@ -223,10 +227,15 @@ void WordTableViewController::reportGuessAmended(QString removedLetters)
     }
 }
 
+void WordTableViewController::reportGuessAmendationRejected()
+{
+    ITextToSpeech::instance().speak("Guesses cannot be validated in this puzzle");
+}
+
 void WordTableViewController::readCurrentEntryNumber()
 {
     QModelIndex currentSelection = selectionModel()->currentIndex();
-    QString entryAtSelection = currentSelection.sibling(currentSelection.row(), 0).data().toString();
+    QString entryAtSelection = currentSelection.sibling(currentSelection.row(), 1).data().toString();
 
     ITextToSpeech::instance().speak(entryAtSelection.append("."));
 }
@@ -234,7 +243,7 @@ void WordTableViewController::readCurrentEntryNumber()
 void WordTableViewController::readCurrentGuess()
 {
     QModelIndex currentSelection = selectionModel()->currentIndex();
-    QString wordAtSelection = currentSelection.sibling(currentSelection.row(), 1).data().toString();
+    QString wordAtSelection = currentSelection.sibling(currentSelection.row(), 2).data().toString();
 
     if(wordAtSelection.contains(QRegExp("(\\.+)")))
     {
@@ -256,7 +265,7 @@ void WordTableViewController::readCurrentGuess()
 void WordTableViewController::readCurrentClue()
 {
     QModelIndex currentSelection = selectionModel()->currentIndex();
-    QString clueAtSelection = currentSelection.sibling(currentSelection.row(), 2).data().toString();
+    QString clueAtSelection = currentSelection.sibling(currentSelection.row(), 3).data().toString();
 
     ITextToSpeech::instance().speak(clueAtSelection.append("."));
 }
@@ -264,7 +273,7 @@ void WordTableViewController::readCurrentClue()
 void WordTableViewController::readWordLengths()
 {
     QModelIndex currentSelection = selectionModel()->currentIndex();
-    QString wordLengthsAtSelection = currentSelection.sibling(currentSelection.row(), 3).data().toString();
+    QString wordLengthsAtSelection = currentSelection.sibling(currentSelection.row(), 4).data().toString();
 
     SPEECH_MODES::SPEECHMODE mode = ITextToSpeech::instance().getMode();
 

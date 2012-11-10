@@ -22,7 +22,7 @@ private:
     bool loadDiametricClues(PuzzleBase& puzzle, QStringList& linelist);
     bool loadDownClues(PuzzleBase& puzzle, QStringList& linelist);
     bool loadUpClues(PuzzleBase& puzzle, QStringList& linelist);
-    bool loadWindingClues(PuzzleBase& puzzle, QStringList& linelist);
+    bool loadSnakingClues(PuzzleBase& puzzle, QStringList& linelist);
 };
 
 #endif // XWCR3DLOADER_H

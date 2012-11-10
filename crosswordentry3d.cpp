@@ -2,8 +2,9 @@
 
 #include <assert.h>
 
-CrosswordEntry3D::CrosswordEntry3D(Direction direction, QString entry, QString solution, Word guess, std::vector<unsigned int> wordComponentLengths, Clue clue)
+CrosswordEntry3D::CrosswordEntry3D(Direction direction, unsigned int identifier, QString entry, QString solution, Word guess, std::vector<unsigned int> wordComponentLengths, Clue clue)
 {
+    m_Identifier = identifier;
     m_WordDirection = direction;
     m_EntryString = entry;
     m_Solution = solution;
@@ -53,6 +54,11 @@ QString CrosswordEntry3D::getSolutionComponentLengths() const
     }
 
     return comp.trimmed();
+}
+
+unsigned int CrosswordEntry3D::getIdentifier() const
+{
+    return m_Identifier;
 }
 
 void CrosswordEntry3D::resetGuess()

@@ -18,7 +18,8 @@ class FileDialog : public QDialog
     Q_OBJECT
 public:
     FileDialog(QWidget* parent = 0, const QString& caption = QString(), const QString& directory = QString(), const QString& nameFilter = QString(), const QStringList& filter = QStringList());
-    
+    ~FileDialog();
+
     QString getSelectedFilePath() const;
 
 private:

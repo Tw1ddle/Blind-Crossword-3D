@@ -32,7 +32,7 @@ private:
     Ui::MainWindow* ui;
 
     PuzzleLoader m_PuzzleLoader;
-    PuzzleBase* m_Puzzle;
+    PuzzleBase m_Puzzle;
     Grid3DGraphicsScene* m_GraphicsScene;
     WordTableModel* m_WordTableModel;
     QSortFilterProxyModel* m_ProxyModel;
@@ -40,6 +40,8 @@ private:
     static const QString m_DefaultSaveFolder;
     static const QString m_HelpFileLocation;
     static const QString m_LicenseFileLocation;
+    static const QString m_EmailAddressFileLocation;
+    static const QString m_PostalAddressFileLocation;
 
     void createShortcuts();
     QShortcut* m_ExitShortcut;
@@ -57,14 +59,16 @@ private:
 private slots:
     void loadCrossword();
     void saveCrossword();
+    void printCrossword();
+    void emailCrossword();
     void showFileProperties();
-    void showFileThemePhrase();
     void exitConfirmation();
     void openHelp();
     void showAbout();
     void scoreCrossword();
     void viewLicense();
     void toggleGrid(bool hidden);
+
     void readCrosswordThemePhrase();
     void cycleSpeechMode();
     void cycleTableViewFilter();

@@ -8,10 +8,13 @@
 #include <QDesktopServices>
 #include <QUrl>
 #include <QSortFilterProxyModel>
+#include <QTextStream>
+#include <QTextDocument>
+#include <QPrinter>
+#include <QPrintDialog>
+#include <QTextEdit>
 
 #include "puzzlebase.h"
-#include "gridpuzzle.h"
-#include "discpuzzle.h"
 
 #include "grid3dgraphicsscene.h"
 #include "wordtablemodel.h"
@@ -23,6 +26,8 @@
 const QString MainWindow::m_DefaultSaveFolder = QString("/Crosswords");
 const QString MainWindow::m_HelpFileLocation = QString("/Help/index.html");
 const QString MainWindow::m_LicenseFileLocation = QString("/License/gplv3.htm");
+const QString MainWindow::m_EmailAddressFileLocation = QString("/Config/email_address.txt");
+const QString MainWindow::m_PostalAddressFileLocation = QString("/Config/postal_address.txt");
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -33,12 +38,10 @@ MainWindow::MainWindow(QWidget *parent) :
 
     createShortcuts();
 
-    m_Puzzle = new GridPuzzle();
-
     m_GraphicsScene = new Grid3DGraphicsScene(m_Puzzle);
     ui->graphicsView->setScene(m_GraphicsScene);
 
-    m_WordTableModel = new WordTableModel(m_Puzzle);
+    m_WordTableModel = new WordTableModel(m_Puzzle, m_Puzzle.getRefCrosswordEntries());
     m_ProxyModel = new QSortFilterProxyModel(this);
     m_ProxyModel->setSourceModel(m_WordTableModel);
     ui->wordTableView->setModel(m_ProxyModel);
@@ -56,6 +59,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect(m_WordTableModel, SIGNAL(guessValidated(QString)), ui->wordTableView, SLOT(reportGuessAccepted(QString)));
     connect(m_WordTableModel, SIGNAL(guessAmended(QString)), ui->wordTableView, SLOT(reportGuessAmended(QString)));
+    connect(m_WordTableModel, SIGNAL(guessAmendationRequestRejected()), ui->wordTableView, SLOT(reportGuessAmendationRejected()));
 
     connect(m_WordTableModel, SIGNAL(guessValidated(QString)), m_GraphicsScene, SLOT(repaintPuzzleGrid()));
     connect(m_WordTableModel, SIGNAL(guessAmended(QString)), m_GraphicsScene, SLOT(repaintPuzzleGrid()));
@@ -125,9 +129,10 @@ void MainWindow::loadCrossword()
         QFileInfo fileInfo(path);
         QString extension = fileInfo.suffix();
 
-        if(m_PuzzleLoader.loadPuzzle(*m_Puzzle, path, extension))
+        if(m_PuzzleLoader.loadPuzzle(m_Puzzle, path, extension))
         {
             emit puzzleLoaded();
+
             ITextToSpeech::instance().speak(fileInfo.fileName().append(" was loaded successfully."));
         }
     }
@@ -143,9 +148,9 @@ void MainWindow::saveCrossword()
     QString path = dir.absolutePath()
             .append(m_DefaultSaveFolder)
             .append("/")
-            .append(m_Puzzle->getPuzzleTitle())
+            .append(m_Puzzle.getPuzzleTitle())
             .append(".")
-            .append(m_Puzzle->getPuzzleFormat());
+            .append(m_Puzzle.getPuzzleFormat());
 
     QFileInfo fileInfo(path);
 
@@ -157,7 +162,7 @@ void MainWindow::saveCrossword()
                 .append(separatorTag)
                 .append(QString::number(extraTag))
                 .append(".")
-                .append(m_Puzzle->getPuzzleFormat());
+                .append(m_Puzzle.getPuzzleFormat());
 
         path = dir.absolutePath()
                 .append(m_DefaultSaveFolder)
@@ -168,7 +173,7 @@ void MainWindow::saveCrossword()
     }
 
     QFileInfo updatedFileInfo(path);
-    if(m_PuzzleLoader.savePuzzle(*m_Puzzle, path, m_Puzzle->getPuzzleFormat()))
+    if(m_PuzzleLoader.savePuzzle(m_Puzzle, path, m_Puzzle.getPuzzleFormat()))
     {
         ITextToSpeech::instance().speak(tr("Crossword was saved as: ")
                                         .append(updatedFileInfo.fileName())
@@ -177,14 +182,141 @@ void MainWindow::saveCrossword()
     }
 }
 
-void MainWindow::showFileProperties()
+void MainWindow::printCrossword()
 {
-    ITextToSpeech::instance().speak(m_Puzzle->getInformationString());
+    ITextToSpeech::instance().speak("Attempting to open a print dialogue for printing your answers.");
+
+    QString postalAddress = "Error fetching postal address, please check the game Config folder to find the postal address.";
+
+    QDir dir;
+    QString filePath;
+    if(dir.exists(dir.absolutePath().append(m_PostalAddressFileLocation)))
+    {
+        QFile file(filePath);
+        if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
+        {
+        }
+
+        QTextStream in(&file);
+        QString currentLine;
+        QStringList linelist;
+
+        if(in.atEnd())
+        {
+        }
+
+        do
+        {
+            currentLine = in.readLine();
+            if(currentLine.length() != 0)
+            {
+                linelist << currentLine;
+            }
+        } while (!currentLine.isNull());
+
+        while(!linelist.isEmpty())
+        {
+            postalAddress.append(linelist.takeFirst()).append("\n");
+        }
+    }
+
+    QString textToPrint;
+
+    textToPrint.append(m_Puzzle.getInformationString().append("\n\n"));
+
+    for(unsigned int i = 0; i < m_Puzzle.getRefCrosswordEntries().size(); i++)
+    {
+        QString id = m_Puzzle.getRefCrosswordEntries().at(i).getEntryName();
+        QString direction = m_Puzzle.getRefCrosswordEntries().at(i).getDirection().getString();
+        QString answer = m_Puzzle.getRefCrosswordEntries().at(i).getGuess().getString();
+
+        textToPrint.append(id).append(" ").append(direction).append(" --- ").append(answer).append("\n");
+    }
+
+    textToPrint.append("\n").append(postalAddress);
+
+    QTextEdit textViewer(textToPrint);
+    QTextDocument* document = textViewer.document();
+
+    QPrinter printer(QPrinter::HighResolution);
+    QPrintDialog printDialog(&printer, this);
+    if(printDialog.exec() == QDialog::Accepted)
+    {
+        document->print(&printer);
+        ITextToSpeech::instance().speak("Sending print request to printer.");
+    }
 }
 
-void MainWindow::showFileThemePhrase()
+void MainWindow::emailCrossword()
 {
-    ITextToSpeech::instance().speak(m_Puzzle->getPuzzleThemePhrase());
+    QString emailAddress = "enter@your.email_address_here.com";
+    QString emailSubject = m_Puzzle.getPuzzleTitle().append(" answers");
+
+    QDir dir;
+    QString filePath;
+    if(dir.exists(dir.absolutePath().append(m_EmailAddressFileLocation)))
+    {
+        filePath = dir.absolutePath().append(m_EmailAddressFileLocation);
+
+        QFile file(filePath);
+        if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
+        {
+
+        }
+
+        QTextStream in(&file);
+        QString currentLine;
+        QStringList linelist;
+
+        if(in.atEnd())
+        {
+        }
+
+        do
+        {
+            currentLine = in.readLine();
+            if(currentLine.length() != 0)
+            {
+                linelist << currentLine;
+            }
+        } while (!currentLine.isNull());
+
+        if(!linelist.isEmpty())
+        {
+            emailAddress = linelist.takeFirst();
+        }
+    }
+
+    QString emailBody;
+
+    emailBody.append(m_Puzzle.getInformationString().append("%0A%0A"));
+
+    for(unsigned int i = 0; i < m_Puzzle.getRefCrosswordEntries().size(); i++)
+    {
+        QString id = m_Puzzle.getRefCrosswordEntries().at(i).getEntryName();
+        QString direction = m_Puzzle.getRefCrosswordEntries().at(i).getDirection().getString();
+        QString answer = m_Puzzle.getRefCrosswordEntries().at(i).getGuess().getString();
+
+        emailBody.append(id).append(" ").append(direction).append(" --- ").append(answer).append("%0A");
+    }
+
+    QUrl mailtoURL = QUrl(QString("mailto:").append(emailAddress)
+                          .append("?subject=").append(emailSubject)
+                          .append("&body=").append(emailBody));
+
+    if(QDesktopServices::openUrl(mailtoURL))
+    {
+        ITextToSpeech::instance().speak("Attempting to open an email containing your answers.");
+    }
+    else
+    {
+        ITextToSpeech::instance().speak("Failed to open an email containing your answers.");
+    }
+}
+
+void MainWindow::showFileProperties()
+{
+    ITextToSpeech::instance().speak(m_Puzzle.getInformationString());
 }
 
 void MainWindow::viewLicense()
@@ -225,7 +357,7 @@ void MainWindow::toggleGrid(bool hidden)
 
 void MainWindow::readCrosswordThemePhrase()
 {
-    ITextToSpeech::instance().speak(m_Puzzle->getPuzzleThemePhrase());
+    ITextToSpeech::instance().speak(m_Puzzle.getPuzzleThemePhrase());
 }
 
 void MainWindow::cycleSpeechMode()
@@ -254,38 +386,41 @@ void MainWindow::cycleSpeechMode()
 
 void MainWindow::cycleTableViewFilter()
 {
-    const static unsigned int cs_NumFilters = 5;
+    const static unsigned int cs_NumFilters = 4;
     static unsigned int s_Filter = 0;
-    QRegExp filterUnstarted = QRegExp("[^a-zA-Z]");
-    QRegExp filterPartial = QRegExp("([^\\.])");
-    QRegExp filterCompleted = QRegExp("");
-    QRegExp filterNone = QRegExp("");
-    QRegExp filterIncidentCrosswordEntries = QRegExp("");
+    QRegExp showUnstarted = QRegExp("[^A]");
+    QRegExp showPartial = QRegExp("([^\\.])");
+    QRegExp showCompleted = QRegExp("");
+    QRegExp showAll = QRegExp("");
+    QRegExp showIncidentCrosswordEntries = QRegExp("");
 
     switch(s_Filter)
     {
         case 0:
-            m_ProxyModel->setFilterRegExp(filterUnstarted);
+            m_ProxyModel->setFilterRegExp(showUnstarted);
             m_ProxyModel->setFilterKeyColumn(1);
-            ITextToSpeech::instance().speak(tr("Showing only unstarted crossword entries."));
+            ITextToSpeech::instance().speak("Showing unstarted crossword entries.");
             break;
         case 1:
-            m_ProxyModel->setFilterRegExp(filterCompleted);
+            m_ProxyModel->setFilterRegExp(showCompleted);
             m_ProxyModel->setFilterKeyColumn(1);
-            ITextToSpeech::instance().speak(tr("Showing only completed crossword entries."));
+            ITextToSpeech::instance().speak("Showing completed crossword entries.");
             break;
         case 2:
-            m_ProxyModel->setFilterRegExp(filterPartial);
+            m_ProxyModel->setFilterRegExp(showPartial);
             m_ProxyModel->setFilterKeyColumn(1);
-            ITextToSpeech::instance().speak(tr("Showing only partially completed crossword entries."));
+            ITextToSpeech::instance().speak("Showing partially completed crossword entries.");
             break;
         case 3:
-             m_ProxyModel->setFilterRegExp(filterNone);
+             m_ProxyModel->setFilterRegExp(showAll);
              m_ProxyModel->setFilterKeyColumn(1);
-             ITextToSpeech::instance().speak(tr("Filtering disabled."));
+             ITextToSpeech::instance().speak("Filtering disabled.");
             break;
        case 4:
-            m_ProxyModel->setFilterKeyColumn(0);
+            m_ProxyModel->setFilterRegExp(showIncidentCrosswordEntries);
+            m_ProxyModel->setFilterKeyColumn(1);
+            ITextToSpeech::instance().speak("Showing all clues that touch the current clue");
+            break;
     }
 
     s_Filter++;
@@ -297,6 +432,9 @@ void MainWindow::cycleTableViewFilter()
 
 void MainWindow::checkIfPuzzleWasCompleted()
 {
+    if(m_Puzzle.getPuzzleType() != CrosswordTypes::WITHOUT_ANSWERS)
+    {
+    }
 }
 
 void MainWindow::openHelp()
@@ -323,7 +461,7 @@ void MainWindow::openHelp()
 
 void MainWindow::scoreCrossword()
 {
-    ITextToSpeech::instance().speak(m_Puzzle->getScoreString());
+    ITextToSpeech::instance().speak(m_Puzzle.getScoreString());
 }
 
 void MainWindow::raiseError(QString title, QString error)

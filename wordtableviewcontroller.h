@@ -34,6 +34,7 @@ private slots:
     void conflictingWordError();
     void reportGuessAccepted(QString guess);
     void reportGuessAmended(QString removedLetters);
+    void reportGuessAmendationRejected();
 
 signals:
     void guessSubmitted(QString guess, QModelIndex index);

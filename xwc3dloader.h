@@ -18,7 +18,7 @@ private:
     bool loadAwayClues(PuzzleBase& puzzle, QStringList& linelist);
     bool loadDownClues(PuzzleBase& puzzle, QStringList& linelist);
     bool loadUpClues(PuzzleBase& puzzle, QStringList& linelist);
-    bool loadWindingClues(PuzzleBase& puzzle, QStringList& linelist);
+    bool loadSnakingClues(PuzzleBase& puzzle, QStringList& linelist);
 };
 
 #endif // XWC3DLOADER_H

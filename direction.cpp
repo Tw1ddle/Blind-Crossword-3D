@@ -11,15 +11,15 @@ Direction::Direction(Directions::DIRECTION direction)
 
 bool Direction::operator ==(const Direction &direction)
 {
-    return this->getDirectionName() == direction.getDirectionName();
+    return this->getString() == direction.getString();
 }
 
 bool Direction::operator !=(const Direction &direction)
 {
-    return !(this->getDirectionName() == direction.getDirectionName());
+    return !(this->getString() == direction.getString());
 }
 
-QString Direction::getDirectionName() const
+QString Direction::getString() const
 {
     return m_Direction;
 }

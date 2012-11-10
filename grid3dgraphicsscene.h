@@ -18,22 +18,23 @@ class Grid3DGraphicsScene : public QGraphicsScene
 {
     Q_OBJECT
 public:
-    Grid3DGraphicsScene(PuzzleBase* puzzle);
+    Grid3DGraphicsScene(const PuzzleBase& puzzle);
 
 protected:
     void drawBackground(QPainter *painter, const QRectF &rect);
 
 private:
-    const PuzzleBase* m_RefPuzzle;
-    const LetterGrid* m_RefGrid;
-    const std::vector<CrosswordEntry3D>* m_RefCrosswordEntries;
-    const QPixmap* m_RefBackgroundImage;
+    const PuzzleBase& m_RefPuzzle;
+    const LetterGrid& m_RefGrid;
+    const std::vector<CrosswordEntry3D>& m_RefCrosswordEntries;
+    const QPixmap& m_RefBackgroundImage;
 
     std::vector<GraphicsGridItem*> m_GraphicsGridItems;
 
     unsigned int m_CurrentlySelectedCrosswordEntryNumber;
     unsigned int m_PreviousSelectedCrosswordEntryNumber;
 
+    void build2DDisc(unsigned int xDim, unsigned int yDim, uivec3 offset, unsigned int discNumber);
     void build2DGrid(unsigned int xDim, unsigned int yDim, uivec3 offset, unsigned int gridNumber);
 
 public slots:

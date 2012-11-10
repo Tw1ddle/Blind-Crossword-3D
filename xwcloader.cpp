@@ -80,6 +80,8 @@ bool XWCLoader::loadAcrossClues(PuzzleBase &puzzle, QStringList &linelist)
 
         Direction direction(Directions::ACROSS);
 
+        unsigned int identifier = 0;
+
         QString number = list.takeFirst();
 
         unsigned int posY = list.takeFirst().toUInt() - 1;
@@ -123,7 +125,7 @@ bool XWCLoader::loadAcrossClues(PuzzleBase &puzzle, QStringList &linelist)
            wordComponentLengths.push_back(wordComponents.takeFirst().toUInt());
        }
 
-       puzzle.m_CrosswordEntries.push_back(CrosswordEntry3D(direction, number, wordString, word, wordComponentLengths, clue));
+       puzzle.m_CrosswordEntries.push_back(CrosswordEntry3D(direction, identifier, number, wordString, word, wordComponentLengths, clue));
     }
 
     return true;
@@ -139,6 +141,8 @@ bool XWCLoader::loadAwayClues(PuzzleBase &puzzle, QStringList &linelist)
         QStringList list = linelist.takeFirst().split("|");
 
         Direction direction(Directions::AWAY);
+
+        unsigned int identifier = 0; // unused
 
         QString number = list.takeFirst();
 
@@ -178,7 +182,7 @@ bool XWCLoader::loadAwayClues(PuzzleBase &puzzle, QStringList &linelist)
            wordComponentLengths.push_back(wordComponents.takeFirst().toUInt());
        }
 
-        puzzle.m_CrosswordEntries.push_back(CrosswordEntry3D(direction, number, wordString, word, wordComponentLengths, clue));
+        puzzle.m_CrosswordEntries.push_back(CrosswordEntry3D(direction, identifier, number, wordString, word, wordComponentLengths, clue));
     }
 
     return true;

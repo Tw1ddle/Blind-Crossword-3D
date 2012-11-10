@@ -33,8 +33,6 @@ SOURCES += main.cpp\
     xwc3dloader.cpp \
     xwcloader.cpp \
     xwcr3dloader.cpp \
-    gridpuzzle.cpp \
-    discpuzzle.cpp \
     puzzlebase.cpp \
     puzzleloaderinterface.cpp
 
@@ -61,11 +59,10 @@ HEADERS  += mainwindow.h \
     xwc3dloader.h \
     xwcloader.h \
     xwcr3dloader.h \
-    gridpuzzle.h \
-    discpuzzle.h \
     puzzlebase.h \
     puzzleloaderinterface.h \
-    fileformats.h
+    fileformats.h \
+    crosswordtypes.h
 
 
 

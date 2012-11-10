@@ -21,7 +21,6 @@ private:
 private slots:
     void zoomAnimationFinished();
     void scalingTime(qreal x);
-    void print();
 };
 
 #endif // GRID3DGRAPHICSVIEW_H

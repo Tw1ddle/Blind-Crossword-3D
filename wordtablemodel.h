@@ -18,7 +18,7 @@ class WordTableModel : public QAbstractTableModel
 {
     Q_OBJECT
 public:
-    WordTableModel(PuzzleBase* puzzle, QObject *parent = 0);
+    WordTableModel(const PuzzleBase& puzzle, std::vector<CrosswordEntry3D>& refCrosswordEntries, QObject *parent = 0);
 
     int rowCount(const QModelIndex& parent) const;
     int columnCount(const QModelIndex& parent) const;
@@ -26,9 +26,9 @@ public:
     QVariant headerData(int section, Qt::Orientation orientation, int role) const;
 
 private:
-    const PuzzleBase* m_RefPuzzle;
-    std::vector<CrosswordEntry3D>* m_RefCrosswordEntries;
-    const LetterGrid* m_RefWorkingGrid;
+    std::vector<CrosswordEntry3D>& m_RefCrosswordEntries;
+    const LetterGrid& m_RefWorkingGrid;
+    const PuzzleBase& m_RefPuzzle;
 
     bool existsConflictingWords(QString word, QModelIndex index);
 
@@ -42,6 +42,7 @@ signals:
     void conflictingWordError();
     void guessValidated(QString);
     void guessAmended(QString);
+    void guessAmendationRequestRejected();
 
     void crosswordEntrySelectionChanged(CrosswordEntry3D newCrosswordEntrySelection);
 };
