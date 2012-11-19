@@ -62,7 +62,7 @@ bool WordTableViewController::amendGuess()
 
     if(currentSelection.isValid())
     {
-        QString wordAtSelection = currentSelection.sibling(currentSelection.row(), 1).data().toString();
+        QString wordAtSelection = currentSelection.sibling(currentSelection.row(), 2).data().toString();
 
         assert(wordAtSelection.length() != 0);
 

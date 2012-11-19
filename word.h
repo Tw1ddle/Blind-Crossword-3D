@@ -17,6 +17,7 @@ public:
     QString getString() const;
     unsigned int getLength() const;
     bool containsLetter(Letter* letter) const; // compares pointers
+    bool intersectsWord(Word* word) const; // compares pointers
 
     void setString(QString string);
 

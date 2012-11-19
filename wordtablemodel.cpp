@@ -61,7 +61,7 @@ QVariant WordTableModel::data(const QModelIndex& index, int role) const
         }
         else if(index.column() == 3)
         {
-            return m_RefCrosswordEntries.at(index.row()).getClue().getString();
+            return m_RefCrosswordEntries.at(index.row()).getClue();
         }
         else if(index.column() == 4)
         {

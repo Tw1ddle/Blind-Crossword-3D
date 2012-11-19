@@ -8,7 +8,13 @@ XWCR3DLoader::XWCR3DLoader()
 
 bool XWCR3DLoader::loadMetaData(PuzzleBase& puzzle, QStringList& linelist)
 {
-    puzzle.m_CrosswordFileFormat = FileFormats::XWCR3D;
+    puzzle.m_CrosswordFileFormat = linelist.takeFirst();
+    puzzle.m_FileFormatVersion = linelist.takeFirst().toUInt();
+
+    if(puzzle.m_CrosswordFileFormat != FileFormats::XWCR3D)
+    {
+        return false;
+    }
 
     puzzle.m_PuzzleTitle = linelist.takeFirst();
     puzzle.m_AuthorTitle = linelist.takeFirst();
@@ -189,7 +195,7 @@ bool XWCR3DLoader::loadClockwiseClues(PuzzleBase &puzzle, QStringList &linelist)
             return false;
         }
 
-       Clue clue(list.takeFirst());
+       QString clue(list.takeFirst());
 
        QString clueDecomp = list.takeFirst().remove("(").remove(")");
        QStringList wordComponents = clueDecomp.split(QRegExp("[,-]"));
@@ -246,7 +252,7 @@ bool XWCR3DLoader::loadAntiClockwiseClues(PuzzleBase &puzzle, QStringList &linel
             return false;
         }
 
-       Clue clue(list.takeFirst());
+       QString clue(list.takeFirst());
 
        QString clueDecomp = list.takeFirst().remove("(").remove(")");
        QStringList wordComponents = clueDecomp.split(QRegExp("[,-]"));
@@ -309,7 +315,7 @@ bool XWCR3DLoader::loadDiametricClues(PuzzleBase &puzzle, QStringList &linelist)
             return false;
         }
 
-       Clue clue(list.takeFirst());
+       QString clue(list.takeFirst());
 
        QString clueDecomp = list.takeFirst().remove("(").remove(")");
        QStringList wordComponents = clueDecomp.split(QRegExp("[,-]"));
@@ -366,7 +372,7 @@ bool XWCR3DLoader::loadDownClues(PuzzleBase &puzzle, QStringList &linelist)
             return false;
         }
 
-       Clue clue(list.takeFirst());
+       QString clue(list.takeFirst());
 
        QString clueDecomp = list.takeFirst().remove("(").remove(")");
        QStringList wordComponents = clueDecomp.split(QRegExp("[,-]"));
@@ -423,7 +429,7 @@ bool XWCR3DLoader::loadUpClues(PuzzleBase &puzzle, QStringList &linelist)
             return false;
         }
 
-       Clue clue(list.takeFirst());
+       QString clue(list.takeFirst());
 
        QString clueDecomp = list.takeFirst().remove("(").remove(")");
        QStringList wordComponents = clueDecomp.split(QRegExp("[,-]"));
@@ -484,7 +490,7 @@ bool XWCR3DLoader::loadSnakingClues(PuzzleBase &puzzle, QStringList &linelist)
             return false;
         }
 
-        Clue clue(list.takeFirst());
+        QString clue(list.takeFirst());
 
         QString clueDecomp = list.takeFirst().remove("(").remove(")");
         QStringList wordComponents = clueDecomp.split(QRegExp("[,-]"));

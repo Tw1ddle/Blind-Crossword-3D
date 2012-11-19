@@ -20,7 +20,6 @@ SOURCES += main.cpp\
     puzzleloader.cpp \
     grid3dgraphicsview.cpp \
     wordtablemodel.cpp \
-    clue.cpp \
     guessworddialog.cpp \
     wordtableviewcontroller.cpp \
     lettergrid.cpp \
@@ -45,7 +44,6 @@ HEADERS  += mainwindow.h \
     puzzleloader.h \
     grid3dgraphicsview.h \
     wordtablemodel.h \
-    clue.h \
     guessworddialog.h \
     wordtableviewcontroller.h \
     lettergrid.h \

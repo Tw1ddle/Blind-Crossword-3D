@@ -2,7 +2,7 @@
 
 #include <assert.h>
 
-CrosswordEntry3D::CrosswordEntry3D(Direction direction, unsigned int identifier, QString entry, QString solution, Word guess, std::vector<unsigned int> wordComponentLengths, Clue clue)
+CrosswordEntry3D::CrosswordEntry3D(Direction direction, unsigned int identifier, QString entry, QString solution, Word guess, std::vector<unsigned int> wordComponentLengths, QString clue)
 {
     m_Identifier = identifier;
     m_WordDirection = direction;
@@ -23,7 +23,7 @@ QString CrosswordEntry3D::getSolution() const
     return m_Solution;
 }
 
-Clue CrosswordEntry3D::getClue() const
+QString CrosswordEntry3D::getClue() const
 {
     return m_Clue;
 }
@@ -78,9 +78,9 @@ bool CrosswordEntry3D::isGuessCorrect() const
     }
 }
 
-bool CrosswordEntry3D::containsLetter(Letter* letter) const
+bool CrosswordEntry3D::intersectsWord(Word* word) const
 {
-    return m_Guess.containsLetter(letter);
+    return m_Guess.intersectsWord(word);
 }
 
 Direction CrosswordEntry3D::getDirection() const

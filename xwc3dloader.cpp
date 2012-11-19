@@ -2,7 +2,13 @@
 
 bool XWC3DLoader::loadMetaData(PuzzleBase& puzzle, QStringList& linelist)
 {
-    puzzle.m_CrosswordFileFormat = FileFormats::XWC3D;
+    puzzle.m_CrosswordFileFormat = linelist.takeFirst();
+    puzzle.m_FileFormatVersion = linelist.takeFirst().toUInt();
+
+    if(puzzle.m_CrosswordFileFormat != FileFormats::XWC3D)
+    {
+        return false;
+    }
 
     puzzle.m_PuzzleTitle = linelist.takeFirst();
     puzzle.m_AuthorTitle = linelist.takeFirst();
@@ -161,7 +167,7 @@ bool XWC3DLoader::loadAcrossClues(PuzzleBase& puzzle, QStringList& linelist)
             return false;
         }
 
-       Clue clue(list.takeFirst());
+       QString clue(list.takeFirst());
 
        QString clueDecomp = list.takeFirst().remove("(").remove(")");
        QStringList wordComponents = clueDecomp.split(QRegExp("[,-]"));
@@ -218,7 +224,7 @@ bool XWC3DLoader::loadAwayClues(PuzzleBase& puzzle, QStringList& linelist)
             return false;
         }
 
-        Clue clue(list.takeFirst());
+        QString clue(list.takeFirst());
 
         QString clueDecomp = list.takeFirst().remove("(").remove(")");
         QStringList wordComponents = clueDecomp.split(QRegExp("[,-]"));
@@ -275,7 +281,7 @@ bool XWC3DLoader::loadDownClues(PuzzleBase& puzzle, QStringList& linelist)
             return false;
         }
 
-        Clue clue(list.takeFirst());
+        QString clue(list.takeFirst());
 
         QString clueDecomp = list.takeFirst().remove("(").remove(")");
         QStringList wordComponents = clueDecomp.split(QRegExp("[,-]"));
@@ -332,7 +338,7 @@ bool XWC3DLoader::loadUpClues(PuzzleBase& puzzle, QStringList& linelist)
             return false;
         }
 
-        Clue clue(list.takeFirst());
+        QString clue(list.takeFirst());
 
         QString clueDecomp = list.takeFirst().remove("(").remove(")");
         QStringList wordComponents = clueDecomp.split(QRegExp("[,-]"));
@@ -393,7 +399,7 @@ bool XWC3DLoader::loadSnakingClues(PuzzleBase& puzzle, QStringList& linelist)
             return false;
         }
 
-        Clue clue(list.takeFirst());
+        QString clue(list.takeFirst());
 
         QString clueDecomp = list.takeFirst().remove("(").remove(")");
         QStringList wordComponents = clueDecomp.split(QRegExp("[,-]"));

@@ -90,7 +90,6 @@ void PuzzleBase::clear()
 
     m_BackgroundImage.detach();
     m_BackgroundImage = NULL;
-
 }
 
 unsigned int PuzzleBase::scoreSolution() const
@@ -179,7 +178,7 @@ QString PuzzleBase::getPuzzleThemePhrase() const
 
     for(unsigned int i = 0; i < m_ThemePhraseCoordinates.size(); i++)
     {
-        themePhrase.append(this->getGrid().getLetterAt(toGridIndex(m_ThemePhraseCoordinates.at(i) - uivec3(1, 1, 1)))->getChar());
+        themePhrase.append(this->getGrid().getLetterAt(toGridIndex(m_ThemePhraseCoordinates.at(i)))->getChar());
     }
 
     return themePhrase;

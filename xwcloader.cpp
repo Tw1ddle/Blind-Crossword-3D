@@ -115,7 +115,7 @@ bool XWCLoader::loadAcrossClues(PuzzleBase &puzzle, QStringList &linelist)
 
         // Breaks on brackets in clues
        QStringList clueDecomp = list.takeFirst().split("(");
-       Clue clue(clueDecomp.takeFirst());
+       QString clue(clueDecomp.takeFirst());
 
        QStringList wordComponents = clueDecomp.takeFirst().remove(")").split(QRegExp("[,-]"));
 
@@ -172,7 +172,7 @@ bool XWCLoader::loadAwayClues(PuzzleBase &puzzle, QStringList &linelist)
         // Breaks on brackets in clues...
 
        QStringList clueDecomp = list.takeFirst().split("(");
-       Clue clue(clueDecomp.takeFirst());
+       QString clue(clueDecomp.takeFirst());
 
        QStringList wordComponents = clueDecomp.takeFirst().remove(")").split(QRegExp("[,-]"));
 
@@ -249,7 +249,7 @@ bool XWCLoader::saveClues(PuzzleBase &puzzle, QStringList &linelist)
                 .append(QString::number(entry.getStartingPosition().getY() + 1)).append(("|"))
                 .append(QString::number(entry.getSolution().size())).append("|")
                 .append(entry.getSolution()).append("|")
-                .append(entry.getClue().getString()).append(" ")
+                .append(entry.getClue()).append(" ")
                 .append(entry.getSolutionComponentLengths().prepend("(").append(")"));
 
         linelist.push_back(entryString);
@@ -264,7 +264,7 @@ bool XWCLoader::saveClues(PuzzleBase &puzzle, QStringList &linelist)
                 .append(QString::number(entry.getStartingPosition().getY() + 1)).append(("|"))
                 .append(QString::number(entry.getSolution().size())).append("|")
                 .append(entry.getSolution()).append("|")
-                .append(entry.getClue().getString()).append(" ")
+                .append(entry.getClue()).append(" ")
                 .append(entry.getSolutionComponentLengths().prepend("(").append(")"));
 
         linelist.push_back(entryString);
