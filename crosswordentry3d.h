@@ -29,8 +29,6 @@ public:
     void setGuess(QString word);
 
 private:
-
-
     unsigned int m_Identifier;
 
     QString m_EntryString;

@@ -14,9 +14,9 @@ public:
     explicit WordTableViewController(QWidget *parent = 0);
 
 protected:
-    virtual void keyPressEvent(QKeyEvent *event);
-    virtual void currentChanged(const QModelIndex &current, const QModelIndex &previous);
-    virtual int sizeHintForColumn(int column) const;
+    void keyPressEvent(QKeyEvent *event);
+    void currentChanged(const QModelIndex &current, const QModelIndex &previous);
+    int sizeHintForColumn(int column) const;
 
     void keyboardSearch(const QString &search);
 

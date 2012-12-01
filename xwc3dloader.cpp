@@ -101,7 +101,19 @@ bool XWC3DLoader::loadClues(PuzzleBase& puzzle, QStringList& linelist)
     }
 
     linelist.takeFirst();
+    if(!loadBackwardsClues(puzzle, linelist))
+    {
+        return false;
+    }
+
+    linelist.takeFirst();
     if(!loadAwayClues(puzzle, linelist))
+    {
+        return false;
+    }
+
+    linelist.takeFirst();
+    if(!loadTowardsClues(puzzle, linelist))
     {
         return false;
     }
@@ -184,6 +196,63 @@ bool XWC3DLoader::loadAcrossClues(PuzzleBase& puzzle, QStringList& linelist)
     return true;
 }
 
+bool XWC3DLoader::loadBackwardsClues(PuzzleBase& puzzle, QStringList& linelist)
+{
+    unsigned int numClues = linelist.takeFirst().toUInt();
+
+    for(unsigned int i = 0; i < numClues; i++)
+    {
+        QStringList list = linelist.takeFirst().split("|");
+
+        Direction direction(Directions::BACKWARDS);
+
+        unsigned int identifier = list.takeFirst().toUInt();
+
+        QString number = list.takeFirst();
+
+        QStringList firstPositionList = list.takeFirst().split(",");
+
+        unsigned int posX = firstPositionList.takeFirst().toUInt() - 1;
+        unsigned int posY = firstPositionList.takeFirst().toUInt() - 1;
+        unsigned int posZ = firstPositionList.takeFirst().toUInt() - 1;
+        uivec3 startingPosition(posX, posY, posZ);
+
+        unsigned int length = list.takeFirst().toUInt();
+
+        std::vector<Letter*> letters;
+        QString wordString = list.takeFirst();
+        for(unsigned int j = 0; j < length; j++)
+        {
+            QChar letterChar = wordString.at(j);
+            uivec3 letterPosition = startingPosition;
+            letterPosition.setX(letterPosition.getX() - j);
+
+            letters.push_back(puzzle.getRefGrid().getRefLetterAt(puzzle.toGridIndex(letterPosition)));
+        }
+        Word word(letters);
+
+        if(length != wordString.length() || length != letters.size())
+        {
+            return false;
+        }
+
+       QString clue(list.takeFirst());
+
+       QString clueDecomp = list.takeFirst().remove("(").remove(")");
+       QStringList wordComponents = clueDecomp.split(QRegExp("[,-]"));
+
+       std::vector<unsigned int> wordComponentLengths;
+       while(!wordComponents.isEmpty())
+       {
+           wordComponentLengths.push_back(wordComponents.takeFirst().toUInt());
+       }
+
+       puzzle.m_CrosswordEntries.push_back(CrosswordEntry3D(direction, identifier, number, wordString, word, wordComponentLengths, clue));
+    }
+
+    return true;
+}
+
 bool XWC3DLoader::loadAwayClues(PuzzleBase& puzzle, QStringList& linelist)
 {
     unsigned int numClues = linelist.takeFirst().toUInt();
@@ -214,6 +283,63 @@ bool XWC3DLoader::loadAwayClues(PuzzleBase& puzzle, QStringList& linelist)
             QChar letterChar = wordString.at(j);
             uivec3 letterPosition = startingPosition;
             letterPosition.setY(letterPosition.getY() + j);
+
+            letters.push_back(puzzle.getRefGrid().getRefLetterAt(puzzle.toGridIndex(letterPosition)));
+        }
+        Word word(letters);
+
+        if(length != wordString.length() || length != letters.size())
+        {
+            return false;
+        }
+
+        QString clue(list.takeFirst());
+
+        QString clueDecomp = list.takeFirst().remove("(").remove(")");
+        QStringList wordComponents = clueDecomp.split(QRegExp("[,-]"));
+
+        std::vector<unsigned int> wordComponentLengths;
+        while(!wordComponents.isEmpty())
+        {
+            wordComponentLengths.push_back(wordComponents.takeFirst().toUInt());
+        }
+
+        puzzle.m_CrosswordEntries.push_back(CrosswordEntry3D(direction, identifier, number, wordString, word, wordComponentLengths, clue));
+    }
+
+    return true;
+}
+
+bool XWC3DLoader::loadTowardsClues(PuzzleBase& puzzle, QStringList& linelist)
+{
+    unsigned int numClues = linelist.takeFirst().toUInt();
+
+    for(unsigned int i = 0; i < numClues; i++)
+    {
+        QStringList list = linelist.takeFirst().split("|");
+
+        Direction direction(Directions::TOWARDS);
+
+        unsigned int identifier = list.takeFirst().toUInt();
+
+        QString number = list.takeFirst();
+
+        QStringList firstPositionList = list.takeFirst().split(",");
+
+        unsigned int posX = firstPositionList.takeFirst().toUInt() - 1;
+        unsigned int posY = firstPositionList.takeFirst().toUInt() - 1;
+        unsigned int posZ = firstPositionList.takeFirst().toUInt() - 1;
+        uivec3 startingPosition(posX, posY, posZ);
+
+        unsigned int length = list.takeFirst().toUInt();
+
+        std::vector<Letter*> letters;
+        QString wordString = list.takeFirst();
+        for(unsigned int j = 0; j < length; j++)
+        {
+            QChar letterChar = wordString.at(j);
+            uivec3 letterPosition = startingPosition;
+            letterPosition.setY(letterPosition.getY() - j);
 
             letters.push_back(puzzle.getRefGrid().getRefLetterAt(puzzle.toGridIndex(letterPosition)));
         }

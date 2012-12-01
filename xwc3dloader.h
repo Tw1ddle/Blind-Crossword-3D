@@ -15,7 +15,9 @@ public:
 
 private:
     bool loadAcrossClues(PuzzleBase& puzzle, QStringList& linelist);
+    bool loadBackwardsClues(PuzzleBase& puzzle, QStringList& linelist);
     bool loadAwayClues(PuzzleBase& puzzle, QStringList& linelist);
+    bool loadTowardsClues(PuzzleBase& puzzle, QStringList& linelist);
     bool loadDownClues(PuzzleBase& puzzle, QStringList& linelist);
     bool loadUpClues(PuzzleBase& puzzle, QStringList& linelist);
     bool loadSnakingClues(PuzzleBase& puzzle, QStringList& linelist);

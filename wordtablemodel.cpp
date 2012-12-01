@@ -8,7 +8,7 @@ const QString identifierColumnHeader = "Identifier";
 const QString wordColumnHeader = "Word";
 const QString clueColumnHeader = "Clue";
 const QString entryNumberColumnHeader = "Entry";
-const QString wordLengthColumnHeader = "Word Length";
+const QString wordLengthColumnHeader = "Lengths";
 
 WordTableModel::WordTableModel(const PuzzleBase& puzzle, std::vector<CrosswordEntry3D>& refCrosswordEntries, QObject *parent) :
     QAbstractTableModel(parent), m_RefPuzzle(puzzle), m_RefCrosswordEntries(refCrosswordEntries), m_RefWorkingGrid(puzzle.getGrid())

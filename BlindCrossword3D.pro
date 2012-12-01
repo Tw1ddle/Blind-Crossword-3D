@@ -60,7 +60,8 @@ HEADERS  += mainwindow.h \
     puzzlebase.h \
     puzzleloaderinterface.h \
     fileformats.h \
-    crosswordtypes.h
+    crosswordtypes.h \
+    direction.h
 
 
 
