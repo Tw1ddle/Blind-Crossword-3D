@@ -16,6 +16,12 @@
     <verstretch>0</verstretch>
    </sizepolicy>
   </property>
+  <property name="font">
+   <font>
+    <family>Lucida Console</family>
+    <pointsize>20</pointsize>
+   </font>
+  </property>
   <property name="windowTitle">
    <string>BCrossword 3D</string>
   </property>
@@ -65,8 +71,8 @@
        </property>
        <property name="font">
         <font>
-         <family>Georgia</family>
-         <pointsize>14</pointsize>
+         <family>Lucida Console</family>
+         <pointsize>20</pointsize>
         </font>
        </property>
        <property name="contextMenuPolicy">
@@ -130,7 +136,7 @@
        </property>
        <property name="font">
         <font>
-         <family>Segoe UI</family>
+         <family>Lucida Console</family>
         </font>
        </property>
        <property name="accessibleName">
@@ -183,7 +189,7 @@
      <x>0</x>
      <y>0</y>
      <width>1175</width>
-     <height>21</height>
+     <height>33</height>
     </rect>
    </property>
    <property name="accessibleName">
@@ -237,10 +243,22 @@
    <property name="text">
     <string>Load Crossword</string>
    </property>
+   <property name="font">
+    <font>
+     <family>Lucida Console</family>
+     <pointsize>20</pointsize>
+    </font>
+   </property>
   </action>
   <action name="actionExit">
    <property name="text">
     <string>Exit</string>
+   </property>
+   <property name="font">
+    <font>
+     <family>Lucida Console</family>
+     <pointsize>20</pointsize>
+    </font>
    </property>
   </action>
   <action name="actionSave_Crossword">
@@ -250,15 +268,33 @@
    <property name="text">
     <string>Save Crossword</string>
    </property>
+   <property name="font">
+    <font>
+     <family>Lucida Console</family>
+     <pointsize>20</pointsize>
+    </font>
+   </property>
   </action>
   <action name="actionOnline_Help">
    <property name="text">
     <string>View Help In Web Browser</string>
    </property>
+   <property name="font">
+    <font>
+     <family>Lucida Console</family>
+     <pointsize>20</pointsize>
+    </font>
+   </property>
   </action>
   <action name="actionShow_About">
    <property name="text">
     <string>About</string>
+   </property>
+   <property name="font">
+    <font>
+     <family>Lucida Console</family>
+     <pointsize>20</pointsize>
+    </font>
    </property>
   </action>
   <action name="actionShow_Grid">
@@ -271,10 +307,22 @@
    <property name="text">
     <string>Show Grid</string>
    </property>
+   <property name="font">
+    <font>
+     <family>Lucida Console</family>
+     <pointsize>20</pointsize>
+    </font>
+   </property>
   </action>
   <action name="actionCrossword_Properties">
    <property name="text">
     <string>Properties</string>
+   </property>
+   <property name="font">
+    <font>
+     <family>Lucida Console</family>
+     <pointsize>20</pointsize>
+    </font>
    </property>
   </action>
   <action name="actionPrint_Crossword">
@@ -284,6 +332,12 @@
    <property name="text">
     <string>Print</string>
    </property>
+   <property name="font">
+    <font>
+     <family>Lucida Console</family>
+     <pointsize>20</pointsize>
+    </font>
+   </property>
    <property name="visible">
     <bool>true</bool>
    </property>
@@ -292,10 +346,27 @@
    <property name="text">
     <string>View License</string>
    </property>
+   <property name="font">
+    <font>
+     <family>Lucida Console</family>
+     <pointsize>20</pointsize>
+    </font>
+   </property>
   </action>
   <action name="actionEmail_Crossword">
    <property name="text">
     <string>Email</string>
+   </property>
+   <property name="font">
+    <font>
+     <family>Lucida Console</family>
+     <pointsize>20</pointsize>
+    </font>
+   </property>
+  </action>
+  <action name="actionEmail_Feedback">
+   <property name="text">
+    <string>Email_Feedback</string>
    </property>
   </action>
  </widget>

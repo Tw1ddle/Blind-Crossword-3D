@@ -27,6 +27,8 @@ GuessWordDialog::GuessWordDialog(QWidget *parent) :
     connect(m_WordEdit, SIGNAL(textEdited(QString)), this, SLOT(readText(QString)));
     connect(this, SIGNAL(rejected()), this, SLOT(readOnDimissal()));
 
+    setFont(QFont("Lucida Console", 32, -1, false));
+
     setWindowTitle(tr("Enter word"));
 }
 

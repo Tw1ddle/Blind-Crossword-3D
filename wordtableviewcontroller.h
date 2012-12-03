@@ -23,6 +23,7 @@ protected:
  private:
     bool enterGuess();
     bool amendGuess();
+    bool eraseGuess();
     bool validateInput(QString guess, unsigned int requiredLength);
 
     void readCurrentEntryNumber();
@@ -34,11 +35,13 @@ private slots:
     void conflictingWordError();
     void reportGuessAccepted(QString guess);
     void reportGuessAmended(QString removedLetters);
+    void reportGuessErased();
     void reportGuessAmendationRejected();
 
 signals:
     void guessSubmitted(QString guess, QModelIndex index);
     void guessAmendationRequested(QString guess, QModelIndex index);
+    void guessErasureRequested(QModelIndex index);
     void modelIndexChanged(const QModelIndex& selected, const QModelIndex& deselected);
 };
 

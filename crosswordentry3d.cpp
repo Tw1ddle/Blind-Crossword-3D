@@ -78,7 +78,7 @@ bool CrosswordEntry3D::isGuessCorrect() const
     }
 }
 
-bool CrosswordEntry3D::intersectsWord(Word* word) const
+bool CrosswordEntry3D::intersectsWord(Word* const word) const
 {
     return m_Guess.intersectsWord(word);
 }

@@ -23,7 +23,7 @@ public:
     Word getGuess() const;
     bool isGuessCorrect() const;
 
-    bool intersectsWord(Word* word) const;
+    bool intersectsWord(Word* const word) const;
 
     void resetGuess();
     void setGuess(QString word);

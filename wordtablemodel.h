@@ -36,6 +36,7 @@ public slots:
     void crosswordEntriesChanged();
     void amendGuess(QString word, QModelIndex index);
     void enterGuess(QString word, QModelIndex index);
+    void eraseGuess(QModelIndex index);
     void tableViewSelectionChanged(const QModelIndex& current, const QModelIndex& previous);
 
 signals:
@@ -43,6 +44,7 @@ signals:
     void guessValidated(QString);
     void guessAmended(QString);
     void guessAmendationRequestRejected();
+    void guessErased();
 
     void crosswordEntrySelectionChanged(CrosswordEntry3D newCrosswordEntrySelection);
 };

@@ -24,7 +24,7 @@ WordTableViewController::WordTableViewController(QWidget *parent) :
 
 bool WordTableViewController::enterGuess()
 {
-    ITextToSpeech::instance().speak(tr("Enter your answer"));
+    ITextToSpeech::instance().speak(tr("Enter your answer."));
 
     const QSortFilterProxyModel* proxy = dynamic_cast<const QSortFilterProxyModel*>(model());
     assert(proxy);
@@ -74,6 +74,23 @@ bool WordTableViewController::amendGuess()
     return false;
 }
 
+bool WordTableViewController::eraseGuess()
+{
+    const QSortFilterProxyModel* proxy = dynamic_cast<const QSortFilterProxyModel*>(model());
+    assert(proxy);
+
+    QModelIndex currentSelection = proxy->mapToSource(selectionModel()->currentIndex());
+
+    if(currentSelection.isValid())
+    {
+        emit(guessErasureRequested(currentSelection));
+
+        return true;
+    }
+
+    return false;
+}
+
 void WordTableViewController::keyPressEvent(QKeyEvent *event)
 {
     QString str = event->text();
@@ -94,6 +111,10 @@ void WordTableViewController::keyPressEvent(QKeyEvent *event)
         else if(event->key() == ShortcutKeys::amendGuessKey)
         {
             amendGuess();
+        }
+        else if(event->key() == ShortcutKeys::deleteGuessKey)
+        {
+            eraseGuess();
         }
         else if(event->key() == ShortcutKeys::readCurrentGuessKey)
         {
@@ -219,12 +240,17 @@ void WordTableViewController::reportGuessAmended(QString removedLetters)
 {
     if(removedLetters.isNull())
     {
-        ITextToSpeech::instance().speak(tr("There are no incorrectly guessed letters"));
+        ITextToSpeech::instance().speak(tr("There are no incorrect letters in your guess."));
     }
     else
     {
-        ITextToSpeech::instance().speak(tr("Incorrect letters have been removed from your guess"));
+        ITextToSpeech::instance().speak(tr("Incorrect letters have been removed from your guess."));
     }
+}
+
+void WordTableViewController::reportGuessErased()
+{
+    ITextToSpeech::instance().speak(tr("Your guess has been deleted."));
 }
 
 void WordTableViewController::reportGuessAmendationRejected()

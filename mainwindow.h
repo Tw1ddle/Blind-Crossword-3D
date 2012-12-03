@@ -49,6 +49,7 @@ private:
     QShortcut* m_SaveShortcut;
     QShortcut* m_HelpShortcut;
     QShortcut* m_ScoreShortcut;
+    QShortcut* m_RevealAnswerShortcut;
     QShortcut* m_FilePropertiesShortcut;
     QShortcut* m_FilterTableViewShortcut;
     QShortcut* m_CycleSpeechModeShortcut;
@@ -64,6 +65,7 @@ private slots:
     void showFileProperties();
     void exitConfirmation();
     void openHelp();
+    void emailFeedback();
     void showAbout();
     void scoreCrossword();
     void viewLicense();

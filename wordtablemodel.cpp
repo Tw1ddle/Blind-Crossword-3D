@@ -193,6 +193,18 @@ void WordTableModel::enterGuess(QString word, QModelIndex index)
     emit guessValidated(word);
 }
 
+void WordTableModel::eraseGuess(QModelIndex index)
+{
+    m_RefCrosswordEntries.at(index.row()).resetGuess();
+
+    // Pointer data members in the data source w/ rows affecting other rows means we have to update the whole table when a guess is amended or removed (determining which rows are changed otherwise is inconvenient)
+    int rows = rowCount(QModelIndex()) - 1;
+    int columns = columnCount(QModelIndex()) - 1;
+    emit dataChanged(this->index(0, 0), this->index(rows, columns));
+
+    emit guessErased();
+}
+
 void WordTableModel::tableViewSelectionChanged(const QModelIndex& current, const QModelIndex& previous)
 {
     CrosswordEntry3D newCrosswordEntry = m_RefCrosswordEntries.at(current.row());

@@ -51,18 +51,21 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(this, SIGNAL(puzzleLoaded()), m_GraphicsScene, SLOT(buildPuzzleGrid()));
 
     connect(m_WordTableModel, SIGNAL(conflictingWordError()), ui->wordTableView, SLOT(conflictingWordError()));
+    connect(ui->wordTableView, SIGNAL(modelIndexChanged(const QModelIndex&, const QModelIndex&)), m_WordTableModel, SLOT(tableViewSelectionChanged(const QModelIndex&, const QModelIndex&)));
 
     connect(ui->wordTableView, SIGNAL(guessSubmitted(QString,QModelIndex)), this, SLOT(checkIfPuzzleWasCompleted()));
     connect(ui->wordTableView, SIGNAL(guessSubmitted(QString, QModelIndex)), m_WordTableModel, SLOT(enterGuess(QString, QModelIndex)));
     connect(ui->wordTableView, SIGNAL(guessAmendationRequested(QString, QModelIndex)), m_WordTableModel, SLOT(amendGuess(QString, QModelIndex)));
-    connect(ui->wordTableView, SIGNAL(modelIndexChanged(const QModelIndex&, const QModelIndex&)), m_WordTableModel, SLOT(tableViewSelectionChanged(const QModelIndex&, const QModelIndex&)));
+    connect(ui->wordTableView, SIGNAL(guessErasureRequested(QModelIndex)), m_WordTableModel, SLOT(eraseGuess(QModelIndex)));
 
     connect(m_WordTableModel, SIGNAL(guessValidated(QString)), ui->wordTableView, SLOT(reportGuessAccepted(QString)));
     connect(m_WordTableModel, SIGNAL(guessAmended(QString)), ui->wordTableView, SLOT(reportGuessAmended(QString)));
+    connect(m_WordTableModel, SIGNAL(guessErased()), ui->wordTableView, SLOT(reportGuessErased()));
     connect(m_WordTableModel, SIGNAL(guessAmendationRequestRejected()), ui->wordTableView, SLOT(reportGuessAmendationRejected()));
 
     connect(m_WordTableModel, SIGNAL(guessValidated(QString)), m_GraphicsScene, SLOT(repaintPuzzleGrid()));
     connect(m_WordTableModel, SIGNAL(guessAmended(QString)), m_GraphicsScene, SLOT(repaintPuzzleGrid()));
+    connect(m_WordTableModel, SIGNAL(guessErased()), m_GraphicsScene, SLOT(repaintPuzzleGrid()));
     connect(m_WordTableModel, SIGNAL(crosswordEntrySelectionChanged(CrosswordEntry3D)), m_GraphicsScene, SLOT(highlightSelection(CrosswordEntry3D)));
 
     connect(&m_PuzzleLoader, SIGNAL(loaderError(QString, QString)), this, SLOT(showError(QString, QString)));
@@ -311,6 +314,64 @@ void MainWindow::emailCrossword()
     else
     {
         ITextToSpeech::instance().speak("Failed to open an email containing your answers.");
+    }
+}
+
+void MainWindow::emailFeedback()
+{
+    QString emailAddress = "enter@your.email_address_here.com";
+    QString emailSubject = m_Puzzle.getPuzzleTitle().append("Blind Crossword 3D feedback");
+
+    QDir dir;
+    QString filePath;
+    if(dir.exists(dir.absolutePath().append(m_EmailAddressFileLocation)))
+    {
+        filePath = dir.absolutePath().append(m_EmailAddressFileLocation);
+
+        QFile file(filePath);
+        if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
+        {
+
+        }
+
+        QTextStream in(&file);
+        QString currentLine;
+        QStringList linelist;
+
+        if(in.atEnd())
+        {
+        }
+
+        do
+        {
+            currentLine = in.readLine();
+            if(currentLine.length() != 0)
+            {
+                linelist << currentLine;
+            }
+        } while (!currentLine.isNull());
+
+        if(!linelist.isEmpty())
+        {
+            emailAddress = linelist.takeFirst();
+        }
+    }
+
+    QString emailBody;
+
+    emailBody.append(m_Puzzle.getInformationString().append("%0A%0A"));
+
+    QUrl mailtoURL = QUrl(QString("mailto:").append(emailAddress)
+                          .append("?subject=").append(emailSubject)
+                          .append("&body=").append(emailBody));
+
+    if(QDesktopServices::openUrl(mailtoURL))
+    {
+        ITextToSpeech::instance().speak("Attempting to open an email for you to send us feedback.");
+    }
+    else
+    {
+        ITextToSpeech::instance().speak("Failed to open an email for you to send us feedback.");
     }
 }
 

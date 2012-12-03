@@ -13,7 +13,6 @@ FileDialog::FileDialog(QWidget* parent, const QString& caption, const QString& d
     setWindowTitle(caption);
     setWindowFlags(Qt::Dialog);
 
-
     m_Model->setFilter(QDir::Files);
     m_Model->setNameFilters(filter);
     m_Model->setRootPath(directory);
@@ -28,6 +27,7 @@ FileDialog::FileDialog(QWidget* parent, const QString& caption, const QString& d
 
     m_View->setRootIndex(m_Model->index(directory));
     m_View->setFocus();
+    m_View->adjustSize();
 
     connect(m_View, SIGNAL(selectedItemChanged(QModelIndex, QModelIndex)), this, SLOT(updateCurrent(QModelIndex, QModelIndex)));
     connect(m_View, SIGNAL(activated(QModelIndex)), this, SLOT(onFileSelected(QModelIndex)));
@@ -55,6 +55,7 @@ void FileDialog::onSelectionChanged(const QModelIndex& current)
 
 FileListView::FileListView(QWidget *parent) : QListView(parent)
 {
+    this->setFont(QFont("Lucida Console", 20, -1, false));
 }
 
 void FileListView::keyPressEvent(QKeyEvent *event)

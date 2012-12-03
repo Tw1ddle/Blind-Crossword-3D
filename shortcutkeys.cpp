@@ -16,6 +16,7 @@ namespace ShortcutKeys
 
     const QChar enterGuessKey = Qt::Key_Return;
     const QChar amendGuessKey = Qt::Key_V;
+    const QChar deleteGuessKey = Qt::Key_Backspace;
     const QChar readCurrentGuessKey = Qt::Key_W;
     const QChar readCurrentEntryNumberKey = Qt::Key_E;
     const QChar readCurrentClueKey = Qt::Key_T;
