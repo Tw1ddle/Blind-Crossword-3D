@@ -23,7 +23,7 @@
    </font>
   </property>
   <property name="windowTitle">
-   <string>BCrossword 3D</string>
+   <string>Blind Crossword 3D</string>
   </property>
   <widget class="QWidget" name="centralWidget">
    <property name="sizePolicy">
@@ -189,7 +189,7 @@
      <x>0</x>
      <y>0</y>
      <width>1175</width>
-     <height>33</height>
+     <height>21</height>
     </rect>
    </property>
    <property name="accessibleName">
@@ -204,9 +204,12 @@
     </property>
     <addaction name="actionLoad_Open"/>
     <addaction name="actionSave_Crossword"/>
+    <addaction name="separator"/>
     <addaction name="actionPrint_Crossword"/>
     <addaction name="actionEmail_Crossword"/>
+    <addaction name="separator"/>
     <addaction name="actionCrossword_Properties"/>
+    <addaction name="separator"/>
     <addaction name="actionExit"/>
    </widget>
    <widget class="QMenu" name="menuOptions">
@@ -226,9 +229,11 @@
      <string>Help</string>
     </property>
     <addaction name="actionOnline_Help"/>
+    <addaction name="separator"/>
+    <addaction name="actionSend_Feedback_Email"/>
+    <addaction name="separator"/>
     <addaction name="actionShow_License"/>
     <addaction name="actionShow_About"/>
-    <addaction name="separator"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuOptions"/>
@@ -316,7 +321,7 @@
   </action>
   <action name="actionCrossword_Properties">
    <property name="text">
-    <string>Properties</string>
+    <string>Crossword Properties</string>
    </property>
    <property name="font">
     <font>
@@ -330,7 +335,7 @@
     <bool>true</bool>
    </property>
    <property name="text">
-    <string>Print</string>
+    <string>Print Answers</string>
    </property>
    <property name="font">
     <font>
@@ -355,7 +360,7 @@
   </action>
   <action name="actionEmail_Crossword">
    <property name="text">
-    <string>Email</string>
+    <string>Email Answers</string>
    </property>
    <property name="font">
     <font>
@@ -364,9 +369,15 @@
     </font>
    </property>
   </action>
-  <action name="actionEmail_Feedback">
+  <action name="actionSend_Feedback_Email">
    <property name="text">
-    <string>Email_Feedback</string>
+    <string>Send Feedback Email</string>
+   </property>
+   <property name="font">
+    <font>
+     <family>Lucida Console</family>
+     <pointsize>20</pointsize>
+    </font>
    </property>
   </action>
  </widget>
@@ -548,6 +559,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>actionSend_Feedback_Email</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>emailFeedback()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>587</x>
+     <y>321</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>loadCrossword()</slot>
@@ -559,5 +586,6 @@
   <slot>toggleGrid(bool)</slot>
   <slot>printCrossword()</slot>
   <slot>emailCrossword()</slot>
+  <slot>emailFeedback()</slot>
  </slots>
 </ui>

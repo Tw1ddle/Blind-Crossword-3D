@@ -54,6 +54,7 @@ private:
     QShortcut* m_FilterTableViewShortcut;
     QShortcut* m_CycleSpeechModeShortcut;
     QShortcut* m_ReadCrosswordThemePhraseShortcut;
+    QShortcut* m_StopSpeechShortcut;
 
     QString getIntroString() const;
 
@@ -74,6 +75,9 @@ private slots:
     void readCrosswordThemePhrase();
     void cycleSpeechMode();
     void cycleTableViewFilter();
+
+    void stopSpeech();
+    bool changeSpeechRate(float change);
 
     void checkIfPuzzleWasCompleted();
 

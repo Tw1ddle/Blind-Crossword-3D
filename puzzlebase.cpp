@@ -89,7 +89,6 @@ void PuzzleBase::clear()
     m_CrosswordLoaded = false;
 
     m_BackgroundImage.detach();
-    m_BackgroundImage = NULL;
 }
 
 unsigned int PuzzleBase::scoreSolution() const

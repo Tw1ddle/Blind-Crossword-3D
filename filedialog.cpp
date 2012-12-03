@@ -49,13 +49,13 @@ void FileDialog::onSelectionChanged(const QModelIndex& current)
 {
     m_CurrentFilePath = m_Model->filePath(current);
 
-    QString fileName = m_Model->fileName(current);
+    QString fileName = m_Model->fileInfo(current).baseName(); // read the file name without the extension
     ITextToSpeech::instance().speak(fileName);
 }
 
 FileListView::FileListView(QWidget *parent) : QListView(parent)
 {
-    this->setFont(QFont("Lucida Console", 20, -1, false));
+    setFont(QFont("Lucida Console", 20, -1, false));
 }
 
 void FileListView::keyPressEvent(QKeyEvent *event)

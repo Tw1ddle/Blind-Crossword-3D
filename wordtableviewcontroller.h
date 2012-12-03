@@ -26,6 +26,7 @@ protected:
     bool eraseGuess();
     bool validateInput(QString guess, unsigned int requiredLength);
 
+    void readCurrentIdentifier();
     void readCurrentEntryNumber();
     void readCurrentGuess();
     void readCurrentClue();

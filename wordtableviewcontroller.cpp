@@ -17,6 +17,7 @@
 WordTableViewController::WordTableViewController(QWidget *parent) :
     QTableView(parent)
 {
+    // qt 5.0beta2 -> setSectionResizeMode
     horizontalHeader()->setResizeMode(QHeaderView::ResizeToContents);
 
     setTabKeyNavigation(false);
@@ -24,7 +25,7 @@ WordTableViewController::WordTableViewController(QWidget *parent) :
 
 bool WordTableViewController::enterGuess()
 {
-    ITextToSpeech::instance().speak(tr("Enter your answer."));
+    ITextToSpeech::instance().speak("Enter your answer.");
 
     const QSortFilterProxyModel* proxy = dynamic_cast<const QSortFilterProxyModel*>(model());
     assert(proxy);
@@ -200,19 +201,19 @@ bool WordTableViewController::validateInput(QString guess, unsigned int required
 {
     if(guess.length() != requiredLength)
     {
-        ITextToSpeech::instance().speak(tr("The word has to be ").append(QString::number(requiredLength)).append( tr("characters long.")));
+        ITextToSpeech::instance().speak(QString("The word has to be ").append(QString::number(requiredLength)).append("characters long."));
     }
     else if(guess.contains(QRegExp("\\s")))
     {
-        ITextToSpeech::instance().speak(tr("The word must not contain spaces."));
+        ITextToSpeech::instance().speak("The word must not contain spaces.");
     }
     else if(guess.contains(QRegExp("\\d")))
     {
-        ITextToSpeech::instance().speak(tr("The word must not contain numbers."));
+        ITextToSpeech::instance().speak("The word must not contain numbers.");
     }
     else if(guess.contains(QRegExp("[^a-zA-Z\\.]")))
     {
-        ITextToSpeech::instance().speak(tr("The word must not contain non-word characters."));
+        ITextToSpeech::instance().speak("The word must not contain non-word characters.");
     }
     else
     {
@@ -223,7 +224,7 @@ bool WordTableViewController::validateInput(QString guess, unsigned int required
 
 void WordTableViewController::conflictingWordError()
 {
-    ITextToSpeech::instance().speak(tr("The word conflicts with an intersecting word."));
+    ITextToSpeech::instance().speak("The word conflicts with an intersecting word.");
 }
 
 void WordTableViewController::reportGuessAccepted(QString guess)
@@ -232,30 +233,44 @@ void WordTableViewController::reportGuessAccepted(QString guess)
 
     ITextToSpeech::instance().setMode(SPEECH_MODES::spellingOutSpeech);
     ITextToSpeech::instance().speak(guess);
-
     ITextToSpeech::instance().setMode(mode);
 }
 
 void WordTableViewController::reportGuessAmended(QString removedLetters)
 {
+    QModelIndex currentSelection = selectionModel()->currentIndex();
+    QString wordAtSelection = currentSelection.sibling(currentSelection.row(), 3).data().toString();
+
+    if(removedLetters.isNull() && !wordAtSelection.contains(QChar(Qt::Key_Period)))
+    {
+        ITextToSpeech::instance().speak("Your guess is correct.");
+    }
     if(removedLetters.isNull())
     {
-        ITextToSpeech::instance().speak(tr("There are no incorrect letters in your guess."));
+        ITextToSpeech::instance().speak("There are no incorrect letters in your guess.");
     }
     else
     {
-        ITextToSpeech::instance().speak(tr("Incorrect letters have been removed from your guess."));
+        ITextToSpeech::instance().speak("Incorrect letters have been removed from your guess.");
     }
 }
 
 void WordTableViewController::reportGuessErased()
 {
-    ITextToSpeech::instance().speak(tr("Your guess has been deleted."));
+    ITextToSpeech::instance().speak("Your guess has been deleted.");
 }
 
 void WordTableViewController::reportGuessAmendationRejected()
 {
     ITextToSpeech::instance().speak("Guesses cannot be validated in this puzzle");
+}
+
+void WordTableViewController::readCurrentIdentifier()
+{
+    QModelIndex currentSelection = selectionModel()->currentIndex();
+    QString entryAtSelection = currentSelection.sibling(currentSelection.row(), 0).data().toString();
+
+    ITextToSpeech::instance().speak(entryAtSelection.append("."));
 }
 
 void WordTableViewController::readCurrentEntryNumber()
@@ -273,13 +288,10 @@ void WordTableViewController::readCurrentGuess()
 
     if(wordAtSelection.contains(QRegExp("(\\.+)")))
     {
-        QString spelledOutWord = wordAtSelection;
-
         SPEECH_MODES::SPEECHMODE mode = ITextToSpeech::instance().getMode();
 
         ITextToSpeech::instance().setMode(SPEECH_MODES::spellingOutSpeech);
-        ITextToSpeech::instance().speak(spelledOutWord);
-
+        ITextToSpeech::instance().speak(wordAtSelection);
         ITextToSpeech::instance().setMode(mode);
     }
     else

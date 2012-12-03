@@ -109,7 +109,7 @@ void MainWindow::loadCrossword()
         loadPath = dir.absolutePath();
     }
 
-    ITextToSpeech::instance().speak(tr("Opening load crossword dialog."));
+    ITextToSpeech::instance().speak("Opening load crossword dialog.");
 
     QStringList fileNameFilter;
     fileNameFilter.push_back(QString("*.xwc"));
@@ -117,9 +117,9 @@ void MainWindow::loadCrossword()
     fileNameFilter.push_back(QString("*.xwcr3d"));
 
     FileDialog crosswordDialog(this,
-                               tr("Choose a crossword to load"),
+                               "Choose a crossword to load",
                                loadPath,
-                               tr("Crossword Grid 3D(*.xwc3d);; Crossword Disc 3D(*.xwcr3d);;Crossword Compiler (*.xwc)"),
+                               "Crossword Grid 3D(*.xwc3d);; Crossword Disc 3D(*.xwcr3d);;Crossword Compiler (*.xwc)",
                                fileNameFilter);
 
     QString path;
@@ -141,7 +141,7 @@ void MainWindow::loadCrossword()
     }
     else
     {
-        ITextToSpeech::instance().speak(tr("No file was selected."));
+        ITextToSpeech::instance().speak("No file was selected.");
     }
 }
 
@@ -178,7 +178,7 @@ void MainWindow::saveCrossword()
     QFileInfo updatedFileInfo(path);
     if(m_PuzzleLoader.savePuzzle(m_Puzzle, path, m_Puzzle.getPuzzleFormat()))
     {
-        ITextToSpeech::instance().speak(tr("Crossword was saved as: ")
+        ITextToSpeech::instance().speak(QString("Crossword was saved as: ")
                                         .append(updatedFileInfo.fileName())
                                         .append(". In folder: ")
                                         .append(updatedFileInfo.filePath()));
@@ -394,11 +394,11 @@ void MainWindow::viewLicense()
 
     if(openedSuccessfully)
     {
-        ITextToSpeech::instance().speak(tr("Opening license document in web browser."));
+        ITextToSpeech::instance().speak("Opening license document in web browser.");
     }
     else
     {
-        ITextToSpeech::instance().speak(tr("Error, could not open license document."));
+        ITextToSpeech::instance().speak("Error, could not open license document.");
     }
 }
 
@@ -406,12 +406,12 @@ void MainWindow::toggleGrid(bool hidden)
 {
     if(!hidden)
     {
-        ITextToSpeech::instance().speak(tr("Crossword grid is now hidden."));
+        ITextToSpeech::instance().speak("Graphical crossword grid is now hidden.");
         ui->graphicsView->setVisible(hidden);
     }
     else
     {
-        ITextToSpeech::instance().speak(tr("Crossword grid is now shown."));
+        ITextToSpeech::instance().speak("Graphical crossword grid is now shown.");
         ui->graphicsView->setVisible(hidden);
     }
 }
@@ -429,12 +429,12 @@ void MainWindow::cycleSpeechMode()
     switch(s_SpeechMode)
     {
         case 0:
-        ITextToSpeech::instance().speak(tr("Spelling speech mode activated."));
+        ITextToSpeech::instance().speak("Spelling speech mode activated.");
         ITextToSpeech::instance().setMode(SPEECH_MODES::spellingOutSpeech);
         break;
         case 1:
         ITextToSpeech::instance().setMode(SPEECH_MODES::normalSpeech);
-        ITextToSpeech::instance().speak(tr("Regular speech mode activated."));
+        ITextToSpeech::instance().speak("Regular speech mode activated.");
         break;
     }
 
@@ -491,6 +491,16 @@ void MainWindow::cycleTableViewFilter()
     }
 }
 
+void MainWindow::stopSpeech()
+{
+    ITextToSpeech::instance().speak("Speech stopped", csDefaultAsynchronousSpeechOptions);
+}
+
+bool MainWindow::changeSpeechRate(float change)
+{
+    return false;
+}
+
 void MainWindow::checkIfPuzzleWasCompleted()
 {
     if(m_Puzzle.getPuzzleType() != CrosswordTypes::WITHOUT_ANSWERS)
@@ -512,11 +522,11 @@ void MainWindow::openHelp()
 
     if(openedSuccessfully)
     {
-        ITextToSpeech::instance().speak(tr("Opening help page in web browser."));
+        ITextToSpeech::instance().speak("Opening help page in web browser.");
     }
     else
     {
-        ITextToSpeech::instance().speak(tr("Error, could not open help page."));
+        ITextToSpeech::instance().speak("Error, could not open help page.");
     }
 }
 
@@ -558,18 +568,21 @@ void MainWindow::createShortcuts()
 
     m_ReadCrosswordThemePhraseShortcut = new QShortcut(QKeySequence(ShortcutKeys::readCrosswordThemePhraseKey), this);
     connect(m_ReadCrosswordThemePhraseShortcut, SIGNAL(activated()), this, SLOT(readCrosswordThemePhrase()));
+
+    m_StopSpeechShortcut = new QShortcut(QKeySequence(ShortcutKeys::stopSpeechKey), this);
+    connect(m_StopSpeechShortcut, SIGNAL(activated()), this, SLOT(stopSpeech()));
 }
 
 QString MainWindow::getIntroString() const
 {
-    return QString(tr("Welcome to Blind Crossword 3D. Press ").append(ShortcutKeys::loadShortcutKey).append(" to load a crossword. "))
+    return QString("Welcome to Blind Crossword 3D. Press ").append(ShortcutKeys::loadShortcutKey).append(" to load a crossword. ")
             .append("Press ").append(ShortcutKeys::exitShortcutKey).append(" to quit the program. ")
             .append("Press ").append(ShortcutKeys::helpShortcutKey).append(" to open a help document in your web browser. Use your screen reader to read the document");
 }
 
 void MainWindow::showAbout()
 {
-    ITextToSpeech::instance().speak(tr("Blind Crossword3D is a 2D and 3D crossword puzzle game for the blind or partially sighted."));
+    ITextToSpeech::instance().speak("Blind Crossword3D is a 2D and 3D crossword puzzle game for the blind or partially sighted.");
 }
 
 void MainWindow::exitConfirmation()

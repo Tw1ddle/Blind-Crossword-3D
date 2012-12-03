@@ -4,7 +4,8 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT       += core gui widgets printsupport
+QT       -= webkitwidgets
 
 TARGET = BlindCrossword3D
 TEMPLATE = app
@@ -33,7 +34,8 @@ SOURCES += main.cpp\
     xwcloader.cpp \
     xwcr3dloader.cpp \
     puzzlebase.cpp \
-    puzzleloaderinterface.cpp
+    puzzleloaderinterface.cpp \
+    emailer.cpp
 
 HEADERS  += mainwindow.h \
     word.h \
@@ -61,9 +63,12 @@ HEADERS  += mainwindow.h \
     puzzleloaderinterface.h \
     fileformats.h \
     crosswordtypes.h \
-    direction.h
+    direction.h \
+    emailer.h
 
-
+Win32 {
+QMAKE_LFLAGS_RELEASE += -static-libgcc
+}
 
 FORMS    += mainwindow.ui
 

@@ -29,7 +29,7 @@ GuessWordDialog::GuessWordDialog(QWidget *parent) :
 
     setFont(QFont("Lucida Console", 32, -1, false));
 
-    setWindowTitle(tr("Enter word"));
+    setWindowTitle("Enter word");
 }
 
 QLineEdit* GuessWordDialog::getLineEdit()
@@ -47,5 +47,5 @@ void GuessWordDialog::readText(const QString &text)
 
 void GuessWordDialog::readOnDimissal()
 {
-    ITextToSpeech::instance().speak(tr("Text entry mode has been cancelled."));
+    ITextToSpeech::instance().speak("Text entry mode has been cancelled.");
 }

@@ -13,6 +13,7 @@ namespace ShortcutKeys
     const QChar filterTableViewShortcutKey = Qt::Key_F;
     const QChar cycleSpeechModeShortcutKey = Qt::Key_J;
     const QChar readCrosswordThemePhraseKey = Qt::Key_X;
+    const QChar stopSpeechKey = Qt::Key_Control;
 
     const QChar enterGuessKey = Qt::Key_Return;
     const QChar amendGuessKey = Qt::Key_V;
