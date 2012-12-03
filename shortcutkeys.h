@@ -19,6 +19,7 @@ namespace ShortcutKeys
     extern const QChar enterGuessKey;
     extern const QChar amendGuessKey;
     extern const QChar deleteGuessKey;
+    extern const QChar readCurrentIdentifierKey;
     extern const QChar readCurrentGuessKey;
     extern const QChar readCurrentEntryNumberKey;
     extern const QChar readCurrentClueKey;

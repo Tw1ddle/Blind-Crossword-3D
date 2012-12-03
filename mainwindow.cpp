@@ -309,7 +309,7 @@ void MainWindow::emailCrossword()
 
     if(QDesktopServices::openUrl(mailtoURL))
     {
-        ITextToSpeech::instance().speak("Attempting to open an email containing your answers.");
+        ITextToSpeech::instance().speak("Attempting to open an email containing your answers. Use your screen reader to work with the email.");
     }
     else
     {
@@ -367,7 +367,7 @@ void MainWindow::emailFeedback()
 
     if(QDesktopServices::openUrl(mailtoURL))
     {
-        ITextToSpeech::instance().speak("Attempting to open an email for you to send us feedback.");
+        ITextToSpeech::instance().speak("Attempting to open an email for you to send us feedback. Use your screen reader to work with the email.");
     }
     else
     {
@@ -394,7 +394,7 @@ void MainWindow::viewLicense()
 
     if(openedSuccessfully)
     {
-        ITextToSpeech::instance().speak("Opening license document in web browser.");
+        ITextToSpeech::instance().speak("Opening license document in web browser. Use your screen reader to read the license document.");
     }
     else
     {
@@ -429,12 +429,12 @@ void MainWindow::cycleSpeechMode()
     switch(s_SpeechMode)
     {
         case 0:
-        ITextToSpeech::instance().speak("Spelling speech mode activated.");
+        ITextToSpeech::instance().speak("Spelling speech mode activated. Words will be spelled out letter by letter.");
         ITextToSpeech::instance().setMode(SPEECH_MODES::spellingOutSpeech);
         break;
         case 1:
         ITextToSpeech::instance().setMode(SPEECH_MODES::normalSpeech);
-        ITextToSpeech::instance().speak("Regular speech mode activated.");
+        ITextToSpeech::instance().speak("Regular speech mode activated. Words will be read normally.");
         break;
     }
 
@@ -493,7 +493,7 @@ void MainWindow::cycleTableViewFilter()
 
 void MainWindow::stopSpeech()
 {
-    ITextToSpeech::instance().speak("Speech stopped", csDefaultAsynchronousSpeechOptions);
+    ITextToSpeech::instance().speak("", csDefaultAsynchronousSpeechOptions);
 }
 
 bool MainWindow::changeSpeechRate(float change)
@@ -522,7 +522,7 @@ void MainWindow::openHelp()
 
     if(openedSuccessfully)
     {
-        ITextToSpeech::instance().speak("Opening help page in web browser.");
+        ITextToSpeech::instance().speak("Opening help page in web browser. Use your screenreader to read the help page.");
     }
     else
     {
@@ -582,7 +582,7 @@ QString MainWindow::getIntroString() const
 
 void MainWindow::showAbout()
 {
-    ITextToSpeech::instance().speak("Blind Crossword3D is a 2D and 3D crossword puzzle game for the blind or partially sighted.");
+    ITextToSpeech::instance().speak("Blind Crossword 3D is a 2D and 3D crossword puzzle game for the blind or partially sighted.");
 }
 
 void MainWindow::exitConfirmation()

@@ -35,7 +35,8 @@ SOURCES += main.cpp\
     xwcr3dloader.cpp \
     puzzlebase.cpp \
     puzzleloaderinterface.cpp \
-    emailer.cpp
+    emailer.cpp \
+    printer.cpp
 
 HEADERS  += mainwindow.h \
     word.h \
@@ -64,7 +65,8 @@ HEADERS  += mainwindow.h \
     fileformats.h \
     crosswordtypes.h \
     direction.h \
-    emailer.h
+    emailer.h \
+    printer.h
 
 Win32 {
 QMAKE_LFLAGS_RELEASE += -static-libgcc

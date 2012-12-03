@@ -117,6 +117,10 @@ void WordTableViewController::keyPressEvent(QKeyEvent *event)
         {
             eraseGuess();
         }
+        else if(event->key() == ShortcutKeys::readCurrentIdentifierKey)
+        {
+            readCurrentIdentifier();
+        }
         else if(event->key() == ShortcutKeys::readCurrentGuessKey)
         {
             readCurrentGuess();
