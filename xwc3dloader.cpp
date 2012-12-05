@@ -20,7 +20,7 @@ bool XWC3DLoader::loadMetaData(PuzzleBase& puzzle, QStringList& linelist)
         return false;
     }
 
-    if(!loadBackgroundImage(puzzle, linelist.takeFirst()))
+    if(!puzzle.loadBackgroundImage(linelist.takeFirst()))
     {
         return false;
     }
@@ -94,64 +94,37 @@ bool XWC3DLoader::loadGrid(PuzzleBase& puzzle, QStringList& linelist)
 
 bool XWC3DLoader::loadClues(PuzzleBase& puzzle, QStringList& linelist)
 {
-    linelist.takeFirst();
-    if(!loadAcrossClues(puzzle, linelist))
+    while(linelist.empty() == false)
     {
-        return false;
-    }
+        QString direction = linelist.takeFirst();
 
-    linelist.takeFirst();
-    if(!loadBackwardsClues(puzzle, linelist))
-    {
-        return false;
-    }
-
-    linelist.takeFirst();
-    if(!loadAwayClues(puzzle, linelist))
-    {
-        return false;
-    }
-
-    linelist.takeFirst();
-    if(!loadTowardsClues(puzzle, linelist))
-    {
-        return false;
-    }
-
-    linelist.takeFirst();
-    if(!loadDownClues(puzzle, linelist))
-    {
-        return false;
-    }
-
-    linelist.takeFirst();
-    if(!loadUpClues(puzzle, linelist))
-    {
-        return false;
-    }
-
-    linelist.takeFirst();
-    if(!loadSnakingClues(puzzle, linelist))
-    {
-        return false;
+        if(!loadCluesHelper(puzzle, linelist, direction))
+        {
+            return false;
+        }
     }
 
     return true;
 }
 
-bool XWC3DLoader::loadAcrossClues(PuzzleBase& puzzle, QStringList& linelist)
+bool XWC3DLoader::loadCluesHelper(PuzzleBase &puzzle, QStringList &linelist, QString direc)
 {
+    Direction direction(direc);
+
     unsigned int numClues = linelist.takeFirst().toUInt();
+
+    if(direction == Directions::SNAKING)
+    {
+        return loadSnakingClues(puzzle, linelist, numClues);
+    }
 
     for(unsigned int i = 0; i < numClues; i++)
     {
         QStringList list = linelist.takeFirst().split("|");
 
-        Direction direction(Directions::ACROSS);
-
         unsigned int identifier = list.takeFirst().toUInt();
 
-        QString number = list.takeFirst();
+        QString entry = list.takeFirst();
 
         QStringList firstPositionList = list.takeFirst().split(",");
 
@@ -161,17 +134,84 @@ bool XWC3DLoader::loadAcrossClues(PuzzleBase& puzzle, QStringList& linelist)
         uivec3 startingPosition(posX, posY, posZ);
 
         unsigned int length = list.takeFirst().toUInt();
-
         std::vector<Letter*> letters;
         QString wordString = list.takeFirst();
-        for(unsigned int j = 0; j < length; j++)
-        {
-            QChar letterChar = wordString.at(j);
-            uivec3 letterPosition = startingPosition;
-            letterPosition.setX(letterPosition.getX() + j);
 
-            letters.push_back(puzzle.getRefGrid().getRefLetterAt(puzzle.toGridIndex(letterPosition)));
+        if(direction == Directions::ACROSS)
+        {
+            for(unsigned int j = 0; j < length; j++)
+            {
+                QChar letterChar = wordString.at(j);
+                uivec3 letterPosition = startingPosition;
+                letterPosition.setX(letterPosition.getX() + j);
+
+                letters.push_back(puzzle.getRefGrid().getRefLetterAt(puzzle.toGridIndex(letterPosition)));
+            }
         }
+        else if(direction == Directions::BACKWARDS)
+        {
+            for(unsigned int j = 0; j < length; j++)
+            {
+                QChar letterChar = wordString.at(j);
+                uivec3 letterPosition = startingPosition;
+                letterPosition.setX(letterPosition.getX() - j);
+
+                letters.push_back(puzzle.getRefGrid().getRefLetterAt(puzzle.toGridIndex(letterPosition)));
+            }
+        }
+        else if(direction == Directions::AWAY)
+        {
+            for(unsigned int j = 0; j < length; j++)
+            {
+                QChar letterChar = wordString.at(j);
+                uivec3 letterPosition = startingPosition;
+                letterPosition.setY(letterPosition.getY() + j);
+
+                letters.push_back(puzzle.getRefGrid().getRefLetterAt(puzzle.toGridIndex(letterPosition)));
+            }
+        }
+        else if(direction == Directions::TOWARDS)
+        {
+            for(unsigned int j = 0; j < length; j++)
+            {
+                QChar letterChar = wordString.at(j);
+                uivec3 letterPosition = startingPosition;
+                letterPosition.setY(letterPosition.getY() - j);
+
+                letters.push_back(puzzle.getRefGrid().getRefLetterAt(puzzle.toGridIndex(letterPosition)));
+            }
+        }
+        else if(direction == Directions::DOWN)
+        {
+            for(unsigned int j = 0; j < length; j++)
+            {
+                QChar letterChar = wordString.at(j);
+                uivec3 letterPosition = startingPosition;
+                letterPosition.setZ(letterPosition.getZ() + j);
+
+                letters.push_back(puzzle.getRefGrid().getRefLetterAt(puzzle.toGridIndex(letterPosition)));
+            }
+        }
+        else if(direction == Directions::UP)
+        {
+            for(unsigned int j = 0; j < length; j++)
+            {
+                QChar letterChar = wordString.at(j);
+                uivec3 letterPosition = startingPosition;
+                letterPosition.setZ(letterPosition.getZ() - j);
+
+                letters.push_back(puzzle.getRefGrid().getRefLetterAt(puzzle.toGridIndex(letterPosition)));
+            }
+        }
+        else if(direction == Directions::SNAKING)
+        {
+
+        }
+        else
+        {
+            return false;
+        }
+
         Word word(letters);
 
         if(length != wordString.length() || length != letters.size())
@@ -190,306 +230,19 @@ bool XWC3DLoader::loadAcrossClues(PuzzleBase& puzzle, QStringList& linelist)
            wordComponentLengths.push_back(wordComponents.takeFirst().toUInt());
        }
 
-       puzzle.m_CrosswordEntries.push_back(CrosswordEntry3D(direction, identifier, number, wordString, word, wordComponentLengths, clue));
+       puzzle.m_CrosswordEntries.push_back(CrosswordEntry3D(direction, identifier, entry, wordString, word, wordComponentLengths, clue));
     }
 
     return true;
 }
 
-bool XWC3DLoader::loadBackwardsClues(PuzzleBase& puzzle, QStringList& linelist)
+bool XWC3DLoader::loadSnakingClues(PuzzleBase& puzzle, QStringList& linelist, unsigned int numsnaking)
 {
-    unsigned int numClues = linelist.takeFirst().toUInt();
-
-    for(unsigned int i = 0; i < numClues; i++)
-    {
-        QStringList list = linelist.takeFirst().split("|");
-
-        Direction direction(Directions::BACKWARDS);
-
-        unsigned int identifier = list.takeFirst().toUInt();
-
-        QString number = list.takeFirst();
-
-        QStringList firstPositionList = list.takeFirst().split(",");
-
-        unsigned int posX = firstPositionList.takeFirst().toUInt() - 1;
-        unsigned int posY = firstPositionList.takeFirst().toUInt() - 1;
-        unsigned int posZ = firstPositionList.takeFirst().toUInt() - 1;
-        uivec3 startingPosition(posX, posY, posZ);
-
-        unsigned int length = list.takeFirst().toUInt();
-
-        std::vector<Letter*> letters;
-        QString wordString = list.takeFirst();
-        for(unsigned int j = 0; j < length; j++)
-        {
-            QChar letterChar = wordString.at(j);
-            uivec3 letterPosition = startingPosition;
-            letterPosition.setX(letterPosition.getX() - j);
-
-            letters.push_back(puzzle.getRefGrid().getRefLetterAt(puzzle.toGridIndex(letterPosition)));
-        }
-        Word word(letters);
-
-        if(length != wordString.length() || length != letters.size())
-        {
-            return false;
-        }
-
-       QString clue(list.takeFirst());
-
-       QString clueDecomp = list.takeFirst().remove("(").remove(")");
-       QStringList wordComponents = clueDecomp.split(QRegExp("[,-]"));
-
-       std::vector<unsigned int> wordComponentLengths;
-       while(!wordComponents.isEmpty())
-       {
-           wordComponentLengths.push_back(wordComponents.takeFirst().toUInt());
-       }
-
-       puzzle.m_CrosswordEntries.push_back(CrosswordEntry3D(direction, identifier, number, wordString, word, wordComponentLengths, clue));
-    }
-
-    return true;
-}
-
-bool XWC3DLoader::loadAwayClues(PuzzleBase& puzzle, QStringList& linelist)
-{
-    unsigned int numClues = linelist.takeFirst().toUInt();
-
-    for(unsigned int i = 0; i < numClues; i++)
-    {
-        QStringList list = linelist.takeFirst().split("|");
-
-        Direction direction(Directions::AWAY);
-
-        unsigned int identifier = list.takeFirst().toUInt();
-
-        QString number = list.takeFirst();
-
-        QStringList firstPositionList = list.takeFirst().split(",");
-
-        unsigned int posX = firstPositionList.takeFirst().toUInt() - 1;
-        unsigned int posY = firstPositionList.takeFirst().toUInt() - 1;
-        unsigned int posZ = firstPositionList.takeFirst().toUInt() - 1;
-        uivec3 startingPosition(posX, posY, posZ);
-
-        unsigned int length = list.takeFirst().toUInt();
-
-        std::vector<Letter*> letters;
-        QString wordString = list.takeFirst();
-        for(unsigned int j = 0; j < length; j++)
-        {
-            QChar letterChar = wordString.at(j);
-            uivec3 letterPosition = startingPosition;
-            letterPosition.setY(letterPosition.getY() + j);
-
-            letters.push_back(puzzle.getRefGrid().getRefLetterAt(puzzle.toGridIndex(letterPosition)));
-        }
-        Word word(letters);
-
-        if(length != wordString.length() || length != letters.size())
-        {
-            return false;
-        }
-
-        QString clue(list.takeFirst());
-
-        QString clueDecomp = list.takeFirst().remove("(").remove(")");
-        QStringList wordComponents = clueDecomp.split(QRegExp("[,-]"));
-
-        std::vector<unsigned int> wordComponentLengths;
-        while(!wordComponents.isEmpty())
-        {
-            wordComponentLengths.push_back(wordComponents.takeFirst().toUInt());
-        }
-
-        puzzle.m_CrosswordEntries.push_back(CrosswordEntry3D(direction, identifier, number, wordString, word, wordComponentLengths, clue));
-    }
-
-    return true;
-}
-
-bool XWC3DLoader::loadTowardsClues(PuzzleBase& puzzle, QStringList& linelist)
-{
-    unsigned int numClues = linelist.takeFirst().toUInt();
-
-    for(unsigned int i = 0; i < numClues; i++)
-    {
-        QStringList list = linelist.takeFirst().split("|");
-
-        Direction direction(Directions::TOWARDS);
-
-        unsigned int identifier = list.takeFirst().toUInt();
-
-        QString number = list.takeFirst();
-
-        QStringList firstPositionList = list.takeFirst().split(",");
-
-        unsigned int posX = firstPositionList.takeFirst().toUInt() - 1;
-        unsigned int posY = firstPositionList.takeFirst().toUInt() - 1;
-        unsigned int posZ = firstPositionList.takeFirst().toUInt() - 1;
-        uivec3 startingPosition(posX, posY, posZ);
-
-        unsigned int length = list.takeFirst().toUInt();
-
-        std::vector<Letter*> letters;
-        QString wordString = list.takeFirst();
-        for(unsigned int j = 0; j < length; j++)
-        {
-            QChar letterChar = wordString.at(j);
-            uivec3 letterPosition = startingPosition;
-            letterPosition.setY(letterPosition.getY() - j);
-
-            letters.push_back(puzzle.getRefGrid().getRefLetterAt(puzzle.toGridIndex(letterPosition)));
-        }
-        Word word(letters);
-
-        if(length != wordString.length() || length != letters.size())
-        {
-            return false;
-        }
-
-        QString clue(list.takeFirst());
-
-        QString clueDecomp = list.takeFirst().remove("(").remove(")");
-        QStringList wordComponents = clueDecomp.split(QRegExp("[,-]"));
-
-        std::vector<unsigned int> wordComponentLengths;
-        while(!wordComponents.isEmpty())
-        {
-            wordComponentLengths.push_back(wordComponents.takeFirst().toUInt());
-        }
-
-        puzzle.m_CrosswordEntries.push_back(CrosswordEntry3D(direction, identifier, number, wordString, word, wordComponentLengths, clue));
-    }
-
-    return true;
-}
-
-bool XWC3DLoader::loadDownClues(PuzzleBase& puzzle, QStringList& linelist)
-{
-    unsigned int numClues = linelist.takeFirst().toUInt();
-
-    for(unsigned int i = 0; i < numClues; i++)
-    {
-        QStringList list = linelist.takeFirst().split("|");
-
-        Direction direction(Directions::DOWN);
-
-        unsigned int identifier = list.takeFirst().toUInt();
-
-        QString number = list.takeFirst();
-
-        QStringList firstPositionList = list.takeFirst().split(",");
-
-        unsigned int posX = firstPositionList.takeFirst().toUInt() - 1;
-        unsigned int posY = firstPositionList.takeFirst().toUInt() - 1;
-        unsigned int posZ = firstPositionList.takeFirst().toUInt() - 1;
-        uivec3 startingPosition(posX, posY, posZ);
-
-        unsigned int length = list.takeFirst().toUInt();
-
-        std::vector<Letter*> letters;
-        QString wordString = list.takeFirst();
-        for(unsigned int j = 0; j < length; j++)
-        {
-            QChar letterChar = wordString.at(j);
-            uivec3 letterPosition = startingPosition;
-            letterPosition.setZ(letterPosition.getZ() + j);
-
-            letters.push_back(puzzle.getRefGrid().getRefLetterAt(puzzle.toGridIndex(letterPosition)));
-        }
-        Word word(letters);
-
-        if(length != wordString.length() || length != letters.size())
-        {
-            return false;
-        }
-
-        QString clue(list.takeFirst());
-
-        QString clueDecomp = list.takeFirst().remove("(").remove(")");
-        QStringList wordComponents = clueDecomp.split(QRegExp("[,-]"));
-
-        std::vector<unsigned int> wordComponentLengths;
-        while(!wordComponents.isEmpty())
-        {
-            wordComponentLengths.push_back(wordComponents.takeFirst().toUInt());
-        }
-
-        puzzle.m_CrosswordEntries.push_back(CrosswordEntry3D(direction, identifier, number, wordString, word, wordComponentLengths, clue));
-    }
-
-    return true;
-}
-
-bool XWC3DLoader::loadUpClues(PuzzleBase& puzzle, QStringList& linelist)
-{
-    unsigned int numClues = linelist.takeFirst().toUInt();
-
-    for(unsigned int i = 0; i < numClues; i++)
-    {
-        QStringList list = linelist.takeFirst().split("|");
-
-        Direction direction(Directions::DOWN);
-
-        unsigned int identifier = list.takeFirst().toUInt();
-
-        QString number = list.takeFirst();
-
-        QStringList firstPositionList = list.takeFirst().split(",");
-
-        unsigned int posX = firstPositionList.takeFirst().toUInt() - 1;
-        unsigned int posY = firstPositionList.takeFirst().toUInt() - 1;
-        unsigned int posZ = firstPositionList.takeFirst().toUInt() - 1;
-        uivec3 startingPosition(posX, posY, posZ);
-
-        unsigned int length = list.takeFirst().toUInt();
-
-        std::vector<Letter*> letters;
-        QString wordString = list.takeFirst();
-        for(unsigned int j = 0; j < length; j++)
-        {
-            QChar letterChar = wordString.at(j);
-            uivec3 letterPosition = startingPosition;
-            letterPosition.setZ(letterPosition.getZ() - j);
-
-            letters.push_back(puzzle.getRefGrid().getRefLetterAt(puzzle.toGridIndex(letterPosition)));
-        }
-        Word word(letters);
-
-        if(length != wordString.length() || length != letters.size())
-        {
-            return false;
-        }
-
-        QString clue(list.takeFirst());
-
-        QString clueDecomp = list.takeFirst().remove("(").remove(")");
-        QStringList wordComponents = clueDecomp.split(QRegExp("[,-]"));
-
-        std::vector<unsigned int> wordComponentLengths;
-        while(!wordComponents.isEmpty())
-        {
-            wordComponentLengths.push_back(wordComponents.takeFirst().toUInt());
-        }
-
-        puzzle.m_CrosswordEntries.push_back(CrosswordEntry3D(direction, identifier, number, wordString, word, wordComponentLengths, clue));
-    }
-
-    return true;
-}
-
-bool XWC3DLoader::loadSnakingClues(PuzzleBase& puzzle, QStringList& linelist)
-{
-    unsigned int numsnaking = linelist.takeFirst().toUInt();
+    Direction direction(Directions::SNAKING);
 
     for(unsigned int i = 0; i < numsnaking; i++)
     {
         QStringList list = linelist.takeFirst().split("|");
-
-        Direction direction(Directions::SNAKING);
 
         unsigned int identifier = list.takeFirst().toUInt();
 
@@ -540,4 +293,19 @@ bool XWC3DLoader::loadSnakingClues(PuzzleBase& puzzle, QStringList& linelist)
     }
 
     return true;
+}
+
+bool XWC3DLoader::saveMetaData(PuzzleBase &puzzle, QStringList &linelist)
+{
+    return false;
+}
+
+bool XWC3DLoader::saveGrid(PuzzleBase &puzzle, QStringList &linelist)
+{
+    return false;
+}
+
+bool XWC3DLoader::saveClues(PuzzleBase &puzzle, QStringList &linelist)
+{
+    return false;
 }

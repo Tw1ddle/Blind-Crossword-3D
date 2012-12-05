@@ -26,7 +26,7 @@ bool XWCR3DLoader::loadMetaData(PuzzleBase& puzzle, QStringList& linelist)
         return false;
     }
 
-    if(!loadBackgroundImage(puzzle, linelist.takeFirst()))
+    if(!puzzle.loadBackgroundImage(linelist.takeFirst()))
     {
         return false;
     }
@@ -153,6 +153,21 @@ bool XWCR3DLoader::loadClues(PuzzleBase &puzzle, QStringList &linelist)
     }
 
     return true;
+}
+
+bool XWCR3DLoader::saveMetaData(PuzzleBase &puzzle, QStringList &linelist)
+{
+    return false;
+}
+
+bool XWCR3DLoader::saveGrid(PuzzleBase &puzzle, QStringList &linelist)
+{
+    return false;
+}
+
+bool XWCR3DLoader::saveClues(PuzzleBase &puzzle, QStringList &linelist)
+{
+    return false;
 }
 
 bool XWCR3DLoader::loadClockwiseClues(PuzzleBase &puzzle, QStringList &linelist)

@@ -16,6 +16,10 @@ public:
     bool loadGrid(PuzzleBase& puzzle, QStringList& linelist);
     bool loadClues(PuzzleBase& puzzle, QStringList& linelist);
 
+    bool saveMetaData(PuzzleBase& puzzle, QStringList& linelist);
+    bool saveGrid(PuzzleBase& puzzle, QStringList& linelist);
+    bool saveClues(PuzzleBase& puzzle, QStringList& linelist);
+
 private:
     bool loadClockwiseClues(PuzzleBase& puzzle, QStringList& linelist);
     bool loadAntiClockwiseClues(PuzzleBase& puzzle, QStringList& linelist);

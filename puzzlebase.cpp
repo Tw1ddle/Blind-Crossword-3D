@@ -197,3 +197,19 @@ bool PuzzleBase::isComplete() const
 {
     return (scoreSolution() == m_CrosswordEntries.size());
 }
+
+bool PuzzleBase::loadBackgroundImage(QString filename)
+{
+    QString path = m_BackgroundImagesFolder;
+    path.append("/").append(filename);
+
+    QDir dir;
+    if(dir.exists(dir.absolutePath().append(path)))
+    {
+        m_BackgroundImage = QPixmap(dir.absolutePath().append(path));
+
+        return true;
+    }
+
+    return false;
+}

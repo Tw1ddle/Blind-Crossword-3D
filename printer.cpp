@@ -3,3 +3,8 @@
 Printer::Printer()
 {
 }
+
+bool Printer::openPrintDialog()
+{
+    return false;
+}

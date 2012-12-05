@@ -5,9 +5,19 @@
 #include <QStringList>
 #include <QFile>
 
-#include "puzzleloaderinterface.h"
-
 class PuzzleBase;
+
+class PuzzleLoaderInterface
+{
+public:
+    virtual bool loadMetaData(PuzzleBase& puzzle, QStringList& linelist) = 0;
+    virtual bool loadGrid(PuzzleBase& puzzle, QStringList& linelist) = 0;
+    virtual bool loadClues(PuzzleBase& puzzle, QStringList& linelist) = 0;
+
+    virtual bool saveMetaData(PuzzleBase& puzzle, QStringList& linelist) = 0;
+    virtual bool saveGrid(PuzzleBase& puzzle, QStringList& linelist) = 0;
+    virtual bool saveClues(PuzzleBase& puzzle, QStringList& linelist) = 0;
+};
 
 class PuzzleLoader : public QObject
 {

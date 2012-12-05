@@ -34,11 +34,11 @@ SOURCES += main.cpp\
     xwcloader.cpp \
     xwcr3dloader.cpp \
     puzzlebase.cpp \
-    puzzleloaderinterface.cpp \
     emailer.cpp \
     printer.cpp \
     idlereminder.cpp \
-    advancedcluereader.cpp
+    advancedcluereader.cpp \
+    utilities.cpp
 
 HEADERS  += mainwindow.h \
     word.h \
@@ -63,14 +63,14 @@ HEADERS  += mainwindow.h \
     xwcloader.h \
     xwcr3dloader.h \
     puzzlebase.h \
-    puzzleloaderinterface.h \
     fileformats.h \
     crosswordtypes.h \
     direction.h \
     emailer.h \
     printer.h \
     idlereminder.h \
-    advancedcluereader.h
+    advancedcluereader.h \
+    utilities.h
 
 FORMS    += mainwindow.ui
 

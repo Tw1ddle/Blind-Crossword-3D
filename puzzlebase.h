@@ -15,6 +15,8 @@
 
 class GraphicsGridItem;
 
+const QString m_BackgroundImagesFolder = "/Backgrounds";
+
 class PuzzleBase
 {
     friend class PuzzleLoader;
@@ -54,6 +56,7 @@ protected:
 private:
     void clear();
     unsigned int scoreSolution() const;
+    bool loadBackgroundImage(QString filename);
 
     QString m_PuzzleTitle;
     QString m_AuthorTitle;

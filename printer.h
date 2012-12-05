@@ -5,6 +5,8 @@ class Printer
 {
 public:
     Printer();
+
+    bool openPrintDialog();
 };
 
 #endif // PRINTER_H

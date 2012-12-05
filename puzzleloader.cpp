@@ -11,36 +11,20 @@
 #include "xwc3dloader.h"
 #include "xwcr3dloader.h"
 
+#include "utilities.h"
+
 PuzzleLoader::PuzzleLoader()
 {
 }
 
 bool PuzzleLoader::loadPuzzle(PuzzleBase &puzzle, QString filePath, QString extension)
 {
-    QFile file(filePath);
-    if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
-    {
-        return false;
-    }
-
-    QTextStream in(&file);
-    QString currentLine;
     QStringList linelist;
 
-    if(in.atEnd())
+    if(!Utilities::readFile(linelist, filePath))
     {
         return false;
     }
-
-    do
-    {
-        currentLine = in.readLine();
-        if(currentLine.length() != 0)
-        {
-            linelist << currentLine;
-        }
-    } while (!currentLine.isNull());
-
 
     puzzle.clear();
 
@@ -179,3 +163,5 @@ bool PuzzleLoader::writeToFile(QStringList& linelist, QFile& file)
 
     return false;
 }
+
+

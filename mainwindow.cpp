@@ -84,24 +84,6 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::closeEvent(QCloseEvent* event)
-{
-    QuitDialog dialog;
-
-    ITextToSpeech::instance().speak(dialog.getBodyString());
-
-    if(dialog.exec())
-    {
-        ITextToSpeech::instance().speak(dialog.getAcceptedText(), csDefaultSynchronousSpeechOptions);
-        event->accept();
-    }
-    else
-    {
-        ITextToSpeech::instance().speak(dialog.getRejectedText());
-        event->ignore();
-    }
-}
-
 void MainWindow::loadCrossword()
 {
     QDir dir;
@@ -552,7 +534,7 @@ void MainWindow::openHelp()
 
     if(openedSuccessfully)
     {
-        ITextToSpeech::instance().speak("Opening help page in web browser. Use your screenreader to read the help page.");
+        ITextToSpeech::instance().speak("Opening help page in web browser. Use your screen reader to read the help page.");
     }
     else
     {
@@ -616,6 +598,24 @@ QString MainWindow::getIntroString() const
 void MainWindow::showAbout()
 {
     ITextToSpeech::instance().speak("Blind Crossword 3D is a 2D and 3D crossword puzzle game for the blind or partially sighted.");
+}
+
+void MainWindow::closeEvent(QCloseEvent* event)
+{
+    QuitDialog dialog;
+
+    ITextToSpeech::instance().speak(dialog.getBodyString());
+
+    if(dialog.exec())
+    {
+        ITextToSpeech::instance().speak(dialog.getAcceptedText(), csDefaultSynchronousSpeechOptions);
+        event->accept();
+    }
+    else
+    {
+        ITextToSpeech::instance().speak(dialog.getRejectedText());
+        event->ignore();
+    }
 }
 
 void MainWindow::exitConfirmation()

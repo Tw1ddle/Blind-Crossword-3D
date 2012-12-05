@@ -13,14 +13,13 @@ public:
     bool loadGrid(PuzzleBase& puzzle, QStringList& linelist);
     bool loadClues(PuzzleBase& puzzle, QStringList& linelist);
 
+    bool saveMetaData(PuzzleBase& puzzle, QStringList& linelist);
+    bool saveGrid(PuzzleBase& puzzle, QStringList& linelist);
+    bool saveClues(PuzzleBase& puzzle, QStringList& linelist);
+
 private:
-    bool loadAcrossClues(PuzzleBase& puzzle, QStringList& linelist);
-    bool loadBackwardsClues(PuzzleBase& puzzle, QStringList& linelist);
-    bool loadAwayClues(PuzzleBase& puzzle, QStringList& linelist);
-    bool loadTowardsClues(PuzzleBase& puzzle, QStringList& linelist);
-    bool loadDownClues(PuzzleBase& puzzle, QStringList& linelist);
-    bool loadUpClues(PuzzleBase& puzzle, QStringList& linelist);
-    bool loadSnakingClues(PuzzleBase& puzzle, QStringList& linelist);
+    bool loadCluesHelper(PuzzleBase& puzzle, QStringList& linelist, QString direction);
+    bool loadSnakingClues(PuzzleBase& puzzle, QStringList& linelist, unsigned int numsnaking);
 };
 
 #endif // XWC3DLOADER_H

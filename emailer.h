@@ -5,6 +5,9 @@ class Emailer
 {
 public:
     Emailer();
+
+    bool openFeedbackEmail();
+    bool openSendResultsEmail();
 };
 
 #endif // EMAILER_H
