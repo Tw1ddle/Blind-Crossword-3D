@@ -94,8 +94,6 @@ bool WordTableViewController::eraseGuess()
 
 void WordTableViewController::keyPressEvent(QKeyEvent *event)
 {
-    QString str = event->text();
-
     QTableView::keyPressEvent(event);
 
     if(event->modifiers() & Qt::ControlModifier)

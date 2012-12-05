@@ -11,6 +11,7 @@ class WordTableModel;
 class QItemSelection;
 class QShortcut;
 class QSortFilterProxyModel;
+class IdleReminder;
 
 namespace Ui
 {
@@ -33,9 +34,13 @@ private:
 
     PuzzleLoader m_PuzzleLoader;
     PuzzleBase m_Puzzle;
+
     Grid3DGraphicsScene* m_GraphicsScene;
     WordTableModel* m_WordTableModel;
     QSortFilterProxyModel* m_ProxyModel;
+
+    IdleReminder* m_IdleReminder;
+
 
     static const QString m_DefaultSaveFolder;
     static const QString m_HelpFileLocation;
@@ -56,7 +61,11 @@ private:
     QShortcut* m_ReadCrosswordThemePhraseShortcut;
     QShortcut* m_StopSpeechShortcut;
 
+    QShortcut* m_ApplicationOpenReminderShortcut;
+
     QString getIntroString() const;
+
+    bool m_ApplicationOpenReminderEnabled;
 
 private slots:
     void loadCrossword();
@@ -71,6 +80,9 @@ private slots:
     void scoreCrossword();
     void viewLicense();
     void toggleGrid(bool hidden);
+
+    void toggleApplicationOpenReminder();
+    void onIdleReminderTimeout();
 
     void readCrosswordThemePhrase();
     void cycleSpeechMode();

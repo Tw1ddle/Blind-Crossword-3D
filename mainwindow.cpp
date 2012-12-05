@@ -22,6 +22,7 @@
 #include "quitdialog.h"
 #include "filedialog.h"
 #include "shortcutkeys.h"
+#include "idlereminder.h"
 
 const QString MainWindow::m_DefaultSaveFolder = QString("/Crosswords");
 const QString MainWindow::m_HelpFileLocation = QString("/Help/index.html");
@@ -30,7 +31,7 @@ const QString MainWindow::m_EmailAddressFileLocation = QString("/Config/email_ad
 const QString MainWindow::m_PostalAddressFileLocation = QString("/Config/postal_address.txt");
 
 MainWindow::MainWindow(QWidget *parent) :
-    QMainWindow(parent),
+    QMainWindow(parent), m_ApplicationOpenReminderEnabled(true),
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
@@ -45,6 +46,8 @@ MainWindow::MainWindow(QWidget *parent) :
     m_ProxyModel = new QSortFilterProxyModel(this);
     m_ProxyModel->setSourceModel(m_WordTableModel);
     ui->wordTableView->setModel(m_ProxyModel);
+
+    m_IdleReminder = new IdleReminder(40000);
 
     connect(this, SIGNAL(puzzleLoaded()), m_WordTableModel, SLOT(crosswordEntriesChanged()));
     connect(this, SIGNAL(puzzleLoaded()), ui->wordTableView, SLOT(setFocus(Qt::OtherFocusReason)));
@@ -69,6 +72,9 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(m_WordTableModel, SIGNAL(crosswordEntrySelectionChanged(CrosswordEntry3D)), m_GraphicsScene, SLOT(highlightSelection(CrosswordEntry3D)));
 
     connect(&m_PuzzleLoader, SIGNAL(loaderError(QString, QString)), this, SLOT(showError(QString, QString)));
+
+    connect(m_IdleReminder, SIGNAL(timedOut()), this, SLOT(onIdleReminderTimeout()));
+    installEventFilter(m_IdleReminder);
 
     ITextToSpeech::instance().speak(getIntroString());
 }
@@ -416,6 +422,30 @@ void MainWindow::toggleGrid(bool hidden)
     }
 }
 
+void MainWindow::toggleApplicationOpenReminder()
+{
+    if(m_ApplicationOpenReminderEnabled)
+    {
+        ITextToSpeech::instance().speak("Reminder disabled");
+
+        m_ApplicationOpenReminderEnabled = false;
+    }
+    else
+    {
+        ITextToSpeech::instance().speak("Reminder enabled");
+
+        m_ApplicationOpenReminderEnabled = true;
+    }
+}
+
+void MainWindow::onIdleReminderTimeout()
+{
+    if(m_ApplicationOpenReminderEnabled)
+    {
+        ITextToSpeech::instance().speak(QString("Blind Crossword 3D is still running. You can press ").append(ShortcutKeys::helpShortcutKey).append( "to open a help page. To toggle this reminder, press ").append(ShortcutKeys::toggleApplicationOpenReminderKey).append("."));
+    }
+}
+
 void MainWindow::readCrosswordThemePhrase()
 {
     ITextToSpeech::instance().speak(m_Puzzle.getPuzzleThemePhrase());
@@ -571,6 +601,9 @@ void MainWindow::createShortcuts()
 
     m_StopSpeechShortcut = new QShortcut(QKeySequence(ShortcutKeys::stopSpeechKey), this);
     connect(m_StopSpeechShortcut, SIGNAL(activated()), this, SLOT(stopSpeech()));
+
+    m_ApplicationOpenReminderShortcut = new QShortcut(QKeySequence(ShortcutKeys::toggleApplicationOpenReminderKey), this);
+    connect(m_ApplicationOpenReminderShortcut, SIGNAL(activated()), this, SLOT(toggleApplicationOpenReminder()));
 }
 
 QString MainWindow::getIntroString() const

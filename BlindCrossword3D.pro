@@ -36,7 +36,9 @@ SOURCES += main.cpp\
     puzzlebase.cpp \
     puzzleloaderinterface.cpp \
     emailer.cpp \
-    printer.cpp
+    printer.cpp \
+    idlereminder.cpp \
+    advancedcluereader.cpp
 
 HEADERS  += mainwindow.h \
     word.h \
@@ -66,11 +68,9 @@ HEADERS  += mainwindow.h \
     crosswordtypes.h \
     direction.h \
     emailer.h \
-    printer.h
-
-Win32 {
-QMAKE_LFLAGS_RELEASE += -static-libgcc
-}
+    printer.h \
+    idlereminder.h \
+    advancedcluereader.h
 
 FORMS    += mainwindow.ui
 
