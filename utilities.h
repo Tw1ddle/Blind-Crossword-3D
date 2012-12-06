@@ -6,6 +6,8 @@
 namespace Utilities
 {
     bool readFile(QStringList& linelist, QString path);
+
+    bool existsFile(QString path);
 }
 
 #endif // UTILITIES_H

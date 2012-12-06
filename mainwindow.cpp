@@ -23,6 +23,10 @@
 #include "filedialog.h"
 #include "shortcutkeys.h"
 #include "idlereminder.h"
+#include "advancedcluereader.h"
+
+#include "emailer.h"
+#include "printer.h"
 
 const QString MainWindow::m_DefaultSaveFolder = QString("/Crosswords");
 const QString MainWindow::m_HelpFileLocation = QString("/Help/index.html");
@@ -48,6 +52,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->wordTableView->setModel(m_ProxyModel);
 
     m_IdleReminder = new IdleReminder(40000);
+    m_AdvancedClueReader = new ClueReader();
 
     connect(this, SIGNAL(puzzleLoaded()), m_WordTableModel, SLOT(crosswordEntriesChanged()));
     connect(this, SIGNAL(puzzleLoaded()), ui->wordTableView, SLOT(setFocus(Qt::OtherFocusReason)));
@@ -75,6 +80,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect(m_IdleReminder, SIGNAL(timedOut()), this, SLOT(onIdleReminderTimeout()));
     installEventFilter(m_IdleReminder);
+
+    connect(m_WordTableModel, SIGNAL(crosswordEntrySelectionChanged(CrosswordEntry3D)), m_AdvancedClueReader, SLOT(setText(CrosswordEntry3D)));
 
     ITextToSpeech::instance().speak(getIntroString());
 }
@@ -240,62 +247,9 @@ void MainWindow::printCrossword()
 
 void MainWindow::emailCrossword()
 {
-    QString emailAddress = "enter@your.email_address_here.com";
-    QString emailSubject = m_Puzzle.getPuzzleTitle().append(" answers");
+    Emailer emailer;
 
-    QDir dir;
-    QString filePath;
-    if(dir.exists(dir.absolutePath().append(m_EmailAddressFileLocation)))
-    {
-        filePath = dir.absolutePath().append(m_EmailAddressFileLocation);
-
-        QFile file(filePath);
-        if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
-        {
-
-        }
-
-        QTextStream in(&file);
-        QString currentLine;
-        QStringList linelist;
-
-        if(in.atEnd())
-        {
-        }
-
-        do
-        {
-            currentLine = in.readLine();
-            if(currentLine.length() != 0)
-            {
-                linelist << currentLine;
-            }
-        } while (!currentLine.isNull());
-
-        if(!linelist.isEmpty())
-        {
-            emailAddress = linelist.takeFirst();
-        }
-    }
-
-    QString emailBody;
-
-    emailBody.append(m_Puzzle.getInformationString().append("%0A%0A"));
-
-    for(unsigned int i = 0; i < m_Puzzle.getRefCrosswordEntries().size(); i++)
-    {
-        QString id = m_Puzzle.getRefCrosswordEntries().at(i).getEntryName();
-        QString direction = m_Puzzle.getRefCrosswordEntries().at(i).getDirection().getString();
-        QString answer = m_Puzzle.getRefCrosswordEntries().at(i).getGuess().getString();
-
-        emailBody.append(id).append(" ").append(direction).append(" --- ").append(answer).append("%0A");
-    }
-
-    QUrl mailtoURL = QUrl(QString("mailto:").append(emailAddress)
-                          .append("?subject=").append(emailSubject)
-                          .append("&body=").append(emailBody));
-
-    if(QDesktopServices::openUrl(mailtoURL))
+    if(emailer.openSendResultsEmail(m_Puzzle))
     {
         ITextToSpeech::instance().speak("Attempting to open an email containing your answers. Use your screen reader to work with the email.");
     }
@@ -307,53 +261,9 @@ void MainWindow::emailCrossword()
 
 void MainWindow::emailFeedback()
 {
-    QString emailAddress = "enter@your.email_address_here.com";
-    QString emailSubject = m_Puzzle.getPuzzleTitle().append("Blind Crossword 3D feedback");
+    Emailer emailer;
 
-    QDir dir;
-    QString filePath;
-    if(dir.exists(dir.absolutePath().append(m_EmailAddressFileLocation)))
-    {
-        filePath = dir.absolutePath().append(m_EmailAddressFileLocation);
-
-        QFile file(filePath);
-        if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
-        {
-
-        }
-
-        QTextStream in(&file);
-        QString currentLine;
-        QStringList linelist;
-
-        if(in.atEnd())
-        {
-        }
-
-        do
-        {
-            currentLine = in.readLine();
-            if(currentLine.length() != 0)
-            {
-                linelist << currentLine;
-            }
-        } while (!currentLine.isNull());
-
-        if(!linelist.isEmpty())
-        {
-            emailAddress = linelist.takeFirst();
-        }
-    }
-
-    QString emailBody;
-
-    emailBody.append(m_Puzzle.getInformationString().append("%0A%0A"));
-
-    QUrl mailtoURL = QUrl(QString("mailto:").append(emailAddress)
-                          .append("?subject=").append(emailSubject)
-                          .append("&body=").append(emailBody));
-
-    if(QDesktopServices::openUrl(mailtoURL))
+    if(emailer.openFeedbackEmail())
     {
         ITextToSpeech::instance().speak("Attempting to open an email for you to send us feedback. Use your screen reader to work with the email.");
     }
@@ -513,6 +423,16 @@ bool MainWindow::changeSpeechRate(float change)
     return false;
 }
 
+void MainWindow::advanceToNextWordInClue()
+{
+    ITextToSpeech::instance().speak(m_AdvancedClueReader->advanceWord());
+}
+
+void MainWindow::readCurrentWordInClue()
+{
+    ITextToSpeech::instance().speak(m_AdvancedClueReader->getWord());
+}
+
 void MainWindow::checkIfPuzzleWasCompleted()
 {
     if(m_Puzzle.getPuzzleType() != CrosswordTypes::WITHOUT_ANSWERS)
@@ -598,6 +518,12 @@ void MainWindow::createShortcuts()
 
     m_ApplicationOpenReminderShortcut = new QShortcut(QKeySequence(ShortcutKeys::toggleApplicationOpenReminderKey), this);
     connect(m_ApplicationOpenReminderShortcut, SIGNAL(activated()), this, SLOT(toggleApplicationOpenReminder()));
+
+    m_ReadCurrentClueWordShortcut = new QShortcut(QKeySequence(ShortcutKeys::readCurrentClueWordKey), this);
+    connect(m_ReadCurrentClueWordShortcut, SIGNAL(activated()), this, SLOT(readCurrentWordInClue()));
+
+    m_AdvanceCurrentClueWordShortcut = new QShortcut(QKeySequence(ShortcutKeys::advanceClueWordKey), this);
+    connect(m_AdvanceCurrentClueWordShortcut, SIGNAL(activated()), this, SLOT(advanceToNextWordInClue()));
 }
 
 void MainWindow::closeEvent(QCloseEvent* event)

@@ -32,4 +32,16 @@ namespace Utilities
 
         return true;
     }
+
+    bool existsFile(QString path)
+    {
+        QFile file(path);
+
+        if(!file.exists())
+        {
+            return false;
+        }
+
+        return true;
+    }
 }

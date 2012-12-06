@@ -16,6 +16,9 @@ namespace ShortcutKeys
     const QChar stopSpeechKey = Qt::Key_Z;
     const QChar toggleApplicationOpenReminderKey = Qt::Key_N;
 
+    const QChar advanceClueWordKey = Qt::Key_O;
+    const QChar readCurrentClueWordKey = Qt::Key_I;
+
     const QChar enterGuessKey = Qt::Key_Return;
     const QChar amendGuessKey = Qt::Key_V;
     const QChar deleteGuessKey = Qt::Key_Backspace;

@@ -8,10 +8,11 @@
 
 class Grid3DGraphicsScene;
 class WordTableModel;
-class QItemSelection;
 class QShortcut;
 class QSortFilterProxyModel;
+
 class IdleReminder;
+class ClueReader;
 
 namespace Ui
 {
@@ -40,6 +41,7 @@ private:
     QSortFilterProxyModel* m_ProxyModel;
 
     IdleReminder* m_IdleReminder;
+    ClueReader* m_AdvancedClueReader;
 
 
     static const QString m_DefaultSaveFolder;
@@ -62,6 +64,9 @@ private:
     QShortcut* m_StopSpeechShortcut;
 
     QShortcut* m_ApplicationOpenReminderShortcut;
+
+    QShortcut* m_ReadCurrentClueWordShortcut;
+    QShortcut* m_AdvanceCurrentClueWordShortcut;
 
     QString getIntroString() const;
 
@@ -90,6 +95,9 @@ private slots:
 
     void stopSpeech();
     bool changeSpeechRate(float change);
+
+    void advanceToNextWordInClue();
+    void readCurrentWordInClue();
 
     void checkIfPuzzleWasCompleted();
 

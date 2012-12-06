@@ -5,7 +5,9 @@
     const DWORD csDefaultAsynchronousSpeechOptions = SPF_ASYNC | SPF_PURGEBEFORESPEAK;
     const DWORD csAsynchronousNoPurgeOptions = SPF_ASYNC;
     const DWORD csSpeakPunctuationOption = SPF_NLP_SPEAK_PUNC;
-//#elif
+//#elif .......
 //    const DWORD csSynchronousSpeechOptions = 0;
 //    const DWORD csAsynchronousSpeechOptions = 0;
+//    const DWORD csAsynchronousNoPurgeOptions = 0;
+//    const DWORD csSpeakPunctuationOption = 0;
 #endif

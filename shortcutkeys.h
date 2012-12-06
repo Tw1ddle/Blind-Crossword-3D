@@ -17,6 +17,9 @@ namespace ShortcutKeys
     extern const QChar stopSpeechKey;
     extern const QChar toggleApplicationOpenReminderKey;
 
+    extern const QChar advanceClueWordKey;
+    extern const QChar readCurrentClueWordKey;
+
     extern const QChar enterGuessKey;
     extern const QChar amendGuessKey;
     extern const QChar deleteGuessKey;
