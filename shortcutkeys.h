@@ -25,6 +25,11 @@ namespace ShortcutKeys
     extern const QChar readCurrentEntryNumberKey;
     extern const QChar readCurrentClueKey;
     extern const QChar readCurrentWordLengthsKey;
+
+    extern const QChar sortByIdentifierKey;
+    extern const QChar sortByEntryKey;
+    extern const QChar sortByClueKey;
+    extern const QChar sortByWordLengthKey;
 }
 
 #endif // SHORTCUTKEYS_H

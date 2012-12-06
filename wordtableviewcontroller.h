@@ -4,9 +4,6 @@
 #include <QTableView>
 #include <QModelIndex>
 
-class CrosswordEntry3D;
-class QShortcut;
-
 class WordTableViewController : public QTableView
 {
     Q_OBJECT

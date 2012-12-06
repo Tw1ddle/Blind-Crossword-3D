@@ -4,10 +4,19 @@
 #include <QString>
 #include <assert.h>
 
+namespace WordTableHeader
+{
+    const unsigned int identifierColumnId = 0;
+    const unsigned int entryColumnId = 1;
+    const unsigned int wordColumnId = 2;
+    const unsigned int clueColumnId = 3;
+    const unsigned int wordLengthColumnId = 4;
+}
+
 const QString identifierColumnHeader = "Identifier";
+const QString entryColumnHeader = "Entry";
 const QString wordColumnHeader = "Word";
 const QString clueColumnHeader = "Clue";
-const QString entryNumberColumnHeader = "Entry";
 const QString wordLengthColumnHeader = "Lengths";
 
 WordTableModel::WordTableModel(const PuzzleBase& puzzle, std::vector<CrosswordEntry3D>& refCrosswordEntries, QObject *parent) :
@@ -43,11 +52,11 @@ QVariant WordTableModel::data(const QModelIndex& index, int role) const
 
     if (role == Qt::DisplayRole)
     {
-        if(index.column() == 0)
+        if(index.column() == WordTableHeader::identifierColumnId)
         {
             return m_RefCrosswordEntries.at(index.row()).getIdentifier();
         }
-        if (index.column() == 1)
+        if (index.column() == WordTableHeader::entryColumnId)
         {
             QString entryString = m_RefCrosswordEntries.at(index.row()).getEntryName();
             QString entryDirectionName = m_RefCrosswordEntries.at(index.row()).getDirection().getString();
@@ -55,15 +64,15 @@ QVariant WordTableModel::data(const QModelIndex& index, int role) const
 
             return entry;
         }
-        else if (index.column() == 2)
+        else if (index.column() == WordTableHeader::wordColumnId)
         {
             return m_RefCrosswordEntries.at(index.row()).getGuess().getString();
         }
-        else if(index.column() == 3)
+        else if(index.column() == WordTableHeader::clueColumnId)
         {
             return m_RefCrosswordEntries.at(index.row()).getClue();
         }
-        else if(index.column() == 4)
+        else if(index.column() == WordTableHeader::wordLengthColumnId)
         {
             return m_RefCrosswordEntries.at(index.row()).getSolutionComponentLengths();
         }
@@ -86,7 +95,7 @@ QVariant WordTableModel::headerData(int section, Qt::Orientation orientation, in
                 return identifierColumnHeader;
 
             case 1:
-                return entryNumberColumnHeader;
+                return entryColumnHeader;
 
             case 2:
                 return wordColumnHeader;

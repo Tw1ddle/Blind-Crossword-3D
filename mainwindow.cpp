@@ -471,28 +471,28 @@ void MainWindow::cycleTableViewFilter()
     {
         case 0:
             m_ProxyModel->setFilterRegExp(showUnstarted);
-            m_ProxyModel->setFilterKeyColumn(1);
+            m_ProxyModel->setFilterKeyColumn(2);
             ITextToSpeech::instance().speak("Showing unstarted crossword entries.");
             break;
         case 1:
             m_ProxyModel->setFilterRegExp(showCompleted);
-            m_ProxyModel->setFilterKeyColumn(1);
+            m_ProxyModel->setFilterKeyColumn(2);
             ITextToSpeech::instance().speak("Showing completed crossword entries.");
             break;
         case 2:
             m_ProxyModel->setFilterRegExp(showPartial);
-            m_ProxyModel->setFilterKeyColumn(1);
+            m_ProxyModel->setFilterKeyColumn(2);
             ITextToSpeech::instance().speak("Showing partially completed crossword entries.");
             break;
         case 3:
              m_ProxyModel->setFilterRegExp(showAll);
-             m_ProxyModel->setFilterKeyColumn(1);
+             m_ProxyModel->setFilterKeyColumn(2);
              ITextToSpeech::instance().speak("Filtering disabled.");
             break;
        case 4:
             m_ProxyModel->setFilterRegExp(showIncidentCrosswordEntries);
-            m_ProxyModel->setFilterKeyColumn(1);
-            ITextToSpeech::instance().speak("Showing all clues that touch the current clue");
+            m_ProxyModel->setFilterKeyColumn(2);
+            ITextToSpeech::instance().speak("Showing all clues that intersect the current clue");
             break;
     }
 
@@ -552,6 +552,18 @@ void MainWindow::raiseError(QString title, QString error)
     ITextToSpeech::instance().speak(QString(title).append(" - ").append(error));
 }
 
+QString MainWindow::getIntroString() const
+{
+    return QString("Welcome to Blind Crossword 3D. Press ").append(ShortcutKeys::loadShortcutKey).append(" to load a crossword. ")
+            .append("Press ").append(ShortcutKeys::exitShortcutKey).append(" to quit the program. ")
+            .append("Press ").append(ShortcutKeys::helpShortcutKey).append(" to open a help document in your web browser. Use your screen reader to read the document");
+}
+
+void MainWindow::showAbout()
+{
+    ITextToSpeech::instance().speak("Blind Crossword 3D is a 2D and 3D crossword puzzle game for the blind or partially sighted.");
+}
+
 void MainWindow::createShortcuts()
 {
     m_LoadShortcut = new QShortcut(QKeySequence(ShortcutKeys::loadShortcutKey), this);
@@ -586,18 +598,6 @@ void MainWindow::createShortcuts()
 
     m_ApplicationOpenReminderShortcut = new QShortcut(QKeySequence(ShortcutKeys::toggleApplicationOpenReminderKey), this);
     connect(m_ApplicationOpenReminderShortcut, SIGNAL(activated()), this, SLOT(toggleApplicationOpenReminder()));
-}
-
-QString MainWindow::getIntroString() const
-{
-    return QString("Welcome to Blind Crossword 3D. Press ").append(ShortcutKeys::loadShortcutKey).append(" to load a crossword. ")
-            .append("Press ").append(ShortcutKeys::exitShortcutKey).append(" to quit the program. ")
-            .append("Press ").append(ShortcutKeys::helpShortcutKey).append(" to open a help document in your web browser. Use your screen reader to read the document");
-}
-
-void MainWindow::showAbout()
-{
-    ITextToSpeech::instance().speak("Blind Crossword 3D is a 2D and 3D crossword puzzle game for the blind or partially sighted.");
 }
 
 void MainWindow::closeEvent(QCloseEvent* event)

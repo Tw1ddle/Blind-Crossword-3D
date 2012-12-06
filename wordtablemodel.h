@@ -10,9 +10,14 @@
 #include "crosswordentry3d.h"
 #include "lettergrid.h"
 
-extern const QString wordColumnHeader;
-extern const QString clueColumnHeader;
-extern const QString entryNumberColumnHeader;
+namespace WordTableHeader
+{
+    extern const unsigned int identifierColumnId;
+    extern const unsigned int entryColumnId;
+    extern const unsigned int wordColumnId;
+    extern const unsigned int clueColumnId;
+    extern const unsigned int wordLengthColumnId;
+}
 
 class WordTableModel : public QAbstractTableModel
 {

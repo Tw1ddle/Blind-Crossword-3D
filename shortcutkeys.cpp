@@ -25,5 +25,10 @@ namespace ShortcutKeys
     const QChar readCurrentGuessKey = Qt::Key_R;
     const QChar readCurrentClueKey = Qt::Key_T;
     const QChar readCurrentWordLengthsKey = Qt::Key_Y;
+
+    const QChar sortByIdentifierKey = Qt::Key_1;
+    const QChar sortByEntryKey = Qt::Key_2;
+    const QChar sortByClueKey = Qt::Key_3;
+    const QChar sortByWordLengthKey = Qt::Key_4;
 }
 
