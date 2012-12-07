@@ -1,3 +1,12 @@
+/*! \brief Brief description.
+ *         Brief description continued.
+ *
+ *  Detailed description starts here.
+ *
+ *  \author Samuel Twidale
+ *  \copyright GNU General Public License v3.0
+ */
+
 #ifndef ITEXTTOSPEECH_H
 #define ITEXTTOSPEECH_H
 
@@ -35,6 +44,10 @@ public:
     ~ITextToSpeech() {}
 
     virtual bool speak(QString text, DWORD options = csDefaultAsynchronousSpeechOptions) = 0;
+
+    virtual QString increaseSpeechRate() = 0;
+    virtual QString decreaseSpeechRate() = 0;
+
     virtual bool setMode(SPEECH_MODES::SPEECHMODE mode) = 0;
     virtual SPEECH_MODES::SPEECHMODE getMode() = 0;
 

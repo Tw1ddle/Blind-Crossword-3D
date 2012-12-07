@@ -1,3 +1,12 @@
+/*! \brief Brief description.
+ *         Brief description continued.
+ *
+ *  Detailed description starts here.
+ *
+ *  \author Samuel Twidale
+ *  \copyright GNU General Public License v3.0
+ */
+
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
@@ -43,30 +52,12 @@ private:
     IdleReminder* m_IdleReminder;
     ClueReader* m_AdvancedClueReader;
 
-
     static const QString m_DefaultSaveFolder;
     static const QString m_HelpFileLocation;
     static const QString m_LicenseFileLocation;
-    static const QString m_EmailAddressFileLocation;
     static const QString m_PostalAddressFileLocation;
 
     void createShortcuts();
-    QShortcut* m_ExitShortcut;
-    QShortcut* m_LoadShortcut;
-    QShortcut* m_SaveShortcut;
-    QShortcut* m_HelpShortcut;
-    QShortcut* m_ScoreShortcut;
-    QShortcut* m_RevealAnswerShortcut;
-    QShortcut* m_FilePropertiesShortcut;
-    QShortcut* m_FilterTableViewShortcut;
-    QShortcut* m_CycleSpeechModeShortcut;
-    QShortcut* m_ReadCrosswordThemePhraseShortcut;
-    QShortcut* m_StopSpeechShortcut;
-
-    QShortcut* m_ApplicationOpenReminderShortcut;
-
-    QShortcut* m_ReadCurrentClueWordShortcut;
-    QShortcut* m_AdvanceCurrentClueWordShortcut;
 
     QString getIntroString() const;
 
@@ -99,12 +90,31 @@ private slots:
     void advanceToNextWordInClue();
     void readCurrentWordInClue();
 
-    void checkIfPuzzleWasCompleted();
+    void increaseSpeechRate();
+    void decreaseSpeechRate();
 
     void raiseError(QString title, QString error);
 
 signals:
     void puzzleLoaded();
+
+private:
+    QShortcut* m_ExitShortcut;
+    QShortcut* m_LoadShortcut;
+    QShortcut* m_SaveShortcut;
+    QShortcut* m_HelpShortcut;
+    QShortcut* m_ScoreShortcut;
+    QShortcut* m_RevealAnswerShortcut;
+    QShortcut* m_FilePropertiesShortcut;
+    QShortcut* m_FilterTableViewShortcut;
+    QShortcut* m_CycleSpeechModeShortcut;
+    QShortcut* m_ReadCrosswordThemePhraseShortcut;
+    QShortcut* m_StopSpeechShortcut;
+    QShortcut* m_ApplicationOpenReminderShortcut;
+    QShortcut* m_ReadCurrentClueWordShortcut;
+    QShortcut* m_AdvanceCurrentClueWordShortcut;
+    QShortcut* m_IncreaseSpeechRateShortcut;
+    QShortcut* m_DecreaseSpeechRateShortcut;
 };
 
 #endif // MAINWINDOW_H

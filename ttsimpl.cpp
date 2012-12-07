@@ -89,3 +89,25 @@ SPEECH_MODES::SPEECHMODE TTSImpl::getMode()
 {
     return m_Mode;
 }
+
+QString TTSImpl::increaseSpeechRate()
+{
+    long current;
+    m_Voice->GetRate(&current);
+    float change = 2.0;
+
+    m_Voice->SetRate(current + change);
+
+    return QString("Speech rate increased.");
+}
+
+QString TTSImpl::decreaseSpeechRate()
+{
+    long current;
+    m_Voice->GetRate(&current);
+    float change = -2.0;
+
+    m_Voice->SetRate(current + change);
+
+    return QString("Speech rate decreased.");
+}

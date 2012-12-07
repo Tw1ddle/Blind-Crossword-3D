@@ -6,7 +6,7 @@ ClueReader::ClueReader() : index(0u), separator(QChar(Qt::Key_Space))
 
 QString ClueReader::advanceWord()
 {
-    QStringList words = text.split(separator);
+    QStringList words = text.split(separator, QString::SkipEmptyParts);
 
     if(index >= words.length() - 1)
     {
@@ -22,7 +22,7 @@ QString ClueReader::advanceWord()
 
 QString ClueReader::getWord()
 {
-    QStringList words = text.split(separator);
+    QStringList words = text.split(separator, QString::SkipEmptyParts);
 
     if(!words.at(index).isNull())
     {
@@ -37,5 +37,5 @@ QString ClueReader::getWord()
 void ClueReader::setText(CrosswordEntry3D entry)
 {
     index = 0;
-    this->text = entry.getClue();
+    text = entry.getClue();
 }

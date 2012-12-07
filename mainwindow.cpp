@@ -1,15 +1,12 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-#include <QFileDialog>
 #include <QShortcut>
-#include <QMessageBox>
 #include <QCloseEvent>
 #include <QDesktopServices>
 #include <QUrl>
 #include <QSortFilterProxyModel>
 #include <QTextStream>
-#include <QTextDocument>
 #include <QPrinter>
 #include <QPrintDialog>
 #include <QTextEdit>
@@ -31,7 +28,6 @@
 const QString MainWindow::m_DefaultSaveFolder = QString("/Crosswords");
 const QString MainWindow::m_HelpFileLocation = QString("/Help/index.html");
 const QString MainWindow::m_LicenseFileLocation = QString("/License/gplv3.htm");
-const QString MainWindow::m_EmailAddressFileLocation = QString("/Config/email_address.txt");
 const QString MainWindow::m_PostalAddressFileLocation = QString("/Config/postal_address.txt");
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -79,7 +75,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(&m_PuzzleLoader, SIGNAL(loaderError(QString, QString)), this, SLOT(showError(QString, QString)));
 
     connect(m_IdleReminder, SIGNAL(timedOut()), this, SLOT(onIdleReminderTimeout()));
-    installEventFilter(m_IdleReminder);
+    qApp->installEventFilter(m_IdleReminder);
 
     connect(m_WordTableModel, SIGNAL(crosswordEntrySelectionChanged(CrosswordEntry3D)), m_AdvancedClueReader, SLOT(setText(CrosswordEntry3D)));
 
@@ -433,11 +429,14 @@ void MainWindow::readCurrentWordInClue()
     ITextToSpeech::instance().speak(m_AdvancedClueReader->getWord());
 }
 
-void MainWindow::checkIfPuzzleWasCompleted()
+void MainWindow::increaseSpeechRate()
 {
-    if(m_Puzzle.getPuzzleType() != CrosswordTypes::WITHOUT_ANSWERS)
-    {
-    }
+    ITextToSpeech::instance().speak(ITextToSpeech::instance().increaseSpeechRate());
+}
+
+void MainWindow::decreaseSpeechRate()
+{
+    ITextToSpeech::instance().speak(ITextToSpeech::instance().decreaseSpeechRate());
 }
 
 void MainWindow::openHelp()
@@ -484,6 +483,24 @@ void MainWindow::showAbout()
     ITextToSpeech::instance().speak("Blind Crossword 3D is a 2D and 3D crossword puzzle game for the blind or partially sighted.");
 }
 
+void MainWindow::closeEvent(QCloseEvent* event)
+{
+    QuitDialog dialog;
+
+    ITextToSpeech::instance().speak(dialog.getBodyString());
+
+    if(dialog.exec())
+    {
+        ITextToSpeech::instance().speak(dialog.getAcceptedText(), csDefaultSynchronousSpeechOptions);
+        event->accept();
+    }
+    else
+    {
+        ITextToSpeech::instance().speak(dialog.getRejectedText());
+        event->ignore();
+    }
+}
+
 void MainWindow::createShortcuts()
 {
     m_LoadShortcut = new QShortcut(QKeySequence(ShortcutKeys::loadShortcutKey), this);
@@ -524,24 +541,12 @@ void MainWindow::createShortcuts()
 
     m_AdvanceCurrentClueWordShortcut = new QShortcut(QKeySequence(ShortcutKeys::advanceClueWordKey), this);
     connect(m_AdvanceCurrentClueWordShortcut, SIGNAL(activated()), this, SLOT(advanceToNextWordInClue()));
-}
 
-void MainWindow::closeEvent(QCloseEvent* event)
-{
-    QuitDialog dialog;
+    m_IncreaseSpeechRateShortcut = new QShortcut(QKeySequence(ShortcutKeys::increaseSpeechRateKey), this);
+    connect(m_IncreaseSpeechRateShortcut, SIGNAL(activated()), this, SLOT(increaseSpeechRate()));
 
-    ITextToSpeech::instance().speak(dialog.getBodyString());
-
-    if(dialog.exec())
-    {
-        ITextToSpeech::instance().speak(dialog.getAcceptedText(), csDefaultSynchronousSpeechOptions);
-        event->accept();
-    }
-    else
-    {
-        ITextToSpeech::instance().speak(dialog.getRejectedText());
-        event->ignore();
-    }
+    m_DecreaseSpeechRateShortcut = new QShortcut(QKeySequence(ShortcutKeys::decreaseSpeechRateKey), this);
+    connect(m_DecreaseSpeechRateShortcut, SIGNAL(activated()), this, SLOT(decreaseSpeechRate()));
 }
 
 void MainWindow::exitConfirmation()
