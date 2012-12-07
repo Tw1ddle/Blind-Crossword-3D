@@ -55,7 +55,6 @@ private:
     static const QString m_DefaultSaveFolder;
     static const QString m_HelpFileLocation;
     static const QString m_LicenseFileLocation;
-    static const QString m_PostalAddressFileLocation;
 
     void createShortcuts();
 
@@ -85,7 +84,6 @@ private slots:
     void cycleTableViewFilter();
 
     void stopSpeech();
-    bool changeSpeechRate(float change);
 
     void advanceToNextWordInClue();
     void readCurrentWordInClue();

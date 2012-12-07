@@ -24,18 +24,17 @@
 // Other platforms here
 #endif
 
-extern const DWORD csDefaultSynchronousSpeechOptions;
-extern const DWORD csDefaultAsynchronousSpeechOptions;
-extern const DWORD csAsynchronousNoPurgeOptions;
-
-extern const DWORD csSpeakPunctuationOption;
-
 namespace SPEECH_MODES
 {
     typedef QString SPEECHMODE;
 
     const SPEECHMODE normalSpeech = "normalSpeech";
     const SPEECHMODE spellingOutSpeech = "spellingOutSpeech";
+
+    extern const DWORD csDefaultSynchronousSpeechOptions;
+    extern const DWORD csDefaultAsynchronousSpeechOptions;
+    extern const DWORD csAsynchronousNoPurgeOptions;
+    extern const DWORD csSpeakPunctuationOption;
 }
 
 class ITextToSpeech : public Singleton<ITextToSpeech>
@@ -43,7 +42,7 @@ class ITextToSpeech : public Singleton<ITextToSpeech>
 public:
     ~ITextToSpeech() {}
 
-    virtual bool speak(QString text, DWORD options = csDefaultAsynchronousSpeechOptions) = 0;
+    virtual bool speak(QString text, DWORD options = SPEECH_MODES::csDefaultAsynchronousSpeechOptions) = 0;
 
     virtual QString increaseSpeechRate() = 0;
     virtual QString decreaseSpeechRate() = 0;

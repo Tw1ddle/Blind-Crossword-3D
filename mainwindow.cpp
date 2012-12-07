@@ -6,10 +6,6 @@
 #include <QDesktopServices>
 #include <QUrl>
 #include <QSortFilterProxyModel>
-#include <QTextStream>
-#include <QPrinter>
-#include <QPrintDialog>
-#include <QTextEdit>
 
 #include "puzzlebase.h"
 
@@ -28,7 +24,6 @@
 const QString MainWindow::m_DefaultSaveFolder = QString("/Crosswords");
 const QString MainWindow::m_HelpFileLocation = QString("/Help/index.html");
 const QString MainWindow::m_LicenseFileLocation = QString("/License/gplv3.htm");
-const QString MainWindow::m_PostalAddressFileLocation = QString("/Config/postal_address.txt");
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent), m_ApplicationOpenReminderEnabled(true),
@@ -176,50 +171,6 @@ void MainWindow::saveCrossword()
     }
 }
 
-void MainWindow::printCrossword()
-{
-    ITextToSpeech::instance().speak("Attempting to open a print dialog for printing your answers. Use your screen reader to work with the dialog.");
-
-    Printer printer;
-
-    QString result = printer.openPrintDialog(m_Puzzle, this);
-
-    ITextToSpeech::instance().speak(result);
-}
-
-void MainWindow::emailCrossword()
-{
-    Emailer emailer;
-
-    if(emailer.openSendResultsEmail(m_Puzzle))
-    {
-        ITextToSpeech::instance().speak("Attempting to open an email containing your answers. Use your screen reader to work with the email.");
-    }
-    else
-    {
-        ITextToSpeech::instance().speak("Failed to open an email containing your answers.");
-    }
-}
-
-void MainWindow::emailFeedback()
-{
-    Emailer emailer;
-
-    if(emailer.openFeedbackEmail())
-    {
-        ITextToSpeech::instance().speak("Attempting to open an email for you to send us feedback. Use your screen reader to work with the email.");
-    }
-    else
-    {
-        ITextToSpeech::instance().speak("Failed to open an email for you to send us feedback.");
-    }
-}
-
-void MainWindow::showFileProperties()
-{
-    ITextToSpeech::instance().speak(m_Puzzle.getInformationString());
-}
-
 void MainWindow::viewLicense()
 {
     QDir dir;
@@ -240,49 +191,6 @@ void MainWindow::viewLicense()
     {
         ITextToSpeech::instance().speak("Error, could not open license document.");
     }
-}
-
-void MainWindow::toggleGrid(bool hidden)
-{
-    if(!hidden)
-    {
-        ITextToSpeech::instance().speak("Graphical crossword grid is now hidden.");
-        ui->graphicsView->setVisible(hidden);
-    }
-    else
-    {
-        ITextToSpeech::instance().speak("Graphical crossword grid is now shown.");
-        ui->graphicsView->setVisible(hidden);
-    }
-}
-
-void MainWindow::toggleApplicationOpenReminder()
-{
-    if(m_ApplicationOpenReminderEnabled)
-    {
-        ITextToSpeech::instance().speak("Reminder disabled");
-
-        m_ApplicationOpenReminderEnabled = false;
-    }
-    else
-    {
-        ITextToSpeech::instance().speak("Reminder enabled");
-
-        m_ApplicationOpenReminderEnabled = true;
-    }
-}
-
-void MainWindow::onIdleReminderTimeout()
-{
-    if(m_ApplicationOpenReminderEnabled)
-    {
-        ITextToSpeech::instance().speak(QString("Blind Crossword 3D is still running. You can press ").append(ShortcutKeys::helpShortcutKey).append( "to open a help page. To toggle this reminder, press ").append(ShortcutKeys::toggleApplicationOpenReminderKey).append("."));
-    }
-}
-
-void MainWindow::readCrosswordThemePhrase()
-{
-    ITextToSpeech::instance().speak(m_Puzzle.getPuzzleThemePhrase());
 }
 
 void MainWindow::cycleSpeechMode()
@@ -355,36 +263,6 @@ void MainWindow::cycleTableViewFilter()
     }
 }
 
-void MainWindow::stopSpeech()
-{
-    ITextToSpeech::instance().speak("", csDefaultAsynchronousSpeechOptions);
-}
-
-bool MainWindow::changeSpeechRate(float change)
-{
-    return false;
-}
-
-void MainWindow::advanceToNextWordInClue()
-{
-    ITextToSpeech::instance().speak(m_AdvancedClueReader->advanceWord());
-}
-
-void MainWindow::readCurrentWordInClue()
-{
-    ITextToSpeech::instance().speak(m_AdvancedClueReader->getWord());
-}
-
-void MainWindow::increaseSpeechRate()
-{
-    ITextToSpeech::instance().speak(ITextToSpeech::instance().increaseSpeechRate());
-}
-
-void MainWindow::decreaseSpeechRate()
-{
-    ITextToSpeech::instance().speak(ITextToSpeech::instance().decreaseSpeechRate());
-}
-
 void MainWindow::openHelp()
 {
     QDir dir;
@@ -405,6 +283,118 @@ void MainWindow::openHelp()
     {
         ITextToSpeech::instance().speak("Error, could not open help page.");
     }
+}
+
+void MainWindow::printCrossword()
+{
+    ITextToSpeech::instance().speak("Attempting to open a print dialog for printing your answers. Use your screen reader to work with the dialog.");
+
+    Printer printer;
+
+    QString result = printer.openPrintDialog(m_Puzzle, this);
+
+    ITextToSpeech::instance().speak(result);
+}
+
+void MainWindow::emailCrossword()
+{
+    Emailer emailer;
+
+    if(emailer.openSendResultsEmail(m_Puzzle))
+    {
+        ITextToSpeech::instance().speak("Attempting to open an email containing your answers. Use your screen reader to work with the email.");
+    }
+    else
+    {
+        ITextToSpeech::instance().speak("Failed to open an email containing your answers.");
+    }
+}
+
+void MainWindow::emailFeedback()
+{
+    Emailer emailer;
+
+    if(emailer.openFeedbackEmail())
+    {
+        ITextToSpeech::instance().speak("Attempting to open an email for you to send us feedback. Use your screen reader to work with the email.");
+    }
+    else
+    {
+        ITextToSpeech::instance().speak("Failed to open an email for you to send us feedback.");
+    }
+}
+
+void MainWindow::showFileProperties()
+{
+    ITextToSpeech::instance().speak(m_Puzzle.getInformationString());
+}
+
+void MainWindow::toggleGrid(bool hidden)
+{
+    if(!hidden)
+    {
+        ITextToSpeech::instance().speak("Graphical crossword grid is now hidden.");
+        ui->graphicsView->setVisible(hidden);
+    }
+    else
+    {
+        ITextToSpeech::instance().speak("Graphical crossword grid is now shown.");
+        ui->graphicsView->setVisible(hidden);
+    }
+}
+
+void MainWindow::toggleApplicationOpenReminder()
+{
+    if(m_ApplicationOpenReminderEnabled)
+    {
+        ITextToSpeech::instance().speak("Reminder disabled");
+
+        m_ApplicationOpenReminderEnabled = false;
+    }
+    else
+    {
+        ITextToSpeech::instance().speak("Reminder enabled");
+
+        m_ApplicationOpenReminderEnabled = true;
+    }
+}
+
+void MainWindow::onIdleReminderTimeout()
+{
+    if(m_ApplicationOpenReminderEnabled)
+    {
+        ITextToSpeech::instance().speak(QString("Blind Crossword 3D is still running. You can press ").append(ShortcutKeys::helpShortcutKey).append( "to open a help page. To toggle this reminder, press ").append(ShortcutKeys::toggleApplicationOpenReminderKey).append("."));
+    }
+}
+
+void MainWindow::readCrosswordThemePhrase()
+{
+    ITextToSpeech::instance().speak(m_Puzzle.getPuzzleThemePhrase());
+}
+
+void MainWindow::stopSpeech()
+{
+    ITextToSpeech::instance().speak("", SPEECH_MODES::csDefaultAsynchronousSpeechOptions);
+}
+
+void MainWindow::advanceToNextWordInClue()
+{
+    ITextToSpeech::instance().speak(m_AdvancedClueReader->advanceWord());
+}
+
+void MainWindow::readCurrentWordInClue()
+{
+    ITextToSpeech::instance().speak(m_AdvancedClueReader->getWord());
+}
+
+void MainWindow::increaseSpeechRate()
+{
+    ITextToSpeech::instance().speak(ITextToSpeech::instance().increaseSpeechRate());
+}
+
+void MainWindow::decreaseSpeechRate()
+{
+    ITextToSpeech::instance().speak(ITextToSpeech::instance().decreaseSpeechRate());
 }
 
 void MainWindow::scoreCrossword()
@@ -437,7 +427,7 @@ void MainWindow::closeEvent(QCloseEvent* event)
 
     if(dialog.exec())
     {
-        ITextToSpeech::instance().speak(dialog.getAcceptedText(), csDefaultSynchronousSpeechOptions);
+        ITextToSpeech::instance().speak(dialog.getAcceptedText(), SPEECH_MODES::csDefaultSynchronousSpeechOptions);
         event->accept();
     }
     else

@@ -11,7 +11,7 @@ bool XWCR3DLoader::loadMetaData(PuzzleBase& puzzle, QStringList& linelist)
     puzzle.m_CrosswordFileFormat = linelist.takeFirst();
     puzzle.m_FileFormatVersion = linelist.takeFirst().toUInt();
 
-    if(puzzle.m_CrosswordFileFormat != FileFormats::XWCR3D)
+    if(puzzle.m_CrosswordFileFormat != FileFormats::XWC3D)
     {
         return false;
     }
@@ -48,9 +48,9 @@ bool XWCR3DLoader::loadMetaData(PuzzleBase& puzzle, QStringList& linelist)
     {
         QStringList currentCatchPhraseCoordinateList = puzzleCatchPhraseData.takeFirst().split(",");
 
-        unsigned int x = currentCatchPhraseCoordinateList.takeFirst().toUInt();
-        unsigned int y = currentCatchPhraseCoordinateList.takeFirst().toUInt();
-        unsigned int z = currentCatchPhraseCoordinateList.takeFirst().toUInt();
+        unsigned int x = currentCatchPhraseCoordinateList.takeFirst().toUInt() - 1;
+        unsigned int y = currentCatchPhraseCoordinateList.takeFirst().toUInt() - 1;
+        unsigned int z = currentCatchPhraseCoordinateList.takeFirst().toUInt() - 1;
         puzzle.m_ThemePhraseCoordinates.push_back(uivec3(x, y, z));
     }
 
