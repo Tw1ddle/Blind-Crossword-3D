@@ -32,6 +32,8 @@ private:
     bool m_Initialised;
 
     QString m_Mode;
+
+    const static float sc_SpeedRateAdjustmentStepSize;
 };
 
 #endif // TTSIMPL_H

@@ -47,7 +47,7 @@ MainWindow::MainWindow(QWidget *parent) :
     m_ProxyModel->setSourceModel(m_WordTableModel);
     ui->wordTableView->setModel(m_ProxyModel);
 
-    m_IdleReminder = new IdleReminder(40000);
+    m_IdleReminder = new IdleReminder(60000);
     m_AdvancedClueReader = new ClueReader();
 
     connect(this, SIGNAL(puzzleLoaded()), m_WordTableModel, SLOT(crosswordEntriesChanged()));
@@ -178,67 +178,13 @@ void MainWindow::saveCrossword()
 
 void MainWindow::printCrossword()
 {
-    ITextToSpeech::instance().speak("Attempting to open a print dialogue for printing your answers.");
+    ITextToSpeech::instance().speak("Attempting to open a print dialog for printing your answers. Use your screen reader to work with the dialog.");
 
-    QString postalAddress = "Error fetching postal address, please check the game Config folder to find the postal address.";
+    Printer printer;
 
-    QDir dir;
-    QString filePath;
-    if(dir.exists(dir.absolutePath().append(m_PostalAddressFileLocation)))
-    {
-        QFile file(filePath);
-        if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
-        {
-        }
+    QString result = printer.openPrintDialog(m_Puzzle, this);
 
-        QTextStream in(&file);
-        QString currentLine;
-        QStringList linelist;
-
-        if(in.atEnd())
-        {
-        }
-
-        do
-        {
-            currentLine = in.readLine();
-            if(currentLine.length() != 0)
-            {
-                linelist << currentLine;
-            }
-        } while (!currentLine.isNull());
-
-        while(!linelist.isEmpty())
-        {
-            postalAddress.append(linelist.takeFirst()).append("\n");
-        }
-    }
-
-    QString textToPrint;
-
-    textToPrint.append(m_Puzzle.getInformationString().append("\n\n"));
-
-    for(unsigned int i = 0; i < m_Puzzle.getRefCrosswordEntries().size(); i++)
-    {
-        QString id = m_Puzzle.getRefCrosswordEntries().at(i).getEntryName();
-        QString direction = m_Puzzle.getRefCrosswordEntries().at(i).getDirection().getString();
-        QString answer = m_Puzzle.getRefCrosswordEntries().at(i).getGuess().getString();
-
-        textToPrint.append(id).append(" ").append(direction).append(" --- ").append(answer).append("\n");
-    }
-
-    textToPrint.append("\n").append(postalAddress);
-
-    QTextEdit textViewer(textToPrint);
-    QTextDocument* document = textViewer.document();
-
-    QPrinter printer(QPrinter::HighResolution);
-    QPrintDialog printDialog(&printer, this);
-    if(printDialog.exec() == QDialog::Accepted)
-    {
-        document->print(&printer);
-        ITextToSpeech::instance().speak("Sending print request to printer.");
-    }
+    ITextToSpeech::instance().speak(result);
 }
 
 void MainWindow::emailCrossword()

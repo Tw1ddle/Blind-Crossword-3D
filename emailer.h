@@ -21,9 +21,9 @@ public:
     bool openSendResultsEmail(PuzzleBase& puzzle);
 
 private:
-    const static QString m_EmailAddressFileLocation;
+    const static QString sc_EmailAddressFileLocation;
 
-    QString getEmailAddress(QString path);
+    QString getEmailAddress(const QString path) const;
 };
 
 #endif // EMAILER_H

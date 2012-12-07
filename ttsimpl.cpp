@@ -6,6 +6,8 @@
 
 TTSImpl instance;
 
+const float TTSImpl::sc_SpeedRateAdjustmentStepSize = 2.0f;
+
 TTSImpl::TTSImpl()
 {
     m_Voice = NULL;
@@ -94,9 +96,8 @@ QString TTSImpl::increaseSpeechRate()
 {
     long current;
     m_Voice->GetRate(&current);
-    float change = 2.0;
 
-    m_Voice->SetRate(current + change);
+    m_Voice->SetRate(current + sc_SpeedRateAdjustmentStepSize);
 
     return QString("Speech rate increased.");
 }
@@ -105,9 +106,8 @@ QString TTSImpl::decreaseSpeechRate()
 {
     long current;
     m_Voice->GetRate(&current);
-    float change = -2.0;
 
-    m_Voice->SetRate(current + change);
+    m_Voice->SetRate(current - sc_SpeedRateAdjustmentStepSize);
 
     return QString("Speech rate decreased.");
 }

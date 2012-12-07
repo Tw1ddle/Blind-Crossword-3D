@@ -8,12 +8,12 @@
 #include "utilities.h"
 #include "puzzlebase.h"
 
-const QString Emailer::m_EmailAddressFileLocation = QString("/Config/email_address.txt");
+const QString Emailer::sc_EmailAddressFileLocation = QString("/Config/email_address.txt");
 
 bool Emailer::openFeedbackEmail()
 {
     QDir dir;
-    QString emailAddress = getEmailAddress(dir.absolutePath().append(m_EmailAddressFileLocation));
+    QString emailAddress = getEmailAddress(dir.absolutePath().append(sc_EmailAddressFileLocation));
 
     QString emailSubject = "Blind Crossword 3D feedback";
 
@@ -36,7 +36,7 @@ bool Emailer::openFeedbackEmail()
 bool Emailer::openSendResultsEmail(PuzzleBase& puzzle)
 {
     QDir dir;
-    QString emailAddress = getEmailAddress(dir.absolutePath().append(m_EmailAddressFileLocation));
+    QString emailAddress = getEmailAddress(dir.absolutePath().append(sc_EmailAddressFileLocation));
 
     QString emailSubject = puzzle.getPuzzleTitle().append(" answers");
 
@@ -66,7 +66,7 @@ bool Emailer::openSendResultsEmail(PuzzleBase& puzzle)
     }
 }
 
-QString Emailer::getEmailAddress(QString path)
+QString Emailer::getEmailAddress(const QString path) const
 {
     QStringList emailAddresses;
     QString emailAddress;

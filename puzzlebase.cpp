@@ -166,21 +166,14 @@ QString PuzzleBase::getInformationString() const
     }
 }
 
+QString PuzzleBase::getPuzzleThemePhrase() const
+{
+    return m_PuzzleThemePhrase;
+}
+
 QString PuzzleBase::getPuzzleTitle() const
 {
     return m_PuzzleTitle;
-}
-
-QString PuzzleBase::getPuzzleThemePhrase() const
-{
-    QString themePhrase;
-
-    for(unsigned int i = 0; i < m_ThemePhraseCoordinates.size(); i++)
-    {
-        themePhrase.append(this->getGrid().getLetterAt(toGridIndex(m_ThemePhraseCoordinates.at(i)))->getChar());
-    }
-
-    return themePhrase;
 }
 
 FileFormats::FORMAT PuzzleBase::getPuzzleFormat() const
