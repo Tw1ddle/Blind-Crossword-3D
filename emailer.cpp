@@ -8,16 +8,21 @@
 #include "utilities.h"
 #include "puzzlebase.h"
 
-const QString Emailer::sc_EmailAddressFileLocation = QString("/Config/email_address.txt");
+#include "version.h"
+
+const QString Emailer::sc_FeedbackEmailAddressFileLocation = QString("/Config/feedback_email_address.txt");
+const QString Emailer::sc_AnswersEmailAddressFileLocation = QString("/Config/answers_email_address.txt");
 
 bool Emailer::openFeedbackEmail()
 {
     QDir dir;
-    QString emailAddress = getEmailAddress(dir.absolutePath().append(sc_EmailAddressFileLocation));
+    QString emailAddress = getEmailAddress(dir.absolutePath().append(sc_FeedbackEmailAddressFileLocation));
 
-    QString emailSubject = "Blind Crossword 3D feedback";
+    QString emailSubject = Version::getApplicationVersionDescription().append(" feedback message");
 
     QString emailBody;
+
+    emailBody.append(QString("This feedback email was sent from ").append(Version::getApplicationVersionDescription()));
 
     QUrl mailtoURL = QUrl(QString("mailto:").append(emailAddress)
                           .append("?subject=").append(emailSubject)
@@ -36,7 +41,7 @@ bool Emailer::openFeedbackEmail()
 bool Emailer::openSendResultsEmail(PuzzleBase& puzzle)
 {
     QDir dir;
-    QString emailAddress = getEmailAddress(dir.absolutePath().append(sc_EmailAddressFileLocation));
+    QString emailAddress = getEmailAddress(dir.absolutePath().append(sc_AnswersEmailAddressFileLocation));
 
     QString emailSubject = puzzle.getPuzzleTitle().append(" answers");
 

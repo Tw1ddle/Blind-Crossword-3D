@@ -38,7 +38,8 @@ SOURCES += main.cpp\
     printer.cpp \
     idlereminder.cpp \
     advancedcluereader.cpp \
-    utilities.cpp
+    utilities.cpp \
+    version.cpp
 
 HEADERS  += mainwindow.h \
     word.h \
@@ -70,7 +71,8 @@ HEADERS  += mainwindow.h \
     printer.h \
     idlereminder.h \
     advancedcluereader.h \
-    utilities.h
+    utilities.h \
+    version.h
 
 FORMS    += mainwindow.ui
 

@@ -21,7 +21,8 @@ public:
     bool openSendResultsEmail(PuzzleBase& puzzle);
 
 private:
-    const static QString sc_EmailAddressFileLocation;
+    const static QString sc_AnswersEmailAddressFileLocation;
+    const static QString sc_FeedbackEmailAddressFileLocation;
 
     QString getEmailAddress(const QString path) const;
 };

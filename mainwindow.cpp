@@ -7,17 +7,19 @@
 #include <QUrl>
 #include <QSortFilterProxyModel>
 
-#include "puzzlebase.h"
+#include "version.h"
 
+#include "puzzlebase.h"
 #include "grid3dgraphicsscene.h"
 #include "wordtablemodel.h"
-#include "itexttospeech.h"
+
+#include "shortcutkeys.h"
 #include "quitdialog.h"
 #include "filedialog.h"
-#include "shortcutkeys.h"
+#include "itexttospeech.h"
 #include "idlereminder.h"
-#include "advancedcluereader.h"
 
+#include "advancedcluereader.h"
 #include "emailer.h"
 #include "printer.h"
 
@@ -30,6 +32,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
+    setWindowTitle(Version::getApplicationName());
     setWindowIcon(QIcon(":/icon.ico"));
 
     createShortcuts();
@@ -363,7 +367,7 @@ void MainWindow::onIdleReminderTimeout()
 {
     if(m_ApplicationOpenReminderEnabled)
     {
-        ITextToSpeech::instance().speak(QString("Blind Crossword 3D is still running. You can press ").append(ShortcutKeys::helpShortcutKey).append( "to open a help page. To toggle this reminder, press ").append(ShortcutKeys::toggleApplicationOpenReminderKey).append("."));
+        ITextToSpeech::instance().speak(QString(Version::getApplicationName().append(" is still running. You can press ").append(ShortcutKeys::helpShortcutKey).append( "to open a help page. To toggle this reminder, press ").append(ShortcutKeys::toggleApplicationOpenReminderKey).append(".")));
     }
 }
 
@@ -409,14 +413,16 @@ void MainWindow::raiseError(QString title, QString error)
 
 QString MainWindow::getIntroString() const
 {
-    return QString("Welcome to Blind Crossword 3D. Press ").append(ShortcutKeys::loadShortcutKey).append(" to load a crossword. ")
+    return QString("Welcome to ").append(Version::getApplicationName().append(". "))
+            .append("Press ").append(ShortcutKeys::loadShortcutKey).append(" to load a crossword. ")
             .append("Press ").append(ShortcutKeys::exitShortcutKey).append(" to quit the program. ")
             .append("Press ").append(ShortcutKeys::helpShortcutKey).append(" to open a help document in your web browser. Use your screen reader to read the document");
 }
 
 void MainWindow::showAbout()
 {
-    ITextToSpeech::instance().speak("Blind Crossword 3D is a 2D and 3D crossword puzzle game for the blind or partially sighted.");
+    ITextToSpeech::instance().speak(QString(Version::getApplicationName().append(" is a 2D and 3D crossword puzzle game for the blind or partially sighted. ")
+                                            .append("You are using ").append(Version::getApplicationVersionDescription())));
 }
 
 void MainWindow::closeEvent(QCloseEvent* event)
