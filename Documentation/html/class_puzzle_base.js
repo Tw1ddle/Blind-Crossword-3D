@@ -1,0 +1,26 @@
+var class_puzzle_base =
+[
+    [ "PuzzleBase", "class_puzzle_base.html#adab18795d34e06e9b654161f3c75aee3", null ],
+    [ "getCrosswordEntries", "class_puzzle_base.html#af9793a47d4c52ad024f649a3de4da1a1", null ],
+    [ "getGrid", "class_puzzle_base.html#aa6172566f9cc560c2f167099d96c487e", null ],
+    [ "getInformationString", "class_puzzle_base.html#a11967bb7b00064967a28a16d1ec16d3e", null ],
+    [ "getIntersectingCrosswordEntryIds", "class_puzzle_base.html#a93adf702f8b8dead02f066ff8a0cc333", null ],
+    [ "getPuzzleBackgroundImage", "class_puzzle_base.html#a419b450eab33d4c769ddf9ba4329b001", null ],
+    [ "getPuzzleFormat", "class_puzzle_base.html#a1f8a08d843fa2d67f225b6d0bb6dcc64", null ],
+    [ "getPuzzleThemePhrase", "class_puzzle_base.html#a06ecbe8bf02fb3be6ec8fa6e8de17cc6", null ],
+    [ "getPuzzleTitle", "class_puzzle_base.html#ae589b22a2840290bd399002cd28eecad", null ],
+    [ "getPuzzleType", "class_puzzle_base.html#a1e20ba0e67a8ceae9e3d11859b33c209", null ],
+    [ "getRefCrosswordEntries", "class_puzzle_base.html#a3afdc9daea5b099741f25d9cfea99747", null ],
+    [ "getRefGrid", "class_puzzle_base.html#ac74c5943b8d21cb7e732ef5b8a9188ca", null ],
+    [ "getScoreString", "class_puzzle_base.html#ae73f14237038abebdcd68745d8156764", null ],
+    [ "getThemePhraseCoordinates", "class_puzzle_base.html#a1dd3554ef14b2ae7918372c07a5a008e", null ],
+    [ "isComplete", "class_puzzle_base.html#a82660984e8aee355d6e3929c1d27795a", null ],
+    [ "removeIncorrectEntries", "class_puzzle_base.html#a64ea51cc0fde4391f400ccb226a9ea36", null ],
+    [ "setDimensions", "class_puzzle_base.html#a8992de9335ec207d98b4461de21bb0e4", null ],
+    [ "toGridIndex", "class_puzzle_base.html#a02c899dbb451e2bcc8e3a9781f46f9c6", null ],
+    [ "PuzzleLoader", "class_puzzle_base.html#a1622d9bdcc4049c680a1b14cf591018c", null ],
+    [ "PuzzleLoaderInterface", "class_puzzle_base.html#a98777c8e8d1470aad7733268ae8b783b", null ],
+    [ "XWC3DLoader", "class_puzzle_base.html#a57c0977a621f5a8cb15e5552b8fe4d93", null ],
+    [ "XWCLoader", "class_puzzle_base.html#a6189e7409aa07ce6a48fbb70db63bd5e", null ],
+    [ "XWCR3DLoader", "class_puzzle_base.html#a1d32edbfd06ea1d449b8c3426b5b190c", null ]
+];
