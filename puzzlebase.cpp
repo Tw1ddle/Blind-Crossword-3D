@@ -7,7 +7,7 @@
 
 #include "crosswordtypes.h"
 
-PuzzleBase::PuzzleBase() : m_CrosswordLoaded(false), m_FileFormatVersion(1u)
+PuzzleBase::PuzzleBase() : m_CrosswordLoaded(false), m_FileFormatVersion(0.0f)
 {
 }
 

@@ -3,7 +3,7 @@
 bool XWC3DLoader::loadMetaData(PuzzleBase& puzzle, QStringList& linelist)
 {
     puzzle.m_CrosswordFileFormat = linelist.takeFirst();
-    puzzle.m_FileFormatVersion = linelist.takeFirst().toUInt();
+    puzzle.m_FileFormatVersion = linelist.takeFirst().toFloat();
 
     if(puzzle.m_CrosswordFileFormat != FileFormats::XWC3D)
     {
@@ -20,7 +20,8 @@ bool XWC3DLoader::loadMetaData(PuzzleBase& puzzle, QStringList& linelist)
         return false;
     }
 
-    if(!puzzle.loadBackgroundImage(linelist.takeFirst()))
+    puzzle.m_BackgroundImageFilename = linelist.takeFirst();
+    if(!puzzle.loadBackgroundImage(puzzle.m_BackgroundImageFilename))
     {
         return false;
     }
@@ -305,15 +306,44 @@ bool XWC3DLoader::loadSnakingClues(PuzzleBase& puzzle, QStringList& linelist, un
 
 bool XWC3DLoader::saveMetaData(PuzzleBase &puzzle, QStringList &linelist)
 {
-    return false;
+    linelist += puzzle.m_CrosswordFileFormat;
+    linelist += QString::number(puzzle.m_FileFormatVersion);
+    linelist += puzzle.m_PuzzleTitle;
+    linelist += puzzle.m_AuthorTitle;
+    linelist += puzzle.m_PuzzleType;
+    linelist += puzzle.m_PuzzleNotes;
+    linelist += puzzle.m_BackgroundImageFilename;
+
+    linelist += QString::number(puzzle.getRefGrid().getDimensions().getX());
+    linelist += QString::number(puzzle.getRefGrid().getDimensions().getY());
+    linelist += QString::number(puzzle.getRefGrid().getDimensions().getZ());
+
+    QString themePhraseWithHighlightCoordinates;
+
+    themePhraseWithHighlightCoordinates.append(puzzle.m_PuzzleThemePhrase).append("|");
+
+    for(unsigned int i = 0; i < puzzle.m_ThemePhraseCoordinates.size(); i++)
+    {
+        uivec3 coordinate = puzzle.m_ThemePhraseCoordinates.at(i);
+
+        themePhraseWithHighlightCoordinates.append(QString::number(coordinate.getX() + 1)).append(",")
+                .append(QString::number(coordinate.getY() + 1)).append(",")
+                .append(QString::number(coordinate.getZ() + 1)).append("|");
+    }
+
+    themePhraseWithHighlightCoordinates.truncate(themePhraseWithHighlightCoordinates.length() - 1);
+
+    linelist += themePhraseWithHighlightCoordinates;
+
+    return true;
 }
 
 bool XWC3DLoader::saveGrid(PuzzleBase &puzzle, QStringList &linelist)
 {
-    return false;
+    return true;
 }
 
 bool XWC3DLoader::saveClues(PuzzleBase &puzzle, QStringList &linelist)
 {
-    return false;
+    return true;
 }

@@ -73,15 +73,15 @@ bool PuzzleLoader::savePuzzle(PuzzleBase &puzzle, QString filePath, QString exte
 
     if(extension == FileFormats::XWC3D)
     {
-        return writeToFile(saveAsXWC3D(puzzle), file);
+        return writeOutFile(XWC3DLoader(), puzzle, file);
     }
     else if(extension == FileFormats::XWC)
     {
-        return writeToFile(saveAsXWC(puzzle), file);
+        return writeOutFile(XWCLoader(), puzzle, file);
     }
     else if(extension == FileFormats::XWCR3D)
     {
-        return writeToFile(saveAsXWCR3D(puzzle), file);
+        return writeOutFile(XWCR3DLoader(), puzzle, file);
     }
     else
     {
@@ -114,54 +114,29 @@ bool PuzzleLoader::readInFile(PuzzleLoaderInterface& loader, PuzzleBase& puzzle,
     return true;
 }
 
-QStringList PuzzleLoader::saveAsXWC(PuzzleBase &puzzle)
+bool PuzzleLoader::writeOutFile(PuzzleLoaderInterface &loader, PuzzleBase &puzzle, QFile& file)
 {
-    XWCLoader xwcLoader;
+    QStringList linelist;
 
-    QStringList linesToSave;
-
-    if(!xwcLoader.saveMetaData(puzzle, linesToSave))
+    if(!loader.saveMetaData(puzzle, linelist))
+    {
+        emit(loaderError(tr("Loader error"), tr("Error saving crossword metadata")));
+        return false;
+    }
+    if(!loader.saveGrid(puzzle, linelist))
+    {
+        emit(loaderError(tr("Loader error"), tr("Error saving crossword grid")));
+        return false;
+    }
+    if(!loader.saveClues(puzzle, linelist))
     {
         emit(loaderError(tr("Loader error"), tr("Error saving crossword clues")));
-    }
-    if(!xwcLoader.saveGrid(puzzle, linesToSave))
-    {
-        emit(loaderError(tr("Loader error"), tr("Error saving crossword clues")));
-    }
-    if(!xwcLoader.saveClues(puzzle, linesToSave))
-    {
-        emit(loaderError(tr("Loader error"), tr("Error saving crossword clues")));
+        return false;
     }
 
-    return linesToSave;
-}
+    Utilities::writeToFile(linelist, file);
 
-QStringList PuzzleLoader::saveAsXWC3D(PuzzleBase &puzzle)
-{
-    return QStringList();
-}
-
-QStringList PuzzleLoader::saveAsXWCR3D(PuzzleBase &puzzle)
-{
-    return QStringList();
-}
-
-bool PuzzleLoader::writeToFile(QStringList& linelist, QFile& file)
-{
-    QTextStream out(&file);
-
-    while(!linelist.isEmpty())
-    {
-        out << linelist.takeFirst();
-        out << "\n";
-    }
-
-    if(out.status() == QTextStream::Ok)
-    {
-        return true;
-    }
-
-    return false;
+    return true;
 }
 
 

@@ -44,4 +44,22 @@ namespace Utilities
 
         return true;
     }
+
+    bool writeToFile(QStringList& linelist, QFile& file)
+    {
+        QTextStream out(&file);
+
+        while(!linelist.isEmpty())
+        {
+            out << linelist.takeFirst();
+            out << "\n";
+        }
+
+        if(out.status() == QTextStream::Ok)
+        {
+            return true;
+        }
+
+        return false;
+    }
 }

@@ -75,12 +75,13 @@ private:
     QString m_PuzzleNotes;
 
     QPixmap m_BackgroundImage;
+    QString m_BackgroundImageFilename;
     LetterGrid m_Grid;
     std::vector<CrosswordEntry3D> m_CrosswordEntries;
 
     bool m_CrosswordLoaded;
     FileFormats::FORMAT m_CrosswordFileFormat;
-    unsigned int m_FileFormatVersion;
+    float m_FileFormatVersion;
 };
 
 #endif // PUZZLEBASE_H

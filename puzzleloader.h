@@ -39,12 +39,7 @@ public:
 
 private:
     bool readInFile(PuzzleLoaderInterface& loader, PuzzleBase& puzzle, QStringList& linelist);
-
-    QStringList saveAsXWC(PuzzleBase& puzzle);
-    QStringList saveAsXWC3D(PuzzleBase& puzzle);
-    QStringList saveAsXWCR3D(PuzzleBase& puzzle);
-
-    bool writeToFile(QStringList& linelist, QFile& file);
+    bool writeOutFile(PuzzleLoaderInterface& loader, PuzzleBase& puzzle, QFile& file);
 
 signals:
     void loaderError(const QString&, const QString&);

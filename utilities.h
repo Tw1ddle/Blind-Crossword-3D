@@ -11,10 +11,13 @@
 #define UTILITIES_H
 
 #include <QStringList>
+#include <QFile>
 
 namespace Utilities
 {
     bool readFile(QStringList& linelist, QString path);
+
+    bool writeToFile(QStringList& linelist, QFile& file);
 
     bool existsFile(QString path);
 }
