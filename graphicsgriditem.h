@@ -24,6 +24,8 @@ public:
 
     void setCrosswordEntryNumber(unsigned int entryNumber);
     void setColor(QColor color);
+    QColor getColor() const;
+    void setLetter(const Letter* letter);
 
     QString getCrosswordEntryNumber() const;
 

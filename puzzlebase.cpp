@@ -32,10 +32,10 @@ unsigned int PuzzleBase::toGridIndex(uivec3 index) const
                     + index.getZ() * (getGrid().getDimensions().getY() - 1) * getGrid().getDimensions().getX();
         }
     }
-    else
-    {
-        assert(false);
-    }
+
+    assert(false);
+
+    return 0;
 }
 
 void PuzzleBase::setDimensions(uivec3 dimensions)

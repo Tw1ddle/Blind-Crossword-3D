@@ -246,6 +246,14 @@ bool XWC3DLoader::loadSnakingClues(PuzzleBase& puzzle, QStringList& linelist, un
 
         unsigned int identifier = list.takeFirst().toUInt();
 
+        QStringList entryIndicesStringList = list.takeFirst().split(",", QString::SkipEmptyParts);
+
+        std::vector<unsigned int> entryIndices;
+        for(int k = 0; k < entryIndicesStringList.size(); k++)
+        {
+            entryIndices.push_back(entryIndicesStringList.at(k).toUInt() - 1);
+        }
+
         QStringList DirectionsList = list.takeFirst().split(",");
 
         QString entryString;
@@ -289,7 +297,7 @@ bool XWC3DLoader::loadSnakingClues(PuzzleBase& puzzle, QStringList& linelist, un
             wordComponentLengths.push_back(wordComponents.takeFirst().toUInt());
         }
 
-        puzzle.m_CrosswordEntries.push_back(CrosswordEntry3D(direction, identifier, entryString, wordString, word, wordComponentLengths, clue));
+        puzzle.m_CrosswordEntries.push_back(CrosswordEntry3D(direction, identifier, entryString, wordString, word, wordComponentLengths, clue, entryIndices));
     }
 
     return true;

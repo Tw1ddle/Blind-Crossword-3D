@@ -13,13 +13,13 @@ GraphicsGridItem::GraphicsGridItem(const Letter* letter, unsigned int gridId, QG
 {
     m_GridId = gridId;
 
-    if(letter->getChar() == QChar())
+    if(letter->getChar() != QChar())
     {
-        m_Color = QColor(Qt::gray);
+        setColor(Qt::white);
     }
     else
     {
-        m_Color = QColor(Qt::lightGray);
+        setColor(QColor(20, 20, 20));
     }
 }
 
@@ -71,6 +71,16 @@ void GraphicsGridItem::setCrosswordEntryNumber(unsigned int entryNumber)
 void GraphicsGridItem::setColor(QColor color)
 {
     m_Color = color;
+}
+
+QColor GraphicsGridItem::getColor() const
+{
+    return m_Color;
+}
+
+void GraphicsGridItem::setLetter(const Letter *letter)
+{
+    m_LetterRef = letter;
 }
 
 QString GraphicsGridItem::getCrosswordEntryNumber() const

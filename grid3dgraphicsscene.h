@@ -40,8 +40,8 @@ private:
 
     std::vector<GraphicsGridItem*> m_GraphicsGridItems;
 
-    unsigned int m_CurrentlySelectedCrosswordEntryNumber;
-    unsigned int m_PreviousSelectedCrosswordEntryNumber;
+    std::vector<uivec3> m_SelectedGridLocations;
+    std::vector<QColor> m_SavedColours;
 
     void build2DDisc(unsigned int xDim, unsigned int yDim, uivec3 offset, unsigned int discNumber);
     void build2DGrid(unsigned int xDim, unsigned int yDim, uivec3 offset, unsigned int gridNumber);
@@ -50,6 +50,7 @@ public slots:
     void buildPuzzleGrid();
     void repaintPuzzleGrid();
     void highlightSelection(CrosswordEntry3D selectedCrosswordEntry);
+    void updateGrid();
 };
 
 #endif // GRID3DGRAPHICSSCENE_H

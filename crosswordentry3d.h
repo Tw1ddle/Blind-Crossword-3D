@@ -19,16 +19,19 @@
 class CrosswordEntry3D
 {
 public:
-    CrosswordEntry3D(Direction direction, unsigned int identifier, QString number, QString solution, Word guess, std::vector<unsigned int> wordComponentLengths, QString clue);
+    CrosswordEntry3D(Direction direction, unsigned int identifier, QString number, QString solution, Word guess, std::vector<unsigned int> wordComponentLengths, QString clue, std::vector<unsigned int> entryIndices = std::vector<unsigned int>());
 
     unsigned int getIdentifier() const;
     QString getEntryName() const;
+    std::vector<std::pair<unsigned int, uivec3> > getWordEntryStartingPositionPairs() const;
     QString getSolution() const;
     QString getClue() const;
     QString getSolutionComponentLengths() const;
     Direction getDirection() const;
 
     uivec3 getStartingPosition() const;
+    std::vector<uivec3> getEntryPositions() const;
+
     Word getGuess() const;
     bool isGuessCorrect() const;
 
@@ -44,6 +47,7 @@ private:
     Direction m_WordDirection;
 
     std::vector<unsigned int> m_SolutionComponentLengths;
+    std::vector<unsigned int> m_EntryIndices;
     QString m_Solution;
     Word m_Guess;
     QString m_Clue;
