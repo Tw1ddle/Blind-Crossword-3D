@@ -51,7 +51,7 @@ Away
 10|4|7,1,1|5|.....|Measure that is about right|(5)
 13|24|5,1,5|5|.....|More than one ghost writer|(5)
 21|25|7,1,5|5|.....|No agreement returned? Curious|(5)
-25|22|1,1,5|5|.....|It's not a strange place to catch a train|(5)
+27|22|1,1,5|5|.....|Describing a chalet on the Underground route?|(5)
 28|15|3,1,3|5|.....|From Alaska, little Christopher returns for Indian-style meal|(5)
 Towards
 0
@@ -70,12 +70,12 @@ Up
 0
 Snaking
 9
-1|1,6|2,Away,18,Away|9|3,1,1|3,2,1|3,3,1|3,4,1|3,5,1|1,2,3|1,3,3|1,4,3|1,5,3|.........|Anne Brönte's first per-name won't work in London|(5,4)
-7|1,1|1,Across,1,Down|12|1,1,1|2,1,1|3,1,1|4,1,1|5,1,1|6,1,1|7,1,1|1,1,1|1,1,2|1,1,3|1,1,4|1,1,5|............|The misguided rich scom gas station in London's centre|(7,5)
-9|1,2|16,Across,17,Away|6|6,1,3|7,1,3|7,2,3|7,3,3|7,4,3|7,5,3|......|Young socialite goes to retreat in Epping Forest|(6)
-14|1,5|12,Down,28,Across|6|5,5,1|5,5,2|5,5,3|5,5,4|5,5,5|6,5,5|......|God that is around for curing purposes|(6)
-17|1,8|9,Across,18,Away|11|1,5,1|2,5,1|3,5,1|4,5,1|5,5,1|6,5,1|7,5,1|1,2,3|1,3,3|1,4,3|1,5,3|...........|Skint, he won't move to part of Camden|(7,4)
-18|1,6|9,Down,1,Down|10|1,5,1|1,5,2|1,5,3|1,5,4|1,5,5|1,1,1|1,1,2|1,1,3|1,1,4|1,1,5|..........|Monarch's upset at Eurostar terminal|(5,5)
-26|1,8|27,Across,4,Down|12|1,5,5|2,5,5|3,5,5|4,5,5|5,5,5|6,5,5|7,5,5|7,1,1|7,1,2|7,1,3|7,1,4|7,1,5|............|Spy net Greene wrote about, set in East London|(7,5)
-29|1,2,6|11,Across,12,Towards,3,Across|8|4,5,1|5,5,1|5,4,1|5,3,1|5,2,1|5,1,1|6,1,1|7,1,1|........|Colouring, teetotaller has to take gin cocktail when accepting U.S. business|(8)
-31|1,5|19,Away,4,Down|9|5,2,3|5,3,3|5,4,3|5,5,3|7,1,1|7,1,2|7,1,3|7,1,4|7,1,5|.........|Where to find a golf club with a place for putting golf balls in London?|(4,5)
+1|1,6|2 Away 18 Away|9|3,1,1|3,2,1|3,3,1|3,4,1|3,5,1|1,2,3|1,3,3|1,4,3|1,5,3|.........|Anne Brönte's first per-name won't work in London|(5,4)
+7|1,1|1 Across 1 Down|12|1,1,1|2,1,1|3,1,1|4,1,1|5,1,1|6,1,1|7,1,1|1,1,1|1,1,2|1,1,3|1,1,4|1,1,5|............|The misguided rich scom gas station in London's centre|(7,5)
+9|1,2|16 Across 17 Away|6|6,1,3|7,1,3|7,2,3|7,3,3|7,4,3|7,5,3|......|Young socialite goes to retreat in Epping Forest|(6)
+14|1,5|12 Down 28 Across|6|5,5,1|5,5,2|5,5,3|5,5,4|5,5,5|6,5,5|......|God that is around for curing purposes|(6)
+17|1,8|9 Across 18 Away|11|1,5,1|2,5,1|3,5,1|4,5,1|5,5,1|6,5,1|7,5,1|1,2,3|1,3,3|1,4,3|1,5,3|...........|Skint, he won't move to part of Camden|(7,4)
+18|1,6|9 Down 1 Down|10|1,5,1|1,5,2|1,5,3|1,5,4|1,5,5|1,1,1|1,1,2|1,1,3|1,1,4|1,1,5|..........|Monarch's upset at Eurostar terminal|(5,5)
+26|1,8|27 Across 4 Down|12|1,5,5|2,5,5|3,5,5|4,5,5|5,5,5|6,5,5|7,5,5|7,1,1|7,1,2|7,1,3|7,1,4|7,1,5|............|Spy net Greene wrote about, set in East London|(7,5)
+29|1,2,6|11 Across 12 Towards 3 Across|8|4,5,1|5,5,1|5,4,1|5,3,1|5,2,1|5,1,1|6,1,1|7,1,1|........|Colouring, teetotaller has to take gin cocktail when accepting U.S. business|(8)
+31|1,5|19 Away 4 Down|9|5,2,3|5,3,3|5,4,3|5,5,3|7,1,1|7,1,2|7,1,3|7,1,4|7,1,5|.........|Where to find a golf club with a place for putting golf balls in London?|(4,5)
