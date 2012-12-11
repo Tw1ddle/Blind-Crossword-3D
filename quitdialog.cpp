@@ -14,7 +14,7 @@ QuitDialog::QuitDialog(QWidget *parent) :
 
     setWindowFlags(Qt::Dialog | Qt::WindowTitleHint);
 
-    m_QuitTitle = QString("Quit ").append(Version::getApplicationName()).append(" 3D?");
+    m_QuitTitle = QString("Quit ").append(Version::getApplicationName()).append("?");
     m_QuitBody = "Are you sure you want to quit the program? Unsaved progress will be lost. Press Y to quit. Press N to return to the crossword puzzle.";
 
     m_AcceptedText = QString("Thank you for playing").append(Version::getApplicationName()).append(".");
