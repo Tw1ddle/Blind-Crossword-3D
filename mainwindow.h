@@ -55,6 +55,7 @@ private:
     static const QString m_DefaultSaveFolder;
     static const QString m_HelpFileLocation;
     static const QString m_LicenseFileLocation;
+    static const QString m_CalendarPuzzlesWebsiteAddressLocation;
 
     void createShortcuts();
 
@@ -74,6 +75,7 @@ private slots:
     void showAbout();
     void scoreCrossword();
     void viewLicense();
+    void openCalendarPuzzlesWebsite();
     void toggleGrid(bool hidden);
 
     void toggleApplicationOpenReminder();

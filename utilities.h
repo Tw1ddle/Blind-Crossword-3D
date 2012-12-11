@@ -12,6 +12,7 @@
 
 #include <QStringList>
 #include <QFile>
+#include <QUrl>
 
 namespace Utilities
 {
@@ -20,6 +21,8 @@ namespace Utilities
     bool writeToFile(QStringList& linelist, QFile& file);
 
     bool existsFile(QString path);
+
+    bool openUrl(QUrl url);
 }
 
 #endif // UTILITIES_H

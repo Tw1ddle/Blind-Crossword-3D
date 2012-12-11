@@ -9,7 +9,6 @@
 
 #include "xwcloader.h"
 #include "xwc3dloader.h"
-#include "xwcr3dloader.h"
 
 #include "utilities.h"
 
@@ -28,19 +27,15 @@ bool PuzzleLoader::loadPuzzle(PuzzleBase &puzzle, QString filePath, QString exte
 
     puzzle.clear();
 
-    if(extension == FileFormats::XWC3D)
+    if(extension == FileFormats::XWC3D || extension == FileFormats::XWCR3D)
     {
         puzzle.m_CrosswordLoaded = readInFile(XWC3DLoader(), puzzle, linelist);
     }
+
     else if(extension == FileFormats::XWC)
     {
         puzzle.m_CrosswordLoaded = readInFile(XWCLoader(), puzzle, linelist);
     }
-    else if(extension == FileFormats::XWCR3D)
-    {
-        puzzle.m_CrosswordLoaded = readInFile(XWCR3DLoader(), puzzle, linelist);
-    }
-
     if(!puzzle.m_CrosswordLoaded)
     {
         puzzle.clear();
@@ -54,38 +49,27 @@ bool PuzzleLoader::savePuzzle(PuzzleBase &puzzle, QString filePath, QString exte
 {
     if(puzzle.getRefCrosswordEntries().size() <= 0 || puzzle.getRefGrid().getSize() <= 0 || !puzzle.m_CrosswordLoaded)
     {
-        emit(loaderError(tr("Save error"), tr("There is no puzzle loaded, so there is no puzzle to save")));
         return false;
     }
 
-    if(puzzle.getRefGrid().getDimensions().getZ() > 1 && extension != FileFormats::XWC3D)
+    if(puzzle.getRefGrid().getDimensions().getZ() > 1 && (extension != FileFormats::XWC3D && extension != FileFormats::XWCR3D))
     {
-        emit(loaderError(tr("Save error"), tr("The current puzzle is a 3D puzzle, and cannot be saved in a 2D puzzle format")));
         return false;
     }
 
     QFile file(filePath);
     if (!file.open(QIODevice::WriteOnly | QIODevice::Text))
     {
-        emit(loaderError(tr("File error"), tr("Failed to open save file for writing")));
         return false;
     }
 
-    if(extension == FileFormats::XWC3D)
+    if(extension == FileFormats::XWC3D || extension == FileFormats::XWCR3D)
     {
         return writeOutFile(XWC3DLoader(), puzzle, file);
     }
     else if(extension == FileFormats::XWC)
     {
         return writeOutFile(XWCLoader(), puzzle, file);
-    }
-    else if(extension == FileFormats::XWCR3D)
-    {
-        return writeOutFile(XWCR3DLoader(), puzzle, file);
-    }
-    else
-    {
-        emit(loaderError(tr("File format error"), tr("File format not recognised")));
     }
 
     return false;
@@ -134,9 +118,7 @@ bool PuzzleLoader::writeOutFile(PuzzleLoaderInterface &loader, PuzzleBase &puzzl
         return false;
     }
 
-    Utilities::writeToFile(linelist, file);
-
-    return true;
+    return Utilities::writeToFile(linelist, file);
 }
 
 

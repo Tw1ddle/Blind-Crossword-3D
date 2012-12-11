@@ -4,6 +4,9 @@
 #include <QGraphicsView>
 #include <QPainter>
 
+#include <QVector3D>
+#include <QMatrix4x4>
+
 #include "assert.h"
 
 #include "graphicsgriditem.h"
@@ -27,25 +30,22 @@ void Grid3DGraphicsScene::build2DDisc(unsigned int xDim, unsigned int yDim, uive
 
     for(unsigned int y = 0; y < yDim; y++)
     {
+        float r = y * GraphicsGridItem::sc_Size * 2.5; // magic number is for making the spacing of the rings better
+
         for(unsigned int x = 0; x < xDim; x++)
         {
             uivec3 index = uivec3(x, y, discNumber);
             const Letter* letter = m_RefGrid.getLetterAt(m_RefPuzzle.toGridIndex(index));
-
             GraphicsGridItem* item = new GraphicsGridItem(letter, discNumber);
-            item->setPos(QPointF(x * GraphicsGridItem::sc_Size + offset.getX(), y * GraphicsGridItem::sc_Size));
 
-            if(letter->getChar() != QChar())
-            {
-                item->setColor(Qt::white);
-            }
-            else
-            {
-                item->setColor(QColor(20, 20, 20));
-            }
+            QVector3D position(0, -r, 0);
+            QMatrix4x4 transformation;
+            transformation.rotate((360/xDim) * x, 0.0, 0.0, 1.0);
+            position = position * transformation;
+
+            item->setPos(QPointF(position.x() + offset.getX(), position.y()));
 
             item->setParentItem(disc);
-
             m_GraphicsGridItems.push_back(item);
             addItem(item);
             disc->addToGroup(item);
@@ -136,7 +136,14 @@ void Grid3DGraphicsScene::buildPuzzleGrid()
 
         for(unsigned int z = 0; z < m_RefGrid.getDimensions().getZ(); z++)
         {
-            build2DGrid(m_RefGrid.getDimensions().getX(), m_RefGrid.getDimensions().getY(), uivec3(z * (m_RefGrid.getDimensions().getX() + 1) * GraphicsGridItem::sc_Size, 0, 0), z);
+            if(m_RefPuzzle.getPuzzleFormat() == FileFormats::XWC3D || m_RefPuzzle.getPuzzleFormat() == FileFormats::XWC)
+            {
+                build2DGrid(m_RefGrid.getDimensions().getX(), m_RefGrid.getDimensions().getY(), uivec3(z * (m_RefGrid.getDimensions().getX() + 1) * GraphicsGridItem::sc_Size, 0, 0), z);
+            }
+            else if(m_RefPuzzle.getPuzzleFormat() == FileFormats::XWCR3D)
+            {
+                build2DDisc(m_RefGrid.getDimensions().getX(), m_RefGrid.getDimensions().getY(), uivec3(z * (m_RefGrid.getDimensions().getX() + 1) * GraphicsGridItem::sc_Size, 0, 0), z);
+            }
         }
 
         for(unsigned int j = 0; j < m_RefPuzzle.getThemePhraseCoordinates().size(); j++)

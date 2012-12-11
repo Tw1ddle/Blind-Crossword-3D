@@ -41,6 +41,20 @@ std::vector<uivec3> CrosswordEntry3D::getEntryPositions() const
     }
 }
 
+QString CrosswordEntry3D::getEntryPositionsString() const
+{
+    QString entryIndices;
+
+    for(unsigned int i = 0; i < m_EntryIndices.size(); i++)
+    {
+        entryIndices.append(QString::number(m_EntryIndices.at(i) + 1)).append(","); // + 1, we use this for exporting to xwc3d files
+    }
+
+    entryIndices.truncate(entryIndices.size() - 1);
+
+    return entryIndices;
+}
+
 QString CrosswordEntry3D::getSolution() const
 {
     return m_Solution;

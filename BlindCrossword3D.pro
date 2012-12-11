@@ -32,7 +32,6 @@ SOURCES += main.cpp\
     filedialog.cpp \
     xwc3dloader.cpp \
     xwcloader.cpp \
-    xwcr3dloader.cpp \
     puzzlebase.cpp \
     emailer.cpp \
     printer.cpp \
@@ -62,7 +61,6 @@ HEADERS  += mainwindow.h \
     filedialog.h \
     xwc3dloader.h \
     xwcloader.h \
-    xwcr3dloader.h \
     puzzlebase.h \
     fileformats.h \
     crosswordtypes.h \

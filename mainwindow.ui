@@ -234,6 +234,8 @@
     </property>
     <addaction name="actionOnline_Help"/>
     <addaction name="separator"/>
+    <addaction name="actionView_CalendarPuzzles_Website"/>
+    <addaction name="separator"/>
     <addaction name="actionSend_Feedback_Email"/>
     <addaction name="separator"/>
     <addaction name="actionShow_License"/>
@@ -376,6 +378,17 @@
   <action name="actionSend_Feedback_Email">
    <property name="text">
     <string>Send Feedback Email</string>
+   </property>
+   <property name="font">
+    <font>
+     <family>Lucida Console</family>
+     <pointsize>20</pointsize>
+    </font>
+   </property>
+  </action>
+  <action name="actionView_CalendarPuzzles_Website">
+   <property name="text">
+    <string>Visit CalendarPuzzles Website</string>
    </property>
    <property name="font">
     <font>
@@ -581,6 +594,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>actionView_CalendarPuzzles_Website</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>openCalendarPuzzlesWebsite()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>587</x>
+     <y>321</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>loadCrossword()</slot>
@@ -593,5 +622,6 @@
   <slot>printCrossword()</slot>
   <slot>emailCrossword()</slot>
   <slot>emailFeedback()</slot>
+  <slot>openCalendarPuzzlesWebsite()</slot>
  </slots>
 </ui>

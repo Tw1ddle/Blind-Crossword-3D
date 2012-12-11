@@ -2,6 +2,7 @@
 
 #include <QFile>
 #include <QTextStream>
+#include <QDesktopServices>
 
 namespace Utilities
 {
@@ -61,5 +62,10 @@ namespace Utilities
         }
 
         return false;
+    }
+
+    bool openUrl(QUrl url)
+    {
+        return QDesktopServices::openUrl(url);
     }
 }

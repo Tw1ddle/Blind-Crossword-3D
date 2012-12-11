@@ -3,7 +3,6 @@
 
 #include <QShortcut>
 #include <QCloseEvent>
-#include <QDesktopServices>
 #include <QUrl>
 #include <QSortFilterProxyModel>
 
@@ -22,10 +21,12 @@
 #include "advancedcluereader.h"
 #include "emailer.h"
 #include "printer.h"
+#include "utilities.h"
 
 const QString MainWindow::m_DefaultSaveFolder = QString("/Crosswords");
 const QString MainWindow::m_HelpFileLocation = QString("/Help/index.html");
 const QString MainWindow::m_LicenseFileLocation = QString("/License/gplv3.htm");
+const QString MainWindow::m_CalendarPuzzlesWebsiteAddressLocation = QString("/Config/calendarpuzzles_website_address.txt");
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent), m_ApplicationOpenReminderEnabled(true),
@@ -184,7 +185,7 @@ void MainWindow::viewLicense()
     bool openedSuccessfully = false;
     if(dir.exists(filePath))
     {
-        openedSuccessfully = QDesktopServices::openUrl(url);
+        openedSuccessfully = Utilities::openUrl(url);
     }
 
     if(openedSuccessfully)
@@ -276,7 +277,7 @@ void MainWindow::openHelp()
     bool openedSuccessfully = false;
     if(dir.exists(filePath))
     {
-        openedSuccessfully = QDesktopServices::openUrl(url);
+        openedSuccessfully = Utilities::openUrl(url);
     }
 
     if(openedSuccessfully)
@@ -286,6 +287,33 @@ void MainWindow::openHelp()
     else
     {
         ITextToSpeech::instance().speak("Error, could not open help page.");
+    }
+}
+
+void MainWindow::openCalendarPuzzlesWebsite()
+{
+    QDir dir;
+    QString filePath = dir.absolutePath().append(m_CalendarPuzzlesWebsiteAddressLocation);
+    if(Utilities::existsFile(filePath))
+    {
+        QStringList address;
+        Utilities::readFile(address, filePath);
+
+        if(!address.empty())
+        {
+            if(Utilities::openUrl(QUrl(address.takeFirst())))
+            {
+                ITextToSpeech::instance().speak("Opening Calendar Puzzles website in web browser. Use your screen reader to read the website.");
+            }
+            else
+            {
+                ITextToSpeech::instance().speak("Error, could not open Calendar Puzzles website.");
+            }
+        }
+    }
+    else
+    {
+        ITextToSpeech::instance().speak("Error, could not find Calendar Puzzles website address.");
     }
 }
 

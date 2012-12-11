@@ -31,6 +31,7 @@ public:
 
     uivec3 getStartingPosition() const;
     std::vector<uivec3> getEntryPositions() const;
+    QString getEntryPositionsString() const;
 
     Word getGuess() const;
     bool isGuessCorrect() const;
