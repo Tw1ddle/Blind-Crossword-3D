@@ -158,3 +158,8 @@ std::vector<std::pair<unsigned int, uivec3> > CrosswordEntry3D::getWordEntryStar
 
     return pairs;
 }
+
+bool SortByIdentifier::operator()(const CrosswordEntry3D& lhs, const CrosswordEntry3D& rhs)
+{
+    return lhs.getIdentifier() < rhs.getIdentifier();
+}

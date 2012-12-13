@@ -23,13 +23,18 @@ QTextDocument* Printer::getPuzzleDocumentForPrinting(PuzzleBase& puzzle) const
 
     textToPrint.append(puzzle.getInformationString().append("\n\n"));
 
-    for(unsigned int i = 0; i < puzzle.getRefCrosswordEntries().size(); i++)
-    {
-        QString id = puzzle.getRefCrosswordEntries().at(i).getEntryName();
-        QString direction = puzzle.getRefCrosswordEntries().at(i).getDirection().getString();
-        QString answer = puzzle.getRefCrosswordEntries().at(i).getGuess().getString();
+    //copy and sort by calendar date
+    std::vector<CrosswordEntry3D> entries = puzzle.getCrosswordEntries();
+    std::sort(entries.begin(), entries.end(), SortByIdentifier());
 
-        textToPrint.append(id).append(" ").append(direction).append(" --- ").append(answer).append("\n");
+    for(unsigned int i = 0; i < entries.size(); i++)
+    {
+        QString id = entries.at(i).getIdentifier();
+        QString entryName = entries.at(i).getEntryName();
+        QString direction = entries.at(i).getDirection().getString();
+        QString answer = entries.at(i).getGuess().getString();
+
+        textToPrint.append(id).append(" - ").append(entryName).append(" ").append(direction).append(" --- ").append(answer).append("\n");
     }
 
     textToPrint.append("\n").append(postalAddress);

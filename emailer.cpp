@@ -48,13 +48,18 @@ bool Emailer::openSendResultsEmail(PuzzleBase& puzzle)
     QString emailBody;
     emailBody.append(puzzle.getInformationString().append("%0A%0A"));
 
-    for(unsigned int i = 0; i < puzzle.getRefCrosswordEntries().size(); i++)
-    {
-        QString id = puzzle.getRefCrosswordEntries().at(i).getEntryName();
-        QString direction = puzzle.getRefCrosswordEntries().at(i).getDirection().getString();
-        QString answer = puzzle.getRefCrosswordEntries().at(i).getGuess().getString();
+    //copy and sort by calendar date
+    std::vector<CrosswordEntry3D> entries = puzzle.getCrosswordEntries();
+    std::sort(entries.begin(), entries.end(), SortByIdentifier());
 
-        emailBody.append(id).append(" ").append(direction).append(" --- ").append(answer).append("%0A");
+    for(unsigned int i = 0; i < entries.size(); i++)
+    {
+        QString id = QString::number(entries.at(i).getIdentifier());
+        QString entryName = entries.at(i).getEntryName();
+        QString direction = entries.at(i).getDirection().getString();
+        QString answer = entries.at(i).getGuess().getString();
+
+        emailBody.append(id).append(" - ").append(entryName).append(" ").append(direction).append(" --- ").append(answer).append("%0A");
     }
 
     QUrl mailtoURL = QUrl(QString("mailto:").append(emailAddress)

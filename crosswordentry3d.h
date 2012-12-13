@@ -54,4 +54,9 @@ private:
     QString m_Clue;
 };
 
+struct SortByIdentifier
+{
+    bool operator()(const CrosswordEntry3D& lhs, const CrosswordEntry3D& rhs);
+};
+
 #endif // CROSSWORDENTRY3D_H
