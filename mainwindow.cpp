@@ -24,7 +24,8 @@
 #include "utilities.h"
 
 const QString MainWindow::m_DefaultSaveFolder = QString("/Crosswords");
-const QString MainWindow::m_HelpFileLocation = QString("/Help/index.html");
+const QString MainWindow::m_HelpFileLocation = QString("/Help/help.html");
+const QString MainWindow::m_TutorialFileLocation = QString("/Help/tutorial.html");
 const QString MainWindow::m_LicenseFileLocation = QString("/License/gplv3.htm");
 const QString MainWindow::m_CalendarPuzzlesWebsiteAddressLocation = QString("/Config/calendarpuzzles_website_address.txt");
 
@@ -434,11 +435,6 @@ void MainWindow::scoreCrossword()
     ITextToSpeech::instance().speak(m_Puzzle.getScoreString());
 }
 
-void MainWindow::raiseError(QString title, QString error)
-{
-    ITextToSpeech::instance().speak(QString(title).append(" - ").append(error));
-}
-
 QString MainWindow::getIntroString() const
 {
     return QString("Welcome to ").append(Version::getApplicationName().append(". "))
@@ -453,22 +449,9 @@ void MainWindow::showAbout()
                                             .append("You are using ").append(Version::getApplicationVersionDescription())));
 }
 
-void MainWindow::closeEvent(QCloseEvent* event)
+void MainWindow::raiseError(QString title, QString error)
 {
-    QuitDialog dialog;
-
-    ITextToSpeech::instance().speak(dialog.getBodyString());
-
-    if(dialog.exec())
-    {
-        ITextToSpeech::instance().speak(dialog.getAcceptedText(), SPEECH_MODES::csDefaultSynchronousSpeechOptions);
-        event->accept();
-    }
-    else
-    {
-        ITextToSpeech::instance().speak(dialog.getRejectedText());
-        event->ignore();
-    }
+    ITextToSpeech::instance().speak(QString(title).append(" - ").append(error));
 }
 
 void MainWindow::createShortcuts()
@@ -517,6 +500,24 @@ void MainWindow::createShortcuts()
 
     m_DecreaseSpeechRateShortcut = new QShortcut(QKeySequence(ShortcutKeys::decreaseSpeechRateKey), this);
     connect(m_DecreaseSpeechRateShortcut, SIGNAL(activated()), this, SLOT(decreaseSpeechRate()));
+}
+
+void MainWindow::closeEvent(QCloseEvent* event)
+{
+    QuitDialog dialog;
+
+    ITextToSpeech::instance().speak(dialog.getBodyString());
+
+    if(dialog.exec())
+    {
+        ITextToSpeech::instance().speak(dialog.getAcceptedText(), SPEECH_MODES::csDefaultSynchronousSpeechOptions);
+        event->accept();
+    }
+    else
+    {
+        ITextToSpeech::instance().speak(dialog.getRejectedText());
+        event->ignore();
+    }
 }
 
 void MainWindow::exitConfirmation()

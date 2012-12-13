@@ -54,6 +54,7 @@ private:
 
     static const QString m_DefaultSaveFolder;
     static const QString m_HelpFileLocation;
+    static const QString m_TutorialFileLocation;
     static const QString m_LicenseFileLocation;
     static const QString m_CalendarPuzzlesWebsiteAddressLocation;
 
