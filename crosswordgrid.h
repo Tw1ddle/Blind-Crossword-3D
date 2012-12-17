@@ -7,18 +7,18 @@
  *  \copyright GNU General Public License v3.0
  */
 
-#ifndef LETTERGRID_H
-#define LETTERGRID_H
+#ifndef CROSSWORDGRID_H
+#define CROSSWORDGRID_H
 
 #include <vector>
 
 #include "letter.h"
 #include "uivec3.h"
 
-class LetterGrid
+class GridData
 {
 public:
-    LetterGrid();
+    GridData();
 
     const Letter* getLetterAt(unsigned int index) const;
     Letter* getRefLetterAt(unsigned int index);
@@ -35,4 +35,4 @@ private:
     std::vector<Letter> m_Letters;
 };
 
-#endif // LETTERGRID_H
+#endif // CROSSWORDGRID_H

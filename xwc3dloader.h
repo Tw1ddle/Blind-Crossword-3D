@@ -12,31 +12,31 @@
 
 #include <QStringList>
 
-#include "puzzlebase.h"
-#include "puzzleloader.h"
+#include "crosswordbase.h"
+#include "crosswordloader.h"
 
-class XWC3DLoader : public PuzzleLoaderInterface
+class XWC3DLoader : public CrosswordLoaderInterface
 {
 public:
-    bool loadMetaData(PuzzleBase& puzzle, QStringList& linelist);
-    bool loadGrid(PuzzleBase& puzzle, QStringList& linelist);
-    bool loadClues(PuzzleBase& puzzle, QStringList& linelist);
+    bool loadMetaData(CrosswordBase& puzzle, QStringList& linelist);
+    bool loadGrid(CrosswordBase& puzzle, QStringList& linelist);
+    bool loadClues(CrosswordBase& puzzle, QStringList& linelist);
 
-    bool saveMetaData(PuzzleBase& puzzle, QStringList& linelist);
-    bool saveGrid(PuzzleBase& puzzle, QStringList& linelist);
-    bool saveClues(PuzzleBase& puzzle, QStringList& linelist);
+    bool saveMetaData(CrosswordBase& puzzle, QStringList& linelist);
+    bool saveGrid(CrosswordBase& puzzle, QStringList& linelist);
+    bool saveClues(CrosswordBase& puzzle, QStringList& linelist);
 
 private:
-    bool loadXWC3DGrid(PuzzleBase& puzzle, QStringList& linelist);
-    bool loadXWCR3DGrid(PuzzleBase& puzzle, QStringList& linelist);
+    bool loadXWC3DGrid(CrosswordBase& puzzle, QStringList& linelist);
+    bool loadXWCR3DGrid(CrosswordBase& puzzle, QStringList& linelist);
 
-    bool saveXWC3DGrid(PuzzleBase& puzzle, QStringList& linelist);
-    bool saveXWCR3DGrid(PuzzleBase& puzzle, QStringList& linelist);
+    bool saveXWC3DGrid(CrosswordBase& puzzle, QStringList& linelist);
+    bool saveXWCR3DGrid(CrosswordBase& puzzle, QStringList& linelist);
 
-    bool loadCluesHelper(PuzzleBase& puzzle, QStringList& linelist, QString direction);
-    bool loadSnakingClues(PuzzleBase& puzzle, QStringList& linelist, unsigned int numsnaking);
+    bool loadCluesHelper(CrosswordBase& puzzle, QStringList& linelist, QString direction);
+    bool loadSnakingClues(CrosswordBase& puzzle, QStringList& linelist, unsigned int numsnaking);
 
-    bool saveCluesHelper(PuzzleBase& puzzle, QStringList& linelist, Direction direction);
+    bool saveCluesHelper(CrosswordBase& puzzle, QStringList& linelist, ClueDirection direction);
 };
 
 #endif // XWC3DLOADER_H

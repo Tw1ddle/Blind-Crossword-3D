@@ -12,23 +12,23 @@
 
 #include <QStringList>
 
-#include "puzzlebase.h"
-#include "puzzleloader.h"
+#include "crosswordbase.h"
+#include "crosswordloader.h"
 
-class XWCLoader : public PuzzleLoaderInterface
+class XWCLoader : public CrosswordLoaderInterface
 {
 public:
-    bool loadMetaData(PuzzleBase& puzzle, QStringList& linelist);
-    bool loadGrid(PuzzleBase& puzzle, QStringList& linelist);
-    bool loadClues(PuzzleBase& puzzle, QStringList& linelist);
+    bool loadMetaData(CrosswordBase& puzzle, QStringList& linelist);
+    bool loadGrid(CrosswordBase& puzzle, QStringList& linelist);
+    bool loadClues(CrosswordBase& puzzle, QStringList& linelist);
 
-    bool saveMetaData(PuzzleBase& puzzle, QStringList& linelist);
-    bool saveGrid(PuzzleBase& puzzle, QStringList& linelist);
-    bool saveClues(PuzzleBase& puzzle, QStringList& linelist);
+    bool saveMetaData(CrosswordBase& puzzle, QStringList& linelist);
+    bool saveGrid(CrosswordBase& puzzle, QStringList& linelist);
+    bool saveClues(CrosswordBase& puzzle, QStringList& linelist);
 
 private:
-    bool loadAcrossClues(PuzzleBase& puzzle, QStringList& linelist);
-    bool loadAwayClues(PuzzleBase& puzzle, QStringList& linelist);
+    bool loadAcrossClues(CrosswordBase& puzzle, QStringList& linelist);
+    bool loadAwayClues(CrosswordBase& puzzle, QStringList& linelist);
 };
 
 #endif // XWCLOADER_H

@@ -12,10 +12,10 @@
 
 #include <QMainWindow>
 
-#include "puzzleloader.h"
-#include "puzzlebase.h"
+#include "crosswordloader.h"
+#include "crosswordbase.h"
 
-class Grid3DGraphicsScene;
+class GraphicalGridScene;
 class WordTableModel;
 class QShortcut;
 class QSortFilterProxyModel;
@@ -42,10 +42,10 @@ protected:
 private:
     Ui::MainWindow* ui;
 
-    PuzzleLoader m_PuzzleLoader;
-    PuzzleBase m_Puzzle;
+    CrosswordLoader m_PuzzleLoader;
+    CrosswordBase m_Puzzle;
 
-    Grid3DGraphicsScene* m_GraphicsScene;
+    GraphicalGridScene* m_GraphicsScene;
     WordTableModel* m_WordTableModel;
     QSortFilterProxyModel* m_ProxyModel;
 

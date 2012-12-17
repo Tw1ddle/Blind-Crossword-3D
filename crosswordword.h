@@ -7,8 +7,8 @@
  *  \copyright GNU General Public License v3.0
  */
 
-#ifndef WORD_H
-#define WORD_H
+#ifndef CROSSWORDWORD_H
+#define CROSSWORDWORD_H
 
 #include <QString>
 #include <vector>
@@ -34,4 +34,4 @@ private:
     std::vector<Letter*> m_Word;
 };
 
-#endif // WORD_H
+#endif // CROSSWORDWORD_H

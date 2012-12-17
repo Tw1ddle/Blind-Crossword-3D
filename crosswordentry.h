@@ -7,19 +7,19 @@
  *  \copyright GNU General Public License v3.0
  */
 
-#ifndef CROSSWORDENTRY3D_H
-#define CROSSWORDENTRY3D_H
+#ifndef CROSSWORDENTRY_H
+#define CROSSWORDENTRY_H
 
 #include <QString>
 
-#include "direction.h"
-#include "word.h"
+#include "cluedirection.h"
+#include "crosswordword.h"
 #include "uivec3.h"
 
-class CrosswordEntry3D
+class CrosswordEntry
 {
 public:
-    CrosswordEntry3D(Direction direction, unsigned int identifier, QString number, QString solution, Word guess, std::vector<unsigned int> wordComponentLengths, QString clue, std::vector<unsigned int> entryIndices = std::vector<unsigned int>());
+    CrosswordEntry(ClueDirection direction, unsigned int identifier, QString number, QString solution, Word guess, std::vector<unsigned int> wordComponentLengths, QString clue, std::vector<unsigned int> entryIndices = std::vector<unsigned int>());
 
     unsigned int getIdentifier() const;
     QString getEntryName() const;
@@ -27,7 +27,7 @@ public:
     QString getSolution() const;
     QString getClue() const;
     QString getSolutionComponentLengths() const;
-    Direction getDirection() const;
+    ClueDirection getDirection() const;
 
     uivec3 getStartingPosition() const;
     std::vector<uivec3> getEntryPositions() const;
@@ -45,7 +45,7 @@ private:
     unsigned int m_Identifier;
 
     QString m_EntryString;
-    Direction m_WordDirection;
+    ClueDirection m_WordDirection;
 
     std::vector<unsigned int> m_SolutionComponentLengths;
     std::vector<unsigned int> m_EntryIndices;
@@ -56,7 +56,7 @@ private:
 
 struct SortByIdentifier
 {
-    bool operator()(const CrosswordEntry3D& lhs, const CrosswordEntry3D& rhs);
+    bool operator()(const CrosswordEntry& lhs, const CrosswordEntry& rhs);
 };
 
-#endif // CROSSWORDENTRY3D_H
+#endif // CROSSWORDENTRY_H

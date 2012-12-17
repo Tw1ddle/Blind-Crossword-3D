@@ -1,14 +1,14 @@
-#include "graphicsgriditem.h"
+#include "graphicalgriditem.h"
 
 #include <QFont>
 #include <QPainter>
 
 #include "letter.h"
 
-const float GraphicsGridItem::sc_CrosswordLetterScale = 0.8f;
-const float GraphicsGridItem::sc_CrosswordEntryNumberScale = 0.30f;
+const float GraphicalGridItem::sc_CrosswordLetterScale = 0.8f;
+const float GraphicalGridItem::sc_CrosswordEntryNumberScale = 0.30f;
 
-GraphicsGridItem::GraphicsGridItem(const Letter* letter, unsigned int gridId, QGraphicsItem *parent) :
+GraphicalGridItem::GraphicalGridItem(const Letter* letter, unsigned int gridId, QGraphicsItem *parent) :
     QGraphicsItem(parent), m_LetterRef(letter)
 {
     m_GridId = gridId;
@@ -23,12 +23,12 @@ GraphicsGridItem::GraphicsGridItem(const Letter* letter, unsigned int gridId, QG
     }
 }
 
-QRectF GraphicsGridItem::boundingRect() const
+QRectF GraphicalGridItem::boundingRect() const
 {
     return QRectF(0, 0, sc_Size, sc_Size);
 }
 
-void GraphicsGridItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
+void GraphicalGridItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     Q_UNUSED(widget);
     Q_UNUSED(option);
@@ -63,27 +63,27 @@ void GraphicsGridItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *
     }
 }
 
-void GraphicsGridItem::setCrosswordEntryNumber(unsigned int entryNumber)
+void GraphicalGridItem::setCrosswordEntryNumber(unsigned int entryNumber)
 {
     m_CrosswordEntryNumber = QString::number(entryNumber);
 }
 
-void GraphicsGridItem::setColor(QColor color)
+void GraphicalGridItem::setColor(QColor color)
 {
     m_Color = color;
 }
 
-QColor GraphicsGridItem::getColor() const
+QColor GraphicalGridItem::getColor() const
 {
     return m_Color;
 }
 
-void GraphicsGridItem::setLetter(const Letter *letter)
+void GraphicalGridItem::setLetter(const Letter *letter)
 {
     m_LetterRef = letter;
 }
 
-QString GraphicsGridItem::getCrosswordEntryNumber() const
+QString GraphicalGridItem::getCrosswordEntryNumber() const
 {
     return m_CrosswordEntryNumber;
 }

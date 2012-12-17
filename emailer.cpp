@@ -6,7 +6,7 @@
 #include <QDesktopServices>
 
 #include "utilities.h"
-#include "puzzlebase.h"
+#include "crosswordbase.h"
 
 #include "version.h"
 
@@ -38,7 +38,7 @@ bool Emailer::openFeedbackEmail()
     }
 }
 
-bool Emailer::openSendResultsEmail(PuzzleBase& puzzle)
+bool Emailer::openSendResultsEmail(CrosswordBase& puzzle)
 {
     QDir dir;
     QString emailAddress = getEmailAddress(dir.absolutePath().append(sc_AnswersEmailAddressFileLocation));
@@ -49,7 +49,7 @@ bool Emailer::openSendResultsEmail(PuzzleBase& puzzle)
     emailBody.append(puzzle.getInformationString().append("%0A%0A"));
 
     //copy and sort by calendar date
-    std::vector<CrosswordEntry3D> entries = puzzle.getCrosswordEntries();
+    std::vector<CrosswordEntry> entries = puzzle.getCrosswordEntries();
     std::sort(entries.begin(), entries.end(), SortByIdentifier());
 
     for(unsigned int i = 0; i < entries.size(); i++)

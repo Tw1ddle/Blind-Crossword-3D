@@ -12,13 +12,13 @@
 
 #include <QString>
 
-class PuzzleBase;
+class CrosswordBase;
 
 class Emailer
 {
 public:
     bool openFeedbackEmail();
-    bool openSendResultsEmail(PuzzleBase& puzzle);
+    bool openSendResultsEmail(CrosswordBase& puzzle);
 
 private:
     const static QString sc_AnswersEmailAddressFileLocation;

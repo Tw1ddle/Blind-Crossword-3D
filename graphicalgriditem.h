@@ -7,18 +7,18 @@
  *  \copyright GNU General Public License v3.0
  */
 
-#ifndef GRAPHICSGRIDITEM_H
-#define GRAPHICSGRIDITEM_H
+#ifndef GRAPHICALGRIDITEM_H
+#define GRAPHICALGRIDITEM_H
 
 #include <QGraphicsItem>
 
 #include "uivec3.h"
 #include "letter.h"
 
-class GraphicsGridItem : public QGraphicsItem
+class GraphicalGridItem : public QGraphicsItem
 {
 public:
-    GraphicsGridItem(const Letter* letter, unsigned int gridId, QGraphicsItem *parent = 0);
+    GraphicalGridItem(const Letter* letter, unsigned int gridId, QGraphicsItem *parent = 0);
 
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
 
@@ -42,4 +42,4 @@ private:
     static const float sc_CrosswordEntryNumberScale;
 };
 
-#endif // GRAPHICSGRIDITEM_H
+#endif // GRAPHICALGRIDITEM_H

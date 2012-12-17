@@ -8,9 +8,9 @@
 
 #include "version.h"
 
-#include "puzzlebase.h"
-#include "grid3dgraphicsscene.h"
-#include "wordtablemodel.h"
+#include "crosswordbase.h"
+#include "graphicalgridscene.h"
+#include "crosswordentrytablemodel.h"
 
 #include "shortcutkeys.h"
 #include "quitdialog.h"
@@ -18,7 +18,7 @@
 #include "itexttospeech.h"
 #include "idlereminder.h"
 
-#include "advancedcluereader.h"
+#include "cluereader.h"
 #include "emailer.h"
 #include "printer.h"
 #include "utilities.h"
@@ -40,7 +40,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     createShortcuts();
 
-    m_GraphicsScene = new Grid3DGraphicsScene(m_Puzzle);
+    m_GraphicsScene = new GraphicalGridScene(m_Puzzle);
     ui->graphicsView->setScene(m_GraphicsScene);
 
     m_WordTableModel = new WordTableModel(m_Puzzle, m_Puzzle.getRefCrosswordEntries());
@@ -71,14 +71,14 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(m_WordTableModel, SIGNAL(guessValidated(QString)), m_GraphicsScene, SLOT(repaintPuzzleGrid()));
     connect(m_WordTableModel, SIGNAL(guessAmended(QString)), m_GraphicsScene, SLOT(repaintPuzzleGrid()));
     connect(m_WordTableModel, SIGNAL(guessErased()), m_GraphicsScene, SLOT(repaintPuzzleGrid()));
-    connect(m_WordTableModel, SIGNAL(crosswordEntrySelectionChanged(CrosswordEntry3D)), m_GraphicsScene, SLOT(highlightSelection(CrosswordEntry3D)));
+    connect(m_WordTableModel, SIGNAL(crosswordEntrySelectionChanged(CrosswordEntry)), m_GraphicsScene, SLOT(highlightSelection(CrosswordEntry)));
 
     connect(&m_PuzzleLoader, SIGNAL(loaderError(QString, QString)), this, SLOT(showError(QString, QString)));
 
     connect(m_IdleReminder, SIGNAL(timedOut()), this, SLOT(onIdleReminderTimeout()));
     qApp->installEventFilter(m_IdleReminder);
 
-    connect(m_WordTableModel, SIGNAL(crosswordEntrySelectionChanged(CrosswordEntry3D)), m_AdvancedClueReader, SLOT(setText(CrosswordEntry3D)));
+    connect(m_WordTableModel, SIGNAL(crosswordEntrySelectionChanged(CrosswordEntry)), m_AdvancedClueReader, SLOT(setText(CrosswordEntry)));
 
     ITextToSpeech::instance().speak(getIntroString());
 }

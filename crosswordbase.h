@@ -7,35 +7,31 @@
  *  \copyright GNU General Public License v3.0
  */
 
-#ifndef PUZZLEBASE_H
-#define PUZZLEBASE_H
+#ifndef CROSSWORDBASE_H
+#define CROSSWORDBASE_H
 
 #include <QString>
 #include <QPixmap>
-#include <QFileInfo>
 #include <vector>
 
-#include "singleton.h"
-#include "crosswordentry3d.h"
-#include "puzzleloader.h"
-#include "lettergrid.h"
+#include "crosswordentry.h"
+#include "crosswordgrid.h"
+
 #include "fileformats.h"
 #include "crosswordtypes.h"
 
-class GraphicsGridItem;
-
 const QString m_BackgroundImagesFolder = "/Backgrounds";
 
-class PuzzleBase
+class CrosswordBase
 {
-    friend class PuzzleLoader;
+    friend class CrosswordLoader;
 
-    friend class PuzzleLoaderInterface;
+    friend class CrosswordLoaderInterface;
     friend class XWC3DLoader;
     friend class XWCLoader;
 
 public:
-    PuzzleBase();
+    CrosswordBase();
 
     unsigned int toGridIndex(uivec3 index) const;
 
@@ -50,15 +46,15 @@ public:
     CrosswordTypes::CROSSWORD_TYPE getPuzzleType() const;
     bool isComplete() const;
 
-    const LetterGrid& getGrid() const;
-    const std::vector<CrosswordEntry3D>& getCrosswordEntries() const;
+    const GridData& getGrid() const;
+    const std::vector<CrosswordEntry>& getCrosswordEntries() const;
     const QPixmap& getPuzzleBackgroundImage() const;
     const std::vector<uivec3>& getThemePhraseCoordinates() const;
 
-    std::vector<CrosswordEntry3D>& getRefCrosswordEntries();
+    std::vector<CrosswordEntry>& getRefCrosswordEntries();
 
 protected:
-    LetterGrid& getRefGrid();
+    GridData& getRefGrid();
     void setDimensions(uivec3 dimensions);
 
 private:
@@ -75,12 +71,12 @@ private:
 
     QPixmap m_BackgroundImage;
     QString m_BackgroundImageFilename;
-    LetterGrid m_Grid;
-    std::vector<CrosswordEntry3D> m_CrosswordEntries;
+    GridData m_Grid;
+    std::vector<CrosswordEntry> m_CrosswordEntries;
 
     bool m_CrosswordLoaded;
     FileFormats::FORMAT m_CrosswordFileFormat;
     float m_FileFormatVersion;
 };
 
-#endif // PUZZLEBASE_H
+#endif // CROSSWORDBASE_H

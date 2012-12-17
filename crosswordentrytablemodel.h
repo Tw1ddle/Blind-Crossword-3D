@@ -7,17 +7,17 @@
  *  \copyright GNU General Public License v3.0
  */
 
-#ifndef WORDTABLEMODEL_H
-#define WORDTABLEMODEL_H
+#ifndef CROSSWORDENTRYTABLEMODEL_H
+#define CROSSWORDENTRYTABLEMODEL_H
 
 #include <QAbstractTableModel>
 #include <QString>
 #include <QModelIndex>
 #include <QItemSelection>
 
-#include "puzzlebase.h"
-#include "crosswordentry3d.h"
-#include "lettergrid.h"
+#include "crosswordbase.h"
+#include "crosswordentry.h"
+#include "crosswordgrid.h"
 
 namespace WordTableHeader
 {
@@ -32,7 +32,7 @@ class WordTableModel : public QAbstractTableModel
 {
     Q_OBJECT
 public:
-    WordTableModel(const PuzzleBase& puzzle, std::vector<CrosswordEntry3D>& refCrosswordEntries, QObject *parent = 0);
+    WordTableModel(const CrosswordBase& puzzle, std::vector<CrosswordEntry>& refCrosswordEntries, QObject *parent = 0);
 
     int rowCount(const QModelIndex& parent) const;
     int columnCount(const QModelIndex& parent) const;
@@ -40,9 +40,9 @@ public:
     QVariant headerData(int section, Qt::Orientation orientation, int role) const;
 
 private:
-    std::vector<CrosswordEntry3D>& m_RefCrosswordEntries;
-    const LetterGrid& m_RefWorkingGrid;
-    const PuzzleBase& m_RefPuzzle;
+    std::vector<CrosswordEntry>& m_RefCrosswordEntries;
+    const GridData& m_RefWorkingGrid;
+    const CrosswordBase& m_RefPuzzle;
 
     bool existsConflictingWords(QString word, QModelIndex index);
 
@@ -60,7 +60,7 @@ signals:
     void guessAmendationRequestRejected();
     void guessErased();
 
-    void crosswordEntrySelectionChanged(CrosswordEntry3D newCrosswordEntrySelection);
+    void crosswordEntrySelectionChanged(CrosswordEntry newCrosswordEntrySelection);
 };
 
-#endif // WORDTABLEMODEL_H
+#endif // CROSSWORDENTRYTABLEMODEL_H

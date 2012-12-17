@@ -1,10 +1,10 @@
-#include "crosswordentry3d.h"
+#include "crosswordentry.h"
 
 #include <QStringList>
 
 #include <assert.h>
 
-CrosswordEntry3D::CrosswordEntry3D(Direction direction, unsigned int identifier, QString entry, QString solution, Word guess, std::vector<unsigned int> wordComponentLengths, QString clue, std::vector<unsigned int> entryIndices)
+CrosswordEntry::CrosswordEntry(ClueDirection direction, unsigned int identifier, QString entry, QString solution, Word guess, std::vector<unsigned int> wordComponentLengths, QString clue, std::vector<unsigned int> entryIndices)
 {
     m_Identifier = identifier;
     m_WordDirection = direction;
@@ -16,12 +16,12 @@ CrosswordEntry3D::CrosswordEntry3D(Direction direction, unsigned int identifier,
     m_EntryIndices = entryIndices;
 }
 
-uivec3 CrosswordEntry3D::getStartingPosition() const
+uivec3 CrosswordEntry::getStartingPosition() const
 {
     return m_Guess.getGridLocations().at(0);
 }
 
-std::vector<uivec3> CrosswordEntry3D::getEntryPositions() const
+std::vector<uivec3> CrosswordEntry::getEntryPositions() const
 {
     std::vector<uivec3> entryPositions;
 
@@ -41,7 +41,7 @@ std::vector<uivec3> CrosswordEntry3D::getEntryPositions() const
     }
 }
 
-QString CrosswordEntry3D::getEntryPositionsString() const
+QString CrosswordEntry::getEntryPositionsString() const
 {
     QString entryIndices;
 
@@ -55,29 +55,29 @@ QString CrosswordEntry3D::getEntryPositionsString() const
     return entryIndices;
 }
 
-QString CrosswordEntry3D::getSolution() const
+QString CrosswordEntry::getSolution() const
 {
     return m_Solution;
 }
 
-QString CrosswordEntry3D::getClue() const
+QString CrosswordEntry::getClue() const
 {
     return m_Clue;
 }
 
-Word CrosswordEntry3D::getGuess() const
+Word CrosswordEntry::getGuess() const
 {
     return m_Guess;
 }
 
-void CrosswordEntry3D::setGuess(QString word)
+void CrosswordEntry::setGuess(QString word)
 {
     assert(m_Guess.getLength() == m_Solution.length());
 
     m_Guess.setString(word);
 }
 
-QString CrosswordEntry3D::getSolutionComponentLengths() const
+QString CrosswordEntry::getSolutionComponentLengths() const
 {
     QString comp;
     for(unsigned int i = 0; i < m_SolutionComponentLengths.size(); i++)
@@ -93,17 +93,17 @@ QString CrosswordEntry3D::getSolutionComponentLengths() const
     return comp.trimmed();
 }
 
-unsigned int CrosswordEntry3D::getIdentifier() const
+unsigned int CrosswordEntry::getIdentifier() const
 {
     return m_Identifier;
 }
 
-void CrosswordEntry3D::resetGuess()
+void CrosswordEntry::resetGuess()
 {
     m_Guess.setString(QString(m_Guess.getString().size(), QChar(46)));
 }
 
-bool CrosswordEntry3D::isGuessCorrect() const
+bool CrosswordEntry::isGuessCorrect() const
 {
     if(m_Guess.getString() == m_Solution)
     {
@@ -115,29 +115,29 @@ bool CrosswordEntry3D::isGuessCorrect() const
     }
 }
 
-bool CrosswordEntry3D::intersectsWord(Word* const word) const
+bool CrosswordEntry::intersectsWord(Word* const word) const
 {
     return m_Guess.intersectsWord(word);
 }
 
-Direction CrosswordEntry3D::getDirection() const
+ClueDirection CrosswordEntry::getDirection() const
 {
     return m_WordDirection;
 }
 
-QString CrosswordEntry3D::getEntryName() const
+QString CrosswordEntry::getEntryName() const
 {
     return m_EntryString;
 }
 
-std::vector<std::pair<unsigned int, uivec3> > CrosswordEntry3D::getWordEntryStartingPositionPairs() const
+std::vector<std::pair<unsigned int, uivec3> > CrosswordEntry::getWordEntryStartingPositionPairs() const
 {
     std::vector<std::pair<unsigned int, uivec3> > pairs;
 
     QStringList entries = m_EntryString.split(" ", QString::SkipEmptyParts);
     std::vector<unsigned int> entryNumbers;
 
-    for(unsigned int i = 0; i < entries.size(); i++)
+    for(int i = 0; i < entries.size(); i++)
     {
         bool converted = false;
         unsigned int entryNumber = entries.at(i).toUInt(&converted);
@@ -159,7 +159,7 @@ std::vector<std::pair<unsigned int, uivec3> > CrosswordEntry3D::getWordEntryStar
     return pairs;
 }
 
-bool SortByIdentifier::operator()(const CrosswordEntry3D& lhs, const CrosswordEntry3D& rhs)
+bool SortByIdentifier::operator()(const CrosswordEntry& lhs, const CrosswordEntry& rhs)
 {
     return lhs.getIdentifier() < rhs.getIdentifier();
 }

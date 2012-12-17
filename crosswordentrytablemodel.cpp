@@ -1,4 +1,4 @@
-  #include "wordtablemodel.h"
+#include "crosswordentrytablemodel.h"
 
 #include <QMessageBox>
 #include <QString>
@@ -19,7 +19,7 @@ const QString wordColumnHeader = "Word";
 const QString clueColumnHeader = "Clue";
 const QString wordLengthColumnHeader = "Lengths";
 
-WordTableModel::WordTableModel(const PuzzleBase& puzzle, std::vector<CrosswordEntry3D>& refCrosswordEntries, QObject *parent) :
+WordTableModel::WordTableModel(const CrosswordBase& puzzle, std::vector<CrosswordEntry>& refCrosswordEntries, QObject *parent) :
     QAbstractTableModel(parent), m_RefPuzzle(puzzle), m_RefCrosswordEntries(refCrosswordEntries), m_RefWorkingGrid(puzzle.getGrid())
 {
 }
@@ -115,7 +115,7 @@ QVariant WordTableModel::headerData(int section, Qt::Orientation orientation, in
 
 bool WordTableModel::existsConflictingWords(QString word, QModelIndex index)
 {
-    CrosswordEntry3D currentEntry = m_RefCrosswordEntries.at(index.row());
+    CrosswordEntry currentEntry = m_RefCrosswordEntries.at(index.row());
 
     bool conflict = false;
     for(int i = 0; i < word.size(); i++)
@@ -216,7 +216,9 @@ void WordTableModel::eraseGuess(QModelIndex index)
 
 void WordTableModel::tableViewSelectionChanged(const QModelIndex& current, const QModelIndex& previous)
 {
-    CrosswordEntry3D newCrosswordEntry = m_RefCrosswordEntries.at(current.row());
+    Q_UNUSED(previous);
+
+    CrosswordEntry newCrosswordEntry = m_RefCrosswordEntries.at(current.row());
 
     emit crosswordEntrySelectionChanged(newCrosswordEntry);
 }

@@ -1,4 +1,4 @@
-#include "wordtableviewcontroller.h"
+#include "crosswordentrytableviewcontroller.h"
 
 #include <QHeaderView>
 #include <QRegExp>
@@ -14,9 +14,9 @@
 #include "guessworddialog.h"
 #include "shortcutkeys.h"
 
-#include "wordtablemodel.h" // we (only) need to know about the names of the headers.
+#include "crosswordentrytablemodel.h" // we (only) need to know about the names of the headers.
 
-WordTableViewController::WordTableViewController(QWidget *parent) :
+CrosswordEntryTableViewController::CrosswordEntryTableViewController(QWidget *parent) :
     QTableView(parent)
 {
     // qt 5.0beta2 -> setSectionResizeMode
@@ -25,7 +25,7 @@ WordTableViewController::WordTableViewController(QWidget *parent) :
     setTabKeyNavigation(false);
 }
 
-bool WordTableViewController::enterGuess()
+bool CrosswordEntryTableViewController::enterGuess()
 {
     ITextToSpeech::instance().speak("Enter your answer.");
 
@@ -56,7 +56,7 @@ bool WordTableViewController::enterGuess()
     return false;
 }
 
-bool WordTableViewController::amendGuess()
+bool CrosswordEntryTableViewController::amendGuess()
 {
     const QSortFilterProxyModel* proxy = dynamic_cast<const QSortFilterProxyModel*>(model());
     assert(proxy);
@@ -77,7 +77,7 @@ bool WordTableViewController::amendGuess()
     return false;
 }
 
-bool WordTableViewController::eraseGuess()
+bool CrosswordEntryTableViewController::eraseGuess()
 {
     const QSortFilterProxyModel* proxy = dynamic_cast<const QSortFilterProxyModel*>(model());
     assert(proxy);
@@ -94,7 +94,7 @@ bool WordTableViewController::eraseGuess()
     return false;
 }
 
-void WordTableViewController::keyPressEvent(QKeyEvent *event)
+void CrosswordEntryTableViewController::keyPressEvent(QKeyEvent *event)
 {
     QTableView::keyPressEvent(event);
 
@@ -161,7 +161,7 @@ void WordTableViewController::keyPressEvent(QKeyEvent *event)
     }
 }
 
-void WordTableViewController::currentChanged(const QModelIndex &current, const QModelIndex &previous)
+void CrosswordEntryTableViewController::currentChanged(const QModelIndex &current, const QModelIndex &previous)
 {
     Q_UNUSED(previous);
 
@@ -198,7 +198,7 @@ void WordTableViewController::currentChanged(const QModelIndex &current, const Q
     }
 }
 
-int WordTableViewController::sizeHintForColumn(int column) const
+int CrosswordEntryTableViewController::sizeHintForColumn(int column) const
 {
     int maxWidth = 0;
 
@@ -217,12 +217,14 @@ int WordTableViewController::sizeHintForColumn(int column) const
     return maxWidth;
 }
 
-void WordTableViewController::keyboardSearch(const QString &search)
+void CrosswordEntryTableViewController::keyboardSearch(const QString &search)
 {
+    Q_UNUSED(search);
+
    // QTableView::keyboardSearch(search);
 }
 
-bool WordTableViewController::validateInput(QString guess, unsigned int requiredLength)
+bool CrosswordEntryTableViewController::validateInput(QString guess, unsigned int requiredLength)
 {
     if(guess.length() != requiredLength)
     {
@@ -247,12 +249,12 @@ bool WordTableViewController::validateInput(QString guess, unsigned int required
     return false;
 }
 
-void WordTableViewController::conflictingWordError()
+void CrosswordEntryTableViewController::conflictingWordError()
 {
     ITextToSpeech::instance().speak("The word conflicts with an intersecting word.");
 }
 
-void WordTableViewController::reportGuessAccepted(QString guess)
+void CrosswordEntryTableViewController::reportGuessAccepted(QString guess)
 {
     SPEECH_MODES::SPEECHMODE mode = ITextToSpeech::instance().getMode();
 
@@ -261,7 +263,7 @@ void WordTableViewController::reportGuessAccepted(QString guess)
     ITextToSpeech::instance().setMode(mode);
 }
 
-void WordTableViewController::reportGuessAmended(QString removedLetters)
+void CrosswordEntryTableViewController::reportGuessAmended(QString removedLetters)
 {
     QModelIndex currentSelection = selectionModel()->currentIndex();
     QString wordAtSelection = currentSelection.sibling(currentSelection.row(), 3).data().toString();
@@ -280,17 +282,17 @@ void WordTableViewController::reportGuessAmended(QString removedLetters)
     }
 }
 
-void WordTableViewController::reportGuessErased()
+void CrosswordEntryTableViewController::reportGuessErased()
 {
     ITextToSpeech::instance().speak("Your guess has been deleted.");
 }
 
-void WordTableViewController::reportGuessAmendationRejected()
+void CrosswordEntryTableViewController::reportGuessAmendationRejected()
 {
     ITextToSpeech::instance().speak("Guesses cannot be validated in this puzzle");
 }
 
-void WordTableViewController::readCurrentIdentifier()
+void CrosswordEntryTableViewController::readCurrentIdentifier()
 {
     QModelIndex currentSelection = selectionModel()->currentIndex();
     QString entryAtSelection = currentSelection.sibling(currentSelection.row(), 0).data().toString();
@@ -298,7 +300,7 @@ void WordTableViewController::readCurrentIdentifier()
     ITextToSpeech::instance().speak(entryAtSelection.append("."));
 }
 
-void WordTableViewController::readCurrentEntryNumber()
+void CrosswordEntryTableViewController::readCurrentEntryNumber()
 {
     QModelIndex currentSelection = selectionModel()->currentIndex();
     QString entryAtSelection = currentSelection.sibling(currentSelection.row(), 1).data().toString();
@@ -306,7 +308,7 @@ void WordTableViewController::readCurrentEntryNumber()
     ITextToSpeech::instance().speak(entryAtSelection.append("."));
 }
 
-void WordTableViewController::readCurrentGuess()
+void CrosswordEntryTableViewController::readCurrentGuess()
 {
     QModelIndex currentSelection = selectionModel()->currentIndex();
     QString wordAtSelection = currentSelection.sibling(currentSelection.row(), 2).data().toString();
@@ -325,7 +327,7 @@ void WordTableViewController::readCurrentGuess()
     }
 }
 
-void WordTableViewController::readCurrentClue()
+void CrosswordEntryTableViewController::readCurrentClue()
 {
     QModelIndex currentSelection = selectionModel()->currentIndex();
     QString clueAtSelection = currentSelection.sibling(currentSelection.row(), 3).data().toString();
@@ -333,7 +335,7 @@ void WordTableViewController::readCurrentClue()
     ITextToSpeech::instance().speak(clueAtSelection.append("."));
 }
 
-void WordTableViewController::readWordLengths()
+void CrosswordEntryTableViewController::readWordLengths()
 {
     QModelIndex currentSelection = selectionModel()->currentIndex();
     QString wordLengthsAtSelection = currentSelection.sibling(currentSelection.row(), 4).data().toString();

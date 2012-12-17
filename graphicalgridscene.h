@@ -17,28 +17,28 @@
 
 #include "uivec3.h"
 #include "letter.h"
-#include "crosswordentry3d.h"
-#include "puzzlebase.h"
+#include "crosswordentry.h"
+#include "crosswordbase.h"
 
-class LetterGrid;
-class GraphicsGridItem;
+class GridData;
+class GraphicalGridItem;
 
-class Grid3DGraphicsScene : public QGraphicsScene
+class GraphicalGridScene : public QGraphicsScene
 {
     Q_OBJECT
 public:
-    Grid3DGraphicsScene(const PuzzleBase& puzzle);
+    GraphicalGridScene(const CrosswordBase& puzzle);
 
 protected:
     void drawBackground(QPainter *painter, const QRectF &rect);
 
 private:
-    const PuzzleBase& m_RefPuzzle;
-    const LetterGrid& m_RefGrid;
-    const std::vector<CrosswordEntry3D>& m_RefCrosswordEntries;
+    const CrosswordBase& m_RefPuzzle;
+    const GridData& m_RefGrid;
+    const std::vector<CrosswordEntry>& m_RefCrosswordEntries;
     const QPixmap& m_RefBackgroundImage;
 
-    std::vector<GraphicsGridItem*> m_GraphicsGridItems;
+    std::vector<GraphicalGridItem*> m_GraphicsGridItems;
 
     std::vector<uivec3> m_SelectedGridLocations;
     std::vector<QColor> m_SavedColours;
@@ -49,7 +49,7 @@ private:
 public slots:
     void buildPuzzleGrid();
     void repaintPuzzleGrid();
-    void highlightSelection(CrosswordEntry3D selectedCrosswordEntry);
+    void highlightSelection(CrosswordEntry selectedCrosswordEntry);
     void updateGrid();
 };
 

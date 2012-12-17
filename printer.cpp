@@ -14,7 +14,7 @@ Printer::Printer()
 {
 }
 
-QTextDocument* Printer::getPuzzleDocumentForPrinting(PuzzleBase& puzzle) const
+QTextDocument* Printer::getPuzzleDocumentForPrinting(CrosswordBase& puzzle) const
 {
     QDir dir;
     QString postalAddress = getPostalAddress(dir.absolutePath().append(sc_PostalAddressFileLocation));
@@ -24,7 +24,7 @@ QTextDocument* Printer::getPuzzleDocumentForPrinting(PuzzleBase& puzzle) const
     textToPrint.append(puzzle.getInformationString().append("\n\n"));
 
     //copy and sort by calendar date
-    std::vector<CrosswordEntry3D> entries = puzzle.getCrosswordEntries();
+    std::vector<CrosswordEntry> entries = puzzle.getCrosswordEntries();
     std::sort(entries.begin(), entries.end(), SortByIdentifier());
 
     for(unsigned int i = 0; i < entries.size(); i++)
@@ -45,7 +45,7 @@ QTextDocument* Printer::getPuzzleDocumentForPrinting(PuzzleBase& puzzle) const
     return document;
 }
 
-QString Printer::openPrintDialog(PuzzleBase& puzzle, QWidget* parentWidget)
+QString Printer::openPrintDialog(CrosswordBase& puzzle, QWidget* parentWidget)
 {
     QTextDocument* document = getPuzzleDocumentForPrinting(puzzle);
 

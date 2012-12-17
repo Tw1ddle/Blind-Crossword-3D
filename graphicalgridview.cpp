@@ -1,19 +1,19 @@
-#include "grid3dgraphicsview.h"
+#include "graphicalgridview.h"
 
 #include <QResizeEvent>
 #include <QTimeLine>
 #include <QPrinter>
 #include <QPrintDialog>
 
-const double Grid3DGraphicsView::wheelZoomFactor = 1.25;
+const double GraphicalGridView::wheelZoomFactor = 1.25;
 
-Grid3DGraphicsView::Grid3DGraphicsView(QWidget *parent) :
+GraphicalGridView::GraphicalGridView(QWidget *parent) :
     QGraphicsView(parent)
 {
     m_NumScheduledScalings = 0;
 }
 
-void Grid3DGraphicsView::wheelEvent(QWheelEvent *event)
+void GraphicalGridView::wheelEvent(QWheelEvent *event)
 {
     int numDegrees = event->delta()/8;
     int numSteps = numDegrees/15;
@@ -33,7 +33,7 @@ void Grid3DGraphicsView::wheelEvent(QWheelEvent *event)
 }
 
 // http://qt-project.org/wiki/SmoothZoomInQGraphicsView
-void Grid3DGraphicsView::zoomAnimationFinished()
+void GraphicalGridView::zoomAnimationFinished()
 {
     if(m_NumScheduledScalings > 0)
     {
@@ -46,7 +46,7 @@ void Grid3DGraphicsView::zoomAnimationFinished()
     }
 }
 
-void Grid3DGraphicsView::scalingTime(qreal x)
+void GraphicalGridView::scalingTime(qreal x)
 {
     Q_UNUSED(x);
 

@@ -12,19 +12,9 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    word.cpp \
-    grid3dgraphicsscene.cpp \
     uivec3.cpp \
-    crosswordentry3d.cpp \
-    direction.cpp \
     letter.cpp \
-    puzzleloader.cpp \
-    grid3dgraphicsview.cpp \
-    wordtablemodel.cpp \
     guessworddialog.cpp \
-    wordtableviewcontroller.cpp \
-    lettergrid.cpp \
-    graphicsgriditem.cpp \
     itexttospeech.cpp \
     ttsimpl.cpp \
     quitdialog.cpp \
@@ -32,27 +22,28 @@ SOURCES += main.cpp\
     filedialog.cpp \
     xwc3dloader.cpp \
     xwcloader.cpp \
-    puzzlebase.cpp \
     emailer.cpp \
     printer.cpp \
     idlereminder.cpp \
-    advancedcluereader.cpp \
     utilities.cpp \
-    version.cpp
+    version.cpp \
+    graphicalgridview.cpp \
+    graphicalgriditem.cpp \
+    graphicalgridscene.cpp \
+    crosswordbase.cpp \
+    crosswordentry.cpp \
+    crosswordgrid.cpp \
+    cluedirection.cpp \
+    crosswordloader.cpp \
+    crosswordentrytablemodel.cpp \
+    crosswordentrytableviewcontroller.cpp \
+    cluereader.cpp \
+    crosswordword.cpp
 
 HEADERS  += mainwindow.h \
-    word.h \
-    grid3dgraphicsscene.h \
     uivec3.h \
-    crosswordentry3d.h \
     letter.h \
-    puzzleloader.h \
-    grid3dgraphicsview.h \
-    wordtablemodel.h \
     guessworddialog.h \
-    wordtableviewcontroller.h \
-    lettergrid.h \
-    graphicsgriditem.h \
     itexttospeech.h \
     singleton.h \
     ttsimpl.h \
@@ -61,16 +52,25 @@ HEADERS  += mainwindow.h \
     filedialog.h \
     xwc3dloader.h \
     xwcloader.h \
-    puzzlebase.h \
     fileformats.h \
     crosswordtypes.h \
-    direction.h \
     emailer.h \
     printer.h \
     idlereminder.h \
-    advancedcluereader.h \
     utilities.h \
-    version.h
+    version.h \
+    cluereader.h \
+    graphicalgridscene.h \
+    graphicalgriditem.h \
+    graphicalgridview.h \
+    crosswordbase.h \
+    crosswordentry.h \
+    crosswordgrid.h \
+    cluedirection.h \
+    crosswordloader.h \
+    crosswordentrytablemodel.h \
+    crosswordentrytableviewcontroller.h \
+    crosswordword.h
 
 FORMS    += mainwindow.ui
 

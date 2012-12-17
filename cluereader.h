@@ -7,13 +7,13 @@
  *  \copyright GNU General Public License v3.0
  */
 
-#ifndef ADVANCEDCLUEREADER_H
-#define ADVANCEDCLUEREADER_H
+#ifndef CLUEREADER_H
+#define CLUEREADER_H
 
 #include <QString>
 #include <QStringList>
 
-#include "crosswordentry3d.h"
+#include "crosswordentry.h"
 
 class ClueReader : public QObject
 {
@@ -26,7 +26,7 @@ public:
     QString advanceWord();
 
 public slots:
-    void setText(CrosswordEntry3D entry);
+    void setText(CrosswordEntry entry);
 
 private:
     QString text;
@@ -34,4 +34,4 @@ private:
     const QChar separator;
 };
 
-#endif // ADVANCEDCLUEREADER_H
+#endif // CLUEREADER_H

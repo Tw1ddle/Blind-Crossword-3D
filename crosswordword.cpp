@@ -1,4 +1,4 @@
-#include "word.h"
+#include "crosswordword.h"
 
 #include <assert.h>
 

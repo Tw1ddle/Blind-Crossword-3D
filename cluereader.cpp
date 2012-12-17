@@ -1,4 +1,4 @@
-#include "advancedcluereader.h"
+#include "cluereader.h"
 
 ClueReader::ClueReader() : index(0u), separator(QChar(Qt::Key_Space))
 {
@@ -34,7 +34,7 @@ QString ClueReader::getWord()
     }
 }
 
-void ClueReader::setText(CrosswordEntry3D entry)
+void ClueReader::setText(CrosswordEntry entry)
 {
     index = 0;
     text = entry.getClue();

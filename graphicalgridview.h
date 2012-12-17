@@ -7,18 +7,18 @@
  *  \copyright GNU General Public License v3.0
  */
 
-#ifndef GRID3DGRAPHICSVIEW_H
-#define GRID3DGRAPHICSVIEW_H
+#ifndef GRAPHICALGRIDVIEW_H
+#define GRAPHICALGRIDVIEW_H
 
 #include <QGraphicsView>
 
-class CrosswordEntry3D;
+class CrosswordEntry;
 
-class Grid3DGraphicsView : public QGraphicsView
+class GraphicalGridView : public QGraphicsView
 {
     Q_OBJECT
 public:
-    explicit Grid3DGraphicsView(QWidget *parent = 0);
+    explicit GraphicalGridView(QWidget *parent = 0);
 
 protected:
     virtual void wheelEvent(QWheelEvent *event);
@@ -32,4 +32,4 @@ private slots:
     void scalingTime(qreal x);
 };
 
-#endif // GRID3DGRAPHICSVIEW_H
+#endif // GRAPHICALGRIDVIEW_H

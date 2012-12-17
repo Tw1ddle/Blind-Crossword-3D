@@ -1,5 +1,5 @@
-#include "puzzleloader.h"
-#include "puzzlebase.h"
+#include "crosswordloader.h"
+#include "crosswordbase.h"
 
 #include <QFile>
 #include <QTextStream>
@@ -12,11 +12,11 @@
 
 #include "utilities.h"
 
-PuzzleLoader::PuzzleLoader()
+CrosswordLoader::CrosswordLoader()
 {
 }
 
-bool PuzzleLoader::loadPuzzle(PuzzleBase &puzzle, QString filePath, QString extension)
+bool CrosswordLoader::loadPuzzle(CrosswordBase &puzzle, QString filePath, QString extension)
 {
     QStringList linelist;
 
@@ -45,7 +45,7 @@ bool PuzzleLoader::loadPuzzle(PuzzleBase &puzzle, QString filePath, QString exte
     return true;
 }
 
-bool PuzzleLoader::savePuzzle(PuzzleBase &puzzle, QString filePath, QString extension)
+bool CrosswordLoader::savePuzzle(CrosswordBase &puzzle, QString filePath, QString extension)
 {
     if(puzzle.getRefCrosswordEntries().size() <= 0 || puzzle.getRefGrid().getSize() <= 0 || !puzzle.m_CrosswordLoaded)
     {
@@ -75,7 +75,7 @@ bool PuzzleLoader::savePuzzle(PuzzleBase &puzzle, QString filePath, QString exte
     return false;
 }
 
-bool PuzzleLoader::readInFile(PuzzleLoaderInterface& loader, PuzzleBase& puzzle, QStringList& linelist)
+bool CrosswordLoader::readInFile(CrosswordLoaderInterface& loader, CrosswordBase& puzzle, QStringList& linelist)
 {
     puzzle.clear();
 
@@ -98,7 +98,7 @@ bool PuzzleLoader::readInFile(PuzzleLoaderInterface& loader, PuzzleBase& puzzle,
     return true;
 }
 
-bool PuzzleLoader::writeOutFile(PuzzleLoaderInterface &loader, PuzzleBase &puzzle, QFile& file)
+bool CrosswordLoader::writeOutFile(CrosswordLoaderInterface &loader, CrosswordBase &puzzle, QFile& file)
 {
     QStringList linelist;
 

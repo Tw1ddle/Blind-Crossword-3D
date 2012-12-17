@@ -1,4 +1,4 @@
-#include "puzzlebase.h"
+#include "crosswordbase.h"
 
 #include <assert.h>
 
@@ -7,11 +7,11 @@
 
 #include "crosswordtypes.h"
 
-PuzzleBase::PuzzleBase() : m_CrosswordLoaded(false), m_FileFormatVersion(0.0f)
+CrosswordBase::CrosswordBase() : m_CrosswordLoaded(false), m_FileFormatVersion(0.0f)
 {
 }
 
-unsigned int PuzzleBase::toGridIndex(uivec3 index) const
+unsigned int CrosswordBase::toGridIndex(uivec3 index) const
 {
     if(m_CrosswordFileFormat == FileFormats::XWC || m_CrosswordFileFormat == FileFormats::XWC3D)
     {
@@ -38,42 +38,42 @@ unsigned int PuzzleBase::toGridIndex(uivec3 index) const
     return 0;
 }
 
-void PuzzleBase::setDimensions(uivec3 dimensions)
+void CrosswordBase::setDimensions(uivec3 dimensions)
 {
     m_Grid.setDimensions(dimensions);
 }
 
-LetterGrid &PuzzleBase::getRefGrid()
+GridData &CrosswordBase::getRefGrid()
 {
     return m_Grid;
 }
 
-std::vector<CrosswordEntry3D>& PuzzleBase::getRefCrosswordEntries()
+std::vector<CrosswordEntry>& CrosswordBase::getRefCrosswordEntries()
 {
     return m_CrosswordEntries;
 }
 
-const LetterGrid& PuzzleBase::getGrid() const
+const GridData& CrosswordBase::getGrid() const
 {
     return m_Grid;
 }
 
-const QPixmap& PuzzleBase::getPuzzleBackgroundImage() const
+const QPixmap& CrosswordBase::getPuzzleBackgroundImage() const
 {
     return m_BackgroundImage;
 }
 
-const std::vector<uivec3>& PuzzleBase::getThemePhraseCoordinates() const
+const std::vector<uivec3>& CrosswordBase::getThemePhraseCoordinates() const
 {
     return m_ThemePhraseCoordinates;
 }
 
-const std::vector<CrosswordEntry3D>& PuzzleBase::getCrosswordEntries() const
+const std::vector<CrosswordEntry>& CrosswordBase::getCrosswordEntries() const
 {
     return m_CrosswordEntries;
 }
 
-void PuzzleBase::clear()
+void CrosswordBase::clear()
 {
     m_PuzzleTitle.clear();
     m_AuthorTitle.clear();
@@ -91,7 +91,7 @@ void PuzzleBase::clear()
     m_BackgroundImage.detach();
 }
 
-unsigned int PuzzleBase::scoreSolution() const
+unsigned int CrosswordBase::scoreSolution() const
 {
     unsigned int score = 0;
 
@@ -105,7 +105,7 @@ unsigned int PuzzleBase::scoreSolution() const
     return score;
 }
 
-unsigned int PuzzleBase::removeIncorrectEntries()
+unsigned int CrosswordBase::removeIncorrectEntries()
 {
     unsigned int entriesRemoved = 0;
 
@@ -120,7 +120,7 @@ unsigned int PuzzleBase::removeIncorrectEntries()
     return entriesRemoved;
 }
 
-std::vector<unsigned int> PuzzleBase::getIntersectingCrosswordEntryIds(unsigned int crosswordEntryId) const
+std::vector<unsigned int> CrosswordBase::getIntersectingCrosswordEntryIds(unsigned int crosswordEntryId) const
 {
     std::vector<unsigned int> intersectingIds;
 
@@ -129,7 +129,7 @@ std::vector<unsigned int> PuzzleBase::getIntersectingCrosswordEntryIds(unsigned 
     return intersectingIds;
 }
 
-QString PuzzleBase::getScoreString() const
+QString CrosswordBase::getScoreString() const
 {
     if(m_PuzzleType != CrosswordTypes::WITHOUT_ANSWERS)
     {
@@ -151,7 +151,7 @@ QString PuzzleBase::getScoreString() const
     }
 }
 
-QString PuzzleBase::getInformationString() const
+QString CrosswordBase::getInformationString() const
 {
     if(m_CrosswordLoaded)
     {
@@ -166,32 +166,32 @@ QString PuzzleBase::getInformationString() const
     }
 }
 
-QString PuzzleBase::getPuzzleThemePhrase() const
+QString CrosswordBase::getPuzzleThemePhrase() const
 {
     return m_PuzzleThemePhrase;
 }
 
-QString PuzzleBase::getPuzzleTitle() const
+QString CrosswordBase::getPuzzleTitle() const
 {
     return m_PuzzleTitle;
 }
 
-FileFormats::FORMAT PuzzleBase::getPuzzleFormat() const
+FileFormats::FORMAT CrosswordBase::getPuzzleFormat() const
 {
     return m_CrosswordFileFormat;
 }
 
-CrosswordTypes::CROSSWORD_TYPE PuzzleBase::getPuzzleType() const
+CrosswordTypes::CROSSWORD_TYPE CrosswordBase::getPuzzleType() const
 {
     return m_PuzzleType;
 }
 
-bool PuzzleBase::isComplete() const
+bool CrosswordBase::isComplete() const
 {
     return (scoreSolution() == m_CrosswordEntries.size());
 }
 
-bool PuzzleBase::loadBackgroundImage(QString filename)
+bool CrosswordBase::loadBackgroundImage(QString filename)
 {
     QString path = m_BackgroundImagesFolder;
     path.append("/").append(filename);

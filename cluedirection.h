@@ -6,12 +6,12 @@
  *  \author Samuel Twidale
  *  \copyright GNU General Public License v3.0
  */
-#ifndef DIRECTION_H
-#define DIRECTION_H
+#ifndef CLUEDIRECTION_H
+#define CLUEDIRECTION_H
 
 #include <QString>
 
-namespace Directions
+namespace ClueDirections
 {
     typedef QString DIRECTION;
 
@@ -31,18 +31,18 @@ namespace Directions
     const DIRECTION SNAKING("Snaking");
 }
 
-class Direction
+class ClueDirection
 {
 public:
-    Direction();
-    Direction(Directions::DIRECTION direction);
+    ClueDirection();
+    ClueDirection(ClueDirections::DIRECTION direction);
 
-    bool operator==(const Direction& direction);
-    bool operator!=(const Direction& direction);
+    bool operator==(const ClueDirection& direction);
+    bool operator!=(const ClueDirection& direction);
     QString getString() const;
 
 private:
-    Directions::DIRECTION m_Direction;
+    ClueDirections::DIRECTION m_Direction;
 };
 
-#endif // DIRECTION_H
+#endif // CLUEDIRECTION_H

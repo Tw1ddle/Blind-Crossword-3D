@@ -7,17 +7,17 @@
  *  \copyright GNU General Public License v3.0
  */
 
-#ifndef WORDTABLEVIEWCONTROLLER_H
-#define WORDTABLEVIEWCONTROLLER_H
+#ifndef CROSSWORDENTRYTABLEVIEWCONTROLLER_H
+#define CROSSWORDENTRYTABLEVIEWCONTROLLER_H
 
 #include <QTableView>
 #include <QModelIndex>
 
-class WordTableViewController : public QTableView
+class CrosswordEntryTableViewController : public QTableView
 {
     Q_OBJECT
 public:
-    explicit WordTableViewController(QWidget *parent = 0);
+    explicit CrosswordEntryTableViewController(QWidget *parent = 0);
 
 protected:
     void keyPressEvent(QKeyEvent *event);
@@ -52,4 +52,4 @@ signals:
     void modelIndexChanged(const QModelIndex& selected, const QModelIndex& deselected);
 };
 
-#endif // WORDTABLEVIEWCONTROLLER_H
+#endif // CROSSWORDENTRYTABLEVIEWCONTROLLER_H
