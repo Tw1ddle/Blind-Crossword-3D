@@ -33,7 +33,6 @@ class PuzzleBase
     friend class PuzzleLoaderInterface;
     friend class XWC3DLoader;
     friend class XWCLoader;
-    friend class XWCR3DLoader;
 
 public:
     PuzzleBase();
