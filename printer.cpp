@@ -31,7 +31,7 @@ QTextDocument* Printer::getPuzzleDocumentForPrinting(CrosswordBase& puzzle) cons
     {
         QString id = entries.at(i).getIdentifier();
         QString entryName = entries.at(i).getEntryName();
-        QString direction = entries.at(i).getDirection().getString();
+        QString direction = entries.at(i).getDirection();
         QString answer = entries.at(i).getGuess().getString();
 
         textToPrint.append(id).append(" - ").append(entryName).append(" ").append(direction).append(" --- ").append(answer).append("\n");

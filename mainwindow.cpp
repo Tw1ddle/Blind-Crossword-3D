@@ -43,7 +43,7 @@ MainWindow::MainWindow(QWidget *parent) :
     m_GraphicsScene = new GraphicalGridScene(m_Puzzle);
     ui->graphicsView->setScene(m_GraphicsScene);
 
-    m_WordTableModel = new WordTableModel(m_Puzzle, m_Puzzle.getRefCrosswordEntries());
+    m_WordTableModel = new CrosswordEntryTableModel(m_Puzzle, m_Puzzle.getRefCrosswordEntries());
     m_ProxyModel = new QSortFilterProxyModel(this);
     m_ProxyModel->setSourceModel(m_WordTableModel);
     ui->wordTableView->setModel(m_ProxyModel);

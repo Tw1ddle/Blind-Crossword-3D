@@ -4,7 +4,7 @@
 
 #include <assert.h>
 
-CrosswordEntry::CrosswordEntry(ClueDirection direction, unsigned int identifier, QString entry, QString solution, Word guess, std::vector<unsigned int> wordComponentLengths, QString clue, std::vector<unsigned int> entryIndices)
+CrosswordEntry::CrosswordEntry(QString direction, QString identifier, QString entry, QString solution, Word guess, std::vector<unsigned int> wordComponentLengths, QString clue, std::vector<unsigned int> entryIndices)
 {
     m_Identifier = identifier;
     m_WordDirection = direction;
@@ -93,7 +93,7 @@ QString CrosswordEntry::getSolutionComponentLengths() const
     return comp.trimmed();
 }
 
-unsigned int CrosswordEntry::getIdentifier() const
+QString CrosswordEntry::getIdentifier() const
 {
     return m_Identifier;
 }
@@ -120,7 +120,7 @@ bool CrosswordEntry::intersectsWord(Word* const word) const
     return m_Guess.intersectsWord(word);
 }
 
-ClueDirection CrosswordEntry::getDirection() const
+QString CrosswordEntry::getDirection() const
 {
     return m_WordDirection;
 }

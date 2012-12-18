@@ -19,7 +19,7 @@
 #include "crosswordentry.h"
 #include "crosswordgrid.h"
 
-namespace WordTableHeader
+namespace CrosswordEntryTableHeader
 {
     extern const unsigned int identifierColumnId;
     extern const unsigned int entryColumnId;
@@ -28,11 +28,11 @@ namespace WordTableHeader
     extern const unsigned int wordLengthColumnId;
 }
 
-class WordTableModel : public QAbstractTableModel
+class CrosswordEntryTableModel : public QAbstractTableModel
 {
     Q_OBJECT
 public:
-    WordTableModel(const CrosswordBase& puzzle, std::vector<CrosswordEntry>& refCrosswordEntries, QObject *parent = 0);
+    CrosswordEntryTableModel(const CrosswordBase& puzzle, std::vector<CrosswordEntry>& refCrosswordEntries, QObject *parent = 0);
 
     int rowCount(const QModelIndex& parent) const;
     int columnCount(const QModelIndex& parent) const;

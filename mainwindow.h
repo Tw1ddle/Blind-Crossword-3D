@@ -16,7 +16,7 @@
 #include "crosswordbase.h"
 
 class GraphicalGridScene;
-class WordTableModel;
+class CrosswordEntryTableModel;
 class QShortcut;
 class QSortFilterProxyModel;
 
@@ -46,7 +46,7 @@ private:
     CrosswordBase m_Puzzle;
 
     GraphicalGridScene* m_GraphicsScene;
-    WordTableModel* m_WordTableModel;
+    CrosswordEntryTableModel* m_WordTableModel;
     QSortFilterProxyModel* m_ProxyModel;
 
     IdleReminder* m_IdleReminder;

@@ -78,9 +78,9 @@ bool XWCLoader::loadAcrossClues(CrosswordBase &puzzle, QStringList &linelist)
     {
         QStringList list = linelist.takeFirst().split("|");
 
-        ClueDirection direction(ClueDirections::ACROSS);
+        QString direction(ClueDirections::ACROSS);
 
-        unsigned int identifier = 0;
+        QString identifier = "0";
 
         QString number = list.takeFirst();
 
@@ -140,9 +140,9 @@ bool XWCLoader::loadAwayClues(CrosswordBase &puzzle, QStringList &linelist)
     {
         QStringList list = linelist.takeFirst().split("|");
 
-        ClueDirection direction(ClueDirections::AWAY);
+        QString direction(ClueDirections::AWAY);
 
-        unsigned int identifier = 0; // unused
+        QString identifier = "0"; // unused
 
         QString number = list.takeFirst();
 

@@ -140,22 +140,22 @@ void CrosswordEntryTableViewController::keyPressEvent(QKeyEvent *event)
 
         else if(event->key() == ShortcutKeys::sortByIdentifierKey)
         {
-            sortByColumn(WordTableHeader::identifierColumnId, Qt::AscendingOrder);
+            sortByColumn(CrosswordEntryTableHeader::identifierColumnId, Qt::AscendingOrder);
             ITextToSpeech::instance().speak("Sorted clues by date.");
         }
         else if(event->key() == ShortcutKeys::sortByEntryKey)
         {
-            sortByColumn(WordTableHeader::entryColumnId, Qt::AscendingOrder);
+            sortByColumn(CrosswordEntryTableHeader::entryColumnId, Qt::AscendingOrder);
             ITextToSpeech::instance().speak("Sorted clues by entry.");
         }
         else if(event->key() == ShortcutKeys::sortByClueKey)
         {
-            sortByColumn(WordTableHeader::clueColumnId, Qt::AscendingOrder);
+            sortByColumn(CrosswordEntryTableHeader::clueColumnId, Qt::AscendingOrder);
             ITextToSpeech::instance().speak("Sorted clues by alphabetical order of clue.");
         }
         else if(event->key() == ShortcutKeys::sortByWordLengthKey)
         {
-            sortByColumn(WordTableHeader::wordLengthColumnId, Qt::AscendingOrder);
+            sortByColumn(CrosswordEntryTableHeader::wordLengthColumnId, Qt::AscendingOrder);
             ITextToSpeech::instance().speak("Sorted clues by length of solution.");
         }
     }

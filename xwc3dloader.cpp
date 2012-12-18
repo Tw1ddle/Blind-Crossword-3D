@@ -183,7 +183,7 @@ bool XWC3DLoader::loadClues(CrosswordBase& puzzle, QStringList& linelist)
 
 bool XWC3DLoader::loadCluesHelper(CrosswordBase &puzzle, QStringList &linelist, QString direc)
 {
-    ClueDirection direction(direc);
+    QString direction(direc);
 
     unsigned int numClues = linelist.takeFirst().toUInt();
 
@@ -196,7 +196,7 @@ bool XWC3DLoader::loadCluesHelper(CrosswordBase &puzzle, QStringList &linelist, 
     {
         QStringList list = linelist.takeFirst().split("|");
 
-        unsigned int identifier = list.takeFirst().toUInt();
+        QString identifier = list.takeFirst();
 
         QString entry = list.takeFirst();
 
@@ -347,13 +347,13 @@ bool XWC3DLoader::loadCluesHelper(CrosswordBase &puzzle, QStringList &linelist, 
 
 bool XWC3DLoader::loadSnakingClues(CrosswordBase& puzzle, QStringList& linelist, unsigned int numsnaking)
 {
-    ClueDirection direction(ClueDirections::SNAKING);
+    QString direction(ClueDirections::SNAKING);
 
     for(unsigned int i = 0; i < numsnaking; i++)
     {
         QStringList list = linelist.takeFirst().split("|");
 
-        unsigned int identifier = list.takeFirst().toUInt();
+        QString identifier = list.takeFirst();
 
         QStringList entryIndicesStringList = list.takeFirst().split(",", QString::SkipEmptyParts);
 
@@ -543,7 +543,7 @@ bool XWC3DLoader::saveClues(CrosswordBase &puzzle, QStringList &linelist)
     return true;
 }
 
-bool XWC3DLoader::saveCluesHelper(CrosswordBase &puzzle, QStringList &linelist, ClueDirection direction)
+bool XWC3DLoader::saveCluesHelper(CrosswordBase &puzzle, QStringList &linelist, QString direction)
 {
     std::vector<CrosswordEntry> entries;
 
@@ -552,7 +552,7 @@ bool XWC3DLoader::saveCluesHelper(CrosswordBase &puzzle, QStringList &linelist, 
 
     QStringList entrylist;
 
-    entrylist += direction.getString();
+    entrylist += direction;
     entrylist += QString::number(entries.size());
 
     for(unsigned int i = 0; i < entries.size(); i++)
@@ -563,7 +563,7 @@ bool XWC3DLoader::saveCluesHelper(CrosswordBase &puzzle, QStringList &linelist, 
         if(direction != ClueDirections::SNAKING)
         {
             entryString
-                    .append(QString::number(entry.getIdentifier())).append("|")
+                    .append(entry.getIdentifier()).append("|")
                     .append(entry.getEntryName()).append("|")
                     .append(QString::number(entry.getStartingPosition().getX() + 1)).append(",")
                     .append(QString::number(entry.getStartingPosition().getY() + 1)).append(",")
@@ -576,7 +576,7 @@ bool XWC3DLoader::saveCluesHelper(CrosswordBase &puzzle, QStringList &linelist, 
         else
         {
             entryString
-                    .append(QString::number(entry.getIdentifier())).append("|")
+                    .append(entry.getIdentifier()).append("|")
                     .append(entry.getEntryPositionsString()).append("|")
                     .append(entry.getEntryName()).append("|")
                     .append(QString::number(entry.getSolution().length())).append("|");

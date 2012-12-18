@@ -54,9 +54,9 @@ bool Emailer::openSendResultsEmail(CrosswordBase& puzzle)
 
     for(unsigned int i = 0; i < entries.size(); i++)
     {
-        QString id = QString::number(entries.at(i).getIdentifier());
+        QString id = entries.at(i).getIdentifier();
         QString entryName = entries.at(i).getEntryName();
-        QString direction = entries.at(i).getDirection().getString();
+        QString direction = entries.at(i).getDirection();
         QString answer = entries.at(i).getGuess().getString();
 
         emailBody.append(id).append(" - ").append(entryName).append(" ").append(direction).append(" --- ").append(answer).append("%0A");

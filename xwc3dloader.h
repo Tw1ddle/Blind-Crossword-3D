@@ -36,7 +36,7 @@ private:
     bool loadCluesHelper(CrosswordBase& puzzle, QStringList& linelist, QString direction);
     bool loadSnakingClues(CrosswordBase& puzzle, QStringList& linelist, unsigned int numsnaking);
 
-    bool saveCluesHelper(CrosswordBase& puzzle, QStringList& linelist, ClueDirection direction);
+    bool saveCluesHelper(CrosswordBase& puzzle, QStringList& linelist, QString direction);
 };
 
 #endif // XWC3DLOADER_H

@@ -33,7 +33,6 @@ SOURCES += main.cpp\
     crosswordbase.cpp \
     crosswordentry.cpp \
     crosswordgrid.cpp \
-    cluedirection.cpp \
     crosswordloader.cpp \
     crosswordentrytablemodel.cpp \
     crosswordentrytableviewcontroller.cpp \
@@ -66,7 +65,6 @@ HEADERS  += mainwindow.h \
     crosswordbase.h \
     crosswordentry.h \
     crosswordgrid.h \
-    cluedirection.h \
     crosswordloader.h \
     crosswordentrytablemodel.h \
     crosswordentrytableviewcontroller.h \

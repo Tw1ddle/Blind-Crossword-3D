@@ -4,7 +4,7 @@
 #include <QString>
 #include <assert.h>
 
-namespace WordTableHeader
+namespace CrosswordEntryTableHeader
 {
     const unsigned int identifierColumnId = 0;
     const unsigned int entryColumnId = 1;
@@ -19,26 +19,26 @@ const QString wordColumnHeader = "Word";
 const QString clueColumnHeader = "Clue";
 const QString wordLengthColumnHeader = "Lengths";
 
-WordTableModel::WordTableModel(const CrosswordBase& puzzle, std::vector<CrosswordEntry>& refCrosswordEntries, QObject *parent) :
+CrosswordEntryTableModel::CrosswordEntryTableModel(const CrosswordBase& puzzle, std::vector<CrosswordEntry>& refCrosswordEntries, QObject *parent) :
     QAbstractTableModel(parent), m_RefPuzzle(puzzle), m_RefCrosswordEntries(refCrosswordEntries), m_RefWorkingGrid(puzzle.getGrid())
 {
 }
 
-int WordTableModel::rowCount(const QModelIndex& parent) const
+int CrosswordEntryTableModel::rowCount(const QModelIndex& parent) const
 {
     Q_UNUSED(parent);
 
     return m_RefCrosswordEntries.size();
 }
 
-int WordTableModel::columnCount(const QModelIndex& parent) const
+int CrosswordEntryTableModel::columnCount(const QModelIndex& parent) const
 {
     Q_UNUSED(parent);
 
     return 5;
 }
 
-QVariant WordTableModel::data(const QModelIndex& index, int role) const
+QVariant CrosswordEntryTableModel::data(const QModelIndex& index, int role) const
 {
     if (!index.isValid())
     {
@@ -52,27 +52,27 @@ QVariant WordTableModel::data(const QModelIndex& index, int role) const
 
     if (role == Qt::DisplayRole)
     {
-        if(index.column() == WordTableHeader::identifierColumnId)
+        if(index.column() == CrosswordEntryTableHeader::identifierColumnId)
         {
-            return m_RefCrosswordEntries.at(index.row()).getIdentifier();
+            return m_RefCrosswordEntries.at(index.row()).getIdentifier().toUInt();
         }
-        if (index.column() == WordTableHeader::entryColumnId)
+        if (index.column() == CrosswordEntryTableHeader::entryColumnId)
         {
             QString entryString = m_RefCrosswordEntries.at(index.row()).getEntryName();
-            QString entryDirectionName = m_RefCrosswordEntries.at(index.row()).getDirection().getString();
+            QString entryDirectionName = m_RefCrosswordEntries.at(index.row()).getDirection();
             QString entry = entryString.append(QString(" ")).append(entryDirectionName);
 
             return entry;
         }
-        else if (index.column() == WordTableHeader::wordColumnId)
+        else if (index.column() == CrosswordEntryTableHeader::wordColumnId)
         {
             return m_RefCrosswordEntries.at(index.row()).getGuess().getString();
         }
-        else if(index.column() == WordTableHeader::clueColumnId)
+        else if(index.column() == CrosswordEntryTableHeader::clueColumnId)
         {
             return m_RefCrosswordEntries.at(index.row()).getClue();
         }
-        else if(index.column() == WordTableHeader::wordLengthColumnId)
+        else if(index.column() == CrosswordEntryTableHeader::wordLengthColumnId)
         {
             return m_RefCrosswordEntries.at(index.row()).getSolutionComponentLengths();
         }
@@ -80,7 +80,7 @@ QVariant WordTableModel::data(const QModelIndex& index, int role) const
     return QVariant();
 }
 
-QVariant WordTableModel::headerData(int section, Qt::Orientation orientation, int role) const
+QVariant CrosswordEntryTableModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
     if (role != Qt::DisplayRole)
     {
@@ -113,7 +113,7 @@ QVariant WordTableModel::headerData(int section, Qt::Orientation orientation, in
     return QVariant();
 }
 
-bool WordTableModel::existsConflictingWords(QString word, QModelIndex index)
+bool CrosswordEntryTableModel::existsConflictingWords(QString word, QModelIndex index)
 {
     CrosswordEntry currentEntry = m_RefCrosswordEntries.at(index.row());
 
@@ -132,13 +132,13 @@ bool WordTableModel::existsConflictingWords(QString word, QModelIndex index)
     return conflict;
 }
 
-void WordTableModel::crosswordEntriesChanged()
+void CrosswordEntryTableModel::crosswordEntriesChanged()
 {
     beginResetModel();
     endResetModel();
 }
 
-void WordTableModel::amendGuess(QString word, QModelIndex index)
+void CrosswordEntryTableModel::amendGuess(QString word, QModelIndex index)
 {
     if(m_RefPuzzle.getPuzzleType() == CrosswordTypes::WITHOUT_ANSWERS)
     {
@@ -184,7 +184,7 @@ void WordTableModel::amendGuess(QString word, QModelIndex index)
     }
 }
 
-void WordTableModel::enterGuess(QString word, QModelIndex index)
+void CrosswordEntryTableModel::enterGuess(QString word, QModelIndex index)
 {
     if(existsConflictingWords(word, index))
     {
@@ -202,7 +202,7 @@ void WordTableModel::enterGuess(QString word, QModelIndex index)
     emit guessValidated(word);
 }
 
-void WordTableModel::eraseGuess(QModelIndex index)
+void CrosswordEntryTableModel::eraseGuess(QModelIndex index)
 {
     m_RefCrosswordEntries.at(index.row()).resetGuess();
 
@@ -214,7 +214,7 @@ void WordTableModel::eraseGuess(QModelIndex index)
     emit guessErased();
 }
 
-void WordTableModel::tableViewSelectionChanged(const QModelIndex& current, const QModelIndex& previous)
+void CrosswordEntryTableModel::tableViewSelectionChanged(const QModelIndex& current, const QModelIndex& previous)
 {
     Q_UNUSED(previous);
 
