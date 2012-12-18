@@ -51,7 +51,6 @@ HEADERS  += mainwindow.h \
     filedialog.h \
     xwc3dloader.h \
     xwcloader.h \
-    fileformats.h \
     crosswordtypes.h \
     emailer.h \
     printer.h \
@@ -68,7 +67,8 @@ HEADERS  += mainwindow.h \
     crosswordloader.h \
     crosswordentrytablemodel.h \
     crosswordentrytableviewcontroller.h \
-    crosswordword.h
+    crosswordword.h \
+    crosswordfileformats.h
 
 FORMS    += mainwindow.ui
 

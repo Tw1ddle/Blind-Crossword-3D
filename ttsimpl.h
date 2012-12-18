@@ -12,6 +12,8 @@
 
 #include "itexttospeech.h"
 
+#include <QStringList>
+
 class TTSImpl : public ITextToSpeech
 {
 public:
@@ -22,8 +24,10 @@ public:
     virtual QString decreaseSpeechRate();
 
     virtual bool speak(QString text, DWORD options);
+    virtual const QStringList& getSpeechHistory() const;
+
     virtual bool setMode(SPEECH_MODES::SPEECHMODE mode);
-    virtual SPEECH_MODES::SPEECHMODE getMode();
+    virtual SPEECH_MODES::SPEECHMODE getMode() const;
 
 private:
     void preprocessText(QString& text);
@@ -32,6 +36,7 @@ private:
     bool m_Initialised;
 
     QString m_Mode;
+    QStringList m_SpeechLog;
 
     const static float sc_SpeedRateAdjustmentStepSize;
 };

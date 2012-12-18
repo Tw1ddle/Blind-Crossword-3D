@@ -38,6 +38,21 @@ unsigned int CrosswordBase::toGridIndex(uivec3 index) const
     return 0;
 }
 
+std::vector<CrosswordEntry> CrosswordBase::getIntersectingCrosswordEntries(unsigned int crosswordEntryId) const
+{
+    std::vector<CrosswordEntry> entries;
+
+    for(unsigned int i = 0; i < getEntries().size(); i++)
+    {
+        if(getEntries().at(i).intersectsWord(& (getEntries().at(crosswordEntryId).getGuess())))
+        {
+            entries.push_back(m_Entries.at(i));
+        }
+    }
+
+    return entries;
+}
+
 void CrosswordBase::setDimensions(uivec3 dimensions)
 {
     m_Grid.setDimensions(dimensions);
@@ -118,15 +133,6 @@ unsigned int CrosswordBase::removeIncorrectEntries()
         }
     }
     return entriesRemoved;
-}
-
-std::vector<unsigned int> CrosswordBase::getIntersectingCrosswordEntryIds(unsigned int crosswordEntryId) const
-{
-    std::vector<unsigned int> intersectingIds;
-
-    //todo
-
-    return intersectingIds;
 }
 
 QString CrosswordBase::getScore() const

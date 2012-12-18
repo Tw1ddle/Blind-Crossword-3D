@@ -88,7 +88,7 @@ bool XWC3DLoader::loadXWC3DGrid(CrosswordBase &puzzle, QStringList &linelist)
                 }
                 else
                 {
-                    if(puzzle.getType() == CrosswordTypes::WITH_ANSWERS_UNSTARTED)
+                    if(puzzle.getType() != CrosswordTypes::WITH_ANSWERS_COMPLETED)
                     {
                         puzzle.getRefGrid().push_back(Letter(QChar(Qt::Key_Period), uivec3(ch, y, z)));
                     }
@@ -129,7 +129,7 @@ bool XWC3DLoader::loadXWCR3DGrid(CrosswordBase &puzzle, QStringList &linelist)
                 }
                 else
                 {
-                    if(puzzle.getType() == CrosswordTypes::WITH_ANSWERS_UNSTARTED)
+                    if(puzzle.getType() != CrosswordTypes::WITH_ANSWERS_COMPLETED)
                     {
                         puzzle.getRefGrid().push_back(Letter(QChar(Qt::Key_Period), uivec3(0, 0, z)));
                     }
@@ -149,7 +149,7 @@ bool XWC3DLoader::loadXWCR3DGrid(CrosswordBase &puzzle, QStringList &linelist)
                     }
                     else
                     {
-                        if(puzzle.getType() == CrosswordTypes::WITH_ANSWERS_UNSTARTED)
+                        if(puzzle.getType() != CrosswordTypes::WITH_ANSWERS_COMPLETED)
                         {
                             puzzle.getRefGrid().push_back(Letter(QChar(Qt::Key_Period), uivec3(ch, y, z)));
                         }

@@ -23,6 +23,7 @@ namespace ShortcutKeys
     const QChar increaseSpeechRateKey = Qt::Key_0;
 
     const QChar enterGuessKey = Qt::Key_Return;
+    const QChar enterGuessKeyAlternative = Qt::Key_Enter;
     const QChar amendGuessKey = Qt::Key_V;
     const QChar deleteGuessKey = Qt::Key_Backspace;
 
@@ -36,5 +37,10 @@ namespace ShortcutKeys
     const QChar sortByEntryKey = Qt::Key_2;
     const QChar sortByClueKey = Qt::Key_3;
     const QChar sortByWordLengthKey = Qt::Key_4;
+
+    const QChar printAnswersKey = Qt::Key_F;
+    const QChar emailAnswersKey = Qt::Key_G;
+    const QChar emailFeedbackKey = Qt::Key_B;
+    const QChar readLastSpokenPhraseKey = Qt::Key_M;
 }
 

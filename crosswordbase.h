@@ -17,7 +17,7 @@
 #include "crosswordentry.h"
 #include "crosswordgrid.h"
 
-#include "fileformats.h"
+#include "crosswordfileformats.h"
 #include "crosswordtypes.h"
 
 const QString m_BackgroundImagesFolder = "/Backgrounds";
@@ -35,7 +35,7 @@ public:
 
     unsigned int toGridIndex(uivec3 index) const;
 
-    std::vector<unsigned int> getIntersectingCrosswordEntryIds(unsigned int crosswordEntryId) const;
+    std::vector<CrosswordEntry> getIntersectingCrosswordEntries(unsigned int crosswordEntryId) const;
     unsigned int removeIncorrectEntries();
 
     QString getTitle() const;

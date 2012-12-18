@@ -33,6 +33,7 @@ namespace ShortcutKeys
     extern const QChar decreaseSpeechRateKey;
 
     extern const QChar enterGuessKey;
+    extern const QChar enterGuessKeyAlternative;
     extern const QChar amendGuessKey;
     extern const QChar deleteGuessKey;
     extern const QChar readCurrentIdentifierKey;
@@ -45,6 +46,11 @@ namespace ShortcutKeys
     extern const QChar sortByEntryKey;
     extern const QChar sortByClueKey;
     extern const QChar sortByWordLengthKey;
+
+    extern const QChar printAnswersKey;
+    extern const QChar emailAnswersKey;
+    extern const QChar emailFeedbackKey;
+    extern const QChar readLastSpokenPhraseKey;
 }
 
 #endif // SHORTCUTKEYS_H

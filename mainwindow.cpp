@@ -40,45 +40,45 @@ MainWindow::MainWindow(QWidget *parent) :
 
     createShortcuts();
 
-    m_GraphicsScene = new GraphicalGridScene(m_Puzzle);
+    m_GraphicsScene = new GraphicalGridScene(m_Crossword);
     ui->graphicsView->setScene(m_GraphicsScene);
 
-    m_WordTableModel = new CrosswordEntryTableModel(m_Puzzle, m_Puzzle.getRefEntries());
+    m_TableModel = new CrosswordEntryTableModel(m_Crossword, m_Crossword.getRefEntries());
     m_ProxyModel = new QSortFilterProxyModel(this);
-    m_ProxyModel->setSourceModel(m_WordTableModel);
+    m_ProxyModel->setSourceModel(m_TableModel);
     ui->wordTableView->setModel(m_ProxyModel);
 
     m_IdleReminder = new IdleReminder(60000);
-    m_AdvancedClueReader = new ClueReader();
+    m_ClueReader = new ClueReader();
 
-    connect(this, SIGNAL(puzzleLoaded()), m_WordTableModel, SLOT(crosswordEntriesChanged()));
+    connect(this, SIGNAL(puzzleLoaded()), m_TableModel, SLOT(crosswordEntriesChanged()));
     connect(this, SIGNAL(puzzleLoaded()), ui->wordTableView, SLOT(setFocus(Qt::OtherFocusReason)));
     connect(this, SIGNAL(puzzleLoaded()), m_GraphicsScene, SLOT(buildPuzzleGrid()));
 
-    connect(m_WordTableModel, SIGNAL(conflictingWordError()), ui->wordTableView, SLOT(conflictingWordError()));
-    connect(ui->wordTableView, SIGNAL(modelIndexChanged(const QModelIndex&, const QModelIndex&)), m_WordTableModel, SLOT(tableViewSelectionChanged(const QModelIndex&, const QModelIndex&)));
+    connect(m_TableModel, SIGNAL(conflictingWordError()), ui->wordTableView, SLOT(conflictingWordError()));
+    connect(ui->wordTableView, SIGNAL(modelIndexChanged(const QModelIndex&, const QModelIndex&)), m_TableModel, SLOT(tableViewSelectionChanged(const QModelIndex&, const QModelIndex&)));
 
     connect(ui->wordTableView, SIGNAL(guessSubmitted(QString,QModelIndex)), this, SLOT(checkIfPuzzleWasCompleted()));
-    connect(ui->wordTableView, SIGNAL(guessSubmitted(QString, QModelIndex)), m_WordTableModel, SLOT(enterGuess(QString, QModelIndex)));
-    connect(ui->wordTableView, SIGNAL(guessAmendationRequested(QString, QModelIndex)), m_WordTableModel, SLOT(amendGuess(QString, QModelIndex)));
-    connect(ui->wordTableView, SIGNAL(guessErasureRequested(QModelIndex)), m_WordTableModel, SLOT(eraseGuess(QModelIndex)));
+    connect(ui->wordTableView, SIGNAL(guessSubmitted(QString, QModelIndex)), m_TableModel, SLOT(enterGuess(QString, QModelIndex)));
+    connect(ui->wordTableView, SIGNAL(guessAmendationRequested(QString, QModelIndex)), m_TableModel, SLOT(amendGuess(QString, QModelIndex)));
+    connect(ui->wordTableView, SIGNAL(guessErasureRequested(QModelIndex)), m_TableModel, SLOT(eraseGuess(QModelIndex)));
 
-    connect(m_WordTableModel, SIGNAL(guessValidated(QString)), ui->wordTableView, SLOT(reportGuessAccepted(QString)));
-    connect(m_WordTableModel, SIGNAL(guessAmended(QString)), ui->wordTableView, SLOT(reportGuessAmended(QString)));
-    connect(m_WordTableModel, SIGNAL(guessErased()), ui->wordTableView, SLOT(reportGuessErased()));
-    connect(m_WordTableModel, SIGNAL(guessAmendationRequestRejected()), ui->wordTableView, SLOT(reportGuessAmendationRejected()));
+    connect(m_TableModel, SIGNAL(guessValidated(QString)), ui->wordTableView, SLOT(reportGuessAccepted(QString)));
+    connect(m_TableModel, SIGNAL(guessAmended(QString)), ui->wordTableView, SLOT(reportGuessAmended(QString)));
+    connect(m_TableModel, SIGNAL(guessErased()), ui->wordTableView, SLOT(reportGuessErased()));
+    connect(m_TableModel, SIGNAL(guessAmendationRequestRejected()), ui->wordTableView, SLOT(reportGuessAmendationRejected()));
 
-    connect(m_WordTableModel, SIGNAL(guessValidated(QString)), m_GraphicsScene, SLOT(repaintPuzzleGrid()));
-    connect(m_WordTableModel, SIGNAL(guessAmended(QString)), m_GraphicsScene, SLOT(repaintPuzzleGrid()));
-    connect(m_WordTableModel, SIGNAL(guessErased()), m_GraphicsScene, SLOT(repaintPuzzleGrid()));
-    connect(m_WordTableModel, SIGNAL(crosswordEntrySelectionChanged(CrosswordEntry)), m_GraphicsScene, SLOT(highlightSelection(CrosswordEntry)));
+    connect(m_TableModel, SIGNAL(guessValidated(QString)), m_GraphicsScene, SLOT(repaintPuzzleGrid()));
+    connect(m_TableModel, SIGNAL(guessAmended(QString)), m_GraphicsScene, SLOT(repaintPuzzleGrid()));
+    connect(m_TableModel, SIGNAL(guessErased()), m_GraphicsScene, SLOT(repaintPuzzleGrid()));
+    connect(m_TableModel, SIGNAL(crosswordEntrySelectionChanged(CrosswordEntry)), m_GraphicsScene, SLOT(highlightSelection(CrosswordEntry)));
 
-    connect(&m_PuzzleLoader, SIGNAL(loaderError(QString, QString)), this, SLOT(showError(QString, QString)));
+    connect(&m_CrosswordLoader, SIGNAL(loaderError(QString, QString)), this, SLOT(showError(QString, QString)));
 
     connect(m_IdleReminder, SIGNAL(timedOut()), this, SLOT(onIdleReminderTimeout()));
     qApp->installEventFilter(m_IdleReminder);
 
-    connect(m_WordTableModel, SIGNAL(crosswordEntrySelectionChanged(CrosswordEntry)), m_AdvancedClueReader, SLOT(setText(CrosswordEntry)));
+    connect(m_TableModel, SIGNAL(crosswordEntrySelectionChanged(CrosswordEntry)), m_ClueReader, SLOT(setText(CrosswordEntry)));
 
     ITextToSpeech::instance().speak(getIntroString());
 }
@@ -124,7 +124,7 @@ void MainWindow::loadCrossword()
         QFileInfo fileInfo(path);
         QString extension = fileInfo.suffix();
 
-        if(m_PuzzleLoader.loadPuzzle(m_Puzzle, path, extension))
+        if(m_CrosswordLoader.loadPuzzle(m_Crossword, path, extension))
         {
             emit puzzleLoaded();
 
@@ -143,9 +143,9 @@ void MainWindow::saveCrossword()
     QString path = dir.absolutePath()
             .append(m_DefaultSaveFolder)
             .append("/")
-            .append(m_Puzzle.getTitle())
+            .append(m_Crossword.getTitle())
             .append(".")
-            .append(m_Puzzle.getFormat());
+            .append(m_Crossword.getFormat());
 
     QFileInfo fileInfo(path);
 
@@ -157,7 +157,7 @@ void MainWindow::saveCrossword()
                 .append(separatorTag)
                 .append(QString::number(extraTag))
                 .append(".")
-                .append(m_Puzzle.getFormat());
+                .append(m_Crossword.getFormat());
 
         path = dir.absolutePath()
                 .append(m_DefaultSaveFolder)
@@ -168,12 +168,16 @@ void MainWindow::saveCrossword()
     }
 
     QFileInfo updatedFileInfo(path);
-    if(m_PuzzleLoader.savePuzzle(m_Puzzle, path, m_Puzzle.getFormat()))
+    if(m_CrosswordLoader.savePuzzle(m_Crossword, path, m_Crossword.getFormat()))
     {
         ITextToSpeech::instance().speak(QString("Crossword was saved as: ")
                                         .append(updatedFileInfo.fileName())
                                         .append(". In folder: ")
                                         .append(updatedFileInfo.filePath()));
+    }
+    else
+    {
+        ITextToSpeech::instance().speak(QString("Crossword could not be saved. Are you sure a crossword is open?"));
     }
 }
 
@@ -324,7 +328,7 @@ void MainWindow::printCrossword()
 
     Printer printer;
 
-    QString result = printer.openPrintDialog(m_Puzzle, this);
+    QString result = printer.openPrintDialog(m_Crossword, this);
 
     ITextToSpeech::instance().speak(result);
 }
@@ -333,7 +337,7 @@ void MainWindow::emailCrossword()
 {
     Emailer emailer;
 
-    if(emailer.openSendResultsEmail(m_Puzzle))
+    if(emailer.openSendResultsEmail(m_Crossword))
     {
         ITextToSpeech::instance().speak("Attempting to open an email containing your answers. Use your screen reader to work with the email.");
     }
@@ -359,7 +363,7 @@ void MainWindow::emailFeedback()
 
 void MainWindow::showFileProperties()
 {
-    ITextToSpeech::instance().speak(m_Puzzle.getInformation());
+    ITextToSpeech::instance().speak(m_Crossword.getInformation());
 }
 
 void MainWindow::toggleGrid(bool hidden)
@@ -402,7 +406,7 @@ void MainWindow::onIdleReminderTimeout()
 
 void MainWindow::readCrosswordThemePhrase()
 {
-    ITextToSpeech::instance().speak(m_Puzzle.getThemePhrase());
+    ITextToSpeech::instance().speak(m_Crossword.getThemePhrase());
 }
 
 void MainWindow::stopSpeech()
@@ -410,14 +414,26 @@ void MainWindow::stopSpeech()
     ITextToSpeech::instance().speak("", SPEECH_MODES::csDefaultAsynchronousSpeechOptions);
 }
 
+void MainWindow::readLastSpokenPhrase()
+{
+    QString lastSpokenPhrase;
+
+    if(ITextToSpeech::instance().getSpeechHistory().isEmpty() == false)
+    {
+        lastSpokenPhrase = ITextToSpeech::instance().getSpeechHistory().back();
+    }
+
+    ITextToSpeech::instance().speak(lastSpokenPhrase, SPEECH_MODES::csDefaultAsynchronousSpeechOptions);
+}
+
 void MainWindow::advanceToNextWordInClue()
 {
-    ITextToSpeech::instance().speak(m_AdvancedClueReader->advanceWord());
+    ITextToSpeech::instance().speak(m_ClueReader->advanceWord());
 }
 
 void MainWindow::readCurrentWordInClue()
 {
-    ITextToSpeech::instance().speak(m_AdvancedClueReader->getWord());
+    ITextToSpeech::instance().speak(m_ClueReader->getWord());
 }
 
 void MainWindow::increaseSpeechRate()
@@ -432,7 +448,7 @@ void MainWindow::decreaseSpeechRate()
 
 void MainWindow::scoreCrossword()
 {
-    ITextToSpeech::instance().speak(m_Puzzle.getScore());
+    ITextToSpeech::instance().speak(m_Crossword.getScore());
 }
 
 QString MainWindow::getIntroString() const
@@ -500,6 +516,9 @@ void MainWindow::createShortcuts()
 
     m_DecreaseSpeechRateShortcut = new QShortcut(QKeySequence(ShortcutKeys::decreaseSpeechRateKey), this);
     connect(m_DecreaseSpeechRateShortcut, SIGNAL(activated()), this, SLOT(decreaseSpeechRate()));
+
+    m_ReadLastSpokenPhraseShortcut = new QShortcut(QKeySequence(ShortcutKeys::readLastSpokenPhraseKey), this);
+    connect(m_ReadLastSpokenPhraseShortcut, SIGNAL(activated()), this, SLOT(readLastSpokenPhrase()));
 }
 
 void MainWindow::closeEvent(QCloseEvent* event)

@@ -105,7 +105,7 @@ void CrosswordEntryTableViewController::keyPressEvent(QKeyEvent *event)
     }
     else
     {
-        if(event->key() == ShortcutKeys::enterGuessKey)
+        if(event->key() == ShortcutKeys::enterGuessKey || event->key() == ShortcutKeys::enterGuessKeyAlternative)
         {
             enterGuess();
         }
@@ -174,7 +174,7 @@ void CrosswordEntryTableViewController::currentChanged(const QModelIndex &curren
         QModelIndex previousSelection = proxy->mapToSource(previous);
         emit(modelIndexChanged(currentSelection, previousSelection));
 
-        QString identifierAtSelection = current.sibling(current.row(), 0).data().toString();
+        QString identifierAtSelection = QString("Day ").append(current.sibling(current.row(), 0).data().toString());
         QString entryNumberAtSelection = current.sibling(current.row(), 1).data().toString();
         QString wordAtSelection = current.sibling(current.row(), 2).data().toString();
         QString clueAtSelection = current.sibling(current.row(), 3).data().toString();

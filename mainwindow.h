@@ -42,21 +42,15 @@ protected:
 private:
     Ui::MainWindow* ui;
 
-    CrosswordLoader m_PuzzleLoader;
-    CrosswordBase m_Puzzle;
+    CrosswordLoader m_CrosswordLoader;
+    CrosswordBase m_Crossword;
 
     GraphicalGridScene* m_GraphicsScene;
-    CrosswordEntryTableModel* m_WordTableModel;
+    CrosswordEntryTableModel* m_TableModel;
     QSortFilterProxyModel* m_ProxyModel;
 
     IdleReminder* m_IdleReminder;
-    ClueReader* m_AdvancedClueReader;
-
-    static const QString m_DefaultSaveFolder;
-    static const QString m_HelpFileLocation;
-    static const QString m_TutorialFileLocation;
-    static const QString m_LicenseFileLocation;
-    static const QString m_CalendarPuzzlesWebsiteAddressLocation;
+    ClueReader* m_ClueReader;
 
     void createShortcuts();
 
@@ -87,6 +81,7 @@ private slots:
     void cycleTableViewFilter();
 
     void stopSpeech();
+    void readLastSpokenPhrase();
 
     void advanceToNextWordInClue();
     void readCurrentWordInClue();
@@ -100,6 +95,12 @@ signals:
     void puzzleLoaded();
 
 private:
+    static const QString m_DefaultSaveFolder;
+    static const QString m_HelpFileLocation;
+    static const QString m_TutorialFileLocation;
+    static const QString m_LicenseFileLocation;
+    static const QString m_CalendarPuzzlesWebsiteAddressLocation;
+
     QShortcut* m_ExitShortcut;
     QShortcut* m_LoadShortcut;
     QShortcut* m_SaveShortcut;
@@ -116,6 +117,7 @@ private:
     QShortcut* m_AdvanceCurrentClueWordShortcut;
     QShortcut* m_IncreaseSpeechRateShortcut;
     QShortcut* m_DecreaseSpeechRateShortcut;
+    QShortcut* m_ReadLastSpokenPhraseShortcut;
 };
 
 #endif // MAINWINDOW_H

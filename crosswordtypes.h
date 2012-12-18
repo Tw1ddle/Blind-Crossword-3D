@@ -18,8 +18,8 @@ namespace CrosswordTypes
 
     const CROSSWORD_TYPE WITHOUT_ANSWERS = "Without Answers";
 
-    const CROSSWORD_TYPE WITH_ANSWERS_UNSTARTED = "With Answers Unstarted";
-    const CROSSWORD_TYPE WITH_ANSWERS_STARTED = "With Answers Started";
+    const CROSSWORD_TYPE WITH_ANSWERS = "With Answers";
+    const CROSSWORD_TYPE WITH_ANSWERS_COMPLETED = "With Answers Completed";
 }
 
 #endif // CROSSWORDTYPES_H

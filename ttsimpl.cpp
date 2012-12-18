@@ -47,7 +47,14 @@ bool TTSImpl::speak(QString text, DWORD options)
 
     delete[] array;
 
+    m_SpeechLog.append(text);
+
     return success;
+}
+
+const QStringList& TTSImpl::getSpeechHistory() const
+{
+    return m_SpeechLog;
 }
 
 void TTSImpl::preprocessText(QString& text)
@@ -87,7 +94,7 @@ bool TTSImpl::setMode(QString mode)
     return true;
 }
 
-SPEECH_MODES::SPEECHMODE TTSImpl::getMode()
+SPEECH_MODES::SPEECHMODE TTSImpl::getMode() const
 {
     return m_Mode;
 }

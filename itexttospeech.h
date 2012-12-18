@@ -43,12 +43,13 @@ public:
     ~ITextToSpeech() {}
 
     virtual bool speak(QString text, DWORD options = SPEECH_MODES::csDefaultAsynchronousSpeechOptions) = 0;
+    virtual const QStringList& getSpeechHistory() const = 0;
 
     virtual QString increaseSpeechRate() = 0;
     virtual QString decreaseSpeechRate() = 0;
 
     virtual bool setMode(SPEECH_MODES::SPEECHMODE mode) = 0;
-    virtual SPEECH_MODES::SPEECHMODE getMode() = 0;
+    virtual SPEECH_MODES::SPEECHMODE getMode() const = 0;
 
 protected:
     ITextToSpeech() {}

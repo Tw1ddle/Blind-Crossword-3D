@@ -115,7 +115,7 @@ bool CrosswordEntry::isGuessCorrect() const
     }
 }
 
-bool CrosswordEntry::intersectsWord(Word* const word) const
+bool CrosswordEntry::intersectsWord(Word* word) const
 {
     return m_Guess.intersectsWord(word);
 }
