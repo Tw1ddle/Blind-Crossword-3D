@@ -125,7 +125,7 @@ QString CrosswordEntry::getDirection() const
     return m_WordDirection;
 }
 
-QString CrosswordEntry::getEntryName() const
+QString CrosswordEntry::getEntry() const
 {
     return m_EntryString;
 }

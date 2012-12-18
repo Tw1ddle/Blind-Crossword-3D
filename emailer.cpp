@@ -43,19 +43,19 @@ bool Emailer::openSendResultsEmail(CrosswordBase& puzzle)
     QDir dir;
     QString emailAddress = getEmailAddress(dir.absolutePath().append(sc_AnswersEmailAddressFileLocation));
 
-    QString emailSubject = puzzle.getPuzzleTitle().append(" answers");
+    QString emailSubject = puzzle.getTitle().append(" answers");
 
     QString emailBody;
-    emailBody.append(puzzle.getInformationString().append("%0A%0A"));
+    emailBody.append(puzzle.getInformation().append("%0A%0A"));
 
     //copy and sort by calendar date
-    std::vector<CrosswordEntry> entries = puzzle.getCrosswordEntries();
+    std::vector<CrosswordEntry> entries = puzzle.getEntries();
     std::sort(entries.begin(), entries.end(), SortByIdentifier());
 
     for(unsigned int i = 0; i < entries.size(); i++)
     {
         QString id = entries.at(i).getIdentifier();
-        QString entryName = entries.at(i).getEntryName();
+        QString entryName = entries.at(i).getEntry();
         QString direction = entries.at(i).getDirection();
         QString answer = entries.at(i).getGuess().getString();
 

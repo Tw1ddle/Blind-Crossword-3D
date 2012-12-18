@@ -14,7 +14,7 @@
 
 
 GraphicalGridScene::GraphicalGridScene(const CrosswordBase& puzzle) :
-    QGraphicsScene(), m_RefPuzzle(puzzle), m_RefGrid(puzzle.getGrid()), m_RefCrosswordEntries(puzzle.getCrosswordEntries()), m_RefBackgroundImage(puzzle.getPuzzleBackgroundImage())
+    QGraphicsScene(), m_RefPuzzle(puzzle), m_RefGrid(puzzle.getGrid()), m_RefCrosswordEntries(puzzle.getEntries()), m_RefBackgroundImage(puzzle.getBackgroundImage())
 {
 }
 
@@ -136,11 +136,11 @@ void GraphicalGridScene::buildPuzzleGrid()
 
         for(unsigned int z = 0; z < m_RefGrid.getDimensions().getZ(); z++)
         {
-            if(m_RefPuzzle.getPuzzleFormat() == FileFormats::XWC3D || m_RefPuzzle.getPuzzleFormat() == FileFormats::XWC)
+            if(m_RefPuzzle.getFormat() == FileFormats::XWC3D || m_RefPuzzle.getFormat() == FileFormats::XWC)
             {
                 build2DGrid(m_RefGrid.getDimensions().getX(), m_RefGrid.getDimensions().getY(), uivec3(z * (m_RefGrid.getDimensions().getX() + 1) * GraphicalGridItem::sc_Size, 0, 0), z);
             }
-            else if(m_RefPuzzle.getPuzzleFormat() == FileFormats::XWCR3D)
+            else if(m_RefPuzzle.getFormat() == FileFormats::XWCR3D)
             {
                 build2DDisc(m_RefGrid.getDimensions().getX(), m_RefGrid.getDimensions().getY(), uivec3(z * (m_RefGrid.getDimensions().getX() + 1) * GraphicalGridItem::sc_Size, 0, 0), z);
             }

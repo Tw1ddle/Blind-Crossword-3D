@@ -43,7 +43,7 @@ MainWindow::MainWindow(QWidget *parent) :
     m_GraphicsScene = new GraphicalGridScene(m_Puzzle);
     ui->graphicsView->setScene(m_GraphicsScene);
 
-    m_WordTableModel = new CrosswordEntryTableModel(m_Puzzle, m_Puzzle.getRefCrosswordEntries());
+    m_WordTableModel = new CrosswordEntryTableModel(m_Puzzle, m_Puzzle.getRefEntries());
     m_ProxyModel = new QSortFilterProxyModel(this);
     m_ProxyModel->setSourceModel(m_WordTableModel);
     ui->wordTableView->setModel(m_ProxyModel);
@@ -143,9 +143,9 @@ void MainWindow::saveCrossword()
     QString path = dir.absolutePath()
             .append(m_DefaultSaveFolder)
             .append("/")
-            .append(m_Puzzle.getPuzzleTitle())
+            .append(m_Puzzle.getTitle())
             .append(".")
-            .append(m_Puzzle.getPuzzleFormat());
+            .append(m_Puzzle.getFormat());
 
     QFileInfo fileInfo(path);
 
@@ -157,7 +157,7 @@ void MainWindow::saveCrossword()
                 .append(separatorTag)
                 .append(QString::number(extraTag))
                 .append(".")
-                .append(m_Puzzle.getPuzzleFormat());
+                .append(m_Puzzle.getFormat());
 
         path = dir.absolutePath()
                 .append(m_DefaultSaveFolder)
@@ -168,7 +168,7 @@ void MainWindow::saveCrossword()
     }
 
     QFileInfo updatedFileInfo(path);
-    if(m_PuzzleLoader.savePuzzle(m_Puzzle, path, m_Puzzle.getPuzzleFormat()))
+    if(m_PuzzleLoader.savePuzzle(m_Puzzle, path, m_Puzzle.getFormat()))
     {
         ITextToSpeech::instance().speak(QString("Crossword was saved as: ")
                                         .append(updatedFileInfo.fileName())
@@ -359,7 +359,7 @@ void MainWindow::emailFeedback()
 
 void MainWindow::showFileProperties()
 {
-    ITextToSpeech::instance().speak(m_Puzzle.getInformationString());
+    ITextToSpeech::instance().speak(m_Puzzle.getInformation());
 }
 
 void MainWindow::toggleGrid(bool hidden)
@@ -402,7 +402,7 @@ void MainWindow::onIdleReminderTimeout()
 
 void MainWindow::readCrosswordThemePhrase()
 {
-    ITextToSpeech::instance().speak(m_Puzzle.getPuzzleThemePhrase());
+    ITextToSpeech::instance().speak(m_Puzzle.getThemePhrase());
 }
 
 void MainWindow::stopSpeech()
@@ -432,7 +432,7 @@ void MainWindow::decreaseSpeechRate()
 
 void MainWindow::scoreCrossword()
 {
-    ITextToSpeech::instance().speak(m_Puzzle.getScoreString());
+    ITextToSpeech::instance().speak(m_Puzzle.getScore());
 }
 
 QString MainWindow::getIntroString() const

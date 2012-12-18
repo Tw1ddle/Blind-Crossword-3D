@@ -20,7 +20,7 @@ const QString clueColumnHeader = "Clue";
 const QString wordLengthColumnHeader = "Lengths";
 
 CrosswordEntryTableModel::CrosswordEntryTableModel(const CrosswordBase& puzzle, std::vector<CrosswordEntry>& refCrosswordEntries, QObject *parent) :
-    QAbstractTableModel(parent), m_RefPuzzle(puzzle), m_RefCrosswordEntries(refCrosswordEntries), m_RefWorkingGrid(puzzle.getGrid())
+    QAbstractTableModel(parent), m_RefPuzzle(puzzle), m_RefEntries(refCrosswordEntries), m_RefGrid(puzzle.getGrid())
 {
 }
 
@@ -28,7 +28,7 @@ int CrosswordEntryTableModel::rowCount(const QModelIndex& parent) const
 {
     Q_UNUSED(parent);
 
-    return m_RefCrosswordEntries.size();
+    return m_RefEntries.size();
 }
 
 int CrosswordEntryTableModel::columnCount(const QModelIndex& parent) const
@@ -45,7 +45,7 @@ QVariant CrosswordEntryTableModel::data(const QModelIndex& index, int role) cons
         return QVariant();
     }
 
-    if (index.row() >= m_RefCrosswordEntries.size() || index.row() < 0)
+    if (index.row() >= m_RefEntries.size() || index.row() < 0)
     {
         return QVariant();
     }
@@ -54,27 +54,27 @@ QVariant CrosswordEntryTableModel::data(const QModelIndex& index, int role) cons
     {
         if(index.column() == CrosswordEntryTableHeader::identifierColumnId)
         {
-            return m_RefCrosswordEntries.at(index.row()).getIdentifier().toUInt();
+            return m_RefEntries.at(index.row()).getIdentifier().toUInt();
         }
         if (index.column() == CrosswordEntryTableHeader::entryColumnId)
         {
-            QString entryString = m_RefCrosswordEntries.at(index.row()).getEntryName();
-            QString entryDirectionName = m_RefCrosswordEntries.at(index.row()).getDirection();
+            QString entryString = m_RefEntries.at(index.row()).getEntry();
+            QString entryDirectionName = m_RefEntries.at(index.row()).getDirection();
             QString entry = entryString.append(QString(" ")).append(entryDirectionName);
 
             return entry;
         }
         else if (index.column() == CrosswordEntryTableHeader::wordColumnId)
         {
-            return m_RefCrosswordEntries.at(index.row()).getGuess().getString();
+            return m_RefEntries.at(index.row()).getGuess().getString();
         }
         else if(index.column() == CrosswordEntryTableHeader::clueColumnId)
         {
-            return m_RefCrosswordEntries.at(index.row()).getClue();
+            return m_RefEntries.at(index.row()).getClue();
         }
         else if(index.column() == CrosswordEntryTableHeader::wordLengthColumnId)
         {
-            return m_RefCrosswordEntries.at(index.row()).getSolutionComponentLengths();
+            return m_RefEntries.at(index.row()).getSolutionComponentLengths();
         }
     }
     return QVariant();
@@ -115,7 +115,7 @@ QVariant CrosswordEntryTableModel::headerData(int section, Qt::Orientation orien
 
 bool CrosswordEntryTableModel::existsConflictingWords(QString word, QModelIndex index)
 {
-    CrosswordEntry currentEntry = m_RefCrosswordEntries.at(index.row());
+    CrosswordEntry currentEntry = m_RefEntries.at(index.row());
 
     bool conflict = false;
     for(int i = 0; i < word.size(); i++)
@@ -140,7 +140,7 @@ void CrosswordEntryTableModel::crosswordEntriesChanged()
 
 void CrosswordEntryTableModel::amendGuess(QString word, QModelIndex index)
 {
-    if(m_RefPuzzle.getPuzzleType() == CrosswordTypes::WITHOUT_ANSWERS)
+    if(m_RefPuzzle.getType() == CrosswordTypes::WITHOUT_ANSWERS)
     {
         emit guessAmendationRequestRejected();
 
@@ -150,8 +150,8 @@ void CrosswordEntryTableModel::amendGuess(QString word, QModelIndex index)
     {
         QString amendedGuess;
         QString removedLetters;
-        QString guess = m_RefCrosswordEntries.at(index.row()).getGuess().getString();
-        QString solution = m_RefCrosswordEntries.at(index.row()).getSolution();
+        QString guess = m_RefEntries.at(index.row()).getGuess().getString();
+        QString solution = m_RefEntries.at(index.row()).getSolution();
 
         assert(guess.size() == solution.size());
         assert(guess.size() == word.size());
@@ -174,7 +174,7 @@ void CrosswordEntryTableModel::amendGuess(QString word, QModelIndex index)
             }
         }
 
-        m_RefCrosswordEntries.at(index.row()).setGuess(amendedGuess);
+        m_RefEntries.at(index.row()).setGuess(amendedGuess);
 
         int rows = rowCount(QModelIndex()) - 1;
         int columns = columnCount(QModelIndex()) - 1;
@@ -192,7 +192,7 @@ void CrosswordEntryTableModel::enterGuess(QString word, QModelIndex index)
         return;
     }
 
-    m_RefCrosswordEntries.at(index.row()).setGuess(word);
+    m_RefEntries.at(index.row()).setGuess(word);
 
     // Pointer data members in the data source w/ rows affecting other rows means we have to update the whole table when a guess is amended or removed (determining which rows are changed otherwise is inconvenient)
     int rows = rowCount(QModelIndex()) - 1;
@@ -204,7 +204,7 @@ void CrosswordEntryTableModel::enterGuess(QString word, QModelIndex index)
 
 void CrosswordEntryTableModel::eraseGuess(QModelIndex index)
 {
-    m_RefCrosswordEntries.at(index.row()).resetGuess();
+    m_RefEntries.at(index.row()).resetGuess();
 
     // Pointer data members in the data source w/ rows affecting other rows means we have to update the whole table when a guess is amended or removed (determining which rows are changed otherwise is inconvenient)
     int rows = rowCount(QModelIndex()) - 1;
@@ -218,7 +218,7 @@ void CrosswordEntryTableModel::tableViewSelectionChanged(const QModelIndex& curr
 {
     Q_UNUSED(previous);
 
-    CrosswordEntry newCrosswordEntry = m_RefCrosswordEntries.at(current.row());
+    CrosswordEntry newCrosswordEntry = m_RefEntries.at(current.row());
 
     emit crosswordEntrySelectionChanged(newCrosswordEntry);
 }

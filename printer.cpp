@@ -21,16 +21,16 @@ QTextDocument* Printer::getPuzzleDocumentForPrinting(CrosswordBase& puzzle) cons
 
     QString textToPrint;
 
-    textToPrint.append(puzzle.getInformationString().append("\n\n"));
+    textToPrint.append(puzzle.getInformation().append("\n\n"));
 
     //copy and sort by calendar date
-    std::vector<CrosswordEntry> entries = puzzle.getCrosswordEntries();
+    std::vector<CrosswordEntry> entries = puzzle.getEntries();
     std::sort(entries.begin(), entries.end(), SortByIdentifier());
 
     for(unsigned int i = 0; i < entries.size(); i++)
     {
         QString id = entries.at(i).getIdentifier();
-        QString entryName = entries.at(i).getEntryName();
+        QString entryName = entries.at(i).getEntry();
         QString direction = entries.at(i).getDirection();
         QString answer = entries.at(i).getGuess().getString();
 

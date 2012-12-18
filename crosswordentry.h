@@ -20,20 +20,20 @@ class CrosswordEntry
 public:
     CrosswordEntry(QString direction, QString identifier, QString number, QString solution, Word guess, std::vector<unsigned int> wordComponentLengths, QString clue, std::vector<unsigned int> entryIndices = std::vector<unsigned int>());
 
+    QString getDirection() const;
     QString getIdentifier() const;
-
-    QString getEntryName() const;
-    std::vector<std::pair<unsigned int, uivec3> > getWordEntryStartingPositionPairs() const;
+    QString getEntry() const;
+    Word getGuess() const;
     QString getSolution() const;
     QString getClue() const;
     QString getSolutionComponentLengths() const;
-    QString getDirection() const;
 
     uivec3 getStartingPosition() const;
     std::vector<uivec3> getEntryPositions() const;
     QString getEntryPositionsString() const;
 
-    Word getGuess() const;
+    std::vector<std::pair<unsigned int, uivec3> > getWordEntryStartingPositionPairs() const;
+
     bool isGuessCorrect() const;
 
     bool intersectsWord(Word* const word) const;

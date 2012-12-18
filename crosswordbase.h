@@ -38,20 +38,20 @@ public:
     std::vector<unsigned int> getIntersectingCrosswordEntryIds(unsigned int crosswordEntryId) const;
     unsigned int removeIncorrectEntries();
 
-    QString getPuzzleTitle() const;
-    QString getInformationString() const;
-    QString getPuzzleThemePhrase() const;
-    QString getScoreString() const;
-    FileFormats::FORMAT getPuzzleFormat() const;
-    CrosswordTypes::CROSSWORD_TYPE getPuzzleType() const;
+    QString getTitle() const;
+    QString getInformation() const;
+    QString getThemePhrase() const;
+    QString getScore() const;
+    FileFormats::FORMAT getFormat() const;
+    CrosswordTypes::CROSSWORD_TYPE getType() const;
     bool isComplete() const;
 
     const GridData& getGrid() const;
-    const std::vector<CrosswordEntry>& getCrosswordEntries() const;
-    const QPixmap& getPuzzleBackgroundImage() const;
+    const std::vector<CrosswordEntry>& getEntries() const;
+    const QPixmap& getBackgroundImage() const;
     const std::vector<uivec3>& getThemePhraseCoordinates() const;
 
-    std::vector<CrosswordEntry>& getRefCrosswordEntries();
+    std::vector<CrosswordEntry>& getRefEntries();
 
 protected:
     GridData& getRefGrid();
@@ -62,20 +62,20 @@ private:
     unsigned int scoreSolution() const;
     bool loadBackgroundImage(QString filename);
 
-    QString m_PuzzleTitle;
-    QString m_AuthorTitle;
-    QString m_PuzzleType;
-    QString m_PuzzleThemePhrase;
+    QString m_Title;
+    QString m_Authors;
+    QString m_Type;
+    QString m_ThemePhrase;
     std::vector<uivec3> m_ThemePhraseCoordinates;
-    QString m_PuzzleNotes;
+    QString m_Notes;
 
     QPixmap m_BackgroundImage;
     QString m_BackgroundImageFilename;
     GridData m_Grid;
-    std::vector<CrosswordEntry> m_CrosswordEntries;
+    std::vector<CrosswordEntry> m_Entries;
 
-    bool m_CrosswordLoaded;
-    FileFormats::FORMAT m_CrosswordFileFormat;
+    bool m_Loaded;
+    FileFormats::FORMAT m_FileFormat;
     float m_FileFormatVersion;
 };
 

@@ -40,8 +40,8 @@ public:
     QVariant headerData(int section, Qt::Orientation orientation, int role) const;
 
 private:
-    std::vector<CrosswordEntry>& m_RefCrosswordEntries;
-    const GridData& m_RefWorkingGrid;
+    std::vector<CrosswordEntry>& m_RefEntries;
+    const GridData& m_RefGrid;
     const CrosswordBase& m_RefPuzzle;
 
     bool existsConflictingWords(QString word, QModelIndex index);

@@ -3,13 +3,13 @@
 
 bool XWCLoader::loadMetaData(CrosswordBase& puzzle, QStringList& linelist)
 {
-    puzzle.m_CrosswordFileFormat = FileFormats::XWC;
+    puzzle.m_FileFormat = FileFormats::XWC;
 
-    puzzle.m_PuzzleTitle = linelist.takeFirst();
-    puzzle.m_AuthorTitle = linelist.takeFirst();
-    puzzle.m_PuzzleType = linelist.takeFirst();
+    puzzle.m_Title = linelist.takeFirst();
+    puzzle.m_Authors = linelist.takeFirst();
+    puzzle.m_Type = linelist.takeFirst();
 
-    if(puzzle.m_PuzzleTitle.isNull() || puzzle.m_AuthorTitle.isNull() || puzzle.m_PuzzleType.isNull())
+    if(puzzle.m_Title.isNull() || puzzle.m_Authors.isNull() || puzzle.m_Type.isNull())
     {
         return false;
     }
@@ -125,7 +125,7 @@ bool XWCLoader::loadAcrossClues(CrosswordBase &puzzle, QStringList &linelist)
            wordComponentLengths.push_back(wordComponents.takeFirst().toUInt());
        }
 
-       puzzle.m_CrosswordEntries.push_back(CrosswordEntry(direction, identifier, number, wordString, word, wordComponentLengths, clue));
+       puzzle.m_Entries.push_back(CrosswordEntry(direction, identifier, number, wordString, word, wordComponentLengths, clue));
     }
 
     return true;
@@ -182,7 +182,7 @@ bool XWCLoader::loadAwayClues(CrosswordBase &puzzle, QStringList &linelist)
            wordComponentLengths.push_back(wordComponents.takeFirst().toUInt());
        }
 
-        puzzle.m_CrosswordEntries.push_back(CrosswordEntry(direction, identifier, number, wordString, word, wordComponentLengths, clue));
+        puzzle.m_Entries.push_back(CrosswordEntry(direction, identifier, number, wordString, word, wordComponentLengths, clue));
     }
 
     return true;
@@ -190,9 +190,9 @@ bool XWCLoader::loadAwayClues(CrosswordBase &puzzle, QStringList &linelist)
 
 bool XWCLoader::saveMetaData(CrosswordBase &puzzle, QStringList &linelist)
 {
-    linelist.push_back(puzzle.m_PuzzleTitle);
-    linelist.push_back(puzzle.m_AuthorTitle);
-    linelist.push_back(puzzle.m_PuzzleType);
+    linelist.push_back(puzzle.m_Title);
+    linelist.push_back(puzzle.m_Authors);
+    linelist.push_back(puzzle.m_Type);
     linelist.push_back(QString::number(puzzle.getRefGrid().getDimensions().getX()));
     linelist.push_back(QString::number(puzzle.getRefGrid().getDimensions().getY()));
 
@@ -228,13 +228,13 @@ bool XWCLoader::saveClues(CrosswordBase &puzzle, QStringList &linelist)
     unsigned int acrossEntries = 0;
     unsigned int awayEntries = 0;
 
-    for(unsigned int i = 0; i < puzzle.getRefCrosswordEntries().size(); i++)
+    for(unsigned int i = 0; i < puzzle.getRefEntries().size(); i++)
     {
-        if(puzzle.getRefCrosswordEntries().at(i).getDirection() == ClueDirections::ACROSS)
+        if(puzzle.getRefEntries().at(i).getDirection() == ClueDirections::ACROSS)
         {
             acrossEntries++;
         }
-        if(puzzle.getRefCrosswordEntries().at(i).getDirection() == ClueDirections::AWAY)
+        if(puzzle.getRefEntries().at(i).getDirection() == ClueDirections::AWAY)
         {
             awayEntries++;
         }
@@ -243,8 +243,8 @@ bool XWCLoader::saveClues(CrosswordBase &puzzle, QStringList &linelist)
     linelist.push_back(QString::number(acrossEntries));
     for(unsigned int i = 0; i < acrossEntries; i++)
     {
-        CrosswordEntry entry = puzzle.getRefCrosswordEntries().at(i);
-        QString entryString = entry.getEntryName().append("|")
+        CrosswordEntry entry = puzzle.getRefEntries().at(i);
+        QString entryString = entry.getEntry().append("|")
                 .append(QString::number(entry.getStartingPosition().getX() + 1)).append("|")
                 .append(QString::number(entry.getStartingPosition().getY() + 1)).append(("|"))
                 .append(QString::number(entry.getSolution().size())).append("|")
@@ -258,8 +258,8 @@ bool XWCLoader::saveClues(CrosswordBase &puzzle, QStringList &linelist)
     linelist.push_back(QString::number(awayEntries));
     for(unsigned int i = acrossEntries; i < awayEntries + acrossEntries; i++)
     {
-        CrosswordEntry entry = puzzle.getRefCrosswordEntries().at(i);
-        QString entryString = entry.getEntryName().append("|")
+        CrosswordEntry entry = puzzle.getRefEntries().at(i);
+        QString entryString = entry.getEntry().append("|")
                 .append(QString::number(entry.getStartingPosition().getX() + 1)).append("|")
                 .append(QString::number(entry.getStartingPosition().getY() + 1)).append(("|"))
                 .append(QString::number(entry.getSolution().size())).append("|")
