@@ -93,14 +93,7 @@ bool XWC3DLoader::loadXWC3DGrid(CrosswordBase &puzzle, QStringList &linelist)
                 }
                 else
                 {
-                    if(puzzle.getType() != CrosswordTypes::WITH_ANSWERS_COMPLETED)
-                    {
-                        puzzle.getRefGrid().push_back(Letter(QChar(Qt::Key_Period), uivec3(ch, y, z)));
-                    }
-                    else
-                    {
-                        puzzle.getRefGrid().push_back(Letter(QChar(currentLine.at(ch)), uivec3(ch, y, z)));
-                    }
+                    puzzle.getRefGrid().push_back(Letter(QChar(currentLine.at(ch)), uivec3(ch, y, z)));
                 }
             }
         }
@@ -137,16 +130,8 @@ bool XWC3DLoader::loadXWCR3DGrid(CrosswordBase &puzzle, QStringList &linelist)
                     }
                     else
                     {
-                        if(puzzle.getType() != CrosswordTypes::WITH_ANSWERS_COMPLETED)
-                        {
-                            letter.setChar(Qt::Key_Period);
-                            puzzle.getRefGrid().push_back(letter);
-                        }
-                        else
-                        {
-                            letter.setChar(currentLine.at(0));
-                            puzzle.getRefGrid().push_back(letter);
-                        }
+                        letter.setChar(currentLine.at(0));
+                        puzzle.getRefGrid().push_back(letter);
                     }
                 }
             }
@@ -160,14 +145,7 @@ bool XWC3DLoader::loadXWCR3DGrid(CrosswordBase &puzzle, QStringList &linelist)
                     }
                     else
                     {
-                        if(puzzle.getType() != CrosswordTypes::WITH_ANSWERS_COMPLETED)
-                        {
-                            puzzle.getRefGrid().push_back(Letter(QChar(Qt::Key_Period), uivec3(ch, y, z)));
-                        }
-                        else
-                        {
-                            puzzle.getRefGrid().push_back(Letter(QChar(currentLine.at(ch)), uivec3(ch, y, z)));
-                        }
+                        puzzle.getRefGrid().push_back(Letter(QChar(currentLine.at(ch)), uivec3(ch, y, z)));
                     }
                 }
             }
@@ -432,16 +410,24 @@ bool XWC3DLoader::saveMetaData(CrosswordBase &puzzle, QStringList &linelist)
 
     QString highlightCoordinates;
 
-    for(unsigned int i = 0; i < puzzle.m_Highlights.size(); i++)
+    if(puzzle.m_Highlights.size() == 0)
     {
-        uivec3 coordinate = puzzle.m_Highlights.at(i).first;
+        highlightCoordinates.push_back("This puzzle has no highlight.");
+    }
+    else
+    {
+        for(unsigned int i = 0; i < puzzle.m_Highlights.size(); i++)
+        {
+            uivec3 coordinate = puzzle.m_Highlights.at(i).first;
 
-        highlightCoordinates.append(QString::number(coordinate.getX() + 1)).append(",")
-                .append(QString::number(coordinate.getY() + 1)).append(",")
-                .append(QString::number(coordinate.getZ() + 1)).append("|");
+            highlightCoordinates.append(QString::number(coordinate.getX() + 1)).append(",")
+                    .append(QString::number(coordinate.getY() + 1)).append(",")
+                    .append(QString::number(coordinate.getZ() + 1)).append("|");
+        }
+
+        highlightCoordinates.truncate(highlightCoordinates.length() - 1);
     }
 
-    highlightCoordinates.truncate(highlightCoordinates.length() - 1);
 
     linelist += highlightCoordinates;
 
@@ -450,16 +436,7 @@ bool XWC3DLoader::saveMetaData(CrosswordBase &puzzle, QStringList &linelist)
 
 bool XWC3DLoader::saveGrid(CrosswordBase &puzzle, QStringList &linelist)
 {
-    if(puzzle.getFormat() == FileFormats::XWC3D)
-    {
-        return saveXWC3DGrid(puzzle, linelist);
-    }
-    else if(puzzle.getFormat() == FileFormats::XWCR3D)
-    {
-        return saveXWCR3DGrid(puzzle, linelist);
-    }
-
-    return false;
+    return saveXWC3DGrid(puzzle, linelist);
 }
 
 bool XWC3DLoader::saveXWC3DGrid(CrosswordBase &puzzle, QStringList &linelist)
@@ -480,47 +457,6 @@ bool XWC3DLoader::saveXWC3DGrid(CrosswordBase &puzzle, QStringList &linelist)
             }
         }
         gridlist.push_back(gridString);
-    }
-    linelist += gridlist;
-
-    return true;
-}
-
-bool XWC3DLoader::saveXWCR3DGrid(CrosswordBase &puzzle, QStringList &linelist)
-{
-    QStringList gridlist;
-
-    unsigned int gridX = puzzle.getRefGrid().getDimensions().getX();
-    unsigned int gridY = puzzle.getRefGrid().getDimensions().getY();
-    unsigned int gridZ = puzzle.getRefGrid().getDimensions().getZ();
-
-    for(unsigned int z = 0; z < gridZ; z++)
-    {
-        for(unsigned int y = 0; y < gridY; y++)
-        {
-            QString gridString;
-            for(unsigned int x = 0; x < puzzle.getRefGrid().getDimensions().getX(); x++)
-            {
-                if(y == 0)
-                {
-                    gridString.push_back(puzzle.getRefGrid().getLetterAt((y * z) + x - (gridX - 1))->getChar());
-
-                    x = gridX;
-                }
-                else
-                {
-                    if(puzzle.getRefGrid().getLetterAt((y * z) + x - (gridX - 1))->getChar().isNull())
-                    {
-                        gridString.push_back(Qt::Key_1);
-                    }
-                    else
-                    {
-                        gridString.push_back(puzzle.getRefGrid().getLetterAt((y * z) + x - (gridX - 1))->getChar());
-                    }
-                }
-            }
-            gridlist.push_back(gridString);
-        }
     }
     linelist += gridlist;
 

@@ -238,7 +238,7 @@ bool CrosswordEntryTableViewController::validateInput(QString guess, unsigned in
     {
         ITextToSpeech::instance().speak("The word must not contain numbers.");
     }
-    else if(guess.contains(QRegExp("[^a-zA-Z\\.]")))
+    else if(guess.contains(QRegExp("[^a-zA-Z&\\.]")))
     {
         ITextToSpeech::instance().speak("The word must not contain non-word characters.");
     }

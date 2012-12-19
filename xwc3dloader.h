@@ -31,7 +31,6 @@ private:
     bool loadXWCR3DGrid(CrosswordBase& puzzle, QStringList& linelist);
 
     bool saveXWC3DGrid(CrosswordBase& puzzle, QStringList& linelist);
-    bool saveXWCR3DGrid(CrosswordBase& puzzle, QStringList& linelist);
 
     bool loadCluesHelper(CrosswordBase& puzzle, QStringList& linelist, QString direction);
     bool loadSnakingClues(CrosswordBase& puzzle, QStringList& linelist, unsigned int numsnaking);
