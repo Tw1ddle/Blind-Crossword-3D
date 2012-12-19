@@ -76,7 +76,6 @@ private slots:
     void toggleApplicationOpenReminder();
     void onIdleReminderTimeout();
 
-    void readCrosswordThemePhrase();
     void cycleSpeechMode();
     void cycleTableViewFilter();
 

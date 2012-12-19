@@ -39,16 +39,21 @@ bool XWC3DLoader::loadMetaData(CrosswordBase& puzzle, QStringList& linelist)
     }
 
     QStringList puzzleCatchPhraseData = linelist.takeFirst().split("|");
-    puzzle.m_ThemePhrase = puzzleCatchPhraseData.takeFirst();
 
-    while(puzzleCatchPhraseData.size() > 0)
+    if(!puzzleCatchPhraseData.empty())
     {
-        QStringList currentCatchPhraseCoordinateList = puzzleCatchPhraseData.takeFirst().split(",");
+        while(puzzleCatchPhraseData.size() > 0)
+        {
+            QStringList currentCatchPhraseCoordinateList = puzzleCatchPhraseData.takeFirst().split(",");
 
-        unsigned int x = currentCatchPhraseCoordinateList.takeFirst().toUInt() - 1;
-        unsigned int y = currentCatchPhraseCoordinateList.takeFirst().toUInt() - 1;
-        unsigned int z = currentCatchPhraseCoordinateList.takeFirst().toUInt() - 1;
-        puzzle.m_ThemePhraseCoordinates.push_back(uivec3(x, y, z));
+            if(currentCatchPhraseCoordinateList.size() == 3)
+            {
+                unsigned int x = currentCatchPhraseCoordinateList.takeFirst().toUInt() - 1;
+                unsigned int y = currentCatchPhraseCoordinateList.takeFirst().toUInt() - 1;
+                unsigned int z = currentCatchPhraseCoordinateList.takeFirst().toUInt() - 1;
+                puzzle.m_Highlights.push_back(std::pair<uivec3, QColor>(uivec3(x, y, z), QColor(0, 255, 0)));
+            }
+        }
     }
 
     return true;
@@ -425,22 +430,20 @@ bool XWC3DLoader::saveMetaData(CrosswordBase &puzzle, QStringList &linelist)
     linelist += QString::number(puzzle.getRefGrid().getDimensions().getY());
     linelist += QString::number(puzzle.getRefGrid().getDimensions().getZ());
 
-    QString themePhraseWithHighlightCoordinates;
+    QString highlightCoordinates;
 
-    themePhraseWithHighlightCoordinates.append(puzzle.m_ThemePhrase).append("|");
-
-    for(unsigned int i = 0; i < puzzle.m_ThemePhraseCoordinates.size(); i++)
+    for(unsigned int i = 0; i < puzzle.m_Highlights.size(); i++)
     {
-        uivec3 coordinate = puzzle.m_ThemePhraseCoordinates.at(i);
+        uivec3 coordinate = puzzle.m_Highlights.at(i).first;
 
-        themePhraseWithHighlightCoordinates.append(QString::number(coordinate.getX() + 1)).append(",")
+        highlightCoordinates.append(QString::number(coordinate.getX() + 1)).append(",")
                 .append(QString::number(coordinate.getY() + 1)).append(",")
                 .append(QString::number(coordinate.getZ() + 1)).append("|");
     }
 
-    themePhraseWithHighlightCoordinates.truncate(themePhraseWithHighlightCoordinates.length() - 1);
+    highlightCoordinates.truncate(highlightCoordinates.length() - 1);
 
-    linelist += themePhraseWithHighlightCoordinates;
+    linelist += highlightCoordinates;
 
     return true;
 }

@@ -172,7 +172,7 @@ void MainWindow::saveCrossword()
     {
         ITextToSpeech::instance().speak(QString("Crossword was saved as: ")
                                         .append(updatedFileInfo.fileName())
-                                        .append(". In folder: ")
+                                        .append(" in folder: ")
                                         .append(updatedFileInfo.filePath()));
     }
     else
@@ -402,11 +402,6 @@ void MainWindow::onIdleReminderTimeout()
     {
         ITextToSpeech::instance().speak(QString(Version::getApplicationName().append(" is still running. You can press ").append(ShortcutKeys::helpShortcutKey).append( "to open a help page. To toggle this reminder, press ").append(ShortcutKeys::toggleApplicationOpenReminderKey).append(".")));
     }
-}
-
-void MainWindow::readCrosswordThemePhrase()
-{
-    ITextToSpeech::instance().speak(m_Crossword.getThemePhrase());
 }
 
 void MainWindow::stopSpeech()

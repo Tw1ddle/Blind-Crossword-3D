@@ -12,6 +12,7 @@
 
 #include <QString>
 #include <QPixmap>
+#include <QColor>
 #include <vector>
 
 #include "crosswordentry.h"
@@ -40,7 +41,6 @@ public:
 
     QString getTitle() const;
     QString getInformation() const;
-    QString getThemePhrase() const;
     QString getScore() const;
     FileFormats::FORMAT getFormat() const;
     CrosswordTypes::CROSSWORD_TYPE getType() const;
@@ -49,7 +49,7 @@ public:
     const GridData& getGrid() const;
     const std::vector<CrosswordEntry>& getEntries() const;
     const QPixmap& getBackgroundImage() const;
-    const std::vector<uivec3>& getThemePhraseCoordinates() const;
+    const std::vector<std::pair<uivec3, QColor> >& getHighlights() const;
 
     std::vector<CrosswordEntry>& getRefEntries();
 
@@ -65,8 +65,7 @@ private:
     QString m_Title;
     QString m_Authors;
     QString m_Type;
-    QString m_ThemePhrase;
-    std::vector<uivec3> m_ThemePhraseCoordinates;
+    std::vector<std::pair<uivec3, QColor> > m_Highlights;
     QString m_Notes;
 
     QPixmap m_BackgroundImage;

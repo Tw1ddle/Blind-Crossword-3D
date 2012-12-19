@@ -4,6 +4,7 @@
 
 #include <QMessageBox>
 #include <QDir>
+#include <QColor>
 
 #include "crosswordtypes.h"
 
@@ -60,9 +61,9 @@ const QPixmap& CrosswordBase::getBackgroundImage() const
     return m_BackgroundImage;
 }
 
-const std::vector<uivec3>& CrosswordBase::getThemePhraseCoordinates() const
+const std::vector<std::pair<uivec3, QColor> >& CrosswordBase::getHighlights() const
 {
-    return m_ThemePhraseCoordinates;
+    return m_Highlights;
 }
 
 const std::vector<CrosswordEntry>& CrosswordBase::getEntries() const
@@ -75,9 +76,8 @@ void CrosswordBase::clear()
     m_Title.clear();
     m_Authors.clear();
     m_Type.clear();
-    m_ThemePhrase.clear();
     m_Notes.clear();
-    m_ThemePhraseCoordinates.clear();
+    m_Highlights.clear();
     m_Grid.clear();
     m_Entries.clear();
     m_FileFormat.clear();
@@ -146,17 +146,12 @@ QString CrosswordBase::getInformation() const
         return QString("Crossword title: ").append(m_Title).append(". \n").
                 append("Author: ").append(m_Authors).append(". \n").
                 append("Type: ").append(m_Type).append(". \n").
-                append("Theme phrase: ").append(m_ThemePhrase);
+                append(m_Notes);
     }
     else
     {
         return QString("There is no crossword loaded.");
     }
-}
-
-QString CrosswordBase::getThemePhrase() const
-{
-    return m_ThemePhrase;
 }
 
 QString CrosswordBase::getTitle() const

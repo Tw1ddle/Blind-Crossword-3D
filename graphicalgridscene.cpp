@@ -87,13 +87,13 @@ void GraphicalGridScene::updateGrid()
     }
 
     // set the highlights
-    std::vector<uivec3> highlights = m_RefPuzzle.getThemePhraseCoordinates();
+    std::vector<std::pair<uivec3, QColor> > highlights = m_RefPuzzle.getHighlights();
 
     for(unsigned int j = 0; j < highlights.size(); j++)
     {
-        uivec3 index = m_RefPuzzle.getThemePhraseCoordinates().at(j);
+        uivec3 index = m_RefPuzzle.getHighlights().at(j).first;
         GraphicalGridItem* item = m_GraphicsGridItems.at(m_RefPuzzle.toGridIndex(index)); // only works while the only graphic items are graphic grid items
-        item->setColor(Qt::yellow);
+        item->setColor(m_RefPuzzle.getHighlights().at(j).second);
     }
 }
 
@@ -146,11 +146,11 @@ void GraphicalGridScene::buildPuzzleGrid()
             }
         }
 
-        for(unsigned int j = 0; j < m_RefPuzzle.getThemePhraseCoordinates().size(); j++)
+        for(unsigned int j = 0; j < m_RefPuzzle.getHighlights().size(); j++)
         {
-            uivec3 index = m_RefPuzzle.getThemePhraseCoordinates().at(j);
+            uivec3 index = m_RefPuzzle.getHighlights().at(j).first;
             GraphicalGridItem* item = m_GraphicsGridItems.at(m_RefPuzzle.toGridIndex(index));
-            item->setColor(Qt::yellow);
+            item->setColor(m_RefPuzzle.getHighlights().at(j).second);
         }
 
         // set the numbers on the grid
