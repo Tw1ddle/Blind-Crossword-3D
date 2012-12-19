@@ -123,19 +123,25 @@ bool XWC3DLoader::loadXWCR3DGrid(CrosswordBase &puzzle, QStringList &linelist)
 
             if(y == 0) // disc hub
             {
-                if(currentLine.at(0) == '1')
-                {
-                    puzzle.getRefGrid().push_back(Letter(QChar(), uivec3(0, 0, z)));
-                }
-                else
-                {
-                    if(puzzle.getType() != CrosswordTypes::WITH_ANSWERS_COMPLETED)
+                Letter letter(QChar(), uivec3(0, 0, z));
+                    for(unsigned int ch = 0; ch < gridX; ch++)
                     {
-                        puzzle.getRefGrid().push_back(Letter(QChar(Qt::Key_Period), uivec3(0, 0, z)));
+                    if(currentLine.at(0) == '1')
+                    {
+                        puzzle.getRefGrid().push_back(letter);
                     }
                     else
                     {
-                        puzzle.getRefGrid().push_back(Letter(QChar(currentLine.at(0)), uivec3(0, 0, z)));
+                        if(puzzle.getType() != CrosswordTypes::WITH_ANSWERS_COMPLETED)
+                        {
+                            letter.setChar(Qt::Key_Period);
+                            puzzle.getRefGrid().push_back(letter);
+                        }
+                        else
+                        {
+                            letter.setChar(currentLine.at(0));
+                            puzzle.getRefGrid().push_back(letter);
+                        }
                     }
                 }
             }
@@ -306,9 +312,9 @@ bool XWC3DLoader::loadCluesHelper(CrosswordBase &puzzle, QStringList &linelist, 
                 QChar letterChar = wordString.at(j);
                 uivec3 letterPosition = startingPosition;
 
-                letterPosition.setY(std::abs((double)letterPosition.getY() - (double)j));
+                letterPosition.setY(std::abs(static_cast<double>(letterPosition.getY()) - static_cast<double>(j)));
 
-                if(((int)startingPosition.getY()) - j < 0)
+                if((static_cast<int>(startingPosition.getY()) - static_cast<int>(j)) < 0) //which side of the disc is the diametric letter on?
                 {
                     letterPosition.setX((letterPosition.getX() + puzzle.getGrid().getDimensions().getX()/2) % puzzle.getGrid().getDimensions().getX());
                 }

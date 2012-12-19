@@ -40,10 +40,10 @@ void GraphicalGridScene::build2DDisc(unsigned int xDim, unsigned int yDim, uivec
 
             QVector3D position(0, -r, 0);
             QMatrix4x4 transformation;
-            transformation.rotate((360/xDim) * x, 0.0, 0.0, 1.0);
+            transformation.rotate((360/xDim) * (static_cast<float>(x) - 0.5f), 0.0, 0.0, 1.0);
             position = position * transformation;
 
-            item->setPos(QPointF(position.x() + offset.getX(), position.y()));
+            item->setPos(QPointF(position.x() + offset.getX(), -position.y()));
 
             item->setParentItem(disc);
             m_GraphicsGridItems.push_back(item);

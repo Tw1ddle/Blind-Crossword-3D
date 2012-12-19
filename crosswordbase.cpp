@@ -13,25 +13,7 @@ CrosswordBase::CrosswordBase() : m_Loaded(false), m_FileFormatVersion(0.0f)
 
 unsigned int CrosswordBase::toGridIndex(uivec3 index) const
 {
-    if(m_FileFormat == FileFormats::XWC || m_FileFormat == FileFormats::XWC3D)
-    {
-        return index.getX() + getGrid().getDimensions().getX() * index.getY() + getGrid().getDimensions().getY() * getGrid().getDimensions().getX() * index.getZ();
-    }
-    else if(m_FileFormat == FileFormats::XWCR3D)
-    {
-        if(index.getY() == 0) // disc center
-        {
-            return index.getZ() + index.getZ() * (getGrid().getDimensions().getY() - 1) * getGrid().getDimensions().getX();
-        }
-        else
-        {
-            return 1
-                    + index.getZ()
-                    + index.getX()
-                    + (index.getY() - 1) * getGrid().getDimensions().getX()
-                    + index.getZ() * (getGrid().getDimensions().getY() - 1) * getGrid().getDimensions().getX();
-        }
-    }
+    return index.getX() + getGrid().getDimensions().getX() * index.getY() + getGrid().getDimensions().getY() * getGrid().getDimensions().getX() * index.getZ();
 
     assert(false);
 
