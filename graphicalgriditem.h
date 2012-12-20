@@ -31,7 +31,7 @@ public:
 
     QRectF boundingRect() const;
 
-    static const unsigned int sc_Size = 500u;
+    static const unsigned int sc_Size = 50u;
 private:
     const Letter* m_LetterRef;
     QColor m_Color;
