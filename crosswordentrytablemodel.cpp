@@ -7,14 +7,14 @@
 namespace CrosswordEntryTableHeader
 {
     const unsigned int identifierColumnId = 0;
-    const unsigned int entryColumnId = 1;
-    const unsigned int wordColumnId = 2;
-    const unsigned int clueColumnId = 3;
-    const unsigned int wordLengthColumnId = 4;
+    const unsigned int entryColumnId = 4;
+    const unsigned int wordColumnId = 1;
+    const unsigned int clueColumnId = 2;
+    const unsigned int wordLengthColumnId = 3;
 }
 
 const QString identifierColumnHeader = "Day";
-const QString entryColumnHeader = "Entry";
+const QString entryColumnHeader = "Direction";
 const QString wordColumnHeader = "Guess";
 const QString clueColumnHeader = "Clue";
 const QString wordLengthColumnHeader = "Lengths";
@@ -91,19 +91,19 @@ QVariant CrosswordEntryTableModel::headerData(int section, Qt::Orientation orien
     {
         switch (section)
         {
-            case 0:
+            case CrosswordEntryTableHeader::identifierColumnId:
                 return identifierColumnHeader;
 
-            case 1:
+            case CrosswordEntryTableHeader::entryColumnId:
                 return entryColumnHeader;
 
-            case 2:
+            case CrosswordEntryTableHeader::wordColumnId:
                 return wordColumnHeader;
 
-            case 3:
+            case CrosswordEntryTableHeader::clueColumnId:
                 return clueColumnHeader;
 
-            case 4:
+            case CrosswordEntryTableHeader::wordLengthColumnId:
                 return wordLengthColumnHeader;
 
             default:
