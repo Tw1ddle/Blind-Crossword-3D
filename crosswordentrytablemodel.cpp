@@ -13,9 +13,9 @@ namespace CrosswordEntryTableHeader
     const unsigned int wordLengthColumnId = 4;
 }
 
-const QString identifierColumnHeader = "Identifier";
+const QString identifierColumnHeader = "Day";
 const QString entryColumnHeader = "Entry";
-const QString wordColumnHeader = "Word";
+const QString wordColumnHeader = "Guess";
 const QString clueColumnHeader = "Clue";
 const QString wordLengthColumnHeader = "Lengths";
 
