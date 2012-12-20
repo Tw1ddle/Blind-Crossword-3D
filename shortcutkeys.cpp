@@ -15,6 +15,7 @@ namespace ShortcutKeys
     const QChar readCrosswordThemePhraseKey = Qt::Key_X;
     const QChar stopSpeechKey = Qt::Key_Z;
     const QChar toggleApplicationOpenReminderKey = Qt::Key_N;
+    const QChar cycleViewVisibilityKey = Qt::Key_Apostrophe;
 
     const QChar advanceClueWordKey = Qt::Key_O;
     const QChar readCurrentClueWordKey = Qt::Key_I;

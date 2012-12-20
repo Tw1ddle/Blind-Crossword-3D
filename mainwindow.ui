@@ -63,7 +63,7 @@
        </property>
        <property name="minimumSize">
         <size>
-         <width>400</width>
+         <width>200</width>
          <height>480</height>
         </size>
        </property>
@@ -134,7 +134,7 @@
        </property>
        <property name="minimumSize">
         <size>
-         <width>480</width>
+         <width>400</width>
          <height>480</height>
         </size>
        </property>
@@ -315,6 +315,9 @@
    <property name="checked">
     <bool>true</bool>
    </property>
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Show Grid</string>
    </property>
@@ -323,6 +326,9 @@
      <family>Lucida Console</family>
      <pointsize>20</pointsize>
     </font>
+   </property>
+   <property name="visible">
+    <bool>false</bool>
    </property>
   </action>
   <action name="actionCrossword_Properties">

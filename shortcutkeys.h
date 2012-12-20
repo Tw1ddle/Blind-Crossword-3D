@@ -25,6 +25,7 @@ namespace ShortcutKeys
     extern const QChar readCrosswordThemePhraseKey;
     extern const QChar stopSpeechKey;
     extern const QChar toggleApplicationOpenReminderKey;
+    extern const QChar cycleViewVisibilityKey;
 
     extern const QChar advanceClueWordKey;
     extern const QChar readCurrentClueWordKey;

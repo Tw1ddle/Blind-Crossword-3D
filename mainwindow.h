@@ -76,6 +76,8 @@ private slots:
     void toggleApplicationOpenReminder();
     void onIdleReminderTimeout();
 
+    void cycleViewVisibility();
+
     void cycleSpeechMode();
     void cycleTableViewFilter();
 
@@ -117,6 +119,7 @@ private:
     QShortcut* m_IncreaseSpeechRateShortcut;
     QShortcut* m_DecreaseSpeechRateShortcut;
     QShortcut* m_ReadLastSpokenPhraseShortcut;
+    QShortcut* m_CycleViewVisibilityShortcut;
 };
 
 #endif // MAINWINDOW_H

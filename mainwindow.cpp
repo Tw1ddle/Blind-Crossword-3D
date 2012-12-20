@@ -273,6 +273,39 @@ void MainWindow::cycleTableViewFilter()
     }
 }
 
+void MainWindow::cycleViewVisibility()
+{
+    const static unsigned int cs_NumVisibilities = 3;
+    static unsigned int s_Visibility = 0;
+
+    switch(s_Visibility)
+    {
+        case 0:
+        ITextToSpeech::instance().speak("Grid shown, clues hidden.");
+        ui->wordTableView->setHidden(true);
+        ui->graphicsView->setHidden(false);
+        break;
+        case 1:
+        ITextToSpeech::instance().speak("Clues shown, grid hidden.");
+        ui->wordTableView->setHidden(false);
+        ui->graphicsView->setHidden(true);
+        break;
+        case 2:
+        ITextToSpeech::instance().speak("Clues and grid shown.");
+        ui->wordTableView->setHidden(false);
+        ui->graphicsView->setHidden(false);
+        break;
+        default:
+        break;
+    }
+
+    s_Visibility++;
+    if(s_Visibility >= cs_NumVisibilities)
+    {
+        s_Visibility = 0;
+    }
+}
+
 void MainWindow::openHelp()
 {
     QDir dir;
@@ -514,6 +547,9 @@ void MainWindow::createShortcuts()
 
     m_ReadLastSpokenPhraseShortcut = new QShortcut(QKeySequence(ShortcutKeys::readLastSpokenPhraseKey), this);
     connect(m_ReadLastSpokenPhraseShortcut, SIGNAL(activated()), this, SLOT(readLastSpokenPhrase()));
+
+    m_CycleViewVisibilityShortcut = new QShortcut(QKeySequence(ShortcutKeys::cycleViewVisibilityKey), this);
+    connect(m_CycleViewVisibilityShortcut, SIGNAL(activated()), this, SLOT(cycleViewVisibility()));
 }
 
 void MainWindow::closeEvent(QCloseEvent* event)
