@@ -4,7 +4,7 @@
 #include <QVBoxLayout>
 #include <QLabel>
 
-#include "itexttospeech.h"
+#include "shortcutkeys.h"
 #include "version.h"
 
 QuitDialog::QuitDialog(QWidget *parent) :
@@ -15,28 +15,30 @@ QuitDialog::QuitDialog(QWidget *parent) :
     setWindowFlags(Qt::Dialog | Qt::WindowTitleHint);
 
     m_QuitTitle = QString("Quit ").append(Version::getApplicationName()).append("?");
-    m_QuitBody = "Are you sure you want to quit the program? Unsaved progress will be lost. Press Y to quit. Press N to return to the crossword puzzle.";
+    m_QuitBody = QString("Are you sure you want to quit the program? Unsaved progress will be lost. Press ")
+            .append(ShortcutKeys::confirmActionKey).append(" to quit.")
+            .append(" Press ").append(ShortcutKeys::rejectActionKey).append(" to return to the crossword puzzle.");
 
     m_AcceptedText = QString("Thank you for playing").append(Version::getApplicationName()).append(".");
     m_RejectedText = "Continue to solve the crossword puzzle.";
 
     QGridLayout *gLayout = new QGridLayout;
-    gLayout->setColumnStretch(1, 2);
 
     QVBoxLayout *mainLayout = new QVBoxLayout;
     mainLayout->addLayout(gLayout);
     setLayout(mainLayout);
 
-
     QLabel* label = new QLabel(m_QuitBody);
+    label->setWordWrap(true);
+
     gLayout->addWidget(label);
 
     setWindowTitle(m_QuitTitle);
 
-    QShortcut* quitShortcut = new QShortcut(QKeySequence(Qt::Key_Y), this);
+    QShortcut* quitShortcut = new QShortcut(QKeySequence(ShortcutKeys::confirmActionKey), this);
     connect(quitShortcut, SIGNAL(activated()), this, SLOT(accept()));
 
-    QShortcut* returnShortcut = new QShortcut(QKeySequence(Qt::Key_N), this);
+    QShortcut* returnShortcut = new QShortcut(QKeySequence(ShortcutKeys::rejectActionKey), this);
     connect(returnShortcut, SIGNAL(activated()), this, SLOT(reject()));
 }
 

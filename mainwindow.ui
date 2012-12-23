@@ -223,7 +223,7 @@
     <property name="title">
      <string>Options</string>
     </property>
-    <addaction name="actionShow_Grid"/>
+    <addaction name="actionCycle_View"/>
    </widget>
    <widget class="QMenu" name="menuAbout">
     <property name="accessibleName">
@@ -308,18 +308,18 @@
     </font>
    </property>
   </action>
-  <action name="actionShow_Grid">
+  <action name="actionCycle_View">
    <property name="checkable">
-    <bool>true</bool>
-   </property>
-   <property name="checked">
-    <bool>true</bool>
-   </property>
-   <property name="enabled">
     <bool>false</bool>
    </property>
+   <property name="checked">
+    <bool>false</bool>
+   </property>
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
    <property name="text">
-    <string>Show Grid</string>
+    <string>Cycle View</string>
    </property>
    <property name="font">
     <font>
@@ -328,7 +328,7 @@
     </font>
    </property>
    <property name="visible">
-    <bool>false</bool>
+    <bool>true</bool>
    </property>
   </action>
   <action name="actionCrossword_Properties">
@@ -518,10 +518,10 @@
    </hints>
   </connection>
   <connection>
-   <sender>actionShow_Grid</sender>
-   <signal>toggled(bool)</signal>
+   <sender>actionCycle_View</sender>
+   <signal>triggered()</signal>
    <receiver>MainWindow</receiver>
-   <slot>toggleGrid(bool)</slot>
+   <slot>cycleViewVisibility()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>-1</x>
@@ -553,7 +553,7 @@
    <sender>actionPrint_Crossword</sender>
    <signal>triggered()</signal>
    <receiver>MainWindow</receiver>
-   <slot>printCrossword()</slot>
+   <slot>printAnswers()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>-1</x>
@@ -569,7 +569,7 @@
    <sender>actionEmail_Crossword</sender>
    <signal>triggered()</signal>
    <receiver>MainWindow</receiver>
-   <slot>emailCrossword()</slot>
+   <slot>emailAnswers()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>-1</x>
@@ -621,10 +621,10 @@
   <slot>showAbout()</slot>
   <slot>openHelp()</slot>
   <slot>viewLicense()</slot>
-  <slot>toggleGrid(bool)</slot>
-  <slot>printCrossword()</slot>
-  <slot>emailCrossword()</slot>
+  <slot>printAnswers()</slot>
+  <slot>emailAnswers()</slot>
   <slot>emailFeedback()</slot>
   <slot>openCalendarPuzzlesWebsite()</slot>
+  <slot>cycleViewVisibility()</slot>
  </slots>
 </ui>

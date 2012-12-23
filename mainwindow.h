@@ -61,17 +61,17 @@ private:
 private slots:
     void loadCrossword();
     void saveCrossword();
-    void printCrossword();
-    void emailCrossword();
+    void printAnswers();
+    void emailAnswers();
     void showFileProperties();
     void exitConfirmation();
     void openHelp();
+    void openTutorial();
     void emailFeedback();
     void showAbout();
     void scoreCrossword();
     void viewLicense();
     void openCalendarPuzzlesWebsite();
-    void toggleGrid(bool hidden);
 
     void toggleApplicationOpenReminder();
     void onIdleReminderTimeout();
@@ -106,6 +106,11 @@ private:
     QShortcut* m_LoadShortcut;
     QShortcut* m_SaveShortcut;
     QShortcut* m_HelpShortcut;
+    QShortcut* m_TutorialShortcut;
+
+    QShortcut* m_EmailAnswersShortcut;
+    QShortcut* m_PrintAnswersShortcut;
+
     QShortcut* m_ScoreShortcut;
     QShortcut* m_RevealAnswerShortcut;
     QShortcut* m_FilePropertiesShortcut;

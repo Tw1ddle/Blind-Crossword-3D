@@ -115,29 +115,9 @@ void CrosswordEntryTableViewController::keyPressEvent(QKeyEvent *event)
         {
             amendGuess();
         }
-        else if(event->key() == ShortcutKeys::deleteGuessKey)
+        else if(event->key() == ShortcutKeys::deleteGuessKey || event->key() == ShortcutKeys::deleteGuessKeyAlternative)
         {
             eraseGuess();
-        }
-        else if(event->key() == ShortcutKeys::readCurrentIdentifierKey)
-        {
-            readCurrentIdentifier();
-        }
-        else if(event->key() == ShortcutKeys::readCurrentGuessKey)
-        {
-            readCurrentGuess();
-        }
-        else if(event->key() == ShortcutKeys::readCurrentEntryNumberKey)
-        {
-            readCurrentEntryNumber();
-        }
-        else if(event->key() == ShortcutKeys::readCurrentClueKey)
-        {
-            readCurrentClue();
-        }
-        else if(event->key() == ShortcutKeys::readCurrentWordLengthsKey)
-        {
-            readWordLengths();
         }
 
         else if(event->key() == ShortcutKeys::sortByIdentifierKey)
@@ -145,20 +125,10 @@ void CrosswordEntryTableViewController::keyPressEvent(QKeyEvent *event)
             sortByColumn(CrosswordEntryTableHeader::identifierColumnId, Qt::AscendingOrder);
             ITextToSpeech::instance().speak("Sorted clues by day.");
         }
-        else if(event->key() == ShortcutKeys::sortByEntryKey)
-        {
-            sortByColumn(CrosswordEntryTableHeader::entryColumnId, Qt::AscendingOrder);
-            ITextToSpeech::instance().speak("Sorted clues by direction.");
-        }
         else if(event->key() == ShortcutKeys::sortByClueKey)
         {
             sortByColumn(CrosswordEntryTableHeader::clueColumnId, Qt::AscendingOrder);
             ITextToSpeech::instance().speak("Sorted clues by alphabetical order of clue.");
-        }
-        else if(event->key() == ShortcutKeys::sortByWordLengthKey)
-        {
-            sortByColumn(CrosswordEntryTableHeader::wordLengthColumnId, Qt::AscendingOrder);
-            ITextToSpeech::instance().speak("Sorted clues by length of solution.");
         }
     }
 }

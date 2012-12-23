@@ -18,11 +18,11 @@ namespace ShortcutKeys
     extern const QChar loadShortcutKey;
     extern const QChar saveShortcutKey;
     extern const QChar helpShortcutKey;
-    extern const QChar scoreShortcutKey;
+    extern const QChar tutorialShortcutKey;
+    extern const QChar markShortcutKey;
     extern const QChar filePropertiesShortcutKey;
     extern const QChar filterTableViewShortcutKey;
     extern const QChar cycleSpeechModeShortcutKey;
-    extern const QChar readCrosswordThemePhraseKey;
     extern const QChar stopSpeechKey;
     extern const QChar toggleApplicationOpenReminderKey;
     extern const QChar cycleViewVisibilityKey;
@@ -37,21 +37,18 @@ namespace ShortcutKeys
     extern const QChar enterGuessKeyAlternative;
     extern const QChar amendGuessKey;
     extern const QChar deleteGuessKey;
-    extern const QChar readCurrentIdentifierKey;
-    extern const QChar readCurrentGuessKey;
-    extern const QChar readCurrentEntryNumberKey;
-    extern const QChar readCurrentClueKey;
-    extern const QChar readCurrentWordLengthsKey;
+    extern const QChar deleteGuessKeyAlternative;
 
     extern const QChar sortByIdentifierKey;
-    extern const QChar sortByEntryKey;
     extern const QChar sortByClueKey;
-    extern const QChar sortByWordLengthKey;
 
     extern const QChar printAnswersKey;
     extern const QChar emailAnswersKey;
     extern const QChar emailFeedbackKey;
     extern const QChar readLastSpokenPhraseKey;
+
+    extern const QChar confirmActionKey;
+    extern const QChar rejectActionKey;
 }
 
 #endif // SHORTCUTKEYS_H

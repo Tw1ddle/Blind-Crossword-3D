@@ -20,6 +20,8 @@ FileDialog::FileDialog(QWidget* parent, const QString& caption, const QString& d
     m_Model->setNameFilters(filter);
     m_Model->setRootPath(directory);
 
+    m_View->setIconSize(QSize(0, 0)); //todo check this hides the icons everywhere
+
     m_Model->setNameFilterDisables(false);
 
     m_View->setModel(m_Model);
@@ -30,7 +32,8 @@ FileDialog::FileDialog(QWidget* parent, const QString& caption, const QString& d
 
     m_View->setRootIndex(m_Model->index(directory));
     m_View->setFocus();
-    m_View->adjustSize();
+    m_View->setMinimumWidth(640);
+    m_View->setMinimumHeight(480);
 
     connect(m_View, SIGNAL(selectedItemChanged(QModelIndex, QModelIndex)), this, SLOT(updateCurrent(QModelIndex, QModelIndex)));
     connect(m_View, SIGNAL(activated(QModelIndex)), this, SLOT(onFileSelected(QModelIndex)));

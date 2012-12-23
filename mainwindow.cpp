@@ -181,28 +181,6 @@ void MainWindow::saveCrossword()
     }
 }
 
-void MainWindow::viewLicense()
-{
-    QDir dir;
-    QString filePath = dir.absolutePath().append(m_LicenseFileLocation);
-    QUrl url = QUrl::fromLocalFile(filePath);
-
-    bool openedSuccessfully = false;
-    if(dir.exists(filePath))
-    {
-        openedSuccessfully = Utilities::openUrl(url);
-    }
-
-    if(openedSuccessfully)
-    {
-        ITextToSpeech::instance().speak("Opening license document in web browser. Use your screen reader to read the license document.");
-    }
-    else
-    {
-        ITextToSpeech::instance().speak("Error, could not open license document.");
-    }
-}
-
 void MainWindow::cycleSpeechMode()
 {
     const static unsigned int cs_NumSpeechModes = 2;
@@ -241,27 +219,27 @@ void MainWindow::cycleTableViewFilter()
     {
         case 0:
             m_ProxyModel->setFilterRegExp(showUnstarted);
-            m_ProxyModel->setFilterKeyColumn(2);
+            m_ProxyModel->setFilterKeyColumn(CrosswordEntryTableHeader::entryColumnId);
             ITextToSpeech::instance().speak("Showing unstarted crossword entries.");
             break;
         case 1:
             m_ProxyModel->setFilterRegExp(showCompleted);
-            m_ProxyModel->setFilterKeyColumn(2);
+            m_ProxyModel->setFilterKeyColumn(CrosswordEntryTableHeader::entryColumnId);
             ITextToSpeech::instance().speak("Showing completed crossword entries.");
             break;
         case 2:
             m_ProxyModel->setFilterRegExp(showPartial);
-            m_ProxyModel->setFilterKeyColumn(2);
+            m_ProxyModel->setFilterKeyColumn(CrosswordEntryTableHeader::entryColumnId);
             ITextToSpeech::instance().speak("Showing partially completed crossword entries.");
             break;
         case 3:
              m_ProxyModel->setFilterRegExp(showAll);
-             m_ProxyModel->setFilterKeyColumn(2);
+             m_ProxyModel->setFilterKeyColumn(CrosswordEntryTableHeader::entryColumnId);
              ITextToSpeech::instance().speak("Filtering disabled.");
             break;
        case 4:
             m_ProxyModel->setFilterRegExp(showIncidentCrosswordEntries);
-            m_ProxyModel->setFilterKeyColumn(2);
+            m_ProxyModel->setFilterKeyColumn(CrosswordEntryTableHeader::entryColumnId);
             ITextToSpeech::instance().speak("Showing all clues that intersect the current clue");
             break;
     }
@@ -306,6 +284,28 @@ void MainWindow::cycleViewVisibility()
     }
 }
 
+void MainWindow::viewLicense()
+{
+    QDir dir;
+    QString filePath = dir.absolutePath().append(m_LicenseFileLocation);
+    QUrl url = QUrl::fromLocalFile(filePath);
+
+    bool openedSuccessfully = false;
+    if(dir.exists(filePath))
+    {
+        openedSuccessfully = Utilities::openUrl(url);
+    }
+
+    if(openedSuccessfully)
+    {
+        ITextToSpeech::instance().speak("Opening license document in web browser. Use your screen reader to read the license document.");
+    }
+    else
+    {
+        ITextToSpeech::instance().speak("Error, could not open license document.");
+    }
+}
+
 void MainWindow::openHelp()
 {
     QDir dir;
@@ -325,6 +325,28 @@ void MainWindow::openHelp()
     else
     {
         ITextToSpeech::instance().speak("Error, could not open help page.");
+    }
+}
+
+void MainWindow::openTutorial()
+{
+    QDir dir;
+    QString filePath = dir.absolutePath().append(m_TutorialFileLocation);
+    QUrl url = QUrl::fromLocalFile(filePath);
+
+    bool openedSuccessfully = false;
+    if(dir.exists(filePath))
+    {
+        openedSuccessfully = Utilities::openUrl(url);
+    }
+
+    if(openedSuccessfully)
+    {
+        ITextToSpeech::instance().speak("Opening tutorial page in web browser. Use your screen reader to read the tutorial page.");
+    }
+    else
+    {
+        ITextToSpeech::instance().speak("Error, could not open tutorial page.");
     }
 }
 
@@ -355,9 +377,9 @@ void MainWindow::openCalendarPuzzlesWebsite()
     }
 }
 
-void MainWindow::printCrossword()
+void MainWindow::printAnswers()
 {
-    ITextToSpeech::instance().speak("Attempting to open a print dialog for printing your answers. Use your screen reader to work with the dialog.");
+    ITextToSpeech::instance().speak("Opening a print dialog for printing your answers. Use your screen reader to work with the dialog.");
 
     Printer printer;
 
@@ -366,13 +388,13 @@ void MainWindow::printCrossword()
     ITextToSpeech::instance().speak(result);
 }
 
-void MainWindow::emailCrossword()
+void MainWindow::emailAnswers()
 {
     Emailer emailer;
 
     if(emailer.openSendResultsEmail(m_Crossword))
     {
-        ITextToSpeech::instance().speak("Attempting to open an email containing your answers. Use your screen reader to work with the email.");
+        ITextToSpeech::instance().speak("Opening an email containing your answers. Use your screen reader to work with the email.");
     }
     else
     {
@@ -386,7 +408,7 @@ void MainWindow::emailFeedback()
 
     if(emailer.openFeedbackEmail())
     {
-        ITextToSpeech::instance().speak("Attempting to open an email for you to send us feedback. Use your screen reader to work with the email.");
+        ITextToSpeech::instance().speak("Opening an email for you to send us feedback. Use your screen reader to work with the email.");
     }
     else
     {
@@ -397,20 +419,6 @@ void MainWindow::emailFeedback()
 void MainWindow::showFileProperties()
 {
     ITextToSpeech::instance().speak(m_Crossword.getInformation());
-}
-
-void MainWindow::toggleGrid(bool hidden)
-{
-    if(!hidden)
-    {
-        ITextToSpeech::instance().speak("Graphical crossword grid is now hidden.");
-        ui->graphicsView->setVisible(hidden);
-    }
-    else
-    {
-        ITextToSpeech::instance().speak("Graphical crossword grid is now shown.");
-        ui->graphicsView->setVisible(hidden);
-    }
 }
 
 void MainWindow::toggleApplicationOpenReminder()
@@ -512,7 +520,16 @@ void MainWindow::createShortcuts()
     m_ExitShortcut = new QShortcut(QKeySequence(ShortcutKeys::exitShortcutKey), this);
     connect(m_ExitShortcut, SIGNAL(activated()), this, SLOT(exitConfirmation()));
 
-    m_ScoreShortcut = new QShortcut(QKeySequence(ShortcutKeys::scoreShortcutKey), this);
+    m_TutorialShortcut = new QShortcut(QKeySequence(ShortcutKeys::tutorialShortcutKey), this);
+    connect(m_TutorialShortcut, SIGNAL(activated()), this, SLOT(openTutorial()));
+
+    m_EmailAnswersShortcut = new QShortcut(QKeySequence(ShortcutKeys::emailAnswersKey), this);
+    connect(m_EmailAnswersShortcut, SIGNAL(activated()), this, SLOT(emailAnswers()));
+
+    m_PrintAnswersShortcut = new QShortcut(QKeySequence(ShortcutKeys::printAnswersKey), this);
+    connect(m_PrintAnswersShortcut, SIGNAL(activated), this, SLOT(printAnswers()));
+
+    m_ScoreShortcut = new QShortcut(QKeySequence(ShortcutKeys::markShortcutKey), this);
     connect(m_ScoreShortcut, SIGNAL(activated()), this, SLOT(scoreCrossword()));
 
     m_FilePropertiesShortcut = new QShortcut(QKeySequence(ShortcutKeys::filePropertiesShortcutKey), this);
@@ -523,9 +540,6 @@ void MainWindow::createShortcuts()
 
     m_CycleSpeechModeShortcut = new QShortcut(QKeySequence(ShortcutKeys::cycleSpeechModeShortcutKey), this);
     connect(m_CycleSpeechModeShortcut, SIGNAL(activated()), this, SLOT(cycleSpeechMode()));
-
-    m_ReadCrosswordThemePhraseShortcut = new QShortcut(QKeySequence(ShortcutKeys::readCrosswordThemePhraseKey), this);
-    connect(m_ReadCrosswordThemePhraseShortcut, SIGNAL(activated()), this, SLOT(readCrosswordThemePhrase()));
 
     m_StopSpeechShortcut = new QShortcut(QKeySequence(ShortcutKeys::stopSpeechKey), this);
     connect(m_StopSpeechShortcut, SIGNAL(activated()), this, SLOT(stopSpeech()));
