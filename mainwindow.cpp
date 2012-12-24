@@ -101,7 +101,7 @@ void MainWindow::loadCrossword()
         loadPath = dir.absolutePath();
     }
 
-    ITextToSpeech::instance().speak("Opening load crossword dialog.");
+    ITextToSpeech::instance().speak("Opening crossword list. Use the arrow keys to navigate the list.");
 
     QStringList fileNameFilter;
     fileNameFilter.push_back(QString("*.xwc"));
@@ -133,7 +133,7 @@ void MainWindow::loadCrossword()
     }
     else
     {
-        ITextToSpeech::instance().speak("No file was selected.");
+        ITextToSpeech::instance().speak("No crossword was selected.");
     }
 }
 
@@ -240,7 +240,7 @@ void MainWindow::cycleTableViewFilter()
        case 4:
             m_ProxyModel->setFilterRegExp(showIncidentCrosswordEntries);
             m_ProxyModel->setFilterKeyColumn(CrosswordEntryTableHeader::entryColumnId);
-            ITextToSpeech::instance().speak("Showing all clues that intersect the current clue");
+            ITextToSpeech::instance().speak("Showing all clues that intersect the current entry");
             break;
     }
 
@@ -408,11 +408,11 @@ void MainWindow::emailFeedback()
 
     if(emailer.openFeedbackEmail())
     {
-        ITextToSpeech::instance().speak("Opening an email for you to send us feedback. Use your screen reader to work with the email.");
+        ITextToSpeech::instance().speak("Opening a feedback email. Use your screen reader to work with the email.");
     }
     else
     {
-        ITextToSpeech::instance().speak("Failed to open an email for you to send us feedback.");
+        ITextToSpeech::instance().speak("Failed to open feedback email.");
     }
 }
 
@@ -441,7 +441,10 @@ void MainWindow::onIdleReminderTimeout()
 {
     if(m_ApplicationOpenReminderEnabled)
     {
-        ITextToSpeech::instance().speak(QString(Version::getApplicationName().append(" is still running. You can press ").append(ShortcutKeys::helpShortcutKey).append( "to open a help page. To toggle this reminder, press ").append(ShortcutKeys::toggleApplicationOpenReminderKey).append(".")));
+        ITextToSpeech::instance().speak(QString(Version::getApplicationName()
+                                                .append(" is still running. You can press ").append(ShortcutKeys::helpShortcutKey)
+                                                .append( "to open a help page. To toggle this reminder, press ").append(ShortcutKeys::toggleApplicationOpenReminderKey)
+                                                .append(".")));
     }
 }
 
@@ -492,7 +495,8 @@ QString MainWindow::getIntroString() const
     return QString("Welcome to ").append(Version::getApplicationName().append(". "))
             .append("Press ").append(ShortcutKeys::loadShortcutKey).append(" to load a crossword. ")
             .append("Press ").append(ShortcutKeys::exitShortcutKey).append(" to quit the program. ")
-            .append("Press ").append(ShortcutKeys::helpShortcutKey).append(" to open a help document in your web browser. Use your screen reader to read the document");
+            .append("Press ").append(ShortcutKeys::helpShortcutKey).append(" to open a help document in your web browser. ")
+            .append("Press").append(ShortcutKeys::tutorialShortcutKey).append(" to open a tutorial document in your web browser. ");
 }
 
 void MainWindow::showAbout()

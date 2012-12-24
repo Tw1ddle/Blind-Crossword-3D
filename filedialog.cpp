@@ -29,6 +29,7 @@ FileDialog::FileDialog(QWidget* parent, const QString& caption, const QString& d
     QVBoxLayout* layout = new QVBoxLayout;
     layout->addWidget(m_View);
     setLayout(layout);
+    setWindowFlags(Qt::WindowSystemMenuHint | Qt::WindowTitleHint);
 
     m_View->setRootIndex(m_Model->index(directory));
     m_View->setFocus();
