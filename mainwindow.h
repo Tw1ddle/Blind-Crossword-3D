@@ -109,6 +109,7 @@ private:
     QShortcut* m_TutorialShortcut;
 
     QShortcut* m_EmailAnswersShortcut;
+    QShortcut* m_EmailFeedbackShortcut;
     QShortcut* m_PrintAnswersShortcut;
 
     QShortcut* m_ScoreShortcut;

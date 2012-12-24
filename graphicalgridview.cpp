@@ -5,7 +5,10 @@
 #include <QPrinter>
 #include <QPrintDialog>
 
-const double GraphicalGridView::wheelZoomFactor = 1.25;
+#include "shortcutkeys.h"
+
+const double GraphicalGridView::cs_ZoomFactor = 1.25;
+const int GraphicalGridView::cs_KeyboardZoomFactor = 75;
 
 GraphicalGridView::GraphicalGridView(QWidget *parent) :
     QGraphicsView(parent)
@@ -16,7 +19,27 @@ GraphicalGridView::GraphicalGridView(QWidget *parent) :
 void GraphicalGridView::wheelEvent(QWheelEvent *event)
 {
     int numDegrees = event->delta()/8;
-    int numSteps = numDegrees/15;
+
+    zoom(numDegrees);
+}
+
+void GraphicalGridView::keyPressEvent(QKeyEvent *event)
+{
+    QGraphicsView::keyPressEvent(event);
+
+    if(event->key() == ShortcutKeys::zoomInKey)
+    {
+        zoom(cs_KeyboardZoomFactor);
+    }
+    else if(event->key() == ShortcutKeys::zoomOutKey)
+    {
+        zoom(-cs_KeyboardZoomFactor);
+    }
+}
+
+void GraphicalGridView::zoom(int x)
+{
+    int numSteps = x/15;
     m_NumScheduledScalings += numSteps;
 
     if(m_NumScheduledScalings * numSteps < 0)

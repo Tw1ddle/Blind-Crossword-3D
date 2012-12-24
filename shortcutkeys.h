@@ -25,10 +25,12 @@ namespace ShortcutKeys
     extern const QChar cycleSpeechModeShortcutKey;
     extern const QChar stopSpeechKey;
     extern const QChar toggleApplicationOpenReminderKey;
-    extern const QChar cycleViewVisibilityKey;
+
 
     extern const QChar advanceClueWordKey;
     extern const QChar readCurrentClueWordKey;
+
+    extern const QChar readCurrentGuessKey;
 
     extern const QChar increaseSpeechRateKey;
     extern const QChar decreaseSpeechRateKey;
@@ -40,7 +42,6 @@ namespace ShortcutKeys
     extern const QChar deleteGuessKeyAlternative;
 
     extern const QChar sortEntriesKey;
-    extern const QChar sortByClueKey;
 
     extern const QChar printAnswersKey;
     extern const QChar emailAnswersKey;
@@ -49,6 +50,12 @@ namespace ShortcutKeys
 
     extern const QChar confirmActionKey;
     extern const QChar rejectActionKey;
+
+    extern const QChar zoomInKey;
+    extern const QChar zoomOutKey;
+    extern const QChar cycleViewVisibilityKey;
+
+    extern const QString tableNavigationKeys;
 }
 
 #endif // SHORTCUTKEYS_H

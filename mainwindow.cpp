@@ -530,6 +530,9 @@ void MainWindow::createShortcuts()
     m_EmailAnswersShortcut = new QShortcut(QKeySequence(ShortcutKeys::emailAnswersKey), this);
     connect(m_EmailAnswersShortcut, SIGNAL(activated()), this, SLOT(emailAnswers()));
 
+    m_EmailFeedbackShortcut = new QShortcut(QKeySequence(ShortcutKeys::emailFeedbackKey), this);
+    connect(m_EmailFeedbackShortcut, SIGNAL(activated()), this, SLOT(emailFeedback()));
+
     m_PrintAnswersShortcut = new QShortcut(QKeySequence(ShortcutKeys::printAnswersKey), this);
     connect(m_PrintAnswersShortcut, SIGNAL(activated()), this, SLOT(printAnswers()));
 

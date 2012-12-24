@@ -120,6 +120,11 @@ void CrosswordEntryTableViewController::keyPressEvent(QKeyEvent *event)
             eraseGuess();
         }
 
+        else if(event->key() == ShortcutKeys::readCurrentGuessKey)
+        {
+            readCurrentGuess();
+        }
+
         else if(event->key() == ShortcutKeys::sortEntriesKey)
         {
             sortByColumn(CrosswordEntryTableHeader::identifierColumnId, Qt::AscendingOrder);

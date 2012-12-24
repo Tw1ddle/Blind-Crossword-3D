@@ -22,10 +22,14 @@ public:
 
 protected:
     virtual void wheelEvent(QWheelEvent *event);
+    virtual void keyPressEvent(QKeyEvent *event);
 
 private:
-    const static double wheelZoomFactor;
+    const static double cs_ZoomFactor;
+    const static int cs_KeyboardZoomFactor;
     int m_NumScheduledScalings;
+
+    void zoom(int x);
 
 private slots:
     void zoomAnimationFinished();
