@@ -193,8 +193,14 @@
      <x>0</x>
      <y>0</y>
      <width>1175</width>
-     <height>21</height>
+     <height>33</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Lucida Console</family>
+     <pointsize>20</pointsize>
+    </font>
    </property>
    <property name="accessibleName">
     <string>Main menu bar</string>
@@ -217,6 +223,12 @@
     <addaction name="actionExit"/>
    </widget>
    <widget class="QMenu" name="menuOptions">
+    <property name="font">
+     <font>
+      <family>Lucida Console</family>
+      <pointsize>20</pointsize>
+     </font>
+    </property>
     <property name="accessibleName">
      <string>Options Menu</string>
     </property>
@@ -226,6 +238,12 @@
     <addaction name="actionCycle_View"/>
    </widget>
    <widget class="QMenu" name="menuAbout">
+    <property name="font">
+     <font>
+      <family>Lucida Console</family>
+      <pointsize>20</pointsize>
+     </font>
+    </property>
     <property name="accessibleName">
      <string>Help Menu</string>
     </property>
