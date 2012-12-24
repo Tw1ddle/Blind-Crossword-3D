@@ -128,7 +128,7 @@ void MainWindow::loadCrossword()
         {
             emit puzzleLoaded();
 
-            ITextToSpeech::instance().speak(fileInfo.fileName().append(" was loaded successfully."));
+            ITextToSpeech::instance().speak(fileInfo.completeBaseName().append(" was loaded."));
         }
     }
     else
@@ -342,11 +342,11 @@ void MainWindow::openTutorial()
 
     if(openedSuccessfully)
     {
-        ITextToSpeech::instance().speak("Opening tutorial page in web browser. Use your screen reader to read the tutorial page.");
+        ITextToSpeech::instance().speak("Opening guide page in web browser. Use your screen reader to read the guide page.");
     }
     else
     {
-        ITextToSpeech::instance().speak("Error, could not open tutorial page.");
+        ITextToSpeech::instance().speak("Error, could not open guide page.");
     }
 }
 
