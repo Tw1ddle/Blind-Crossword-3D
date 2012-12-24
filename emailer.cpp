@@ -59,7 +59,10 @@ bool Emailer::openSendResultsEmail(CrosswordBase& puzzle)
         QString direction = entries.at(i).getDirection();
         QString answer = entries.at(i).getGuess().getString();
 
-        emailBody.append(id).append(" - ").append(entryName).append(" ").append(direction).append(" --- ").append(answer).append("%0A");
+        emailBody.append(id).append(" - ").append(QUrl::toPercentEncoding(entryName))
+                .append(" ").append(QUrl::toPercentEncoding(direction))
+                .append(" --- ").append(QUrl::toPercentEncoding(answer))
+                .append("%0A");
     }
 
     QUrl mailtoURL = QUrl(QString("mailto:").append(emailAddress)
