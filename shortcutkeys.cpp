@@ -40,7 +40,7 @@ namespace ShortcutKeys
 
     const QChar decreaseSpeechRateKey = Qt::Key_9;
     const QChar increaseSpeechRateKey = Qt::Key_0;
-    const QChar printAnswersKey = Qt::Key_P;
+    const QChar printAnswersKey = Qt::Key_D;
     const QChar emailAnswersKey = Qt::Key_G;
     const QChar emailFeedbackKey = Qt::Key_B;
 }

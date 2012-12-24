@@ -56,7 +56,7 @@ void FileDialog::onSelectionChanged(const QModelIndex& current)
 {
     m_CurrentFilePath = m_Model->filePath(current);
 
-    QString fileName = m_Model->fileInfo(current).baseName(); // read the file name without the extension
+    QString fileName = m_Model->fileInfo(current).completeBaseName(); // read the file name without the extension
     ITextToSpeech::instance().speak(fileName);
 }
 

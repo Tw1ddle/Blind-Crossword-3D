@@ -531,7 +531,7 @@ void MainWindow::createShortcuts()
     connect(m_EmailAnswersShortcut, SIGNAL(activated()), this, SLOT(emailAnswers()));
 
     m_PrintAnswersShortcut = new QShortcut(QKeySequence(ShortcutKeys::printAnswersKey), this);
-    connect(m_PrintAnswersShortcut, SIGNAL(activated), this, SLOT(printAnswers()));
+    connect(m_PrintAnswersShortcut, SIGNAL(activated()), this, SLOT(printAnswers()));
 
     m_ScoreShortcut = new QShortcut(QKeySequence(ShortcutKeys::markShortcutKey), this);
     connect(m_ScoreShortcut, SIGNAL(activated()), this, SLOT(scoreCrossword()));

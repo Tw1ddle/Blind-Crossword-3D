@@ -26,7 +26,6 @@ void GraphicalGridScene::drawBackground(QPainter *painter, const QRectF &rect)
 void GraphicalGridScene::build2DDisc(unsigned int xDim, unsigned int yDim, uivec3 offset, unsigned int discNumber)
 {
     QGraphicsItemGroup* disc = new QGraphicsItemGroup();
-    disc->setFlag(QGraphicsItem::ItemIsMovable);
 
     for(unsigned int y = 0; y < yDim; y++)
     {
@@ -58,7 +57,6 @@ void GraphicalGridScene::build2DDisc(unsigned int xDim, unsigned int yDim, uivec
 void GraphicalGridScene::build2DGrid(unsigned int xDim, unsigned int yDim, uivec3 offset, unsigned int gridNumber)
 {
     QGraphicsItemGroup* grid = new QGraphicsItemGroup();
-    grid->setFlag(QGraphicsItem::ItemIsMovable);
 
     for(unsigned int y = 0; y < yDim; y++)
     {
