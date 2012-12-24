@@ -25,7 +25,7 @@ namespace ShortcutKeys
     const QChar toggleApplicationOpenReminderKey = Qt::Key_N; // Toggle
     const QChar cycleViewVisibilityKey = Qt::Key_Apostrophe;
 
-    const QChar sortByIdentifierKey = Qt::Key_1;
+    const QChar sortEntriesKey = Qt::Key_1;
     const QChar sortByClueKey = Qt::Key_2;
 
     // other

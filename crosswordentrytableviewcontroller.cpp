@@ -120,15 +120,10 @@ void CrosswordEntryTableViewController::keyPressEvent(QKeyEvent *event)
             eraseGuess();
         }
 
-        else if(event->key() == ShortcutKeys::sortByIdentifierKey)
+        else if(event->key() == ShortcutKeys::sortEntriesKey)
         {
             sortByColumn(CrosswordEntryTableHeader::identifierColumnId, Qt::AscendingOrder);
             ITextToSpeech::instance().speak("Sorted clues by day.");
-        }
-        else if(event->key() == ShortcutKeys::sortByClueKey)
-        {
-            sortByColumn(CrosswordEntryTableHeader::clueColumnId, Qt::AscendingOrder);
-            ITextToSpeech::instance().speak("Sorted clues by alphabetical order of clue.");
         }
     }
 }
@@ -146,27 +141,57 @@ void CrosswordEntryTableViewController::currentChanged(const QModelIndex &curren
         QModelIndex previousSelection = proxy->mapToSource(previous);
         emit(modelIndexChanged(currentSelection, previousSelection));
 
-        QString identifierAtSelection = QString("Day ").append(current.sibling(current.row(), CrosswordEntryTableHeader::identifierColumnId).data().toString());
-        QString entryNumberAtSelection = current.sibling(current.row(), CrosswordEntryTableHeader::entryColumnId).data().toString();
-        QString wordAtSelection = current.sibling(current.row(), CrosswordEntryTableHeader::wordColumnId).data().toString();
-        QString clueAtSelection = current.sibling(current.row(), CrosswordEntryTableHeader::clueColumnId).data().toString();
-        QString wordLengthsAtSelection = current.sibling(current.row(), CrosswordEntryTableHeader::wordLengthColumnId).data().toString().append(" letters");
+        if(current.row() != previous.row())
+        {
+            QString identifierAtSelection = QString("Day ").append(current.sibling(current.row(), CrosswordEntryTableHeader::identifierColumnId).data().toString());
+            QString entryNumberAtSelection = current.sibling(current.row(), CrosswordEntryTableHeader::entryColumnId).data().toString();
+            QString wordAtSelection = current.sibling(current.row(), CrosswordEntryTableHeader::wordColumnId).data().toString();
+            QString clueAtSelection = current.sibling(current.row(), CrosswordEntryTableHeader::clueColumnId).data().toString();
+            QString wordLengthsAtSelection = current.sibling(current.row(), CrosswordEntryTableHeader::wordLengthColumnId).data().toString().append(" letters");
 
-        assert(!identifierAtSelection.isNull());
-        assert(!entryNumberAtSelection.isNull());
-        assert(!wordAtSelection.isNull());
-        assert(!clueAtSelection.isNull());
-        assert(!wordLengthsAtSelection.isNull());
+            assert(!identifierAtSelection.isNull());
+            assert(!entryNumberAtSelection.isNull());
+            assert(!wordAtSelection.isNull());
+            assert(!clueAtSelection.isNull());
+            assert(!wordLengthsAtSelection.isNull());
 
-        QString line = identifierAtSelection.
-                append(". ").
-                append(clueAtSelection).
-                append(". ").
-                append(wordLengthsAtSelection).
-                append(". ").
-                append(entryNumberAtSelection);
+            QString line = identifierAtSelection.
+                    append(". ").
+                    append(clueAtSelection).
+                    append(". ").
+                    append(wordLengthsAtSelection).
+                    append(". ").
+                    append(entryNumberAtSelection);
 
-        ITextToSpeech::instance().speak(line);
+            ITextToSpeech::instance().speak(line);
+        }
+        else if(current.column() != previous.column())
+        {
+            if(current.column() == CrosswordEntryTableHeader::identifierColumnId)
+            {
+                readCurrentIdentifier();
+            }
+            else if(current.column() == CrosswordEntryTableHeader::entryColumnId)
+            {
+                readCurrentEntryNumber();
+            }
+            else if(current.column() == CrosswordEntryTableHeader::wordColumnId)
+            {
+                readCurrentGuess();
+            }
+            else if(current.column() == CrosswordEntryTableHeader::clueColumnId)
+            {
+                readCurrentClue();
+            }
+            else if(current.column() == CrosswordEntryTableHeader::wordLengthColumnId)
+            {
+                readWordLengths();
+            }
+            else
+            {
+                assert(false);
+            }
+        }
     }
 }
 

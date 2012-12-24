@@ -39,7 +39,7 @@ namespace ShortcutKeys
     extern const QChar deleteGuessKey;
     extern const QChar deleteGuessKeyAlternative;
 
-    extern const QChar sortByIdentifierKey;
+    extern const QChar sortEntriesKey;
     extern const QChar sortByClueKey;
 
     extern const QChar printAnswersKey;
