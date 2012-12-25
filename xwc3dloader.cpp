@@ -46,12 +46,15 @@ bool XWC3DLoader::loadMetaData(CrosswordBase& puzzle, QStringList& linelist)
         {
             QStringList currentCatchPhraseCoordinateList = puzzleCatchPhraseData.takeFirst().split(",");
 
-            if(currentCatchPhraseCoordinateList.size() == 3)
+            if(currentCatchPhraseCoordinateList.size() == 4)
             {
                 unsigned int x = currentCatchPhraseCoordinateList.takeFirst().toUInt() - 1;
                 unsigned int y = currentCatchPhraseCoordinateList.takeFirst().toUInt() - 1;
                 unsigned int z = currentCatchPhraseCoordinateList.takeFirst().toUInt() - 1;
-                puzzle.m_Highlights.push_back(std::pair<uivec3, QColor>(uivec3(x, y, z), QColor(0, 255, 0)));
+
+                QString SVGWorldWideWebColorName = currentCatchPhraseCoordinateList.takeFirst();
+
+                puzzle.m_Highlights.push_back(std::pair<uivec3, QString>(uivec3(x, y, z), SVGWorldWideWebColorName));
             }
         }
     }
@@ -419,10 +422,12 @@ bool XWC3DLoader::saveMetaData(CrosswordBase &puzzle, QStringList &linelist)
         for(unsigned int i = 0; i < puzzle.m_Highlights.size(); i++)
         {
             uivec3 coordinate = puzzle.m_Highlights.at(i).first;
+            QString color = puzzle.m_Highlights.at(i).second;
 
             highlightCoordinates.append(QString::number(coordinate.getX() + 1)).append(",")
                     .append(QString::number(coordinate.getY() + 1)).append(",")
-                    .append(QString::number(coordinate.getZ() + 1)).append("|");
+                    .append(QString::number(coordinate.getZ() + 1)).append(",")
+                    .append(color).append("|");
         }
 
         highlightCoordinates.truncate(highlightCoordinates.length() - 1);

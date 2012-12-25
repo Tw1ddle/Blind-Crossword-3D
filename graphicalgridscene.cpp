@@ -85,7 +85,7 @@ void GraphicalGridScene::updateGrid()
     }
 
     // set the highlights
-    std::vector<std::pair<uivec3, QColor> > highlights = m_RefPuzzle.getHighlights();
+    std::vector<std::pair<uivec3, QString> > highlights = m_RefPuzzle.getHighlights();
 
     for(unsigned int j = 0; j < highlights.size(); j++)
     {

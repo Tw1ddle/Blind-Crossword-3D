@@ -49,7 +49,7 @@ public:
     const GridData& getGrid() const;
     const std::vector<CrosswordEntry>& getEntries() const;
     const QPixmap& getBackgroundImage() const;
-    const std::vector<std::pair<uivec3, QColor> >& getHighlights() const;
+    const std::vector<std::pair<uivec3, QString> >& getHighlights() const;
 
     std::vector<CrosswordEntry>& getRefEntries();
 
@@ -65,7 +65,7 @@ private:
     QString m_Title;
     QString m_Authors;
     QString m_Type;
-    std::vector<std::pair<uivec3, QColor> > m_Highlights;
+    std::vector<std::pair<uivec3, QString> > m_Highlights;
     QString m_Notes;
 
     QPixmap m_BackgroundImage;

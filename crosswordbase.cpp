@@ -61,7 +61,7 @@ const QPixmap& CrosswordBase::getBackgroundImage() const
     return m_BackgroundImage;
 }
 
-const std::vector<std::pair<uivec3, QColor> >& CrosswordBase::getHighlights() const
+const std::vector<std::pair<uivec3, QString> >& CrosswordBase::getHighlights() const
 {
     return m_Highlights;
 }
