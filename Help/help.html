@@ -30,7 +30,7 @@ h1, h2, h3, h4, h5, h6 {
 <img src = "icon.png" alt = "Blind Crossword 3D icon" style = "float:right" />
 
 <h1>HELP MANUAL FOR BLIND CROSSWORD 3D</h1>
-Below is a list of contents. Each topic has a hyperlink to the section of the manual for that topic.
+Below is a list of contents. Each topic has a link to the corresponding section of the manual.
 
 <h1><a id ="contents">Contents</a></h1>
 
@@ -53,14 +53,12 @@ Below is a list of contents. Each topic has a hyperlink to the section of the ma
 <h1><a id="intro">Introduction</a></h1>
 <p>Blind Crossword 3D is a computer program that enables blind and partially sighted crossword solvers to tackle three dimensional crossword puzzles.</p>
 
-<p>Three dimensional crossword puzzles can be thought of as layers of regular crosswords. TODO</p>
-
 <p>The program is fully voiced - you will receive voiced feedback for actions you take in the program. While using the program you can hit R to have the last voiced message repeated back to you.</p>
 
 <p><a href="#contents">Back to Contents</a></p>
 
 <h1><a id="quickstart">Quick Start Instructions</a></h1>
-<p>Players can hit H to open this help manual at any time with the program in focus. For a separate, more detailed quick start tutorial, follow the link here TODO or press G with the program in focus. 
+<p>You can hit H to open this help manual at any time with the program in focus. For a separate, more detailed quick start tutorial, press G with the program in focus to open the tutorial page.
 For a fast and minimal introduction, follow the instructions below:</p>
 
 <ol>
@@ -68,13 +66,14 @@ For a fast and minimal introduction, follow the instructions below:</p>
 	<li>Hit L to open the list of crossword files. Use the arrow keys to move through the list of files. Press enter to load the selected crossword.</li>
 	<li>You can now use the arrow keys to move through the table of clues. Details about each clue will be read out. Press enter to open a text box for entering your answer.</li>
 	<li>Type a guess in and press enter to submit your answer. Was your answer accepted? Can you validate your answer by hitting V?</li>
-	<li>Look at the controls list below and explore!</li>
+	<li>Read the controls list below and explore!</li>
 </ol>
 
 <p><a href="#contents">Back to Contents</a></p>
 
 <h1><a id="controls">Controls List</a></h1>
-<p>This is a reference list of controls, listed in rough order of importance, with brief descriptions. </p>
+<p>This is a reference list of controls, with brief descriptions. The controls list is divided into management controls and gameplay controls. 
+You will probably find yourself using the gameplay controls often when solving a puzzle. The management controls will be useful for configuring the program outside of solving the crossword.</p>
 
 <h2>Management Controls</h2>
 
@@ -106,7 +105,8 @@ For a fast and minimal introduction, follow the instructions below:</p>
 	<li>Return/Enter - confirms a choices or brings up the enter guess dialog for the currently selected guess</li>
 	<li>Backspace/Delete - erases the current selected guess. Note that erasing guesses removes letters from adjoining guesses</li>
 	<li>V - validates a guess. Removes incorrect letters from the currently selected guess if answers are available in the crossword file</li>
-	<li>M - your crossword if answers are available within the crossword file</li>
+	<li>M - marks your crossword if answers are available within the crossword file</li>
+	<li>C - reads your guess for the currently selected item</li>
 	
 	<li>O - reads a single word of the currently selected clue and advances a word, so that the next time you press O, the next word in the clue will be spoken</li>
 	<li>I - reads a single word of the currently selected clue but does not advance a word</li>
@@ -124,12 +124,12 @@ For a fast and minimal introduction, follow the instructions below:</p>
 
 <h1><a id="loadingandsaving">Loading And Saving Crosswords</a></h1>
 <p>With the program running, you can hit L to open the list of crossword files. Use the up and down arrow keys to move through the list of files. When you have the found your selected crossword, hit Return
-or Enter to load the file. Once the file is loaded, you can move onto immediately solving it. Alternatively, hit Escape to close the loading dialog, and continue to use the program.</p>
+or Enter to load the file. Once the file is loaded, you can move onto immediately solving it. Alternatively, before loading the file you can hit Escape to close the loading dialog, and continue to use the program.</p>
 
 <p>You can hit L at any time to re-open the list of crossword files. Remember that if you want to save (see below) your progress on an existing open crossword, you must do so before loading a new crossword.</p>
 
-<p>Hit S to save the currently open crossword. The crossword file is automatically saved with the title of the open crossword. If a crossword file of the same name already exists, then the crossword is saved
- using the crossword the title followed by an underscore followed by a number.</p>
+<p>You can hit S to save the currently open crossword. The crossword file is automatically saved with the title of the current crossword. If a crossword file of the same name already exists, then the crossword is saved
+ using the crossword title followed by an underscore followed by a number.</p>
  
 <p><a href="#contents">Back to Contents</a></p>
 
@@ -140,7 +140,7 @@ or Enter to load the file. Once the file is loaded, you can move onto immediatel
 	<li>Date - CalendarPuzzles crosswords have a clue for each day, and so are numbered by date. Some puzzles even have solutions that are in alphabetical order of the date.</li>
 	<li>Guess - Your guess at the answer to the clue.</li>
 	<li>Clue - The clue that you must solve.</li>
-	<li>Solution Structure - The structure of the solution - the length of words in the answer, and the puncutation that comes in between those words.</li>
+	<li>Solution Structure - The structure of the solution - the length of words in an answer, and the puncutation that comes in between those words.</li>
 	<li>Entry Name - Each clue entry name consists of the numbers and directions that the clue takes. Some clues snake around the grids, and so can take multiple numbers and directions!</li>
 </ul>
 
@@ -148,35 +148,35 @@ or Enter to load the file. Once the file is loaded, you can move onto immediatel
 
 <p>It is possible to sort clues. Tapping Key 1 will sort clues by the day they appear on, and the alphabetical order of the clues.</p>
 
-<p>It is possible to filter clues. Tapping Key 2 repeatedly will filter clues by the direction, whether they have been started (i.e. contain letters), or whether they are unstarted.</p>
+<p>It is possible to filter clues. Tapping Key 2 repeatedly will filter clues using various criteria - such as the clue's grid direction, whether they have been started (i.e. contain letters), or whether they are unstarted.</p>
 
 <p><a href="#contents">Back to Contents</a></p>
 
 <h1><a id="enteringanswers">Entering Answers</a></h1>
-<p>Whilst navigating the clues list, you can hit Return or Enter to open a dialog for entering an answer.</p>
+<p>Whilst navigating the clues list, you can hit Return or Enter to start entering an answer.</p>
 
 <p>Type your guess in. Hit Enter to submit your guess. If you are unsure of all the letters, you may use the spacebar to leave a blank letter before proceeding to the next. For example, entering an answer such as T space space E D would enter letters into 
-slots one, four and five, while leaving slots two and three blank.</p>
+slots one, four and five, while leaving slots two and three blank (containing dots).</p>
 
-<p>If you made a mistake, then the program will tell you the problem. You can hit Return or Enter and enter another guess.</p>
+<p>If you make a mistake when entering an answer, then the program will tell you the problem. You can hit Return or Enter to try again and enter another guess.</p>
 
 <p>You can erase or delete a guess by hitting Backspace or Delete.</p>
 
 <p><a href="#contents">Back to Contents</a></p>
 
 <h1><a id="validatinganswers">Validating Answers</a></h1>
-<p>If the crossword you are solving contains a set of answers, you may validate your clues by selecting the desired clue and pressing V. If there are any incorrect letters in the guess, they will be removed from the guess.</p>
+<p>If the crossword you are solving contains a set of answers, then you may validate your clues by selecting the desired clue and pressing V. If there are any incorrect letters in the guess, they will be removed from the guess.</p>
 
-<p>If a full set of answers are available to the program, then you can get an overall grade/mark for your guesses by pressing K.</p>
+<p>If a full set of answers for a puzzle is available to the program, then you can get an overall grade/mark for your guesses by pressing M.</p>
 
 <p><a href="#contents">Back to Contents</a></p>
 
 <h1><a id="navigatinggrid">Navigating the Graphical Grid View</a></h1>
-<p>Currently blind users cannot navigate the graphical grid. However, users with some sight can view the grid by checking the box in the Options Menu, or by pressing TODO.</p>
+<p>Currently blind users cannot navigate the graphical grid. However, users with some sight can view the grid. It is possible to view the grid on its own by repeatedly pressing the apostrophe (') key.</p>
 
 <p>The grid can be zoomed by scrolling your mouse wheel over the grid. If you do not have a scroll wheel, tapping the + (Plus) and - (Minus) keys can achieve the same effect.</p>
 
-<p>You can move around the graphical grid view by left clicking and dragging your mouse across the view. You can also drag grids around by clicking on them and moving your mouse.</p>
+<p>You can move around the graphical grid view by left clicking and dragging your mouse across the view.</p>
 
 <p><a href="#contents">Back to Contents</a></p>
 
@@ -200,7 +200,7 @@ containing your answers and the Calendar Puzzles mailing address.</p>
 
 <p>
 
-Once you have downloaded a crossword file, you must move it into the Crosswords folder inside the Blind Crossword 3D folder. Once you have done this, you can open the load crossword dialog (reopen it if it was open to begin with)
+Once you have downloaded a crossword file, you must move it into the Crosswords folder which is itself inside the Blind Crossword 3D folder. Once you have done this, you can open the load crossword dialog (reopen it if it was open to begin with)
 in the program - you will find that the downloaded crossword file has appeared in the list. 
 
 </p>
@@ -218,10 +218,10 @@ in the program - you will find that the downloaded crossword file has appeared i
 You can press J to cycle between different types of reading. You can also press Keys I and O to read a clue you are having difficulty with word by word.</p>
 
 <p>Question #2 - How do I change the program's voice?</p>
-<p>Answer #2 - See the Voices section (TODO)</p>
+<p>Answer #2 - See the Voices section</p>
 
 <p>Question #3 - I cannot do these difficult cryptic crosswords. How can I find easier ones?</p>
-<p>Answer #3 - See the Obtaining Crosswords section (TODO)</p>
+<p>Answer #3 - See the Obtaining Crosswords section</p>
 
 <p><a href="#contents">Back to Contents</a></p>
 
