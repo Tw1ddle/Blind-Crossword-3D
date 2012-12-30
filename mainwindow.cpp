@@ -209,38 +209,40 @@ void MainWindow::cycleTableViewFilter()
 {
     const static unsigned int cs_NumFilters = 4;
     static unsigned int s_Filter = 0;
-    QRegExp showUnstarted = QRegExp("[^A]");
-    QRegExp showPartial = QRegExp("([^\\.])");
-    QRegExp showCompleted = QRegExp("");
+
+    // filters anything that contains anything but any number of repetitions of "."
+    QRegExp showUnstarted = QRegExp("^[\\.]*$");
+
+    // filters anything that does not contain at least one non "." and a "."
+    QRegExp showPartial = QRegExp("[^\\.].*[\\.]|[\\.].*[^\\.]");
+
+    // filters anything that contains any number of repetitions of "."
+    QRegExp showCompleted = QRegExp("^[^\\.]*$");
+
+    // filters nothing
     QRegExp showAll = QRegExp("");
-    QRegExp showIncidentCrosswordEntries = QRegExp("");
 
     switch(s_Filter)
     {
         case 0:
             m_ProxyModel->setFilterRegExp(showUnstarted);
-            m_ProxyModel->setFilterKeyColumn(CrosswordEntryTableHeader::entryColumnId);
+            m_ProxyModel->setFilterKeyColumn(CrosswordEntryTableHeader::wordColumnId);
             ITextToSpeech::instance().speak("Showing unstarted crossword entries.");
             break;
         case 1:
             m_ProxyModel->setFilterRegExp(showCompleted);
-            m_ProxyModel->setFilterKeyColumn(CrosswordEntryTableHeader::entryColumnId);
+            m_ProxyModel->setFilterKeyColumn(CrosswordEntryTableHeader::wordColumnId);
             ITextToSpeech::instance().speak("Showing completed crossword entries.");
             break;
         case 2:
             m_ProxyModel->setFilterRegExp(showPartial);
-            m_ProxyModel->setFilterKeyColumn(CrosswordEntryTableHeader::entryColumnId);
+            m_ProxyModel->setFilterKeyColumn(CrosswordEntryTableHeader::wordColumnId);
             ITextToSpeech::instance().speak("Showing partially completed crossword entries.");
             break;
         case 3:
              m_ProxyModel->setFilterRegExp(showAll);
-             m_ProxyModel->setFilterKeyColumn(CrosswordEntryTableHeader::entryColumnId);
+             m_ProxyModel->setFilterKeyColumn(CrosswordEntryTableHeader::wordColumnId);
              ITextToSpeech::instance().speak("Filtering disabled.");
-            break;
-       case 4:
-            m_ProxyModel->setFilterRegExp(showIncidentCrosswordEntries);
-            m_ProxyModel->setFilterKeyColumn(CrosswordEntryTableHeader::entryColumnId);
-            ITextToSpeech::instance().speak("Showing all clues that intersect the current entry");
             break;
     }
 
@@ -496,7 +498,7 @@ QString MainWindow::getIntroString() const
             .append("Press ").append(ShortcutKeys::loadShortcutKey).append(" to load a crossword. ")
             .append("Press ").append(ShortcutKeys::exitShortcutKey).append(" to quit the program. ")
             .append("Press ").append(ShortcutKeys::helpShortcutKey).append(" to open a help document in your web browser. ")
-            .append("Press").append(ShortcutKeys::tutorialShortcutKey).append(" to open a tutorial document in your web browser. ");
+            .append("Press ").append(ShortcutKeys::tutorialShortcutKey).append(" to open a guide document in your web browser. ");
 }
 
 void MainWindow::showAbout()
