@@ -35,7 +35,7 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    setWindowTitle(Version::getApplicationName());
+    setWindowTitle(Version::getApplicationName().append(" (Version ").append(Version::getApplicationVersion().append(")")));
     setWindowIcon(QIcon(":/icon.ico"));
 
     createShortcuts();
