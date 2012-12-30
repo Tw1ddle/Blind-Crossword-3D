@@ -21,7 +21,7 @@ QTextDocument* Printer::getPuzzleDocumentForPrinting(CrosswordBase& puzzle) cons
 
     QString textToPrint;
 
-    textToPrint.append(puzzle.getInformation().append("\n\n"));
+    textToPrint.append(puzzle.getInformation().append("<br/><br/>"));
 
     //copy and sort by calendar date
     std::vector<CrosswordEntry> entries = puzzle.getEntries();
@@ -34,10 +34,11 @@ QTextDocument* Printer::getPuzzleDocumentForPrinting(CrosswordBase& puzzle) cons
         QString direction = entries.at(i).getDirection();
         QString answer = entries.at(i).getGuess().getString();
 
-        textToPrint.append(id).append(" - ").append(entryName).append(" ").append(direction).append(" --- ").append(answer).append("\n");
+        // QTextEdit understands a HTML subset and \n is treated as a space, so using <br/> tag for newlines instead
+        textToPrint.append(id).append(" - ").append(entryName).append(" ").append(direction).append(" --- ").append(answer).append("<br/>");
     }
 
-    textToPrint.append("\n").append(postalAddress);
+    textToPrint.append("<br/>").append(postalAddress);
 
     QTextEdit* textViewer = new QTextEdit(textToPrint);
     QTextDocument* document = textViewer->document();
@@ -56,11 +57,13 @@ QString Printer::openPrintDialog(CrosswordBase& puzzle, QWidget* parentWidget)
         document->print(printer);
 
         delete document;
+        delete printer;
 
         return QString("Sending print request to printer.");
     }
 
     delete document;
+    delete printer;
 
     return QString("Print request cancelled.");
 }
