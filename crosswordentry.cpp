@@ -159,7 +159,15 @@ std::vector<std::pair<unsigned int, uivec3> > CrosswordEntry::getWordEntryStarti
     return pairs;
 }
 
+// Identifiers are uints, so convert them instead of trying to compare strings...
 bool SortByIdentifier::operator()(const CrosswordEntry& lhs, const CrosswordEntry& rhs)
 {
-    return lhs.getIdentifier() < rhs.getIdentifier();
+    bool ok1 = true;
+    bool ok2 = true;
+
+    bool comparison = lhs.getIdentifier().toUInt(&ok1) < rhs.getIdentifier().toUInt(&ok2);
+
+    assert(ok1 && ok2);
+
+    return comparison;
 }
