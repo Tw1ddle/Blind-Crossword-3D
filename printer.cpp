@@ -41,6 +41,7 @@ QTextDocument* Printer::getPuzzleDocumentForPrinting(CrosswordBase& puzzle) cons
     textToPrint.append("<br/>").append(postalAddress);
 
     QTextEdit* textViewer = new QTextEdit(textToPrint);
+
     QTextDocument* document = textViewer->document();
 
     return document;
@@ -49,6 +50,9 @@ QTextDocument* Printer::getPuzzleDocumentForPrinting(CrosswordBase& puzzle) cons
 QString Printer::openPrintDialog(CrosswordBase& puzzle, QWidget* parentWidget)
 {
     QTextDocument* document = getPuzzleDocumentForPrinting(puzzle);
+
+    QFont printFont = QFont("Lucida Console", 20);
+    document->setDefaultFont(printFont);
 
     QPrinter* printer = new QPrinter(QPrinter::HighResolution);
     QPrintDialog printDialog(printer, parentWidget);
