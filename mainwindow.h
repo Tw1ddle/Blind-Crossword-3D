@@ -1,11 +1,29 @@
-/*! \brief The main window.
+/*!
+ * \section LICENSE
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
+ * published by the Free Software Foundation; either version 3 of
+ * the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * General Public License for more details at
+ * http://www.gnu.org/copyleft/gpl.html
+ *
+ *
+ * \brief The main window.
  *
  *  Responsible for setting up of shortcuts and connections between program components. Contains functionality that does not easily fit
  *  anywhere else, and provides voiced feedback for most of the actions taken within the program.
  *
  *  \author Samuel Twidale
  *  \copyright GNU General Public License v3.0
+ *
  */
+
+
 
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
