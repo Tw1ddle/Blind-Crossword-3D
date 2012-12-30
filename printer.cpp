@@ -39,8 +39,8 @@ QTextDocument* Printer::getPuzzleDocumentForPrinting(CrosswordBase& puzzle) cons
 
     textToPrint.append("\n").append(postalAddress);
 
-    QTextEdit textViewer(textToPrint);
-    QTextDocument* document = textViewer.document();
+    QTextEdit* textViewer = new QTextEdit(textToPrint);
+    QTextDocument* document = textViewer->document();
 
     return document;
 }
@@ -49,14 +49,18 @@ QString Printer::openPrintDialog(CrosswordBase& puzzle, QWidget* parentWidget)
 {
     QTextDocument* document = getPuzzleDocumentForPrinting(puzzle);
 
-    QPrinter printer(QPrinter::HighResolution);
-    QPrintDialog printDialog(&printer, parentWidget);
+    QPrinter* printer = new QPrinter(QPrinter::HighResolution);
+    QPrintDialog printDialog(printer, parentWidget);
     if(printDialog.exec() == QDialog::Accepted)
     {
-        document->print(&printer);
+        document->print(printer);
+
+        delete document;
 
         return QString("Sending print request to printer.");
     }
+
+    delete document;
 
     return QString("Print request cancelled.");
 }
