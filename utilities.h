@@ -1,7 +1,4 @@
-/*! \brief Brief description.
- *         Brief description continued.
- *
- *  Detailed description starts here.
+/*! \brief Utility functions mostly for file I/O.
  *
  *  \author Samuel Twidale
  *  \copyright GNU General Public License v3.0

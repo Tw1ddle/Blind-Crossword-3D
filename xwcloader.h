@@ -1,7 +1,5 @@
-/*! \brief Brief description.
- *         Brief description continued.
+/*! \brief A loader for .xwc format files.
  *
- *  Detailed description starts here.
  *
  *  \author Samuel Twidale
  *  \copyright GNU General Public License v3.0

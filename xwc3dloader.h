@@ -1,7 +1,6 @@
-/*! \brief Brief description.
- *         Brief description continued.
+/*! \brief A class for loading .xwc3d format crossword puzzle files.
  *
- *  Detailed description starts here.
+ *  See the wiki for an explanation of how the XWC3D format works.
  *
  *  \author Samuel Twidale
  *  \copyright GNU General Public License v3.0

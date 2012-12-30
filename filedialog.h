@@ -1,7 +1,6 @@
-/*! \brief Brief description.
- *         Brief description continued.
+/*! \brief Classes for viewing a list of files in the context of a filesystem.
  *
- *  Detailed description starts here.
+ *  Provide a selectable list of files. Used for choosing a crossword to load.
  *
  *  \author Samuel Twidale
  *  \copyright GNU General Public License v3.0

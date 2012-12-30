@@ -1,7 +1,5 @@
-/*! \brief Brief description.
- *         Brief description continued.
+/*! \brief Fires a repeating reminder that the program is still running if the user does not interact with the program.
  *
- *  Detailed description starts here.
  *
  *  \author Samuel Twidale
  *  \copyright GNU General Public License v3.0

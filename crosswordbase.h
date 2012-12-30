@@ -1,7 +1,10 @@
-/*! \brief Brief description.
- *         Brief description continued.
+/*! \brief Models a crossword.
  *
- *  Detailed description starts here.
+ *
+ *  Models a crossword. It consists of metadata, the crossword grid, and the entries (clues and associated information).
+ *  The model has minimal functionality itself - it is a data source for other classes.
+ *
+ *  Loading and unloading of data is delegated to loader friend classes.
  *
  *  \author Samuel Twidale
  *  \copyright GNU General Public License v3.0
@@ -12,14 +15,13 @@
 
 #include <QString>
 #include <QPixmap>
-#include <QColor>
 #include <vector>
 
 #include "crosswordentry.h"
 #include "crosswordgrid.h"
 
 #include "crosswordfileformats.h"
-#include "crosswordtypes.h"
+#include "crosswordstatus.h"
 
 const QString m_BackgroundImagesFolder = "/Backgrounds";
 
@@ -43,7 +45,7 @@ public:
     QString getInformation() const;
     QString getScore() const;
     FileFormats::FORMAT getFormat() const;
-    CrosswordTypes::CROSSWORD_TYPE getType() const;
+    CrosswordStatus::CROSSWORD_TYPE getType() const;
     bool isComplete() const;
 
     const GridData& getGrid() const;
@@ -65,7 +67,7 @@ private:
     QString m_Title;
     QString m_Authors;
     QString m_Type;
-    std::vector<std::pair<uivec3, QString> > m_Highlights;
+    std::vector<std::pair<uivec3, QString> > m_Highlights; //see http://www.w3.org/TR/SVG/types.html#ColorKeywords
     QString m_Notes;
 
     QPixmap m_BackgroundImage;

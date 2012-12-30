@@ -1,7 +1,6 @@
-/*! \brief Brief description.
- *         Brief description continued.
+/*! \brief A singleton cross platform text to speech interface.
  *
- *  Detailed description starts here.
+ *  The speech output is customizable in two ways - options can be passed in with a speak method call, or modes can be set.
  *
  *  \author Samuel Twidale
  *  \copyright GNU General Public License v3.0

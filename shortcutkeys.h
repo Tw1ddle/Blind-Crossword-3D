@@ -1,7 +1,4 @@
-/*! \brief Brief description.
- *         Brief description continued.
- *
- *  Detailed description starts here.
+/*! \brief All the shortcut keys used in the program.
  *
  *  \author Samuel Twidale
  *  \copyright GNU General Public License v3.0

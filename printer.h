@@ -1,7 +1,6 @@
-/*! \brief Brief description.
- *         Brief description continued.
+/*! \brief Opens a print dialog and enables a user to print crossword answers.
  *
- *  Detailed description starts here.
+ *  Opens a print dialog for printing a user's answers to a crossword.
  *
  *  \author Samuel Twidale
  *  \copyright GNU General Public License v3.0

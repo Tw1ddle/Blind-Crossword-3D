@@ -1,7 +1,6 @@
-/*! \brief Brief description.
- *         Brief description continued.
+/*! \brief A model of the graphical grid.
  *
- *  Detailed description starts here.
+ *  Responsible for maintaining a graphical model of the crossword puzzle.
  *
  *  \author Samuel Twidale
  *  \copyright GNU General Public License v3.0

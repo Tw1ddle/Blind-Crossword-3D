@@ -1,7 +1,7 @@
-/*! \brief Brief description.
- *         Brief description continued.
+/*! \brief The main window.
  *
- *  Detailed description starts here.
+ *  Responsible for setting up of shortcuts and connections between program components. Contains functionality that does not easily fit
+ *  anywhere else, and provides voiced feedback for most of the actions taken within the program.
  *
  *  \author Samuel Twidale
  *  \copyright GNU General Public License v3.0

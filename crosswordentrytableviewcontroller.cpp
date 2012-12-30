@@ -127,8 +127,7 @@ void CrosswordEntryTableViewController::keyPressEvent(QKeyEvent *event)
 
         else if(event->key() == ShortcutKeys::sortEntriesKey)
         {
-            sortByColumn(CrosswordEntryTableHeader::identifierColumnId, Qt::AscendingOrder);
-            ITextToSpeech::instance().speak("Sorted clues by day.");
+            sortEntries();
         }
     }
 }
@@ -348,4 +347,28 @@ void CrosswordEntryTableViewController::readWordLengths()
     ITextToSpeech::instance().speak(wordLengthsAtSelection);
 
     ITextToSpeech::instance().setMode(mode);
+}
+
+void CrosswordEntryTableViewController::sortEntries()
+{
+    const static unsigned int cs_NumSorts = 2;
+    static unsigned int s_Sort = 0;
+
+    switch(s_Sort)
+    {
+        case 0:
+            sortByColumn(CrosswordEntryTableHeader::identifierColumnId, Qt::AscendingOrder);
+            ITextToSpeech::instance().speak("Sorted clues by day.");
+            break;
+        case 1:
+            sortByColumn(CrosswordEntryTableHeader::clueColumnId, Qt::AscendingOrder);
+            ITextToSpeech::instance().speak("Sorted clues by alphabetical order of clues.");
+            break;
+    }
+
+    s_Sort++;
+    if(s_Sort >= cs_NumSorts)
+    {
+        s_Sort = 0;
+    }
 }

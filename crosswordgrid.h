@@ -1,7 +1,5 @@
-/*! \brief Brief description.
- *         Brief description continued.
+/*! \brief Models a crossword grid.
  *
- *  Detailed description starts here.
  *
  *  \author Samuel Twidale
  *  \copyright GNU General Public License v3.0

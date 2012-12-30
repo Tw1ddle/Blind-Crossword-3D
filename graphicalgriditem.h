@@ -1,7 +1,6 @@
-/*! \brief Brief description.
- *         Brief description continued.
+/*! \brief Models a grid item within the graphical grid view.
  *
- *  Detailed description starts here.
+ *  References a letter in the crossword grid.
  *
  *  \author Samuel Twidale
  *  \copyright GNU General Public License v3.0

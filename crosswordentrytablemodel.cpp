@@ -140,7 +140,7 @@ void CrosswordEntryTableModel::crosswordEntriesChanged()
 
 void CrosswordEntryTableModel::amendGuess(QString word, QModelIndex index)
 {
-    if(m_RefPuzzle.getType() == CrosswordTypes::WITHOUT_ANSWERS)
+    if(m_RefPuzzle.getType() == CrosswordStatus::WITHOUT_ANSWERS)
     {
         emit guessAmendationRequestRejected();
 

@@ -1,7 +1,4 @@
-/*! \brief Brief description.
- *         Brief description continued.
- *
- *  Detailed description starts here.
+/*! \brief A collection of static methods for fetching the version number and name of this program.
  *
  *  \author Samuel Twidale
  *  \copyright GNU General Public License v3.0

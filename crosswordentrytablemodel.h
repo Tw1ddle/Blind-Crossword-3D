@@ -1,7 +1,7 @@
-/*! \brief Brief description.
- *         Brief description continued.
+/*! \brief The model for the table of crossword entries
  *
- *  Detailed description starts here.
+ *
+ *  Models the table of crossword entries, using the set of crossword entries from a crossword model as its data source.
  *
  *  \author Samuel Twidale
  *  \copyright GNU General Public License v3.0

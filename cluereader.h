@@ -1,7 +1,7 @@
-/*! \brief Brief description.
- *         Brief description continued.
+/*! \brief Breaks clues down into individual words.
  *
- *  Detailed description starts here.
+ *
+ *  Enables a user to advance through a body of text word by word.
  *
  *  \author Samuel Twidale
  *  \copyright GNU General Public License v3.0

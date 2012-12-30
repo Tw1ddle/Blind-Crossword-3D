@@ -1,7 +1,7 @@
-/*! \brief Brief description.
- *         Brief description continued.
+/*! \brief The view controller for the crossword entry table.
  *
- *  Detailed description starts here.
+ *
+ *
  *
  *  \author Samuel Twidale
  *  \copyright GNU General Public License v3.0
@@ -37,6 +37,8 @@ protected:
     void readCurrentGuess();
     void readCurrentClue();
     void readWordLengths();
+
+    void sortEntries();
 
 private slots:
     void conflictingWordError();

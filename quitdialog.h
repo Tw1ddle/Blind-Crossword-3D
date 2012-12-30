@@ -1,7 +1,5 @@
-/*! \brief Brief description.
- *         Brief description continued.
+/*! \brief A dialog that confirms whether user wants to quit the program.
  *
- *  Detailed description starts here.
  *
  *  \author Samuel Twidale
  *  \copyright GNU General Public License v3.0

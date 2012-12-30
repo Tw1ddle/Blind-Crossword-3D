@@ -1,7 +1,6 @@
-/*! \brief Brief description.
- *         Brief description continued.
+/*! \brief Models a letter in a crossword puzzle.
  *
- *  Detailed description starts here.
+ *  A letter is modelled as a location in the crossword grid and a letter.
  *
  *  \author Samuel Twidale
  *  \copyright GNU General Public License v3.0

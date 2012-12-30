@@ -79,6 +79,22 @@ bool Emailer::openSendResultsEmail(CrosswordBase& puzzle)
     }
 }
 
+bool Emailer::openEmail(QString address, QString subject, QString content)
+{
+    QUrl mailtoURL = QUrl(QString("mailto:").append(QUrl::toPercentEncoding(address))
+                          .append("?subject=").append(QUrl::toPercentEncoding(subject))
+                          .append("&body=").append(QUrl::toPercentEncoding(content)));
+
+    if(QDesktopServices::openUrl(mailtoURL))
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
 QString Emailer::getEmailAddress(const QString path) const
 {
     QStringList emailAddresses;

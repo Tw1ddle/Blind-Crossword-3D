@@ -6,7 +6,7 @@
 #include <QDir>
 #include <QColor>
 
-#include "crosswordtypes.h"
+#include "crosswordstatus.h"
 
 CrosswordBase::CrosswordBase() : m_Loaded(false), m_FileFormatVersion(0.0f)
 {
@@ -119,7 +119,7 @@ unsigned int CrosswordBase::removeIncorrectEntries()
 
 QString CrosswordBase::getScore() const
 {
-    if(m_Type != CrosswordTypes::WITHOUT_ANSWERS)
+    if(m_Type != CrosswordStatus::WITHOUT_ANSWERS)
     {
         if(m_Loaded)
         {
@@ -164,7 +164,7 @@ FileFormats::FORMAT CrosswordBase::getFormat() const
     return m_FileFormat;
 }
 
-CrosswordTypes::CROSSWORD_TYPE CrosswordBase::getType() const
+CrosswordStatus::CROSSWORD_TYPE CrosswordBase::getType() const
 {
     return m_Type;
 }
