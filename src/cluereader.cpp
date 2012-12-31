@@ -1,5 +1,8 @@
 #include "cluereader.h"
 
+//!
+//! Assigns the character index of the text to begin at, and the separator used to break the text into pieces.
+//!
 ClueReader::ClueReader() : index(0u), separator(QChar(Qt::Key_Space))
 {
 }

@@ -6,12 +6,17 @@
 #include <QDir>
 #include <QColor>
 
+#include "utilities.h"
 #include "crosswordstatus.h"
+
 
 CrosswordBase::CrosswordBase() : m_Loaded(false), m_FileFormatVersion(0.0f)
 {
 }
 
+//!
+//! Converts from uivec3 (x,y,z) coordinate to a single number index into the crossword grid.
+//!
 unsigned int CrosswordBase::toGridIndex(uivec3 index) const
 {
     return index.getX() + getGrid().getDimensions().getX() * index.getY() + getGrid().getDimensions().getY() * getGrid().getDimensions().getX() * index.getZ();
@@ -21,6 +26,9 @@ unsigned int CrosswordBase::toGridIndex(uivec3 index) const
     return 0;
 }
 
+//!
+//! Gets all the crossword entries who share a letter with the crossword entry identified by the supplied crossword entry id (day number)
+//!
 std::vector<CrosswordEntry> CrosswordBase::getIntersectingCrosswordEntries(unsigned int crosswordEntryId) const
 {
     std::vector<CrosswordEntry> entries;
@@ -70,24 +78,18 @@ const std::vector<CrosswordEntry>& CrosswordBase::getEntries() const
 {
     return m_Entries;
 }
-
+//!
+//! Resets the crossword file.
+//! \warning This might cause memory leaks if this class is changed to dynamically allocate memory in the constructor. Or, maybe if a derived class is created and then calls this method. Beware.
+//!
 void CrosswordBase::clear()
 {
-    m_Title.clear();
-    m_Authors.clear();
-    m_Type.clear();
-    m_Notes.clear();
-    m_Highlights.clear();
-    m_Grid.clear();
-    m_Entries.clear();
-    m_FileFormat.clear();
-    m_FileFormatVersion = 0.0f;
-
-    m_Loaded = false;
-
-    m_BackgroundImage.detach();
+    *this = CrosswordBase();
 }
 
+//!
+//! Calculates the score for the crossword based on the number of correct guesses
+//!
 unsigned int CrosswordBase::scoreSolution() const
 {
     unsigned int score = 0;
@@ -102,6 +104,9 @@ unsigned int CrosswordBase::scoreSolution() const
     return score;
 }
 
+//!
+//! Removes all the incorrect answers in a crossword
+//!
 unsigned int CrosswordBase::removeIncorrectEntries()
 {
     unsigned int entriesRemoved = 0;
@@ -180,7 +185,8 @@ bool CrosswordBase::loadBackgroundImage(QString filename)
     path.append("/").append(filename);
 
     QDir dir;
-    if(dir.exists(dir.absolutePath().append(path)))
+
+    if(Utilities::existsFile(dir.absolutePath().append(path)))
     {
         m_BackgroundImage = QPixmap(dir.absolutePath().append(path));
 

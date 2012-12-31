@@ -67,7 +67,7 @@ private:
     QString m_Title;
     QString m_Authors;
     QString m_Type;
-    std::vector<std::pair<uivec3, QString> > m_Highlights; //see http://www.w3.org/TR/SVG/types.html#ColorKeywords
+    std::vector<std::pair<uivec3, QString> > m_Highlights; //! Uses the W3 SVG colour scheme, see: http://www.w3.org/TR/SVG/types.html#ColorKeywords
     QString m_Notes;
 
     QPixmap m_BackgroundImage;
