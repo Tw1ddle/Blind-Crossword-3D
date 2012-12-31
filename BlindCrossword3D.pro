@@ -10,65 +10,65 @@ QT       -= webkitwidgets
 TARGET = BlindCrossword3D
 TEMPLATE = app
 
-SOURCES += main.cpp\
-        mainwindow.cpp \
-    uivec3.cpp \
-    letter.cpp \
-    guessworddialog.cpp \
-    itexttospeech.cpp \
-    ttsimpl.cpp \
-    quitdialog.cpp \
-    shortcutkeys.cpp \
-    filedialog.cpp \
-    xwc3dloader.cpp \
-    xwcloader.cpp \
-    emailer.cpp \
-    printer.cpp \
-    idlereminder.cpp \
-    utilities.cpp \
-    version.cpp \
-    graphicalgridview.cpp \
-    graphicalgriditem.cpp \
-    graphicalgridscene.cpp \
-    crosswordbase.cpp \
-    crosswordentry.cpp \
-    crosswordgrid.cpp \
-    crosswordloader.cpp \
-    crosswordentrytablemodel.cpp \
-    crosswordentrytableviewcontroller.cpp \
-    cluereader.cpp \
-    crosswordword.cpp
+SOURCES += src/xwcloader.cpp \
+    src/xwc3dloader.cpp \
+    src/version.cpp \
+    src/utilities.cpp \
+    src/uivec3.cpp \
+    src/ttsimpl.cpp \
+    src/shortcutkeys.cpp \
+    src/quitdialog.cpp \
+    src/printer.cpp \
+    src/mainwindow.cpp \
+    src/main.cpp \
+    src/letter.cpp \
+    src/itexttospeech.cpp \
+    src/idlereminder.cpp \
+    src/guessworddialog.cpp \
+    src/graphicalgridview.cpp \
+    src/graphicalgridscene.cpp \
+    src/graphicalgriditem.cpp \
+    src/filedialog.cpp \
+    src/emailer.cpp \
+    src/crosswordword.cpp \
+    src/crosswordloader.cpp \
+    src/crosswordgrid.cpp \
+    src/crosswordentrytableviewcontroller.cpp \
+    src/crosswordentrytablemodel.cpp \
+    src/crosswordentry.cpp \
+    src/crosswordbase.cpp \
+    src/cluereader.cpp
 
-HEADERS  += mainwindow.h \
-    uivec3.h \
-    letter.h \
-    guessworddialog.h \
-    itexttospeech.h \
-    singleton.h \
-    ttsimpl.h \
-    quitdialog.h \
-    shortcutkeys.h \
-    filedialog.h \
-    xwc3dloader.h \
-    xwcloader.h \
-    emailer.h \
-    printer.h \
-    idlereminder.h \
-    utilities.h \
-    version.h \
-    cluereader.h \
-    graphicalgridscene.h \
-    graphicalgriditem.h \
-    graphicalgridview.h \
-    crosswordbase.h \
-    crosswordentry.h \
-    crosswordgrid.h \
-    crosswordloader.h \
-    crosswordentrytablemodel.h \
-    crosswordentrytableviewcontroller.h \
-    crosswordword.h \
-    crosswordfileformats.h \
-    crosswordstatus.h
+HEADERS  += src/xwcloader.h \
+    src/xwc3dloader.h \
+    src/version.h \
+    src/utilities.h \
+    src/uivec3.h \
+    src/ttsimpl.h \
+    src/singleton.h \
+    src/shortcutkeys.h \
+    src/quitdialog.h \
+    src/printer.h \
+    src/mainwindow.h \
+    src/letter.h \
+    src/itexttospeech.h \
+    src/idlereminder.h \
+    src/guessworddialog.h \
+    src/graphicalgridview.h \
+    src/graphicalgridscene.h \
+    src/graphicalgriditem.h \
+    src/filedialog.h \
+    src/emailer.h \
+    src/crosswordword.h \
+    src/crosswordstatus.h \
+    src/crosswordloader.h \
+    src/crosswordgrid.h \
+    src/crosswordfileformats.h \
+    src/crosswordentrytableviewcontroller.h \
+    src/crosswordentrytablemodel.h \
+    src/crosswordentry.h \
+    src/crosswordbase.h \
+    src/cluereader.h
 
 FORMS    += mainwindow.ui
 
