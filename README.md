@@ -5,7 +5,7 @@ A 2D and 3D crossword puzzle game designed for blind and partially-sighted users
 
 *Binaries*
 
-Download (Windows): https://www.dropbox.com/s/mx3vts0548v7zg2/Blind%20Crossword%203D%201.0.zip (version 1.0)
+Download (Windows XP/Vista/7/8): https://www.dropbox.com/s/mx3vts0548v7zg2/Blind%20Crossword%203D%201.0.zip (version 1.0)
 
 *About*
 
