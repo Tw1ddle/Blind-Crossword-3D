@@ -3,7 +3,9 @@ Blind-Crossword-3D
 
 A 2D and 3D crossword puzzle game designed for blind and partially-sighted users.
 
-Read the wiki for more information and how to contribute: https://github.com/Tw1ddle/Blind-Crossword-3D/wiki
+Download (Windows): https://www.dropbox.com/s/mx3vts0548v7zg2/Blind%20Crossword%203D%201.0.zip (version 1.0)
+
+Read the wiki for more information and for how to contribute: https://github.com/Tw1ddle/Blind-Crossword-3D/wiki
 
 ![Blind Crossword 3D screenshot0](http://2.bp.blogspot.com/-KkYQlFyJePU/UODMnPxR0HI/AAAAAAAAAHQ/9l_A0-RZvlI/s1200/blindcrossword1.0capture0.jpg)
 
