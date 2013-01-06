@@ -20,10 +20,6 @@ CrosswordBase::CrosswordBase() : m_Loaded(false), m_FileFormatVersion(0.0f)
 unsigned int CrosswordBase::toGridIndex(uivec3 index) const
 {
     return index.getX() + getGrid().getDimensions().getX() * index.getY() + getGrid().getDimensions().getY() * getGrid().getDimensions().getX() * index.getZ();
-
-    assert(false);
-
-    return 0;
 }
 
 //!
