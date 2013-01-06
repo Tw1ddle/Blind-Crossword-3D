@@ -107,7 +107,7 @@ void GraphicalGridScene::highlightSelection(CrosswordEntry selectedCrosswordEntr
     }
 
     m_SavedColours.clear();
-    m_SelectedGridLocations = selectedCrosswordEntry.getGuess().getGridLocations();
+    m_SelectedGridLocations = selectedCrosswordEntry.getGuess().getPositions();
 
 
     for(unsigned int i = 0; i < m_SelectedGridLocations.size(); i++)

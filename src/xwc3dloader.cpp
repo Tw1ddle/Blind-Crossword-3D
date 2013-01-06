@@ -533,7 +533,7 @@ bool XWC3DLoader::saveCluesHelper(CrosswordBase &puzzle, QStringList &linelist, 
 
             for(int j = 0; j < entry.getSolution().length(); j++)
             {
-                uivec3 letterPosition = entry.getGuess().getGridLocations().at(j);
+                uivec3 letterPosition = entry.getGuess().getPositions().at(j);
 
                 entryString
                         .append(QString::number(letterPosition.getX() + 1)).append(",")

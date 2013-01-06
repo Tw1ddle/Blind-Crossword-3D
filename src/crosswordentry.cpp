@@ -18,7 +18,7 @@ CrosswordEntry::CrosswordEntry(QString direction, QString identifier, QString en
 
 uivec3 CrosswordEntry::getStartingPosition() const
 {
-    return m_Guess.getGridLocations().at(0);
+    return m_Guess.getPositions().at(0);
 }
 
 std::vector<uivec3> CrosswordEntry::getEntryPositions() const
@@ -27,14 +27,14 @@ std::vector<uivec3> CrosswordEntry::getEntryPositions() const
 
     if(m_EntryIndices.empty())
     {
-        entryPositions.push_back(m_Guess.getGridLocations().at(0));
+        entryPositions.push_back(m_Guess.getPositions().at(0));
         return entryPositions;
     }
     else
     {
         for(unsigned int i = 0; i < m_EntryIndices.size(); i++)
         {
-            entryPositions.push_back(getGuess().getGridLocations().at(m_EntryIndices.at(i)));
+            entryPositions.push_back(getGuess().getPositions().at(m_EntryIndices.at(i)));
         }
 
         return entryPositions;
