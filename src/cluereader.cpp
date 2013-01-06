@@ -3,21 +3,21 @@
 //!
 //! Assigns the character index of the text to begin at, and the separator used to break the text into pieces.
 //!
-ClueReader::ClueReader() : index(0u), separator(QChar(Qt::Key_Space))
+ClueReader::ClueReader() : m_Index(0u), m_Separator(QChar(Qt::Key_Space))
 {
 }
 
 QString ClueReader::advanceWord()
 {
-    QStringList words = text.split(separator, QString::SkipEmptyParts);
+    QStringList words = m_Text.split(m_Separator, QString::SkipEmptyParts);
 
-    if(index >= words.length() - 1)
+    if(m_Index >= words.length() - 1)
     {
-        index = 0;
+        m_Index = 0;
     }
     else
     {
-        index++;
+        m_Index++;
     }
 
     return getWord();
@@ -25,11 +25,11 @@ QString ClueReader::advanceWord()
 
 QString ClueReader::getWord()
 {
-    QStringList words = text.split(separator, QString::SkipEmptyParts);
+    QStringList words = m_Text.split(m_Separator, QString::SkipEmptyParts);
 
-    if(!words.at(index).isNull())
+    if(!words.at(m_Index).isNull())
     {
-        return words.at(index);
+        return words.at(m_Index);
     }
     else
     {
@@ -39,6 +39,6 @@ QString ClueReader::getWord()
 
 void ClueReader::setText(CrosswordEntry entry)
 {
-    index = 0;
-    text = entry.getClue();
+    m_Index = 0;
+    m_Text = entry.getClue();
 }

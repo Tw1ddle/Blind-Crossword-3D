@@ -29,9 +29,9 @@ public slots:
     void setText(CrosswordEntry entry);
 
 private:
-    QString text;
-    unsigned int index;
-    const QChar separator;
+    QString m_Text;
+    unsigned int m_Index;
+    const QChar m_Separator;
 };
 
 #endif // CLUEREADER_H
