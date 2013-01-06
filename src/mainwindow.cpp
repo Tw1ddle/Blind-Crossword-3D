@@ -445,7 +445,7 @@ void MainWindow::onIdleReminderTimeout()
     {
         ITextToSpeech::instance().speak(QString(Version::getApplicationName()
                                                 .append(" is still running. You can press ").append(ShortcutKeys::helpShortcutKey)
-                                                .append( "to open a help page. To toggle this reminder, press ").append(ShortcutKeys::toggleApplicationOpenReminderKey)
+                                                .append( " to open a help page. To toggle this reminder, press ").append(ShortcutKeys::toggleApplicationOpenReminderKey)
                                                 .append(".")));
     }
 }

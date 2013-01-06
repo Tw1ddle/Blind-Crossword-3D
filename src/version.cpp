@@ -4,6 +4,10 @@ const QString Version::sc_Major = "1";
 const QString Version::sc_Minor = "0";
 const QString Version::sc_ApplicationName = "Blind Crossword 3D";
 
+//!
+//! Gets the version number of the application
+//! \warning Version numbers are set manually.
+//!
 QString Version::getApplicationVersion()
 {
     return QString().append(sc_Major).append(".").append(sc_Minor);
