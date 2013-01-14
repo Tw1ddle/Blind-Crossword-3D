@@ -14,7 +14,7 @@
 
 #include "itexttospeech.h"
 
-#include <QString>
+#import "NSSpeechSynthesizer.h"
 
 class TTSImplMac : public ITextToSpeech
 {
@@ -30,6 +30,9 @@ public:
 
     virtual bool setMode(SPEECH_MODES::SPEECHMODE mode);
     virtual SPEECH_MODES::SPEECHMODE getMode() const;
+
+private:
+    NSSpeechSynthesizer* m_Voice;
 };
 
 #endif //TARGET_OS_MAC

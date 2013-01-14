@@ -4,6 +4,8 @@
 
 #include "ttsimplmac.h"
 
+#import <Foundation/NSString.h>
+
 // TODO
 const DWORD SPEECH_MODES::csDefaultSynchronousSpeechOptions = 0;
 const DWORD SPEECH_MODES::csDefaultAsynchronousSpeechOptions = 0;
@@ -14,10 +16,12 @@ TTSImplMac instance;
 
 TTSImplMac::TTSImplMac()
 {
+    m_Voice = [[NSSpeechSynthesizer alloc] initWithVoice:[NSSpeechSynthesizer defaultVoice]];
 }
 
 TTSImplMac::~TTSImplMac()
 {
+    [m_Voice release];
 }
 
 QString TTSImplMac::increaseSpeechRate()
@@ -26,12 +30,13 @@ QString TTSImplMac::increaseSpeechRate()
 }
 
 QString TTSImplMac::decreaseSpeechRate()
-{
+{    
     return QString("Speech rate decreased.");
 }
 
 bool TTSImplMac::speak(QString text, DWORD options)
 {
+    [m_Voice startSpeakingString:[NSString stringWithUTF8String:text.toStdString().c_str()] ];
 }
 
 const QStringList &TTSImplMac::getSpeechHistory() const

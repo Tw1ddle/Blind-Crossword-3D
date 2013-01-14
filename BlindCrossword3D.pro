@@ -38,6 +38,7 @@ SOURCES += src/xwcloader.cpp \
     src/crosswordbase.cpp \
     src/cluereader.cpp \
 
+
 HEADERS  += src/xwcloader.h \
     src/xwc3dloader.h \
     src/version.h \
@@ -74,8 +75,28 @@ win32 {
 }
 
 macx {
-    SOURCES += src/ttsimplmac.cpp
+    OBJECTIVE_SOURCES += src/ttsimplmac.mm
     HEADERS += src/ttsimplmac.h
+
+    INCLUDEPATH += ../Desktop
+    OBJECTIVE_HEADERS +=
+
+    MAC_SDK = /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.8.sdk
+
+    if(!exists($$MAC_SDK)) {
+        error("The selected Mac OSX SDK does not exist at $$MAC_SDK!")
+    }
+
+    APPKIT_PATH = $$MAC_SDK/System/Library/Frameworks/AppKit.framework/Versions/C/Headers
+
+    if(!exists($$APPKIT_PATH)) {
+        error("The path to the AppKit framework does not exist, $$APPKIT_PATH!")
+    }
+
+    INCLUDEPATH += APPKIT_PATH
+    DEPENDPATH += APPKIT_PATH
+
+    LIBS += -framework AppKit -framework Foundation
 }
 
 linux {
@@ -83,8 +104,8 @@ linux {
     HEADERS += src/ttsimpllinux.h
 }
 
-DEPENDPATH += . src
 INCLUDEPATH += . src
+DEPENDPATH += . src
 
 CONFIG += x86 x86_64
 
