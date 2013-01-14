@@ -298,7 +298,7 @@ bool XWC3DLoader::loadCluesHelper(CrosswordBase &puzzle, QStringList &linelist, 
                 QChar letterChar = wordString.at(j);
                 uivec3 letterPosition = startingPosition;
 
-                letterPosition.setY(std::abs(static_cast<double>(letterPosition.getY()) - static_cast<double>(j)));
+                letterPosition.setY(std::abs(static_cast<long>(letterPosition.getY()) - static_cast<long>(j)));
 
                 if((static_cast<int>(startingPosition.getY()) - static_cast<int>(j)) < 0) //which side of the disc is the diametric letter on?
                 {
@@ -498,7 +498,9 @@ bool XWC3DLoader::saveCluesHelper(CrosswordBase &puzzle, QStringList &linelist, 
     std::vector<CrosswordEntry> entries;
 
     // filter the entries by direction and then run the regular save routine. special snaking one for snakes...
-    std::copy_if(puzzle.getEntries().begin(), puzzle.getEntries().end(), std::back_inserter(entries), [&](const CrosswordEntry& entry) { return entry.getDirection() == direction; });
+
+    //FIXME! Commented out till I can figure out whether OSX includes this header yet
+    //std::copy_if(puzzle.getEntries().begin(), puzzle.getEntries().end(), std::back_inserter(entries), [&](const CrosswordEntry& entry) { return entry.getDirection() == direction; });
 
     QStringList entrylist;
 

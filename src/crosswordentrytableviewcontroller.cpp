@@ -20,9 +20,10 @@ CrosswordEntryTableViewController::CrosswordEntryTableViewController(QWidget *pa
     QTableView(parent)
 {
     // qt 5.0beta2 -> setSectionResizeMode
-    horizontalHeader()->setResizeMode(QHeaderView::ResizeToContents);
+    // qt 4.8 -> setResizeMode
+    horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
 
-    horizontalHeader()->setMovable(true);
+    horizontalHeader()->setSectionsMovable(true);
 
     setTabKeyNavigation(false);
 }

@@ -15,7 +15,6 @@ SOURCES += src/xwcloader.cpp \
     src/version.cpp \
     src/utilities.cpp \
     src/uivec3.cpp \
-    src/ttsimpl.cpp \
     src/shortcutkeys.cpp \
     src/quitdialog.cpp \
     src/printer.cpp \
@@ -37,14 +36,13 @@ SOURCES += src/xwcloader.cpp \
     src/crosswordentrytablemodel.cpp \
     src/crosswordentry.cpp \
     src/crosswordbase.cpp \
-    src/cluereader.cpp
+    src/cluereader.cpp \
 
 HEADERS  += src/xwcloader.h \
     src/xwc3dloader.h \
     src/version.h \
     src/utilities.h \
     src/uivec3.h \
-    src/ttsimpl.h \
     src/singleton.h \
     src/shortcutkeys.h \
     src/quitdialog.h \
@@ -68,7 +66,27 @@ HEADERS  += src/xwcloader.h \
     src/crosswordentrytablemodel.h \
     src/crosswordentry.h \
     src/crosswordbase.h \
-    src/cluereader.h
+    src/cluereader.h \
+
+win32 {
+    SOURCES += src/ttsimplwindows.cpp
+    HEADERS += src/ttsimplwindows.h
+}
+
+macx {
+    SOURCES += src/ttsimplmac.cpp
+    HEADERS += src/ttsimplmac.h
+}
+
+linux {
+    SOURCES += src/ttsimpllinux.cpp
+    HEADERS += src/ttsimpllinux.h
+}
+
+DEPENDPATH += . src
+INCLUDEPATH += . src
+
+CONFIG += x86 x86_64
 
 FORMS    += mainwindow.ui
 

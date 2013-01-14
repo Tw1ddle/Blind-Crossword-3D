@@ -31,7 +31,8 @@ std::vector<CrosswordEntry> CrosswordBase::getIntersectingCrosswordEntries(unsig
 
     for(unsigned int i = 0; i < getEntries().size(); i++)
     {
-        if(getEntries().at(i).intersectsWord(& (getEntries().at(crosswordEntryId).getGuess())))
+        Word word = getEntries().at(crosswordEntryId).getGuess();
+        if(getEntries().at(i).intersectsWord((&word)))
         {
             entries.push_back(m_Entries.at(i));
         }

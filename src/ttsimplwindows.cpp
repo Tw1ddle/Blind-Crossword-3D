@@ -1,14 +1,19 @@
-#include "ttsimpl.h"
-#include <atlbase.h>
-#include <atlcom.h>
+#ifdef _WIN32
+
+#include "ttsimplwindows.h"
 
 #include <QRegExp>
 
-TTSImpl instance;
+const DWORD SPEECH_MODES::csDefaultSynchronousSpeechOptions = SPF_PURGEBEFORESPEAK;
+const DWORD SPEECH_MODES::csDefaultAsynchronousSpeechOptions = SPF_ASYNC | SPF_PURGEBEFORESPEAK;
+const DWORD SPEECH_MODES::csAsynchronousNoPurgeOptions = SPF_ASYNC;
+const DWORD SPEECH_MODES::csSpeakPunctuationOption = SPF_NLP_SPEAK_PUNC;
 
-const float TTSImpl::sc_SpeedRateAdjustmentStepSize = 2.0f;
+TTSImplWindows instance;
 
-TTSImpl::TTSImpl()
+const float TTSImplWindows::sc_SpeedRateAdjustmentStepSize = 2.0f;
+
+TTSImplWindows::TTSImplWindows()
 {
     m_Voice = NULL;
 
@@ -30,12 +35,12 @@ TTSImpl::TTSImpl()
     setMode(SPEECH_MODES::normalSpeech);
 }
 
-TTSImpl::~TTSImpl()
+TTSImplWindows::~TTSImplWindows()
 {
     ::CoUninitialize();
 }
 
-bool TTSImpl::speak(QString text, DWORD options)
+bool TTSImplWindows::speak(QString text, DWORD options)
 {
     preprocessText(text);
 
@@ -52,12 +57,12 @@ bool TTSImpl::speak(QString text, DWORD options)
     return success;
 }
 
-const QStringList& TTSImpl::getSpeechHistory() const
+const QStringList& TTSImplWindows::getSpeechHistory() const
 {
     return m_SpeechLog;
 }
 
-void TTSImpl::preprocessText(QString& text)
+void TTSImplWindows::preprocessText(QString& text)
 {
     if(m_Mode == SPEECH_MODES::spellingOutSpeech)
     {
@@ -87,19 +92,19 @@ void TTSImpl::preprocessText(QString& text)
     }
 }
 
-bool TTSImpl::setMode(QString mode)
+bool TTSImplWindows::setMode(QString mode)
 {
     m_Mode = mode;
 
     return true;
 }
 
-SPEECH_MODES::SPEECHMODE TTSImpl::getMode() const
+SPEECH_MODES::SPEECHMODE TTSImplWindows::getMode() const
 {
     return m_Mode;
 }
 
-QString TTSImpl::increaseSpeechRate()
+QString TTSImplWindows::increaseSpeechRate()
 {
     long current;
     m_Voice->GetRate(&current);
@@ -109,7 +114,7 @@ QString TTSImpl::increaseSpeechRate()
     return QString("Speech rate increased.");
 }
 
-QString TTSImpl::decreaseSpeechRate()
+QString TTSImplWindows::decreaseSpeechRate()
 {
     long current;
     m_Voice->GetRate(&current);
@@ -118,3 +123,5 @@ QString TTSImpl::decreaseSpeechRate()
 
     return QString("Speech rate decreased.");
 }
+
+#endif //_WIN32

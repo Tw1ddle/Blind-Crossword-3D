@@ -9,18 +9,23 @@
  *  \copyright GNU General Public License v3.0
  */
 
-#ifndef TTSIMPL_H
-#define TTSIMPL_H
+#ifndef TTSIMPLWINDOWS_H
+#define TTSIMPWINDOWS_H
+
+#ifdef _WIN32
 
 #include "itexttospeech.h"
 
+#include <atlbase.h>
+#include <atlcom.h>
+
 #include <QStringList>
 
-class TTSImpl : public ITextToSpeech
+class TTSImplWindows : public ITextToSpeech
 {
 public:
-    TTSImpl();
-    ~TTSImpl();
+    TTSImplWindows();
+    ~TTSImplWindows();
 
     virtual QString increaseSpeechRate();
     virtual QString decreaseSpeechRate();
@@ -43,4 +48,6 @@ private:
     const static float sc_SpeedRateAdjustmentStepSize;
 };
 
-#endif // TTSIMPL_H
+#endif _WIN32
+
+#endif // TTSIMPLWINDOWS_H
