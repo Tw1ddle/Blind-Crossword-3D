@@ -14,14 +14,15 @@
 
 #ifdef _WIN32
 
-#include "itexttospeech.h"
+#include "ttsbase.h"
 
+#include <sapi.h>
 #include <atlbase.h>
 #include <atlcom.h>
 
 #include <QStringList>
 
-class TTSImplWindows : public ITextToSpeech
+class TTSImplWindows : public TTSBase
 {
 public:
     TTSImplWindows();
@@ -43,7 +44,6 @@ private:
     bool m_Initialised;
 
     QString m_Mode;
-    QStringList m_SpeechLog;
 
     const static float sc_SpeedRateAdjustmentStepSize;
 };

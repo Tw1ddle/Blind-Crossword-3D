@@ -12,11 +12,11 @@
     #include "TargetConditionals.h"
     #ifdef TARGET_OS_MAC
 
-#include "itexttospeech.h"
+#include "ttsbase.h"
 
 #import "NSSpeechSynthesizer.h"
 
-class TTSImplMac : public ITextToSpeech
+class TTSImplMac : public TTSBase
 {
 public:
     TTSImplMac();
@@ -26,13 +26,16 @@ public:
     virtual QString decreaseSpeechRate();
 
     virtual bool speak(QString text, DWORD options);
-    virtual const QStringList& getSpeechHistory() const;
 
     virtual bool setMode(SPEECH_MODES::SPEECHMODE mode);
     virtual SPEECH_MODES::SPEECHMODE getMode() const;
 
 private:
     NSSpeechSynthesizer* m_Voice;
+
+    QString m_Mode;
+
+    const static float sc_SpeedRateAdjustmentStepSize;
 };
 
 #endif //TARGET_OS_MAC

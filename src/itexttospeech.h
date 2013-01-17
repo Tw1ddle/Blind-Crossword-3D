@@ -17,12 +17,6 @@
     typedef unsigned long DWORD;
 #endif
 
-#ifdef _WIN32
-#include <sapi.h>
-//#elif
-// Other platforms here
-#endif
-
 namespace SPEECH_MODES
 {
     typedef QString SPEECHMODE;
@@ -32,7 +26,6 @@ namespace SPEECH_MODES
 
     extern const DWORD csDefaultSynchronousSpeechOptions;
     extern const DWORD csDefaultAsynchronousSpeechOptions;
-    extern const DWORD csAsynchronousNoPurgeOptions;
     extern const DWORD csSpeakPunctuationOption;
 }
 
@@ -42,13 +35,14 @@ public:
     ~ITextToSpeech() {}
 
     virtual bool speak(QString text, DWORD options = SPEECH_MODES::csDefaultAsynchronousSpeechOptions) = 0;
-    virtual const QStringList& getSpeechHistory() const = 0;
 
     virtual QString increaseSpeechRate() = 0;
     virtual QString decreaseSpeechRate() = 0;
 
     virtual bool setMode(SPEECH_MODES::SPEECHMODE mode) = 0;
     virtual SPEECH_MODES::SPEECHMODE getMode() const = 0;
+
+    virtual const QStringList& getSpeechLog() const = 0;
 
 protected:
     ITextToSpeech() {}

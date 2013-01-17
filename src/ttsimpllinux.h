@@ -10,11 +10,11 @@
 
 #ifdef __linux__
 
-#include "itexttospeech.h"
+#include "ttsbase.h"
 
 #include <QString>
 
-class TTSImplLinux : public ITextToSpeech
+class TTSImplLinux : public TTSBase
 {
 public:
     TTSImplLinux();
@@ -24,7 +24,6 @@ public:
     virtual QString decreaseSpeechRate();
 
     virtual bool speak(QString text, DWORD options);
-    virtual const QStringList& getSpeechHistory() const;
 
     virtual bool setMode(SPEECH_MODES::SPEECHMODE mode);
     virtual SPEECH_MODES::SPEECHMODE getMode() const;

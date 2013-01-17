@@ -5,7 +5,6 @@
 // TODO
 const DWORD SPEECH_MODES::csDefaultSynchronousSpeechOptions = 0;
 const DWORD SPEECH_MODES::csDefaultAsynchronousSpeechOptions = 0;
-const DWORD SPEECH_MODES::csAsynchronousNoPurgeOptions = 0;
 const DWORD SPEECH_MODES::csSpeakPunctuationOption = 0;
 
 TTSImplLinux instance;
@@ -25,10 +24,6 @@ QString TTSImplLinux::decreaseSpeechRate()
 }
 
 bool TTSImplLinux::speak(QString text, DWORD options)
-{
-}
-
-const QStringList &TTSImplLinux::getSpeechHistory() const
 {
 }
 

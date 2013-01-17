@@ -6,7 +6,6 @@
 
 const DWORD SPEECH_MODES::csDefaultSynchronousSpeechOptions = SPF_PURGEBEFORESPEAK;
 const DWORD SPEECH_MODES::csDefaultAsynchronousSpeechOptions = SPF_ASYNC | SPF_PURGEBEFORESPEAK;
-const DWORD SPEECH_MODES::csAsynchronousNoPurgeOptions = SPF_ASYNC;
 const DWORD SPEECH_MODES::csSpeakPunctuationOption = SPF_NLP_SPEAK_PUNC;
 
 TTSImplWindows instance;
@@ -55,11 +54,6 @@ bool TTSImplWindows::speak(QString text, DWORD options)
     m_SpeechLog.append(text);
 
     return success;
-}
-
-const QStringList& TTSImplWindows::getSpeechHistory() const
-{
-    return m_SpeechLog;
 }
 
 void TTSImplWindows::preprocessText(QString& text)

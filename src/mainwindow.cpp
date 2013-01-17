@@ -459,9 +459,9 @@ void MainWindow::readLastSpokenPhrase()
 {
     QString lastSpokenPhrase;
 
-    if(ITextToSpeech::instance().getSpeechHistory().isEmpty() == false)
+    if(ITextToSpeech::instance().getSpeechLog().isEmpty() == false)
     {
-        lastSpokenPhrase = ITextToSpeech::instance().getSpeechHistory().back();
+        lastSpokenPhrase = ITextToSpeech::instance().getSpeechLog().back();
     }
 
     ITextToSpeech::instance().speak(lastSpokenPhrase, SPEECH_MODES::csDefaultAsynchronousSpeechOptions);
