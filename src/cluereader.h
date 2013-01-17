@@ -22,7 +22,7 @@ class ClueReader : public QObject
 public:
     ClueReader();
 
-    QString getWord();
+    QString getWord() const;
     QString advanceWord();
 
 public slots:

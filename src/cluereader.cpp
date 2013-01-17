@@ -23,11 +23,11 @@ QString ClueReader::advanceWord()
     return getWord();
 }
 
-QString ClueReader::getWord()
+QString ClueReader::getWord() const
 {
     QStringList words = m_Text.split(m_Separator, QString::SkipEmptyParts);
 
-    if(!words.at(m_Index).isNull())
+    if(m_Index < words.size())
     {
         return words.at(m_Index);
     }
