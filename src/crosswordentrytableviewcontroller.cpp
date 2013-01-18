@@ -30,8 +30,6 @@ CrosswordEntryTableViewController::CrosswordEntryTableViewController(QWidget *pa
 
 bool CrosswordEntryTableViewController::enterGuess()
 {
-    ITextToSpeech::instance().speak("Enter your answer.");
-
     const QSortFilterProxyModel* proxy = dynamic_cast<const QSortFilterProxyModel*>(model());
     assert(proxy);
 
@@ -39,6 +37,8 @@ bool CrosswordEntryTableViewController::enterGuess()
 
     if(currentSelection.isValid())
     {
+        ITextToSpeech::instance().speak("Enter your answer.");
+
         QString wordAtSelection = currentSelection.sibling(currentSelection.row(), CrosswordEntryTableHeader::wordColumnId).data().toString();
 
         assert(wordAtSelection.length() != 0);

@@ -29,7 +29,6 @@ class CrosswordBase
 {
     friend class CrosswordLoader;
 
-    friend class CrosswordLoaderInterface;
     friend class XWC3DLoader;
     friend class XWCLoader;
 

@@ -21,7 +21,6 @@ SOURCES += src/xwcloader.cpp \
     src/mainwindow.cpp \
     src/main.cpp \
     src/letter.cpp \
-    src/itexttospeech.cpp \
     src/idlereminder.cpp \
     src/guessworddialog.cpp \
     src/graphicalgridview.cpp \
@@ -37,6 +36,7 @@ SOURCES += src/xwcloader.cpp \
     src/crosswordentry.cpp \
     src/crosswordbase.cpp \
     src/cluereader.cpp \
+    src/ttsbase.cpp
 
 
 HEADERS  += src/xwcloader.h \
@@ -68,6 +68,7 @@ HEADERS  += src/xwcloader.h \
     src/crosswordentry.h \
     src/crosswordbase.h \
     src/cluereader.h \
+    src/ttsbase.h
 
 win32 {
     SOURCES += src/ttsimplwindows.cpp
