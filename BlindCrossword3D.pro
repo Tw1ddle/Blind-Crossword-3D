@@ -70,6 +70,7 @@ HEADERS  += src/xwcloader.h \
     src/cluereader.h \
     src/ttsbase.h
 
+# Platform-dependent text to speech
 win32 {
     SOURCES += src/ttsimplwindows.cpp
     HEADERS += src/ttsimplwindows.h
@@ -103,6 +104,19 @@ macx {
 linux {
     SOURCES += src/ttsimpllinux.cpp
     HEADERS += src/ttsimpllinux.h
+}
+
+# Platform-dependent application icons
+win32 {
+    RC_FILE = winicon.rc
+}
+
+macx {
+    ICON = icon.icns
+}
+
+linux {
+    # TODO gnome, kde icons
 }
 
 INCLUDEPATH += . src
