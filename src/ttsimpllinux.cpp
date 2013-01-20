@@ -3,9 +3,9 @@
 #include "ttsimpllinux.h"
 
 // TODO
-const DWORD SPEECH_MODES::csDefaultSynchronousSpeechOptions = 0;
-const DWORD SPEECH_MODES::csDefaultAsynchronousSpeechOptions = 0;
-const DWORD SPEECH_MODES::csSpeakPunctuationOption = 0;
+const DWORD SPEECH_OPTIONS::csDefaultSynchronousSpeechOptions = 0;
+const DWORD SPEECH_OPTIONS::csDefaultAsynchronousSpeechOptions = 0;
+const DWORD SPEECH_OPTIONS::csSpeakPunctuationOption = 0;
 
 TTSImplLinux instance;
 
@@ -27,12 +27,9 @@ bool TTSImplLinux::speak(QString text, DWORD options)
 {
 }
 
-bool TTSImplLinux::setMode(SPEECH_MODES::SPEECHMODE mode)
+void TTSImplLinux::preprocessText(QString& text)
 {
-}
-
-SPEECH_MODES::SPEECHMODE TTSImplLinux::getMode() const
-{
+    TTSBase::preprocessText(text);
 }
 
 #endif // __linux__

@@ -452,7 +452,7 @@ void MainWindow::onIdleReminderTimeout()
 
 void MainWindow::stopSpeech()
 {
-    ITextToSpeech::instance().speak("", SPEECH_MODES::csDefaultAsynchronousSpeechOptions);
+    ITextToSpeech::instance().speak("", SPEECH_OPTIONS::csDefaultAsynchronousSpeechOptions);
 }
 
 void MainWindow::readLastSpokenPhrase()
@@ -464,7 +464,7 @@ void MainWindow::readLastSpokenPhrase()
         lastSpokenPhrase = ITextToSpeech::instance().getSpeechLog().back();
     }
 
-    ITextToSpeech::instance().speak(lastSpokenPhrase, SPEECH_MODES::csDefaultAsynchronousSpeechOptions);
+    ITextToSpeech::instance().speak(lastSpokenPhrase, SPEECH_OPTIONS::csDefaultAsynchronousSpeechOptions);
 }
 
 void MainWindow::advanceToNextWordInClue()
@@ -583,7 +583,7 @@ void MainWindow::closeEvent(QCloseEvent* event)
 
     if(dialog.exec())
     {
-        ITextToSpeech::instance().speak(dialog.getAcceptedText(), SPEECH_MODES::csDefaultSynchronousSpeechOptions);
+        ITextToSpeech::instance().speak(dialog.getAcceptedText(), SPEECH_OPTIONS::csDefaultSynchronousSpeechOptions);
         event->accept();
     }
     else

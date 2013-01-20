@@ -2,11 +2,9 @@
 
 #include "ttsimplwindows.h"
 
-#include <QRegExp>
-
-const DWORD SPEECH_MODES::csDefaultSynchronousSpeechOptions = SPF_PURGEBEFORESPEAK;
-const DWORD SPEECH_MODES::csDefaultAsynchronousSpeechOptions = SPF_ASYNC | SPF_PURGEBEFORESPEAK;
-const DWORD SPEECH_MODES::csSpeakPunctuationOption = SPF_NLP_SPEAK_PUNC;
+const DWORD SPEECH_OPTIONS::csDefaultSynchronousSpeechOptions = SPF_PURGEBEFORESPEAK;
+const DWORD SPEECH_OPTIONS::csDefaultAsynchronousSpeechOptions = SPF_ASYNC | SPF_PURGEBEFORESPEAK;
+const DWORD SPEECH_OPTIONS::csSpeakPunctuationOption = SPF_NLP_SPEAK_PUNC;
 
 TTSImplWindows instance;
 
@@ -56,9 +54,30 @@ bool TTSImplWindows::speak(QString text, DWORD options)
     return success;
 }
 
+QString TTSImplWindows::increaseSpeechRate()
+{
+    long current;
+    m_Voice->GetRate(&current);
+
+    m_Voice->SetRate(current + sc_SpeedRateAdjustmentStepSize);
+
+    return QString("Speech rate increased.");
+}
+
+QString TTSImplWindows::decreaseSpeechRate()
+{
+    long current;
+    m_Voice->GetRate(&current);
+
+    m_Voice->SetRate(current - sc_SpeedRateAdjustmentStepSize);
+
+    return QString("Speech rate decreased.");
+}
+
 void TTSImplWindows::preprocessText(QString& text)
 {
-    if(m_Mode == SPEECH_MODES::spellingOutSpeech)
+    //! If the voice is in the mode where it spells letters out, replace sequences of periods with the phrase "x dots".
+    if(getMode() == SPEECH_MODES::spellingOutSpeech)
     {
         QRegExp regexp("(\\.+)");
         regexp.setMinimal(false);
@@ -86,36 +105,5 @@ void TTSImplWindows::preprocessText(QString& text)
     }
 }
 
-bool TTSImplWindows::setMode(QString mode)
-{
-    m_Mode = mode;
-
-    return true;
-}
-
-SPEECH_MODES::SPEECHMODE TTSImplWindows::getMode() const
-{
-    return m_Mode;
-}
-
-QString TTSImplWindows::increaseSpeechRate()
-{
-    long current;
-    m_Voice->GetRate(&current);
-
-    m_Voice->SetRate(current + sc_SpeedRateAdjustmentStepSize);
-
-    return QString("Speech rate increased.");
-}
-
-QString TTSImplWindows::decreaseSpeechRate()
-{
-    long current;
-    m_Voice->GetRate(&current);
-
-    m_Voice->SetRate(current - sc_SpeedRateAdjustmentStepSize);
-
-    return QString("Speech rate decreased.");
-}
 
 #endif //_WIN32

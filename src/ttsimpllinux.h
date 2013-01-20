@@ -25,8 +25,8 @@ public:
 
     virtual bool speak(QString text, DWORD options);
 
-    virtual bool setMode(SPEECH_MODES::SPEECHMODE mode);
-    virtual SPEECH_MODES::SPEECHMODE getMode() const;
+protected:
+    virtual void preprocessText(QString& text);
 };
 
 #endif // __linux__

@@ -7,9 +7,9 @@
 #import <Foundation/NSString.h>
 
 // TODO
-const DWORD SPEECH_MODES::csDefaultSynchronousSpeechOptions = 0;
-const DWORD SPEECH_MODES::csDefaultAsynchronousSpeechOptions = 0;
-const DWORD SPEECH_MODES::csSpeakPunctuationOption = 0;
+const DWORD SPEECH_OPTIONS::csDefaultSynchronousSpeechOptions = 0;
+const DWORD SPEECH_OPTIONS::csDefaultAsynchronousSpeechOptions = 0;
+const DWORD SPEECH_OPTIONS::csSpeakPunctuationOption = 0;
 
 TTSImplMac instance;
 
@@ -41,21 +41,40 @@ QString TTSImplMac::decreaseSpeechRate()
 
 bool TTSImplMac::speak(QString text, DWORD options)
 {
+    preprocessText(text);
+
     [m_Voice startSpeakingString:[NSString stringWithUTF8String:text.toStdString().c_str()] ];
 
-    return true;
-}
-
-bool TTSImplMac::setMode(SPEECH_MODES::SPEECHMODE mode)
-{
-    m_Mode = mode;
+    getSpeechLog().append(text);
 
     return true;
 }
 
-SPEECH_MODES::SPEECHMODE TTSImplMac::getMode() const
+void TTSImplMac::preprocessText(QString &text)
 {
-    return m_Mode;
+    TTSBase::preprocessText(text);
+
+    //! Replace sequences of periods with the phrase "x dots".
+    if(getMode() == SPEECH_MODES::spellingOutSpeech)
+    {
+        QRegExp regexp("(\\.+)");
+        regexp.setMinimal(false);
+
+        while(text.contains(regexp))
+        {
+            if(regexp.matchedLength() == 1)
+            {
+                text.replace(regexp.cap(0), QString(" dot, "));
+            }
+            else
+            {
+                text.replace(regexp.cap(0), QString::number(regexp.matchedLength()).append(" dots, "));
+            }
+        }
+
+        text.prepend("<spell>");
+        text.append("</spell>");
+    }
 }
 
 #endif //TARGET_OS_MAC

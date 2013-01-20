@@ -27,13 +27,11 @@ public:
 
     virtual bool speak(QString text, DWORD options);
 
-    virtual bool setMode(SPEECH_MODES::SPEECHMODE mode);
-    virtual SPEECH_MODES::SPEECHMODE getMode() const;
+protected:
+    virtual void preprocessText(QString& text);
 
 private:
     NSSpeechSynthesizer* m_Voice;
-
-    QString m_Mode;
 
     const static float sc_SpeedRateAdjustmentStepSize;
 };

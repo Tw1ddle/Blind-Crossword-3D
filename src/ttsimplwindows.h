@@ -32,18 +32,13 @@ public:
     virtual QString decreaseSpeechRate();
 
     virtual bool speak(QString text, DWORD options);
-    virtual const QStringList& getSpeechHistory() const;
 
-    virtual bool setMode(SPEECH_MODES::SPEECHMODE mode);
-    virtual SPEECH_MODES::SPEECHMODE getMode() const;
+protected:
+    virtual void preprocessText(QString& text);
 
 private:
-    void preprocessText(QString& text);
-
     ISpVoice* m_Voice;
     bool m_Initialised;
-
-    QString m_Mode;
 
     const static float sc_SpeedRateAdjustmentStepSize;
 };
