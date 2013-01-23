@@ -8,8 +8,8 @@
 
 // TODO
 const DWORD SPEECH_OPTIONS::csDefaultSynchronousSpeechOptions = 0;
-const DWORD SPEECH_OPTIONS::csDefaultAsynchronousSpeechOptions = 0;
-const DWORD SPEECH_OPTIONS::csSpeakPunctuationOption = 0;
+const DWORD SPEECH_OPTIONS::csDefaultAsynchronousSpeechOptions = 1;
+const DWORD SPEECH_OPTIONS::csSpeakPunctuationOption = 2;
 
 TTSImplMac instance;
 
@@ -18,6 +18,8 @@ const float TTSImplMac::sc_SpeedRateAdjustmentStepSize = 14.0f; //~approximately
 TTSImplMac::TTSImplMac()
 {
     m_Voice = [[NSSpeechSynthesizer alloc] initWithVoice:[NSSpeechSynthesizer defaultVoice]];
+
+    setMode(SPEECH_MODES::normalSpeech);
 }
 
 TTSImplMac::~TTSImplMac()
@@ -41,11 +43,45 @@ QString TTSImplMac::decreaseSpeechRate()
 
 bool TTSImplMac::speak(QString text, DWORD options)
 {
+    // If nothing is said, then stop speaking and finish, since empty string is used to stop speech on Windows
+    if(text == "")
+    {
+        [m_Voice stopSpeaking];
+
+        return true;
+    }
+
     preprocessText(text);
 
     [m_Voice startSpeakingString:[NSString stringWithUTF8String:text.toStdString().c_str()] ];
 
+    if(options == SPEECH_OPTIONS::csDefaultSynchronousSpeechOptions)
+    {
+        // Wait until the speech synth is done talking
+        while([m_Voice isSpeaking])
+        {
+            usleep(10000); // sleep for microseconds
+        }
+    }
+
     getSpeechLog().append(text);
+
+    return true;
+}
+
+bool TTSImplMac::setMode(SPEECH_MODES::SPEECHMODE mode)
+{
+    TTSBase::setMode(mode);
+
+    //! Set the mode of the native speech engine
+    if(mode == SPEECH_MODES::normalSpeech)
+    {
+        [m_Voice setObject:NSSpeechModeNormal forProperty:NSSpeechCharacterModeProperty error:nil];
+    }
+    else if(mode == SPEECH_MODES::spellingOutSpeech)
+    {
+        [m_Voice setObject:NSSpeechModeLiteral forProperty:NSSpeechCharacterModeProperty error:nil];
+    }
 
     return true;
 }
@@ -71,9 +107,6 @@ void TTSImplMac::preprocessText(QString &text)
                 text.replace(regexp.cap(0), QString::number(regexp.matchedLength()).append(" dots, "));
             }
         }
-
-        text.prepend("<spell>");
-        text.append("</spell>");
     }
 }
 

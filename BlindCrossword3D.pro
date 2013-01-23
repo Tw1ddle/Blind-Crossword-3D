@@ -36,8 +36,7 @@ SOURCES += src/xwcloader.cpp \
     src/crosswordentry.cpp \
     src/crosswordbase.cpp \
     src/cluereader.cpp \
-    src/ttsbase.cpp \
-    src/itexttospeech.cpp
+    src/ttsbase.cpp
 
 
 HEADERS  += src/xwcloader.h \

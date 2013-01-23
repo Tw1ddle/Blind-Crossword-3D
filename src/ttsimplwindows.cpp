@@ -77,6 +77,7 @@ QString TTSImplWindows::decreaseSpeechRate()
 void TTSImplWindows::preprocessText(QString& text)
 {
     //! If the voice is in the mode where it spells letters out, replace sequences of periods with the phrase "x dots".
+    //! Note that <spell> tags are SAPI-specific
     if(getMode() == SPEECH_MODES::spellingOutSpeech)
     {
         QRegExp regexp("(\\.+)");

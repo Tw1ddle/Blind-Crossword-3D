@@ -21,8 +21,8 @@ namespace SPEECH_MODES
 {
     typedef QString SPEECHMODE;
 
-    extern const SPEECHMODE normalSpeech;
-    extern const SPEECHMODE spellingOutSpeech;
+    const SPEECHMODE normalSpeech = "normalspeech";
+    const SPEECHMODE spellingOutSpeech = "spellingoutspeech";
 }
 
 namespace SPEECH_OPTIONS
