@@ -19,4 +19,4 @@ See the wiki for more information and about how to contribute: https://github.co
 
 *Mac version (WIP):*
 
-![Blind Crossword 3D screenshot2[(http://1.bp.blogspot.com/-k5t70cwqljo/UQBjkIBm93I/AAAAAAAAAIQ/NBNgGuwfFqc/s1600/mac-blindcrossword3d-1.0.jpg)
+![Blind Crossword 3D screenshot2](http://1.bp.blogspot.com/-k5t70cwqljo/UQBjkIBm93I/AAAAAAAAAIQ/NBNgGuwfFqc/s1600/mac-blindcrossword3d-1.0.jpg)
