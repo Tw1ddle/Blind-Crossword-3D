@@ -33,6 +33,8 @@
 #include "crosswordloader.h"
 #include "crosswordbase.h"
 
+#include "speechlogwidget.h"
+
 class GraphicalGridScene;
 class CrosswordEntryTableModel;
 class QShortcut;
@@ -69,6 +71,11 @@ private:
 
     IdleReminder* m_IdleReminder;
     ClueReader* m_ClueReader;
+
+    // if we're debugging, add a text edit with everything the voice says
+    #ifdef QT_DEBUG
+        SpeechLogWidget m_SpeechLogWidget;
+    #endif // QT_DEBUG
 
     void createShortcuts();
 

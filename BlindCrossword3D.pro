@@ -36,7 +36,8 @@ SOURCES += src/xwcloader.cpp \
     src/crosswordentry.cpp \
     src/crosswordbase.cpp \
     src/cluereader.cpp \
-    src/ttsbase.cpp
+    src/ttsbase.cpp \
+    src/speechlogwidget.cpp
 
 
 HEADERS  += src/xwcloader.h \
@@ -68,7 +69,8 @@ HEADERS  += src/xwcloader.h \
     src/crosswordentry.h \
     src/crosswordbase.h \
     src/cluereader.h \
-    src/ttsbase.h
+    src/ttsbase.h \
+    src/speechlogwidget.h
 
 # Platform-dependent text to speech
 win32 {
@@ -80,7 +82,7 @@ macx {
     OBJECTIVE_SOURCES += src/ttsimplmac.mm
     HEADERS += src/ttsimplmac.h
 
-    INCLUDEPATH += ../Desktop
+    INCLUDEPATH += /System/Library/Frameworks/AppKit.framework/Versions/C/Headers
     OBJECTIVE_HEADERS +=
 
     MAC_SDK = /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.8.sdk
