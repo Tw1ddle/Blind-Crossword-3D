@@ -4,7 +4,12 @@ TTSBase::TTSBase()
 {
 }
 
-const QStringList& TTSBase::getSpeechLog() const
+QStringList &TTSBase::getSpeechLog()
+{
+    return m_SpeechLog;
+}
+
+const QStringList &TTSBase::getSpeechLog() const
 {
     return m_SpeechLog;
 }
@@ -15,11 +20,6 @@ const QStringList& TTSBase::getSpeechLog() const
 void TTSBase::preprocessText(QString& text)
 {
 
-}
-
-QStringList &TTSBase::getSpeechLog()
-{
-    return m_SpeechLog;
 }
 
 SPEECH_MODES::SPEECHMODE TTSBase::getMode() const

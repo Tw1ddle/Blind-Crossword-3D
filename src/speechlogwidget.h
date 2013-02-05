@@ -1,4 +1,4 @@
-/*! \brief A widget that displays a log of the text that the text to speech engine is passed
+/*! \brief A widget that displays a log of the text that the text to speech engine is passed. For debugging purposes.
  *
  *
  *  \author Samuel Twidale

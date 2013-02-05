@@ -6,7 +6,7 @@
 
 #import <Foundation/NSString.h>
 
-// TODO
+// TODO change these to values that have boolean operations applied to them
 const DWORD SPEECH_OPTIONS::csDefaultSynchronousSpeechOptions = 0;
 const DWORD SPEECH_OPTIONS::csDefaultAsynchronousSpeechOptions = 1;
 const DWORD SPEECH_OPTIONS::csSpeakPunctuationOption = 2;
@@ -53,8 +53,16 @@ bool TTSImplMac::speak(QString text, DWORD options)
 
     preprocessText(text);
 
+    // TODO probably shouldn't use equality operator here if options are combined
+    if(options == SPEECH_OPTIONS::csSpeakPunctuationOption)
+    {
+        // TODO - if we're speaking punctuation, then preprocess the text to replace the punctuation with the words - NSSpeechSynthesizer doesn't appear to have a built-in speak punctuation option
+        // We might want to have a method for doing this for all platforms, so we can be consistent.
+    }
+
     [m_Voice startSpeakingString:[NSString stringWithUTF8String:text.toStdString().c_str()] ];
 
+    // TODO probably shouldn't use equality operator here if options are combined
     if(options == SPEECH_OPTIONS::csDefaultSynchronousSpeechOptions)
     {
         // Wait until the speech synth is done talking
