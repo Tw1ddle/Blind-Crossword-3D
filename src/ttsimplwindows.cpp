@@ -1,5 +1,7 @@
 #ifdef _WIN32
 
+#ifndef NO_TTS
+
 #include "ttsimplwindows.h"
 
 const DWORD SPEECH_OPTIONS::csDefaultSynchronousSpeechOptions = SPF_PURGEBEFORESPEAK;
@@ -106,5 +108,6 @@ void TTSImplWindows::preprocessText(QString& text)
     }
 }
 
+#endif
 
 #endif //_WIN32

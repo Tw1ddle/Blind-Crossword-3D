@@ -1,6 +1,9 @@
 #ifdef __APPLE__
-    #include "TargetConditionals.h"
-    #ifdef TARGET_OS_MAC
+#include "TargetConditionals.h"
+
+#ifdef TARGET_OS_MAC
+
+#ifndef NO_TTS
 
 #include "ttsimplmac.h"
 
@@ -117,6 +120,8 @@ void TTSImplMac::preprocessText(QString &text)
         }
     }
 }
+
+#endif //NO_TTS
 
 #endif //TARGET_OS_MAC
 

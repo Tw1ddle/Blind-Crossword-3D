@@ -10,6 +10,8 @@
 
 #ifdef __linux__
 
+#ifndef NO_TTS
+
 #include "ttsbase.h"
 
 #include <QString>
@@ -28,6 +30,8 @@ public:
 protected:
     virtual void preprocessText(QString& text);
 };
+
+#endif // NO_TTS
 
 #endif // __linux__
 

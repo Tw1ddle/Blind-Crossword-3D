@@ -1,5 +1,7 @@
 #ifdef __linux__
 
+#ifndef NO_TTS
+
 #include "ttsimpllinux.h"
 
 // TODO
@@ -32,5 +34,7 @@ void TTSImplLinux::preprocessText(QString& text)
 {
     TTSBase::preprocessText(text);
 }
+
+#endif
 
 #endif // __linux__

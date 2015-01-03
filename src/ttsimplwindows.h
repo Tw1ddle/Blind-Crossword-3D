@@ -14,6 +14,8 @@
 
 #ifdef _WIN32
 
+#ifndef NO_TTS
+
 #include "ttsbase.h"
 
 #include <sapi.h>
@@ -43,6 +45,8 @@ private:
     const static float sc_SpeedRateAdjustmentStepSize;
 };
 
-#endif _WIN32
+#endif
+
+#endif
 
 #endif // TTSIMPLWINDOWS_H

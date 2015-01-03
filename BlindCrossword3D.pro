@@ -37,7 +37,8 @@ SOURCES += src/xwcloader.cpp \
     src/crosswordbase.cpp \
     src/cluereader.cpp \
     src/ttsbase.cpp \
-    src/speechlogwidget.cpp
+    src/speechlogwidget.cpp \
+    src/ttsstub.cpp
 
 
 HEADERS  += src/xwcloader.h \
@@ -70,7 +71,8 @@ HEADERS  += src/xwcloader.h \
     src/crosswordbase.h \
     src/cluereader.h \
     src/ttsbase.h \
-    src/speechlogwidget.h
+    src/speechlogwidget.h \
+    src/ttsstub.h
 
 # Platform-dependent text to speech
 win32 {
