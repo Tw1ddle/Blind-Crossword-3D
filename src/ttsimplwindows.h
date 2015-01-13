@@ -18,9 +18,9 @@
 
 #include "ttsbase.h"
 
-#include <sapi.h>
 #include <atlbase.h>
 #include <atlcom.h>
+#include <sapi.h>
 
 #include <QStringList>
 

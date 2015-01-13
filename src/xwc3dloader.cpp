@@ -25,7 +25,7 @@ bool XWC3DLoader::loadMetaData(CrosswordBase& puzzle, QStringList& linelist)
     puzzle.m_BackgroundImageFilename = linelist.takeFirst();
     if(!puzzle.loadBackgroundImage(puzzle.m_BackgroundImageFilename))
     {
-        return false;
+        //return false;
     }
 
     unsigned int gridX = linelist.takeFirst().toUInt();

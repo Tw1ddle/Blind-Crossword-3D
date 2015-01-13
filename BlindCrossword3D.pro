@@ -10,6 +10,14 @@ QT       -= webkitwidgets
 TARGET = BlindCrossword3D
 TEMPLATE = app
 
+#DEFINES += NO_TTS
+
+# Custom paths
+win32 {
+    INCLUDEPATH += "C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\Include" # SAPI
+    INCLUDEPATH += "C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\atlmfc\include" # ATL
+}
+
 SOURCES += src/xwcloader.cpp \
     src/xwc3dloader.cpp \
     src/version.cpp \

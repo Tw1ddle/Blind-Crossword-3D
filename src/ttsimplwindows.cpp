@@ -51,7 +51,7 @@ bool TTSImplWindows::speak(QString text, DWORD options)
 
     delete[] array;
 
-    m_SpeechLog.append(text);
+    getSpeechLog().append(text);
 
     return success;
 }
