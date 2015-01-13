@@ -1,7 +1,7 @@
 #include "version.h"
 
 const QString Version::sc_Major = "1";
-const QString Version::sc_Minor = "0";
+const QString Version::sc_Minor = "2";
 const QString Version::sc_ApplicationName = "Blind Crossword 3D";
 
 //!
