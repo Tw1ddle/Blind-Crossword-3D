@@ -18,7 +18,7 @@
  *  Responsible for setting up of shortcuts and connections between program components. Contains functionality that does not easily fit
  *  anywhere else, and provides voiced feedback for most of the actions taken within the program.
  *
- *  \author Samuel Twidale
+ *  \author Samuel Twidale (http://samcodes.co.uk/)
  *  \copyright GNU General Public License v3.0
  *
  */
