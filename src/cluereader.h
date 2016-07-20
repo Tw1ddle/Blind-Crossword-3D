@@ -10,6 +10,7 @@
 #ifndef CLUEREADER_H
 #define CLUEREADER_H
 
+#include <QObject>
 #include <QString>
 #include <QStringList>
 

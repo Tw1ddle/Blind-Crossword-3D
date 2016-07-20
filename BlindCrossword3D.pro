@@ -14,6 +14,9 @@ TEMPLATE = app
 
 # Custom paths
 win32 {
+    DEFINES += _USING_V110_SDK71_ # Fixes some errors in atl headers
+    QMAKE_CXXFLAGS -= -Zc:strictStrings # Fixes some errors in sapi.h
+
     INCLUDEPATH += "C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\Include" # SAPI
     INCLUDEPATH += "C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\atlmfc\include" # ATL
 }
