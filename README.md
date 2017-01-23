@@ -1,4 +1,7 @@
 Blind-Crossword-3D
+<a href="https://scan.coverity.com/projects/tw1ddle-blind-crossword-3d">
+    <img alt="Coverity Scan Build Status" src="https://img.shields.io/coverity/scan/11560.svg"/>
+</a>
 ==================
 
 A 2D and 3D crossword puzzle game designed for blind and partially-sighted users.
