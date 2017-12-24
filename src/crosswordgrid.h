@@ -5,8 +5,7 @@
  *  \copyright GNU General Public License v3.0
  */
 
-#ifndef CROSSWORDGRID_H
-#define CROSSWORDGRID_H
+#pragma once
 
 #include <vector>
 
@@ -32,5 +31,3 @@ private:
     uivec3 m_GridDimensions;
     std::vector<Letter> m_Letters;
 };
-
-#endif // CROSSWORDGRID_H

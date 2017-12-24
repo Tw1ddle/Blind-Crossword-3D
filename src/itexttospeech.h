@@ -6,8 +6,7 @@
  *  \copyright GNU General Public License v3.0
  */
 
-#ifndef ITEXTTOSPEECH_H
-#define ITEXTTOSPEECH_H
+#pragma once
 
 #include <QString>
 
@@ -50,5 +49,3 @@ public:
 protected:
     ITextToSpeech() {}
 };
-
-#endif // ITEXTTOSPEECH_H

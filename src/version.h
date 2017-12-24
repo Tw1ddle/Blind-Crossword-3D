@@ -4,9 +4,7 @@
  *  \copyright GNU General Public License v3.0
  */
 
-
-#ifndef VERSION_H
-#define VERSION_H
+#pragma once
 
 #include <QString>
 
@@ -22,5 +20,3 @@ private:
     static const QString sc_Minor;
     static const QString sc_ApplicationName;
 };
-
-#endif // VERSION_H

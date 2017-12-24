@@ -23,10 +23,7 @@
  *
  */
 
-
-
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#pragma once
 
 #include <QMainWindow>
 
@@ -152,5 +149,3 @@ private:
     QShortcut* m_ReadLastSpokenPhraseShortcut;
     QShortcut* m_CycleViewVisibilityShortcut;
 };
-
-#endif // MAINWINDOW_H

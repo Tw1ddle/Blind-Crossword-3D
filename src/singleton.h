@@ -5,8 +5,7 @@
  *  \copyright GNU General Public License v3.0
  */
 
-#ifndef SINGLETON_H
-#define SINGLETON_H
+#pragma once
 
 template <typename T>
 class Singleton
@@ -42,5 +41,3 @@ protected:
 
 template <typename T>
 T* Singleton<T>::s_Instance = 0;
-
-#endif // SINGLETON_H

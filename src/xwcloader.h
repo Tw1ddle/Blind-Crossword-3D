@@ -5,8 +5,7 @@
  *  \copyright GNU General Public License v3.0
  */
 
-#ifndef XWCLOADER_H
-#define XWCLOADER_H
+#pragma once
 
 #include <QStringList>
 
@@ -28,5 +27,3 @@ private:
     bool loadAcrossClues(CrosswordBase& puzzle, QStringList& linelist);
     bool loadAwayClues(CrosswordBase& puzzle, QStringList& linelist);
 };
-
-#endif // XWCLOADER_H

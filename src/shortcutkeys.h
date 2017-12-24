@@ -4,8 +4,7 @@
  *  \copyright GNU General Public License v3.0
  */
 
-#ifndef SHORTCUTKEYS_H
-#define SHORTCUTKEYS_H
+#pragma once
 
 #include <QChar>
 
@@ -54,5 +53,3 @@ namespace ShortcutKeys
 
     extern const QString tableNavigationKeys;
 }
-
-#endif // SHORTCUTKEYS_H

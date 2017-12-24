@@ -7,8 +7,7 @@
  *  \copyright GNU General Public License v3.0
  */
 
-#ifndef CROSSWORDENTRYTABLEMODEL_H
-#define CROSSWORDENTRYTABLEMODEL_H
+#pragma once
 
 #include <QAbstractTableModel>
 #include <QString>
@@ -62,5 +61,3 @@ signals:
 
     void crosswordEntrySelectionChanged(CrosswordEntry newCrosswordEntrySelection);
 };
-
-#endif // CROSSWORDENTRYTABLEMODEL_H

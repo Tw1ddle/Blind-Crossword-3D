@@ -8,8 +8,7 @@
  *  \copyright GNU General Public License v3.0
  */
 
-#ifndef EMAILER_H
-#define EMAILER_H
+#pragma once
 
 #include <QString>
 
@@ -28,5 +27,3 @@ private:
 
     QString getEmailAddress(const QString path) const;
 };
-
-#endif // EMAILER_H

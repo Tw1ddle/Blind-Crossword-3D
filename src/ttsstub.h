@@ -1,5 +1,4 @@
-#ifndef TTSSTUB_H
-#define TTSSTUB_H
+#pragma once
 
 #include "ttsbase.h"
 
@@ -17,5 +16,3 @@ public:
 
     virtual bool speak(QString text, DWORD options) { return true; }
 };
-
-#endif // TTSSTUB_H

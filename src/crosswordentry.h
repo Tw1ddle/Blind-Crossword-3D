@@ -6,8 +6,7 @@
  *  \copyright GNU General Public License v3.0
  */
 
-#ifndef CROSSWORDENTRY_H
-#define CROSSWORDENTRY_H
+#pragma once
 
 #include <QString>
 
@@ -73,5 +72,3 @@ namespace ClueDirections
     const DIRECTION DIAMETRIC = "Diametric";
     const DIRECTION SNAKING = "Snaking";
 }
-
-#endif // CROSSWORDENTRY_H

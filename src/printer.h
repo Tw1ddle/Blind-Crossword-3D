@@ -6,8 +6,7 @@
  *  \copyright GNU General Public License v3.0
  */
 
-#ifndef PRINTER_H
-#define PRINTER_H
+#pragma once
 
 #include <QString>
 
@@ -29,5 +28,3 @@ private:
     QString getPostalAddress(const QString path) const;
     QTextDocument* getPuzzleDocumentForPrinting(CrosswordBase& puzzle) const;
 };
-
-#endif // PRINTER_H

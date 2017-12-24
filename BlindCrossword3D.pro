@@ -1,15 +1,10 @@
-#-------------------------------------------------
-#
-# Project created by QtCreator 2012-07-31T21:41:03
-#
-#-------------------------------------------------
-
 QT       += core gui widgets printsupport
 QT       -= webkitwidgets
 
 TARGET = BlindCrossword3D
 TEMPLATE = app
 
+# Disables text-to-speech functionality
 #DEFINES += NO_TTS
 
 # Custom paths
@@ -90,7 +85,6 @@ win32 {
     SOURCES += src/ttsimplwindows.cpp
     HEADERS += src/ttsimplwindows.h
 }
-
 macx {
     OBJECTIVE_SOURCES += src/ttsimplmac.mm
     HEADERS += src/ttsimplmac.h
@@ -115,7 +109,6 @@ macx {
 
     LIBS += -framework AppKit -framework Foundation
 }
-
 linux {
     SOURCES += src/ttsimpllinux.cpp
     HEADERS += src/ttsimpllinux.h
@@ -125,11 +118,9 @@ linux {
 win32 {
     RC_FILE = winicon.rc
 }
-
 macx {
     ICON = icon.icns
 }
-
 linux {
     # TODO gnome, kde icons
 }

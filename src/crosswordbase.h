@@ -10,8 +10,7 @@
  *  \copyright GNU General Public License v3.0
  */
 
-#ifndef CROSSWORDBASE_H
-#define CROSSWORDBASE_H
+#pragma once
 
 #include <QString>
 #include <QPixmap>
@@ -78,5 +77,3 @@ private:
     FileFormats::FORMAT m_FileFormat;
     float m_FileFormatVersion;
 };
-
-#endif // CROSSWORDBASE_H

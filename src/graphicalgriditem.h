@@ -6,8 +6,7 @@
  *  \copyright GNU General Public License v3.0
  */
 
-#ifndef GRAPHICALGRIDITEM_H
-#define GRAPHICALGRIDITEM_H
+#pragma once
 
 #include <QGraphicsItem>
 
@@ -40,5 +39,3 @@ private:
     static const float sc_CrosswordLetterScale;
     static const float sc_CrosswordEntryNumberScale;
 };
-
-#endif // GRAPHICALGRIDITEM_H

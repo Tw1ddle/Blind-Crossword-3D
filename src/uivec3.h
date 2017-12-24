@@ -5,8 +5,7 @@
  *  \copyright GNU General Public License v3.0
  */
 
-#ifndef UIVEC3_H
-#define UIVEC3_H
+#pragma once
 
 class uivec3
 {
@@ -27,5 +26,3 @@ public:
 private:
     unsigned int x, y, z;
 };
-
-#endif // UIVEC3_H

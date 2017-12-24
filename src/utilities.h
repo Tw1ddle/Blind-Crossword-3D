@@ -4,8 +4,7 @@
  *  \copyright GNU General Public License v3.0
  */
 
-#ifndef UTILITIES_H
-#define UTILITIES_H
+#pragma once
 
 #include <QStringList>
 #include <QFile>
@@ -21,5 +20,3 @@ namespace Utilities
 
     bool openUrl(QUrl url);
 }
-
-#endif // UTILITIES_H

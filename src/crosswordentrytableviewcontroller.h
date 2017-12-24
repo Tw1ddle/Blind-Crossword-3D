@@ -7,8 +7,7 @@
  *  \copyright GNU General Public License v3.0
  */
 
-#ifndef CROSSWORDENTRYTABLEVIEWCONTROLLER_H
-#define CROSSWORDENTRYTABLEVIEWCONTROLLER_H
+#pragma once
 
 #include <QTableView>
 #include <QModelIndex>
@@ -53,5 +52,3 @@ signals:
     void guessErasureRequested(QModelIndex index);
     void modelIndexChanged(const QModelIndex& selected, const QModelIndex& deselected);
 };
-
-#endif // CROSSWORDENTRYTABLEVIEWCONTROLLER_H

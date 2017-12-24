@@ -6,8 +6,7 @@
  *  \copyright GNU General Public License v3.0
  */
 
-#ifndef XWC3DLOADER_H
-#define XWC3DLOADER_H
+#pragma once
 
 #include <QStringList>
 
@@ -36,5 +35,3 @@ private:
 
     bool saveCluesHelper(CrosswordBase& puzzle, QStringList& linelist, QString direction);
 };
-
-#endif // XWC3DLOADER_H

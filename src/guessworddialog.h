@@ -6,8 +6,7 @@
  *  \copyright GNU General Public License v3.0
  */
 
-#ifndef GUESSWORDDIALOG_H
-#define GUESSWORDDIALOG_H
+#pragma once
 
 #include <QDialog>
 
@@ -30,5 +29,3 @@ public slots:
  private:
     QLineEdit* m_WordEdit;
 };
-
-#endif // GUESSWORDDIALOG_H

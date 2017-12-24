@@ -7,8 +7,7 @@
  *  \copyright GNU General Public License v3.0
  */
 
-#ifndef CLUEREADER_H
-#define CLUEREADER_H
+#pragma once
 
 #include <QObject>
 #include <QString>
@@ -34,5 +33,3 @@ private:
     unsigned int m_Index;
     const QChar m_Separator;
 };
-
-#endif // CLUEREADER_H

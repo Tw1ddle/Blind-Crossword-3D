@@ -6,8 +6,7 @@
  *  \copyright GNU General Public License v3.0
  */
 
-#ifndef GRAPHICALGRIDVIEW_H
-#define GRAPHICALGRIDVIEW_H
+#pragma once
 
 #include <QGraphicsView>
 
@@ -34,5 +33,3 @@ private slots:
     void zoomAnimationFinished();
     void scalingTime(qreal x);
 };
-
-#endif // GRAPHICALGRIDVIEW_H

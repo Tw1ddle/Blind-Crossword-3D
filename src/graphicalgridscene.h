@@ -6,8 +6,7 @@
  *  \copyright GNU General Public License v3.0
  */
 
-#ifndef GRID3DGRAPHICSSCENE_H
-#define GRID3DGRAPHICSSCENE_H
+#pragma once
 
 #include <QGraphicsScene>
 #include <QGraphicsRectItem>
@@ -51,5 +50,3 @@ public slots:
     void highlightSelection(CrosswordEntry selectedCrosswordEntry);
     void updateGrid();
 };
-
-#endif // GRID3DGRAPHICSSCENE_H

@@ -9,8 +9,7 @@
  *  \copyright GNU General Public License v3.0
  */
 
-#ifndef TTSIMPLWINDOWS_H
-#define TTSIMPWINDOWS_H
+#pragma once
 
 #ifdef _WIN32
 
@@ -48,5 +47,3 @@ private:
 #endif
 
 #endif
-
-#endif // TTSIMPLWINDOWS_H

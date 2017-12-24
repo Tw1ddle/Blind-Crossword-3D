@@ -5,8 +5,7 @@
  *  \copyright GNU General Public License v3.0
  */
 
-#ifndef TTSIMPLLINUX_H
-#define TTSIMPLLINUX_H
+#pragma once
 
 #ifdef __linux__
 
@@ -34,5 +33,3 @@ protected:
 #endif // NO_TTS
 
 #endif // __linux__
-
-#endif // TTSIMPLLINUX_H

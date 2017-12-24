@@ -5,8 +5,7 @@
  *  \copyright GNU General Public License v3.0
  */
 
-#ifndef QUITDIALOG_H
-#define QUITDIALOG_H
+#pragma once
 
 #include <QDialog>
 
@@ -28,5 +27,3 @@ private:
     QString m_AcceptedText;
     QString m_RejectedText;
 };
-
-#endif // QUITDIALOG_H

@@ -5,8 +5,7 @@
  *  \copyright GNU General Public License v3.0
  */
 
-#ifndef TTSIMPLMAC_H
-#define TTSIMPLMAC_H
+#pragma once
 
 #ifndef NO_TTS
 
@@ -45,5 +44,3 @@ private:
 #endif //TARGET_OS_MAC
 
 #endif //__APPLE__
-
-#endif // TTSIMPLMAC_H

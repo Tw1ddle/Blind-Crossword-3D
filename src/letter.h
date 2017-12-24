@@ -6,8 +6,7 @@
  *  \copyright GNU General Public License v3.0
  */
 
-#ifndef LETTER_H
-#define LETTER_H
+#pragma once
 
 #include <QChar>
 
@@ -27,5 +26,3 @@ private:
     QChar m_Letter;
     uivec3 m_Location;
 };
-
-#endif // LETTER_H

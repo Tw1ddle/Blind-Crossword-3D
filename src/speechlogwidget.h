@@ -5,9 +5,7 @@
  *  \copyright GNU General Public License v3.0
  */
 
-
-#ifndef SPEECHLOGWIDGET_H
-#define SPEECHLOGWIDGET_H
+#pragma once
 
 #include <QTextEdit>
 
@@ -20,5 +18,3 @@ public:
 protected:
     void focusInEvent(QFocusEvent *e);
 };
-
-#endif // SPEECHLOGWIDGET_H

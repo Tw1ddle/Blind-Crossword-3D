@@ -8,8 +8,7 @@
  *  \copyright GNU General Public License v3.0
  */
 
-#ifndef CROSSWORDLOADER_H
-#define CROSSWORDLOADER_H
+#pragma once
 
 #include <QString>
 #include <QStringList>
@@ -45,5 +44,3 @@ private:
 signals:
     void loaderError(const QString&, const QString&);
 };
-
-#endif // CROSSWORDLOADER_H

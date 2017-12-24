@@ -5,8 +5,7 @@
  *  \copyright GNU General Public License v3.0
  */
 
-#ifndef IDLEREMINDER_H
-#define IDLEREMINDER_H
+#pragma once
 
 #include <QObject>
 #include <QTimer>
@@ -32,5 +31,3 @@ public slots:
 signals:
     void timedOut();
 };
-
-#endif // IDLEREMINDER_H

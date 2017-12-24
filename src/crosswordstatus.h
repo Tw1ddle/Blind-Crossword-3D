@@ -7,8 +7,7 @@
  *  \copyright GNU General Public License v3.0
  */
 
-#ifndef CROSSWORDTYPES_H
-#define CROSSWORDTYPES_H
+#pragma once
 
 #include <QString>
 
@@ -21,5 +20,3 @@ namespace CrosswordStatus
     const CROSSWORD_TYPE WITH_ANSWERS = "With Answers";
     const CROSSWORD_TYPE WITH_ANSWERS_FILLED_IN = "With Answers Completed";
 }
-
-#endif // CROSSWORDTYPES_H

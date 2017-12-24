@@ -6,8 +6,7 @@
  *  \copyright GNU General Public License v3.0
  */
 
-#ifndef TTSBASE_H
-#define TTSBASE_H
+#pragma once
 
 #include "itexttospeech.h"
 
@@ -33,5 +32,3 @@ private:
     QString m_Mode;
     QStringList m_SpeechLog;
 };
-
-#endif // TTSBASE_H

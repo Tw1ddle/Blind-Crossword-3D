@@ -6,8 +6,7 @@
  *  \copyright GNU General Public License v3.0
  */
 
-#ifndef LOADCROSSWORDDIALOG_H
-#define LOADCROSSWORDDIALOG_H
+#pragma once
 
 #include <QListView>
 #include <QFileSystemModel>
@@ -39,5 +38,3 @@ public slots:
     void onSelectionChanged(const QModelIndex& current);
     void onFileSelected(const QModelIndex& index);
 };
-
-#endif // LOADCROSSWORDDIALOG_H
