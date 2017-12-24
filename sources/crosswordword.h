@@ -18,7 +18,7 @@ public:
 
     std::vector<uivec3> getPositions() const;
     QString getString() const;
-    unsigned int getLength() const;
+    std::size_t getLength() const;
     bool containsLetter(Letter* letter) const; // compares pointers
     bool intersectsWord(Word* word) const; // compares pointers
 

@@ -35,7 +35,7 @@ void GridData::clear()
     m_GridDimensions = uivec3(0u, 0u, 0u);
 }
 
-unsigned int GridData::getSize() const
+std::size_t GridData::getSize() const
 {
     return m_Letters.size();
 }

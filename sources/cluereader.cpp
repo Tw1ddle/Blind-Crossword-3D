@@ -11,7 +11,7 @@ QString ClueReader::advanceWord()
 {
     QStringList words = m_Text.split(m_Separator, QString::SkipEmptyParts);
 
-    if(m_Index >= words.length() - 1)
+    if(m_Index >= static_cast<std::size_t>(words.size()) - 1)
     {
         m_Index = 0;
     }
@@ -27,7 +27,7 @@ QString ClueReader::getWord() const
 {
     QStringList words = m_Text.split(m_Separator, QString::SkipEmptyParts);
 
-    if(m_Index < words.size())
+    if(m_Index < static_cast<std::size_t>(words.size()))
     {
         return words.at(m_Index);
     }

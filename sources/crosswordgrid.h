@@ -17,7 +17,7 @@ public:
     Letter* getRefLetterAt(unsigned int index);
 
     void push_back(Letter letter);
-    unsigned int getSize() const;
+    std::size_t getSize() const;
     void clear();
 
     uivec3 getDimensions() const;

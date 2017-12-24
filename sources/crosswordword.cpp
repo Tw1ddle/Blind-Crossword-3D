@@ -11,7 +11,7 @@ Word::Word(std::vector<Letter*> word)
     m_Word = word;
 }
 
-unsigned int Word::getLength() const
+std::size_t Word::getLength() const
 {
     return m_Word.size();
 }

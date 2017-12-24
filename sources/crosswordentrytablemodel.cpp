@@ -27,14 +27,12 @@ CrosswordEntryTableModel::CrosswordEntryTableModel(const CrosswordBase& puzzle, 
 int CrosswordEntryTableModel::rowCount(const QModelIndex& parent) const
 {
     Q_UNUSED(parent);
-
-    return m_RefEntries.size();
+    return static_cast<int>(m_RefEntries.size());
 }
 
 int CrosswordEntryTableModel::columnCount(const QModelIndex& parent) const
 {
     Q_UNUSED(parent);
-
     return 5;
 }
 

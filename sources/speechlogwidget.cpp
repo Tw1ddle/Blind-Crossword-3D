@@ -2,7 +2,7 @@
 
 #include "itexttospeech.h"
 
-SpeechLogWidget::SpeechLogWidget(QObject *parent) :
+SpeechLogWidget::SpeechLogWidget(QObject*) :
     QTextEdit()
 {
     show();
@@ -15,7 +15,7 @@ void SpeechLogWidget::focusInEvent(QFocusEvent *e)
 
     clear();
 
-    for(unsigned int i = 0 ; i < ITextToSpeech::instance().getSpeechLog().size(); i++)
+    for(int i = 0 ; i < ITextToSpeech::instance().getSpeechLog().size(); i++)
     {
         this->append(ITextToSpeech::instance().getSpeechLog().at(i));
     }

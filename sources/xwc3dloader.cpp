@@ -493,7 +493,7 @@ bool XWC3DLoader::saveClues(CrosswordBase &puzzle, QStringList &linelist)
     return true;
 }
 
-bool XWC3DLoader::saveCluesHelper(CrosswordBase &puzzle, QStringList &linelist, QString direction)
+bool XWC3DLoader::saveCluesHelper(CrosswordBase &/*puzzle*/, QStringList &linelist, QString direction)
 {
     std::vector<CrosswordEntry> entries;
 
