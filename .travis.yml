@@ -86,5 +86,5 @@ install:
 
 # Build the Blind Crossword 3D app
 script:
-  - qmake Blind-Crossword-3D.pro
+  - qmake BlindCrossword3D.pro
   - make CC=${CC} CXX=${CXX} LINK=${CXX}

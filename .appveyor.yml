@@ -34,7 +34,7 @@ install:
 # Run qmake
 before_build:
   - cd %APPVEYOR_BUILD_FOLDER%
-  - qmake Blind-Crossword-3D.pro
+  - qmake BlindCrossword3D.pro
 
 # Build the projects
 build_script:
