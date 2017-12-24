@@ -1,7 +1,6 @@
 QT += core gui widgets printsupport
 QT -= webkitwidgets
 
-CONFIG += x86 x86_64
 TARGET = BlindCrossword3D
 TEMPLATE = app
 
