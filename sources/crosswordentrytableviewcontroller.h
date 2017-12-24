@@ -1,10 +1,4 @@
 /*! \brief The view controller for the crossword entry table.
- *
- *
- *
- *
- *  \author Samuel Twidale
- *  \copyright GNU General Public License v3.0
  */
 
 #pragma once

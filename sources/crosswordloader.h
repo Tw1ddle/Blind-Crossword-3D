@@ -1,11 +1,6 @@
 /*! \brief Classes for loading and saving crosswords.
- *
  *  The loader interface defines the behaviour of classes that implement loading and saving functionality for any crossword format.
- *
  *  The loader class chooses the appropriate loader for a given crossword file format and runs it. It also handles the file I/O for loading and saving crosswords.
- *
- *  \author Samuel Twidale
- *  \copyright GNU General Public License v3.0
  */
 
 #pragma once

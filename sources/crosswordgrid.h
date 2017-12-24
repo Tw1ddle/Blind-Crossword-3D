@@ -1,8 +1,4 @@
 /*! \brief Models a crossword grid.
- *
- *
- *  \author Samuel Twidale
- *  \copyright GNU General Public License v3.0
  */
 
 #pragma once

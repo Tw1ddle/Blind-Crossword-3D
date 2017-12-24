@@ -1,8 +1,4 @@
 /*! \brief A Mac implementation of the text to speech interface.
- *
- *
- *  \author Samuel Twidale
- *  \copyright GNU General Public License v3.0
  */
 
 #pragma once

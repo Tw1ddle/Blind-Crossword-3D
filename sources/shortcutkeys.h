@@ -1,7 +1,4 @@
 /*! \brief All the shortcut keys used in the program.
- *
- *  \author Samuel Twidale
- *  \copyright GNU General Public License v3.0
  */
 
 #pragma once

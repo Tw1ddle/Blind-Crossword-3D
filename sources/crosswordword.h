@@ -1,10 +1,5 @@
 /*! \brief Models a word in the crossword grid.
- *
- *
  *  A word consists of letters, which reference particular coordinates within a grid.
- *
- *  \author Samuel Twidale
- *  \copyright GNU General Public License v3.0
  */
 
 #pragma once

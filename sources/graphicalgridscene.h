@@ -1,9 +1,5 @@
 /*! \brief A model of the graphical grid.
- *
  *  Responsible for maintaining a graphical model of the crossword puzzle.
- *
- *  \author Samuel Twidale
- *  \copyright GNU General Public License v3.0
  */
 
 #pragma once

@@ -1,9 +1,5 @@
 /*! \brief Classes for viewing a list of files in the context of a filesystem.
- *
  *  Provide a selectable list of files. Used for choosing a crossword to load.
- *
- *  \author Samuel Twidale
- *  \copyright GNU General Public License v3.0
  */
 
 #pragma once

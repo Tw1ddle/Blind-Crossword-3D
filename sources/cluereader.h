@@ -1,10 +1,5 @@
 /*! \brief Breaks clues down into individual words.
- *
- *
  *  Enables a user to advance through a body of text word by word.
- *
- *  \author Samuel Twidale
- *  \copyright GNU General Public License v3.0
  */
 
 #pragma once

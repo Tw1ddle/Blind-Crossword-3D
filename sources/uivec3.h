@@ -1,8 +1,4 @@
 /*! \brief Represents a three-component vector of unsigned ints.
- *
- *
- *  \author Samuel Twidale
- *  \copyright GNU General Public License v3.0
  */
 
 #pragma once

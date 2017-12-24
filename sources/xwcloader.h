@@ -1,8 +1,4 @@
 /*! \brief A loader for .xwc format files.
- *
- *
- *  \author Samuel Twidale
- *  \copyright GNU General Public License v3.0
  */
 
 #pragma once

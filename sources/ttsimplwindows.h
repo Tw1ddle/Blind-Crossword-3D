@@ -1,12 +1,8 @@
 /*! \brief A Windows implementation of the text to speech interface.
- *
  *  The Windows implementation takes options (SPEAKFLAGS, see http://msdn.microsoft.com/en-us/library/ms717252(v=vs.85).aspx) in the
  *  speak method for controlling aspects such as whether the speech should be spoken synchronously or asynchronously.
  *
  *  The mode setting method changes whether the speech should be spoken word by word, or letter by letter.
- *
- *  \author Samuel Twidale
- *  \copyright GNU General Public License v3.0
  */
 
 #pragma once

@@ -1,8 +1,4 @@
 /*! \brief A dialog that confirms whether user wants to quit the program.
- *
- *
- *  \author Samuel Twidale
- *  \copyright GNU General Public License v3.0
  */
 
 #pragma once

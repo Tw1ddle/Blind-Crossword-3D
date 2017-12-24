@@ -1,8 +1,4 @@
 /*! \brief A Singleton base class template.
- *
- *
- *  \author Samuel Twidale
- *  \copyright GNU General Public License v3.0
  */
 
 #pragma once

@@ -1,13 +1,8 @@
 /*! \brief Models a crossword.
- *
- *
  *  Models a crossword. It consists of metadata, the crossword grid, and the entries (clues and associated information).
  *  The model has minimal functionality itself - it is a data source for other classes.
  *
  *  Loading and unloading of data is delegated to loader friend classes.
- *
- *  \author Samuel Twidale
- *  \copyright GNU General Public License v3.0
  */
 
 #pragma once

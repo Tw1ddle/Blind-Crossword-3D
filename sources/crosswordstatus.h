@@ -1,10 +1,4 @@
 /*! \brief The states that a crossword puzzle file may be in.
- *         Brief description continued.
- *
- *  Detailed description starts here.
- *
- *  \author Samuel Twidale
- *  \copyright GNU General Public License v3.0
  */
 
 #pragma once

@@ -1,9 +1,5 @@
 /*! \brief Models a grid item within the graphical grid view.
- *
  *  References a letter in the crossword grid.
- *
- *  \author Samuel Twidale
- *  \copyright GNU General Public License v3.0
  */
 
 #pragma once

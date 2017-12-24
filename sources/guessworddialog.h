@@ -1,9 +1,5 @@
 /*! \brief A dialog into which the user enters their guesses at clues.
- *
  *  Presents a text box for users to type in their answers, and interactively reads the content in the text box back.
- *
- *  \author Samuel Twidale
- *  \copyright GNU General Public License v3.0
  */
 
 #pragma once

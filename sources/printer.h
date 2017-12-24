@@ -1,9 +1,5 @@
 /*! \brief Opens a print dialog and enables a user to print crossword answers.
- *
  *  Opens a print dialog for printing a user's answers to a crossword.
- *
- *  \author Samuel Twidale
- *  \copyright GNU General Public License v3.0
  */
 
 #pragma once

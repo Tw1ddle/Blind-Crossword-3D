@@ -1,9 +1,5 @@
 /*! \brief View for the graphical grid.
- *
  *  Responsible for user navigation of the graphical grid, and managing the viewport of the graphical grid.
- *
- *  \author Samuel Twidale
- *  \copyright GNU General Public License v3.0
  */
 
 #pragma once

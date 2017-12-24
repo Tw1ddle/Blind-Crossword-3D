@@ -1,9 +1,5 @@
 /*! \brief Models a letter in a crossword puzzle.
- *
  *  A letter is modelled as a location in the crossword grid and a letter.
- *
- *  \author Samuel Twidale
- *  \copyright GNU General Public License v3.0
  */
 
 #pragma once

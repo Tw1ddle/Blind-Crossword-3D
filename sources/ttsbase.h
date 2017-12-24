@@ -1,9 +1,5 @@
 /*! \brief A base class for text to speech interfaces.
- *
  *  Encapsulates the common functionality for all speech interfaces, such as logging.
- *
- *  \author Samuel Twidale
- *  \copyright GNU General Public License v3.0
  */
 
 #pragma once

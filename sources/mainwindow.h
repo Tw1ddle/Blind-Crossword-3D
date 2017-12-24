@@ -12,15 +12,10 @@
  * General Public License for more details at
  * http://www.gnu.org/copyleft/gpl.html
  *
- *
  * \brief The main window.
  *
- *  Responsible for setting up of shortcuts and connections between program components. Contains functionality that does not easily fit
- *  anywhere else, and provides voiced feedback for most of the actions taken within the program.
- *
- *  \author Samuel Twidale (http://samcodes.co.uk/)
- *  \copyright GNU General Public License v3.0
- *
+ *  Responsible for setting up of shortcuts and connections between program components.
+ *  Provides voiced feedback for most of the actions taken within the program.
  */
 
 #pragma once
