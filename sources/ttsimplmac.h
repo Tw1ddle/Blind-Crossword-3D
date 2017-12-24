@@ -10,8 +10,10 @@
 #ifndef NO_TTS
 
 #ifdef __APPLE__
-    #include "TargetConditionals.h"
-    #ifdef TARGET_OS_MAC
+
+#include "TargetConditionals.h"
+
+#ifdef TARGET_OS_MAC
 
 #include "ttsbase.h"
 
@@ -39,8 +41,8 @@ private:
     const static float sc_SpeedRateAdjustmentStepSize;
 };
 
-#endif //NO_TTS
+#endif //__APPLE__
 
 #endif //TARGET_OS_MAC
 
-#endif //__APPLE__
+#endif //NO_TTS

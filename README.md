@@ -27,7 +27,7 @@ Download Geometrize for Windows XP, Vista, 7, 8 and 10 [here](https://www.dropbo
 
 ## Contributing
 
-See the [wiki page](https://github.com/Tw1ddle/Blind-Crossword-3D/wiki) to help make Blind Crossword 3D better.
+See the [wiki](https://github.com/Tw1ddle/Blind-Crossword-3D/wiki) to learn how to make Blind Crossword 3D better.
 
 ## Notes
- * Got an idea or suggestion? Open an issue on GitHub, send Sam an [email](https://samcodes.co.uk/contact/) or a message via [Twitter](https://twitter.com/Sam_Twidale).
+ * Got a comment or suggestion? Open an issue on GitHub, or send Sam an [email](https://samcodes.co.uk/contact/) or a message via [Twitter](https://twitter.com/Sam_Twidale).

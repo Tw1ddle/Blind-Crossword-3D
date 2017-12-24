@@ -6,6 +6,5 @@ macx {
     ICON = $$PWD/icon.icns
 }
 linux {
-    # TODO gnome, kde icons
 }
 RESOURCES += $$PWD/resources.qrc

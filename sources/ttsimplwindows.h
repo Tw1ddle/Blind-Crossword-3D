@@ -44,6 +44,6 @@ private:
     const static float sc_SpeedRateAdjustmentStepSize;
 };
 
-#endif
+#endif // NO_TTS
 
-#endif
+#endif // _WIN32
