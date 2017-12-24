@@ -1,3 +1,5 @@
+[![Blind Crossword 3D Logo](https://github.com/Tw1ddle/Blind-Crossword-3D/blob/master/screenshots/logo.png?raw=true "Blind Crossword 3D logo")](https://www.samcodes.co.uk/)
+
 Blind-Crossword-3D
 ==================
 

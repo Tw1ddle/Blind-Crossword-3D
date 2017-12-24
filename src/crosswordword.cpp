@@ -1,6 +1,6 @@
 #include "crosswordword.h"
 
-#include <assert.h>
+#include <cassert>
 
 Word::Word()
 {

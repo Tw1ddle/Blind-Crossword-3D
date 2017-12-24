@@ -22,11 +22,11 @@
 #include "printer.h"
 #include "utilities.h"
 
-const QString MainWindow::m_DefaultSaveFolder = QString("/Crosswords");
-const QString MainWindow::m_HelpFileLocation = QString("/Help/help.html");
-const QString MainWindow::m_TutorialFileLocation = QString("/Help/tutorial.html");
-const QString MainWindow::m_LicenseFileLocation = QString("/License/gplv3.htm");
-const QString MainWindow::m_CalendarPuzzlesWebsiteAddressLocation = QString("/Config/calendarpuzzles_website_address.txt");
+const QString MainWindow::m_DefaultSaveFolder = QString("/assets/crosswords");
+const QString MainWindow::m_HelpFileLocation = QString("/assets/help/help.html");
+const QString MainWindow::m_TutorialFileLocation = QString("/assets/help/tutorial.html");
+const QString MainWindow::m_LicenseFileLocation = QString("/assets/license/gplv3.htm");
+const QString MainWindow::m_CalendarPuzzlesWebsiteAddressLocation = QString("/assets/config/calendarpuzzles_website_address.txt");
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),

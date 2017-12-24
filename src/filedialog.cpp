@@ -5,6 +5,7 @@
 #include <QBoxLayout>
 
 #include "itexttospeech.h"
+
 FileDialog::FileDialog(QWidget* parent, const QString& caption, const QString& directory, const QString& nameFilter, const QStringList& filter)
 {
     Q_UNUSED(nameFilter);

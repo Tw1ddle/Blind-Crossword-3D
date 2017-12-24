@@ -20,8 +20,6 @@ namespace ShortcutKeys
     extern const QChar filterTableViewShortcutKey;
     extern const QChar cycleSpeechModeShortcutKey;
     extern const QChar stopSpeechKey;
-    extern const QChar toggleApplicationOpenReminderKey;
-
 
     extern const QChar advanceClueWordKey;
     extern const QChar readCurrentClueWordKey;
