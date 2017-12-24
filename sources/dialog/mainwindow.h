@@ -22,10 +22,9 @@
 
 #include <QMainWindow>
 
-#include "crosswordloader.h"
-#include "crosswordbase.h"
-
-#include "speechlogwidget.h"
+#include "crossword/crosswordloader.h"
+#include "crossword/crosswordbase.h"
+#include "dialog/speechlogwidget.h"
 
 class GraphicalGridScene;
 class CrosswordEntryTableModel;

@@ -1,6 +1,6 @@
 #include "speechlogwidget.h"
 
-#include "itexttospeech.h"
+#include "tts/itexttospeech.h"
 
 SpeechLogWidget::SpeechLogWidget(QObject*) :
     QTextEdit()

@@ -4,7 +4,7 @@
 
 namespace ShortcutKeys
 {
-    // management
+    // General app navigation controls
     const QChar exitShortcutKey = Qt::Key_Q; //Quit
     const QChar loadShortcutKey = Qt::Key_L; // Load
     const QChar saveShortcutKey = Qt::Key_S; // Save
@@ -26,7 +26,7 @@ namespace ShortcutKeys
     const QChar zoomOutKey = Qt::Key_Minus;
     const QChar cycleViewVisibilityKey = Qt::Key_Apostrophe;
 
-    // gameplay
+    // Gameplay controls
     const QString tableNavigationKeys = "arrow keys";
     const QChar enterGuessKey = Qt::Key_Return;
     const QChar enterGuessKeyAlternative = Qt::Key_Enter; // Enter

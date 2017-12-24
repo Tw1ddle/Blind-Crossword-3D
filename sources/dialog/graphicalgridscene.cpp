@@ -1,17 +1,15 @@
 #include "graphicalgridscene.h"
 
+#include <cassert>
+
 #include <QGraphicsItem>
 #include <QGraphicsView>
 #include <QPainter>
-
 #include <QVector3D>
 #include <QMatrix4x4>
 
-#include "assert.h"
-
-#include "graphicalgriditem.h"
-#include "crosswordgrid.h"
-
+#include "dialog/graphicalgriditem.h"
+#include "crossword/crosswordgrid.h"
 
 GraphicalGridScene::GraphicalGridScene(const CrosswordBase& puzzle) :
     QGraphicsScene(), m_RefPuzzle(puzzle), m_RefGrid(puzzle.getGrid()), m_RefCrosswordEntries(puzzle.getEntries()), m_RefBackgroundImage(puzzle.getBackgroundImage())

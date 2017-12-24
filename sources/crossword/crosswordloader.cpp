@@ -1,16 +1,16 @@
 #include "crosswordloader.h"
 #include "crosswordbase.h"
 
+#include <cassert>
+
 #include <QFile>
 #include <QTextStream>
 #include <QStringList>
 #include <QString>
-#include <assert.h>
 
-#include "xwcloader.h"
-#include "xwc3dloader.h"
-
-#include "utilities.h"
+#include "loaders/xwcloader.h"
+#include "loaders/xwc3dloader.h"
+#include "util/utilities.h"
 
 CrosswordLoader::CrosswordLoader()
 {

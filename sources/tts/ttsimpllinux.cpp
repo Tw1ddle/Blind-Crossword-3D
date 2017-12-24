@@ -16,6 +16,11 @@ TTSImplLinux::TTSImplLinux()
     setMode(SPEECH_MODES::normalSpeech);
 }
 
+TTSImplLinux::~TTSImplLinux()
+{
+
+}
+
 QString TTSImplLinux::increaseSpeechRate()
 {
     return QString("Speech rate increased.");

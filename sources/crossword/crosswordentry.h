@@ -6,8 +6,8 @@
 
 #include <QString>
 
-#include "crosswordword.h"
-#include "uivec3.h"
+#include "crossword/crosswordword.h"
+#include "util/uivec3.h"
 
 class CrosswordEntry
 {

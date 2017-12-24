@@ -9,10 +9,10 @@
 #include <QPixmap>
 #include <vector>
 
-#include "uivec3.h"
-#include "letter.h"
-#include "crosswordentry.h"
-#include "crosswordbase.h"
+#include "util/uivec3.h"
+#include "crossword/letter.h"
+#include "crossword/crosswordentry.h"
+#include "crossword/crosswordbase.h"
 
 class GridData;
 class GraphicalGridItem;

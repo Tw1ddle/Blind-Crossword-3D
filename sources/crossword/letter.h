@@ -6,7 +6,7 @@
 
 #include <QChar>
 
-#include "uivec3.h"
+#include "util/uivec3.h"
 
 class Letter
 {

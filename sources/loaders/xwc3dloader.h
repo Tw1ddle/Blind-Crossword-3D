@@ -5,8 +5,8 @@
 
 #include <QStringList>
 
-#include "crosswordbase.h"
-#include "crosswordloader.h"
+#include "crossword/crosswordbase.h"
+#include "crossword/crosswordloader.h"
 
 class XWC3DLoader : public CrosswordLoaderInterface
 {

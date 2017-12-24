@@ -6,7 +6,7 @@
 
 #include <QString>
 
-#include "singleton.h"
+#include "util/singleton.h"
 
 #ifndef _WINDEF_
     typedef unsigned long DWORD;

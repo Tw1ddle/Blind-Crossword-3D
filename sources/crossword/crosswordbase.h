@@ -11,11 +11,10 @@
 #include <QPixmap>
 #include <vector>
 
-#include "crosswordentry.h"
-#include "crosswordgrid.h"
-
-#include "crosswordfileformats.h"
-#include "crosswordstatus.h"
+#include "crossword/crosswordentry.h"
+#include "crossword/crosswordgrid.h"
+#include "crossword/crosswordfileformats.h"
+#include "crossword/crosswordstatus.h"
 
 const QString m_BackgroundImagesFolder = "/Backgrounds";
 

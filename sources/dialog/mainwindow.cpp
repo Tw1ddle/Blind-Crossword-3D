@@ -6,21 +6,18 @@
 #include <QUrl>
 #include <QSortFilterProxyModel>
 
-#include "version.h"
-
-#include "crosswordbase.h"
-#include "graphicalgridscene.h"
-#include "crosswordentrytablemodel.h"
-
+#include "version/version.h"
+#include "crossword/crosswordbase.h"
+#include "dialog/graphicalgridscene.h"
+#include "dialog/crosswordentrytablemodel.h"
 #include "shortcutkeys.h"
-#include "quitdialog.h"
-#include "filedialog.h"
-#include "itexttospeech.h"
-
-#include "cluereader.h"
-#include "emailer.h"
-#include "printer.h"
-#include "utilities.h"
+#include "dialog/quitdialog.h"
+#include "dialog/filedialog.h"
+#include "tts/itexttospeech.h"
+#include "crossword/cluereader.h"
+#include "network/emailer.h"
+#include "printing/printer.h"
+#include "util/utilities.h"
 
 const QString MainWindow::m_DefaultSaveFolder = QString("/assets/crosswords");
 const QString MainWindow::m_HelpFileLocation = QString("/assets/help/help.html");

@@ -1,6 +1,5 @@
 #include "xwcloader.h"
 
-
 bool XWCLoader::loadMetaData(CrosswordBase& puzzle, QStringList& linelist)
 {
     puzzle.m_FileFormat = FileFormats::XWC;

@@ -9,9 +9,9 @@
 #include <QModelIndex>
 #include <QItemSelection>
 
-#include "crosswordbase.h"
-#include "crosswordentry.h"
-#include "crosswordgrid.h"
+#include "crossword/crosswordbase.h"
+#include "crossword/crosswordentry.h"
+#include "crossword/crosswordgrid.h"
 
 namespace CrosswordEntryTableHeader
 {

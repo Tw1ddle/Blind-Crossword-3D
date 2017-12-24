@@ -4,7 +4,7 @@
 #include <QListView>
 #include <QBoxLayout>
 
-#include "itexttospeech.h"
+#include "tts/itexttospeech.h"
 
 FileDialog::FileDialog(QWidget* parent, const QString& caption, const QString& directory, const QString& nameFilter, const QStringList& filter)
 {

@@ -6,7 +6,7 @@
 #include <QPrintDialog>
 #include <QTextEdit>
 
-#include "utilities.h"
+#include "util/utilities.h"
 
 const QString Printer::sc_PostalAddressFileLocation = QString("/Config/postal_address.txt");
 

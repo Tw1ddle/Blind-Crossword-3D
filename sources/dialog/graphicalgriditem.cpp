@@ -3,7 +3,7 @@
 #include <QFont>
 #include <QPainter>
 
-#include "letter.h"
+#include "crossword/letter.h"
 
 const float GraphicalGridItem::sc_CrosswordLetterScale = 0.8f;
 const float GraphicalGridItem::sc_CrosswordEntryNumberScale = 0.30f;

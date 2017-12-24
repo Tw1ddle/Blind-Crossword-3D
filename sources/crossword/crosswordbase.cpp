@@ -1,12 +1,12 @@
 #include "crosswordbase.h"
 
-#include <assert.h>
+#include <cassert>
 
 #include <QMessageBox>
 #include <QDir>
 #include <QColor>
 
-#include "utilities.h"
+#include "util/utilities.h"
 #include "crosswordstatus.h"
 
 

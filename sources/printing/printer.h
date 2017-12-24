@@ -6,7 +6,7 @@
 
 #include <QString>
 
-#include "crosswordbase.h"
+#include "crossword/crosswordbase.h"
 
 class QTextDocument;
 class QWidget;

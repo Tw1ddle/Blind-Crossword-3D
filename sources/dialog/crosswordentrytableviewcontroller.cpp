@@ -10,11 +10,11 @@
 #include <QSortFilterProxyModel>
 #include <assert.h>
 
-#include "itexttospeech.h"
-#include "guessworddialog.h"
+#include "tts/itexttospeech.h"
+#include "dialog/guessworddialog.h"
 #include "shortcutkeys.h"
 
-#include "crosswordentrytablemodel.h" // we (only) need to know about the names of the headers.
+#include "dialog/crosswordentrytablemodel.h" // we (only) need to know about the names of the headers.
 
 CrosswordEntryTableViewController::CrosswordEntryTableViewController(QWidget *parent) :
     QTableView(parent)

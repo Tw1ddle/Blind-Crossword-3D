@@ -5,7 +5,7 @@
 #include <QLabel>
 
 #include "shortcutkeys.h"
-#include "version.h"
+#include "version/version.h"
 
 QuitDialog::QuitDialog(QWidget *parent) :
     QDialog(parent)

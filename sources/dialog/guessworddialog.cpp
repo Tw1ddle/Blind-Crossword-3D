@@ -4,7 +4,7 @@
 #include <QShortcut>
 #include <QVBoxLayout>
 
-#include "itexttospeech.h"
+#include "tts/itexttospeech.h"
 
 GuessWordDialog::GuessWordDialog(QWidget *parent) :
     QDialog(parent)

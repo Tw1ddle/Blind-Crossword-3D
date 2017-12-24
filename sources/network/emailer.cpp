@@ -5,10 +5,9 @@
 #include <QUrl>
 #include <QDesktopServices>
 
-#include "utilities.h"
-#include "crosswordbase.h"
-
-#include "version.h"
+#include "util/utilities.h"
+#include "crossword/crosswordbase.h"
+#include "version/version.h"
 
 const QString Emailer::sc_FeedbackEmailAddressFileLocation = QString("/Config/feedback_email_address.txt");
 const QString Emailer::sc_AnswersEmailAddressFileLocation = QString("/Config/answers_email_address.txt");

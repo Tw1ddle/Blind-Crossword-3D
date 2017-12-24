@@ -8,7 +8,7 @@
 #include <vector>
 
 #include "letter.h"
-#include "uivec3.h"
+#include "util/uivec3.h"
 
 class Word
 {

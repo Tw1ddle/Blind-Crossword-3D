@@ -6,8 +6,8 @@
 
 #include <QGraphicsItem>
 
-#include "uivec3.h"
-#include "letter.h"
+#include "util/uivec3.h"
+#include "crossword/letter.h"
 
 class GraphicalGridItem : public QGraphicsItem
 {
