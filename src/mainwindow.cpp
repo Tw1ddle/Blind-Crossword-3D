@@ -16,7 +16,6 @@
 #include "quitdialog.h"
 #include "filedialog.h"
 #include "itexttospeech.h"
-#include "idlereminder.h"
 
 #include "cluereader.h"
 #include "emailer.h"
@@ -30,7 +29,7 @@ const QString MainWindow::m_LicenseFileLocation = QString("/License/gplv3.htm");
 const QString MainWindow::m_CalendarPuzzlesWebsiteAddressLocation = QString("/Config/calendarpuzzles_website_address.txt");
 
 MainWindow::MainWindow(QWidget *parent) :
-    QMainWindow(parent), m_ApplicationOpenReminderEnabled(true),
+    QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
@@ -48,7 +47,6 @@ MainWindow::MainWindow(QWidget *parent) :
     m_ProxyModel->setSourceModel(m_TableModel);
     ui->wordTableView->setModel(m_ProxyModel);
 
-    m_IdleReminder = new IdleReminder(60000);
     m_ClueReader = new ClueReader();
 
     connect(this, SIGNAL(puzzleLoaded()), m_TableModel, SLOT(crosswordEntriesChanged()));
@@ -74,9 +72,6 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(m_TableModel, SIGNAL(crosswordEntrySelectionChanged(CrosswordEntry)), m_GraphicsScene, SLOT(highlightSelection(CrosswordEntry)));
 
     connect(&m_CrosswordLoader, SIGNAL(loaderError(QString, QString)), this, SLOT(showError(QString, QString)));
-
-    connect(m_IdleReminder, SIGNAL(timedOut()), this, SLOT(onIdleReminderTimeout()));
-    qApp->installEventFilter(m_IdleReminder);
 
     connect(m_TableModel, SIGNAL(crosswordEntrySelectionChanged(CrosswordEntry)), m_ClueReader, SLOT(setText(CrosswordEntry)));
 
@@ -423,33 +418,6 @@ void MainWindow::showFileProperties()
     ITextToSpeech::instance().speak(m_Crossword.getInformation());
 }
 
-void MainWindow::toggleApplicationOpenReminder()
-{
-    if(m_ApplicationOpenReminderEnabled)
-    {
-        ITextToSpeech::instance().speak("Reminder disabled");
-
-        m_ApplicationOpenReminderEnabled = false;
-    }
-    else
-    {
-        ITextToSpeech::instance().speak("Reminder enabled");
-
-        m_ApplicationOpenReminderEnabled = true;
-    }
-}
-
-void MainWindow::onIdleReminderTimeout()
-{
-    if(m_ApplicationOpenReminderEnabled)
-    {
-        ITextToSpeech::instance().speak(QString(Version::getApplicationName()
-                                                .append(" is still running. You can press ").append(ShortcutKeys::helpShortcutKey)
-                                                .append( " to open a help page. To toggle this reminder, press ").append(ShortcutKeys::toggleApplicationOpenReminderKey)
-                                                .append(".")));
-    }
-}
-
 void MainWindow::stopSpeech()
 {
     ITextToSpeech::instance().speak("", SPEECH_OPTIONS::csDefaultAsynchronousSpeechOptions);
@@ -552,9 +520,6 @@ void MainWindow::createShortcuts()
 
     m_StopSpeechShortcut = new QShortcut(QKeySequence(ShortcutKeys::stopSpeechKey), this);
     connect(m_StopSpeechShortcut, SIGNAL(activated()), this, SLOT(stopSpeech()));
-
-    m_ApplicationOpenReminderShortcut = new QShortcut(QKeySequence(ShortcutKeys::toggleApplicationOpenReminderKey), this);
-    connect(m_ApplicationOpenReminderShortcut, SIGNAL(activated()), this, SLOT(toggleApplicationOpenReminder()));
 
     m_ReadCurrentClueWordShortcut = new QShortcut(QKeySequence(ShortcutKeys::readCurrentClueWordKey), this);
     connect(m_ReadCurrentClueWordShortcut, SIGNAL(activated()), this, SLOT(readCurrentWordInClue()));

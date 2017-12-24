@@ -27,7 +27,6 @@ SOURCES += src/xwcloader.cpp \
     src/mainwindow.cpp \
     src/main.cpp \
     src/letter.cpp \
-    src/idlereminder.cpp \
     src/guessworddialog.cpp \
     src/graphicalgridview.cpp \
     src/graphicalgridscene.cpp \
@@ -59,7 +58,6 @@ HEADERS  += src/xwcloader.h \
     src/mainwindow.h \
     src/letter.h \
     src/itexttospeech.h \
-    src/idlereminder.h \
     src/guessworddialog.h \
     src/graphicalgridview.h \
     src/graphicalgridscene.h \

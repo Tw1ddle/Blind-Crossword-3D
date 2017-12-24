@@ -37,7 +37,6 @@ class CrosswordEntryTableModel;
 class QShortcut;
 class QSortFilterProxyModel;
 
-class IdleReminder;
 class ClueReader;
 
 namespace Ui
@@ -66,7 +65,6 @@ private:
     CrosswordEntryTableModel* m_TableModel;
     QSortFilterProxyModel* m_ProxyModel;
 
-    IdleReminder* m_IdleReminder;
     ClueReader* m_ClueReader;
 
     // if we're debugging, add a text edit with everything the voice says
@@ -77,8 +75,6 @@ private:
     void createShortcuts();
 
     QString getIntroString() const;
-
-    bool m_ApplicationOpenReminderEnabled;
 
 private slots:
     void loadCrossword();
@@ -94,9 +90,6 @@ private slots:
     void scoreCrossword();
     void viewLicense();
     void openCalendarPuzzlesWebsite();
-
-    void toggleApplicationOpenReminder();
-    void onIdleReminderTimeout();
 
     void cycleViewVisibility();
 
@@ -141,7 +134,6 @@ private:
     QShortcut* m_CycleSpeechModeShortcut;
     QShortcut* m_ReadCrosswordThemePhraseShortcut;
     QShortcut* m_StopSpeechShortcut;
-    QShortcut* m_ApplicationOpenReminderShortcut;
     QShortcut* m_ReadCurrentClueWordShortcut;
     QShortcut* m_AdvanceCurrentClueWordShortcut;
     QShortcut* m_IncreaseSpeechRateShortcut;
