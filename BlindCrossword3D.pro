@@ -3,10 +3,7 @@ QT -= webkitwidgets
 
 TARGET = BlindCrossword3D
 TEMPLATE = app
-
 CONFIG += x86 x86_64
-INCLUDEPATH += . sources
-DEPENDPATH += . sources
 
 # Disables text-to-speech functionality
 #DEFINES += NO_TTS
@@ -21,6 +18,9 @@ win32 {
 
 # Include the headers, sources, UI forms
 include($$PWD/sources/sources.pri)
+
+# Include the resources, crossword files, icons etc
+include($$PWD/resources/resources.pri)
 
 macx {
     INCLUDEPATH += /System/Library/Frameworks/AppKit.framework/Versions/C/Headers
@@ -42,6 +42,3 @@ macx {
 
     LIBS += -framework AppKit -framework Foundation
 }
-
-# Include the resources, crossword files, icons etc
-include($$PWD/resources/resources.pri)
