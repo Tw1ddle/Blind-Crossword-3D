@@ -1,9 +1,5 @@
 #include "tts/ttsimplqt.h"
 
-const int SPEECH_OPTIONS::csDefaultSynchronousSpeechOptions = 0;
-const int SPEECH_OPTIONS::csDefaultAsynchronousSpeechOptions = 1;
-const int SPEECH_OPTIONS::csSpeakPunctuationOption = 2;
-
 TTSImplQt instance;
 
 const float TTSImplQt::sc_SpeedRateAdjustmentStepSize = 2.0f;
@@ -18,7 +14,7 @@ TTSImplQt::~TTSImplQt()
     delete m_speech;
 }
 
-bool TTSImplQt::speak(QString text, const int options)
+bool TTSImplQt::speak(QString text)
 {
     preprocessText(text);
 

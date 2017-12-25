@@ -31,7 +31,7 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    setWindowTitle(Version::getApplicationName().append(" (Version ").append(Version::getApplicationVersion().append(")")));
+    setWindowTitle(version::getApplicationName().append(" (Version ").append(version::getApplicationVersion().append(")")));
     setWindowIcon(QIcon(":/icon.ico"));
 
     createShortcuts();
@@ -417,7 +417,7 @@ void MainWindow::showFileProperties()
 
 void MainWindow::stopSpeech()
 {
-    ITextToSpeech::instance().speak("", SPEECH_OPTIONS::csDefaultAsynchronousSpeechOptions);
+    ITextToSpeech::instance().speak("");
 }
 
 void MainWindow::readLastSpokenPhrase()
@@ -429,7 +429,7 @@ void MainWindow::readLastSpokenPhrase()
         lastSpokenPhrase = ITextToSpeech::instance().getSpeechLog().back();
     }
 
-    ITextToSpeech::instance().speak(lastSpokenPhrase, SPEECH_OPTIONS::csDefaultAsynchronousSpeechOptions);
+    ITextToSpeech::instance().speak(lastSpokenPhrase);
 }
 
 void MainWindow::advanceToNextWordInClue()
@@ -459,7 +459,7 @@ void MainWindow::scoreCrossword()
 
 QString MainWindow::getIntroString() const
 {
-    return QString("Welcome to ").append(Version::getApplicationName().append(". "))
+    return QString("Welcome to ").append(version::getApplicationName().append(". "))
             .append("Press ").append(ShortcutKeys::loadShortcutKey).append(" to load a crossword. ")
             .append("Press ").append(ShortcutKeys::exitShortcutKey).append(" to quit the program. ")
             .append("Press ").append(ShortcutKeys::helpShortcutKey).append(" to open a help document in your web browser. ")
@@ -468,8 +468,8 @@ QString MainWindow::getIntroString() const
 
 void MainWindow::showAbout()
 {
-    ITextToSpeech::instance().speak(QString(Version::getApplicationName().append(" is a 2D and 3D crossword puzzle game for the blind or partially sighted. ")
-                                            .append("You are using ").append(Version::getApplicationVersionDescription())));
+    ITextToSpeech::instance().speak(QString(version::getApplicationName().append(" is a 2D and 3D crossword puzzle game for the blind or partially sighted. ")
+                                            .append("You are using ").append(version::getApplicationVersionDescription())));
 }
 
 void MainWindow::raiseError(QString title, QString error)

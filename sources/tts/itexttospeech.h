@@ -11,16 +11,8 @@
 namespace SPEECH_MODES
 {
     typedef QString SPEECHMODE;
-
     const SPEECHMODE normalSpeech = "normalspeech";
     const SPEECHMODE spellingOutSpeech = "spellingoutspeech";
-}
-
-namespace SPEECH_OPTIONS
-{
-    extern const int csDefaultSynchronousSpeechOptions;
-    extern const int csDefaultAsynchronousSpeechOptions;
-    extern const int csSpeakPunctuationOption;
 }
 
 class ITextToSpeech : public Singleton<ITextToSpeech>
@@ -28,7 +20,7 @@ class ITextToSpeech : public Singleton<ITextToSpeech>
 public:
     ~ITextToSpeech() {}
 
-    virtual bool speak(QString text, int options = SPEECH_OPTIONS::csDefaultAsynchronousSpeechOptions) = 0;
+    virtual bool speak(QString text) = 0;
 
     virtual QString increaseSpeechRate() = 0;
     virtual QString decreaseSpeechRate() = 0;

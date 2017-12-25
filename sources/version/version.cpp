@@ -1,24 +1,30 @@
 #include "version.h"
 
-const QString Version::sc_Major = "1";
-const QString Version::sc_Minor = "2";
-const QString Version::sc_ApplicationName = "Blind Crossword 3D";
+#include <QString>
 
-//!
-//! Gets the version number of the application
-//! \warning Version numbers are set manually.
-//!
-QString Version::getApplicationVersion()
-{
-    return QString().append(sc_Major).append(".").append(sc_Minor);
+namespace {
+
+const static QString major = "1";
+const static QString minor = "2";
+const static QString applicationName = "Blind Crossword 3D";
+
 }
 
-QString Version::getApplicationVersionDescription()
+namespace version {
+
+QString getApplicationName()
+{
+    return QString(applicationName);
+}
+
+QString getApplicationVersion()
+{
+    return QString().append(major).append(".").append(minor);
+}
+
+QString getApplicationVersionDescription()
 {
     return getApplicationName().append(QString(" version ")).append(getApplicationVersion());
 }
 
-QString Version::getApplicationName()
-{
-    return QString(sc_ApplicationName);
 }

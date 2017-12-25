@@ -17,11 +17,11 @@ bool Emailer::openFeedbackEmail()
     QDir dir;
     QString emailAddress = getEmailAddress(dir.absolutePath().append(sc_FeedbackEmailAddressFileLocation));
 
-    QString emailSubject = Version::getApplicationVersionDescription().append(" feedback message");
+    QString emailSubject = version::getApplicationVersionDescription().append(" feedback message");
 
     QString emailBody;
 
-    emailBody.append(QString("This feedback email was sent from ").append(Version::getApplicationVersionDescription()));
+    emailBody.append(QString("This feedback email was sent from ").append(version::getApplicationVersionDescription()));
 
     QUrl mailtoURL = QUrl(QString("mailto:").append(emailAddress)
                           .append("?subject=").append(emailSubject)

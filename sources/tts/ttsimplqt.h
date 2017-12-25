@@ -16,7 +16,7 @@ public:
 
     virtual QString increaseSpeechRate();
     virtual QString decreaseSpeechRate();
-    virtual bool speak(QString text, int options);
+    virtual bool speak(QString text);
 
 protected:
     virtual void preprocessText(QString& text);
