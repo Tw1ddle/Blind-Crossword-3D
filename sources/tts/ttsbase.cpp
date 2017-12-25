@@ -14,10 +14,7 @@ const QStringList &TTSBase::getSpeechLog() const
     return m_SpeechLog;
 }
 
-//!
-//! Modify the text that is going to be spoken in useful ways
-//!
-void TTSBase::preprocessText(QString& /*text*/)
+void TTSBase::preprocessText(QString&)
 {
 
 }

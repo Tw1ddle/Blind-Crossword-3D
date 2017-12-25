@@ -8,10 +8,6 @@
 
 #include "util/singleton.h"
 
-#ifndef _WINDEF_
-    typedef unsigned long DWORD;
-#endif
-
 namespace SPEECH_MODES
 {
     typedef QString SPEECHMODE;
@@ -22,9 +18,9 @@ namespace SPEECH_MODES
 
 namespace SPEECH_OPTIONS
 {
-    extern const DWORD csDefaultSynchronousSpeechOptions;
-    extern const DWORD csDefaultAsynchronousSpeechOptions;
-    extern const DWORD csSpeakPunctuationOption;
+    extern const int csDefaultSynchronousSpeechOptions;
+    extern const int csDefaultAsynchronousSpeechOptions;
+    extern const int csSpeakPunctuationOption;
 }
 
 class ITextToSpeech : public Singleton<ITextToSpeech>
@@ -32,7 +28,7 @@ class ITextToSpeech : public Singleton<ITextToSpeech>
 public:
     ~ITextToSpeech() {}
 
-    virtual bool speak(QString text, DWORD options = SPEECH_OPTIONS::csDefaultAsynchronousSpeechOptions) = 0;
+    virtual bool speak(QString text, int options = SPEECH_OPTIONS::csDefaultAsynchronousSpeechOptions) = 0;
 
     virtual QString increaseSpeechRate() = 0;
     virtual QString decreaseSpeechRate() = 0;

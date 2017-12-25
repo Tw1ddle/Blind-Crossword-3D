@@ -545,7 +545,7 @@ void MainWindow::closeEvent(QCloseEvent* event)
 
     if(dialog.exec())
     {
-        ITextToSpeech::instance().speak(dialog.getAcceptedText(), SPEECH_OPTIONS::csDefaultSynchronousSpeechOptions);
+        // Quits silently rather than synchronously reading "goodbye" message
         event->accept();
     }
     else
