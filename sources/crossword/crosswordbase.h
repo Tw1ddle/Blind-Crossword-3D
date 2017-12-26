@@ -20,7 +20,6 @@ const QString BACKGROUND_IMAGES_FOLDER = ":/backgrounds";
 
 class CrosswordBase {
     friend class CrosswordLoader;
-
     friend class XWC3DLoader;
     friend class XWCLoader;
 

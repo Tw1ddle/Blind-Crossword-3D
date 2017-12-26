@@ -433,12 +433,12 @@
   <customwidget>
    <class>CrosswordEntryTableViewController</class>
    <extends>QTableView</extends>
-   <header>crosswordentrytableviewcontroller.h</header>
+   <header>dialog/crosswordentrytableviewcontroller.h</header>
   </customwidget>
   <customwidget>
    <class>GraphicalGridView</class>
    <extends>QGraphicsView</extends>
-   <header>graphicalgridview.h</header>
+   <header>dialog/graphicalgridview.h</header>
   </customwidget>
  </customwidgets>
  <resources>

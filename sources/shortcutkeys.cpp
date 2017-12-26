@@ -8,8 +8,9 @@ const QChar exitShortcutKey = Qt::Key_Q; //Quit
 const QChar loadShortcutKey = Qt::Key_L; // Load
 const QChar saveShortcutKey = Qt::Key_S; // Save
 const QChar helpShortcutKey = Qt::Key_H; // Help
-const QChar tutorialShortcutKey =
-    Qt::Key_G; // Guide, Tutorial (T) doesn't seem to read well with SAPI voices
+
+// Guide, Tutorial (T) doesn't seem to read well with SAPI voices
+const QChar tutorialShortcutKey = Qt::Key_G;
 
 const QChar confirmActionKey = Qt::Key_Y; // Yes
 const QChar rejectActionKey = Qt::Key_N; // No
