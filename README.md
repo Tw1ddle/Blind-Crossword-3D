@@ -6,7 +6,7 @@
 
 Blind Crossword 3D is free and accessible 2D and 3D crossword puzzle game designed for blind and partially sighted players.
 
-Created to accompany a series of crossword-themed [wall calendars](http://www.calendarpuzzles.co.uk/) by Eric Westbrook.
+Created to accompany a series of crossword-themed [wall calendars](http://www.calendarpuzzles.co.uk/) by Eric Westbrook and colleagues.
 
 ## Features
  * Solve over 30 cryptic three-dimensional crossword puzzles.
@@ -17,7 +17,7 @@ Created to accompany a series of crossword-themed [wall calendars](http://www.ca
 
 ## Download
 
-Download for Windows XP, Vista, 7, 8 and 10 [here](https://www.dropbox.com/s/mx3vts0548v7zg2/Blind%20Crossword%203D%201.0.zip).
+Download for Windows [here](https://www.dropbox.com/s/mx3vts0548v7zg2/Blind%20Crossword%203D%201.0.zip).
 
 ## Screenshots
 
