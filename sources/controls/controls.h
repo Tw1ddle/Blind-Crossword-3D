@@ -1,4 +1,4 @@
-/*! \brief All the shortcut keys used in the program.
+/*! \brief All the shortcut keys used as controls in the program.
  */
 
 #pragma once

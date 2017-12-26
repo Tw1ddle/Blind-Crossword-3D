@@ -327,9 +327,9 @@ void CrosswordEntryTableViewController::readWordLengths()
 void CrosswordEntryTableViewController::sortEntries()
 {
     const static unsigned int cs_NumSorts = 2;
-    static unsigned int s_Sort = 0;
+    static unsigned int sortId = 0;
 
-    switch (s_Sort) {
+    switch (sortId) {
         case 0:
             sortByColumn(tableheader::identifierColumnId, Qt::AscendingOrder);
             tts::ITextToSpeech::instance().speak("Sorted clues by day.");
@@ -341,10 +341,10 @@ void CrosswordEntryTableViewController::sortEntries()
             break;
     }
 
-    s_Sort++;
+    sortId++;
 
-    if (s_Sort >= cs_NumSorts) {
-        s_Sort = 0;
+    if (sortId >= cs_NumSorts) {
+        sortId = 0;
     }
 }
 

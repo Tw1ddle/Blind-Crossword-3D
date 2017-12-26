@@ -17,8 +17,6 @@
 #include "crossword/crosswordgrid.h"
 #include "crossword/crosswordstatus.h"
 
-const QString BACKGROUND_IMAGES_FOLDER = ":/backgrounds";
-
 namespace loader {
 
 class CrosswordLoader;
@@ -46,6 +44,10 @@ class CrosswordBase {
     //! Gets all the crossword entries who share a letter with the crossword entry identified by the supplied crossword entry id (day number)
     //!
     std::vector<CrosswordEntry> getIntersectingCrosswordEntries(unsigned int crosswordEntryId) const;
+
+    //!
+    //! Removes all the incorrect answers in a crossword
+    //!
     unsigned int removeIncorrectEntries();
 
     QString getTitle() const;
@@ -67,7 +69,15 @@ class CrosswordBase {
     void setDimensions(util::uivec3 dimensions);
 
   private:
+    //!
+    //! Resets the crossword file.
+    //! \warning This might cause memory leaks if this class is changed to dynamically allocate memory in the constructor. Or, maybe if a derived class is created and then calls this method. Beware.
+    //!
     void clear();
+
+    //!
+    //! Calculates the score for the crossword based on the number of correct guesses
+    //!
     unsigned int scoreSolution() const;
     bool loadBackgroundImage(QString filename);
 

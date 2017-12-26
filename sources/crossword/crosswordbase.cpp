@@ -71,18 +71,12 @@ const std::vector<CrosswordEntry>& CrosswordBase::getEntries() const
 {
     return m_entries;
 }
-//!
-//! Resets the crossword file.
-//! \warning This might cause memory leaks if this class is changed to dynamically allocate memory in the constructor. Or, maybe if a derived class is created and then calls this method. Beware.
-//!
+
 void CrosswordBase::clear()
 {
     *this = CrosswordBase();
 }
 
-//!
-//! Calculates the score for the crossword based on the number of correct guesses
-//!
 unsigned int CrosswordBase::scoreSolution() const
 {
     unsigned int score = 0;
@@ -96,9 +90,6 @@ unsigned int CrosswordBase::scoreSolution() const
     return score;
 }
 
-//!
-//! Removes all the incorrect answers in a crossword
-//!
 unsigned int CrosswordBase::removeIncorrectEntries()
 {
     unsigned int entriesRemoved = 0;
@@ -158,11 +149,13 @@ crossword::CROSSWORD_TYPE CrosswordBase::getType() const
 
 bool CrosswordBase::isComplete() const
 {
-    return (scoreSolution() == m_entries.size());
+    return scoreSolution() == m_entries.size();
 }
 
 bool CrosswordBase::loadBackgroundImage(QString filename)
 {
+    // TODO use asset paths
+    /*
     QString path = BACKGROUND_IMAGES_FOLDER;
     path.append("/").append(filename);
 
@@ -173,6 +166,7 @@ bool CrosswordBase::loadBackgroundImage(QString filename)
 
         return true;
     }
+    */
 
     return false;
 }
