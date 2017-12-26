@@ -4,9 +4,9 @@
 [![Blind Crossword 3D AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/m3t7bnffhkcwna7y?svg=true)](https://ci.appveyor.com/project/Tw1ddle/blind-crossword-3D)
 [![License GPLv3 Badge](https://img.shields.io/badge/License-GPL%20v3-blue.svg?style=flat-square)](https://github.com/Tw1ddle/Blind-Crossword-3D/blob/master/LICENSE)
 
-Blind Crossword 3D is free, accessible 2D and 3D crossword puzzle game designed for blind and partially sighted players.
+Blind Crossword 3D is free and accessible 2D and 3D crossword puzzle game designed for blind and partially sighted players.
 
-Made to accompany a series of crossword-themed [wall calendars](http://www.calendarpuzzles.co.uk/) by Eric Westbrook.
+Created to accompany a series of crossword-themed [wall calendars](http://www.calendarpuzzles.co.uk/) by Eric Westbrook.
 
 ## Features
  * Solve over 30 cryptic three-dimensional crossword puzzles.
@@ -17,7 +17,7 @@ Made to accompany a series of crossword-themed [wall calendars](http://www.calen
 
 ## Download
 
-Download Geometrize for Windows XP, Vista, 7, 8 and 10 [here](https://www.dropbox.com/s/mx3vts0548v7zg2/Blind%20Crossword%203D%201.0.zip).
+Download for Windows XP, Vista, 7, 8 and 10 [here](https://www.dropbox.com/s/mx3vts0548v7zg2/Blind%20Crossword%203D%201.0.zip).
 
 ## Screenshots
 
