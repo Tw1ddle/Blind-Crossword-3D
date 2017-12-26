@@ -9,14 +9,13 @@
 
 class CrosswordBase;
 
-class Emailer
-{
-public:
+class Emailer {
+  public:
     bool openFeedbackEmail();
     bool openSendResultsEmail(CrosswordBase& puzzle);
     bool openEmail(QString address, QString subject, QString content);
 
-private:
+  private:
     const static QString ANSWERS_EMAIL_ADDRESS_LOCATION;
     const static QString FEEDBACK_EMAIL_ADDRESS_LOCATION;
 

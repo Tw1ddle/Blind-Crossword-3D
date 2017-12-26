@@ -19,21 +19,22 @@ CrosswordBase::CrosswordBase() : m_loaded(false), m_fileFormatVersion(0.0f)
 //!
 unsigned int CrosswordBase::toGridIndex(uivec3 index) const
 {
-    return index.getX() + getGrid().getDimensions().getX() * index.getY() + getGrid().getDimensions().getY() * getGrid().getDimensions().getX() * index.getZ();
+    return index.getX() + getGrid().getDimensions().getX() * index.getY() +
+           getGrid().getDimensions().getY() * getGrid().getDimensions().getX() * index.getZ();
 }
 
 //!
 //! Gets all the crossword entries who share a letter with the crossword entry identified by the supplied crossword entry id (day number)
 //!
-std::vector<CrosswordEntry> CrosswordBase::getIntersectingCrosswordEntries(unsigned int crosswordEntryId) const
+std::vector<CrosswordEntry> CrosswordBase::getIntersectingCrosswordEntries(
+    unsigned int crosswordEntryId) const
 {
     std::vector<CrosswordEntry> entries;
 
-    for(unsigned int i = 0; i < getEntries().size(); i++)
-    {
+    for (unsigned int i = 0; i < getEntries().size(); i++) {
         Word word = getEntries().at(crosswordEntryId).getGuess();
-        if(getEntries().at(i).intersectsWord((&word)))
-        {
+
+        if (getEntries().at(i).intersectsWord((&word))) {
             entries.push_back(m_entries.at(i));
         }
     }
@@ -46,7 +47,7 @@ void CrosswordBase::setDimensions(uivec3 dimensions)
     m_grid.setDimensions(dimensions);
 }
 
-GridData &CrosswordBase::getRefGrid()
+GridData& CrosswordBase::getRefGrid()
 {
     return m_grid;
 }
@@ -91,13 +92,12 @@ unsigned int CrosswordBase::scoreSolution() const
 {
     unsigned int score = 0;
 
-    for(unsigned int i = 0; i < m_entries.size(); i++)
-    {
-        if(m_entries.at(i).isGuessCorrect())
-        {
+    for (unsigned int i = 0; i < m_entries.size(); i++) {
+        if (m_entries.at(i).isGuessCorrect()) {
             score++;
         }
     }
+
     return score;
 }
 
@@ -108,50 +108,40 @@ unsigned int CrosswordBase::removeIncorrectEntries()
 {
     unsigned int entriesRemoved = 0;
 
-    for(unsigned int i = 0; i < m_entries.size(); i++)
-    {
-        if(!m_entries.at(i).isGuessCorrect())
-        {
+    for (unsigned int i = 0; i < m_entries.size(); i++) {
+        if (!m_entries.at(i).isGuessCorrect()) {
             m_entries.at(i).resetGuess();
             entriesRemoved++;
         }
     }
+
     return entriesRemoved;
 }
 
 QString CrosswordBase::getScore() const
 {
-    if(m_type != CrosswordStatus::WITHOUT_ANSWERS)
-    {
-        if(m_loaded)
-        {
+    if (m_type != CrosswordStatus::WITHOUT_ANSWERS) {
+        if (m_loaded) {
             return QString("The current score for this crossword is: ").
-                    append(QString::number(scoreSolution())).
-                    append(" out of ").
-                    append(QString::number(m_entries.size())).append(". ");
-        }
-        else
-        {
+                   append(QString::number(scoreSolution())).
+                   append(" out of ").
+                   append(QString::number(m_entries.size())).append(". ");
+        } else {
             return QString("There is no crossword loaded, so one cannot be scored.");
         }
-    }
-    else
-    {
+    } else {
         return QString("This crossword does not have answers included, so cannot be scored.");
     }
 }
 
 QString CrosswordBase::getInformation() const
 {
-    if(m_loaded)
-    {
+    if (m_loaded) {
         return QString("Crossword title: ").append(m_title).append(". \n").
-                append("Author: ").append(m_authors).append(". \n").
-                append("Type: ").append(m_type).append(". \n").
-                append(m_notes);
-    }
-    else
-    {
+               append("Author: ").append(m_authors).append(". \n").
+               append("Type: ").append(m_type).append(". \n").
+               append(m_notes);
+    } else {
         return QString("There is no crossword loaded.");
     }
 }
@@ -178,13 +168,12 @@ bool CrosswordBase::isComplete() const
 
 bool CrosswordBase::loadBackgroundImage(QString filename)
 {
-    QString path = m_BackgroundImagesFolder;
+    QString path = BACKGROUND_IMAGES_FOLDER;
     path.append("/").append(filename);
 
     QDir dir;
 
-    if(Utilities::existsFile(dir.absolutePath().append(path)))
-    {
+    if (Utilities::existsFile(dir.absolutePath().append(path))) {
         m_backgroundImage = QPixmap(dir.absolutePath().append(path));
 
         return true;

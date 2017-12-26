@@ -8,24 +8,23 @@
 
 class CrosswordEntry;
 
-class GraphicalGridView : public QGraphicsView
-{
+class GraphicalGridView : public QGraphicsView {
     Q_OBJECT
-public:
-    explicit GraphicalGridView(QWidget *parent = 0);
+  public:
+    explicit GraphicalGridView(QWidget* parent = 0);
 
-protected:
-    virtual void wheelEvent(QWheelEvent *event);
-    virtual void keyPressEvent(QKeyEvent *event);
+  protected:
+    virtual void wheelEvent(QWheelEvent* event);
+    virtual void keyPressEvent(QKeyEvent* event);
 
-private:
+  private:
     const static double ZOOM_FACTOR;
     const static int KEYBOARD_ZOOM_FACTOR;
     int m_numScheduledScalings;
 
     void zoom(int x);
 
-private slots:
+  private slots:
     void zoomAnimationFinished();
     void scalingTime(qreal x);
 };

@@ -16,16 +16,15 @@
 #include "crossword/crosswordfileformats.h"
 #include "crossword/crosswordstatus.h"
 
-const QString m_BackgroundImagesFolder = "/Backgrounds";
+const QString BACKGROUND_IMAGES_FOLDER = ":/backgrounds";
 
-class CrosswordBase
-{
+class CrosswordBase {
     friend class CrosswordLoader;
 
     friend class XWC3DLoader;
     friend class XWCLoader;
 
-public:
+  public:
     CrosswordBase();
 
     unsigned int toGridIndex(uivec3 index) const;
@@ -47,11 +46,11 @@ public:
 
     std::vector<CrosswordEntry>& getRefEntries();
 
-protected:
+  protected:
     GridData& getRefGrid();
     void setDimensions(uivec3 dimensions);
 
-private:
+  private:
     void clear();
     unsigned int scoreSolution() const;
     bool loadBackgroundImage(QString filename);
@@ -59,7 +58,8 @@ private:
     QString m_title;
     QString m_authors;
     QString m_type;
-    std::vector<std::pair<uivec3, QString> > m_highlights; //! Uses the W3 SVG colour scheme, see: http://www.w3.org/TR/SVG/types.html#ColorKeywords
+    std::vector<std::pair<uivec3, QString> >
+    m_highlights; //! Uses the W3 SVG colour scheme, see: http://www.w3.org/TR/SVG/types.html#ColorKeywords
     QString m_notes;
 
     QPixmap m_backgroundImage;

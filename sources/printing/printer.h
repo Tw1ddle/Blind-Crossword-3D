@@ -11,14 +11,13 @@
 class QTextDocument;
 class QWidget;
 
-class Printer
-{
-public:
-    Printer(); 
+class Printer {
+  public:
+    Printer();
 
     QString openPrintDialog(CrosswordBase& puzzle, QWidget* parentWidget);
 
-private:
+  private:
     static const QString POSTAL_ADDRESS_LOCATION;
 
     QString getPostalAddress(const QString path) const;

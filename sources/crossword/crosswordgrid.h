@@ -8,9 +8,8 @@
 #include "letter.h"
 #include "util/uivec3.h"
 
-class GridData
-{
-public:
+class GridData {
+  public:
     GridData();
 
     const Letter* getLetterAt(unsigned int index) const;
@@ -23,7 +22,7 @@ public:
     uivec3 getDimensions() const;
     void setDimensions(uivec3 dimensions);
 
-private:
+  private:
     uivec3 m_gridDimensions;
     std::vector<Letter> m_letters;
 };

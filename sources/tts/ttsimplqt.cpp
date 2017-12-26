@@ -39,22 +39,17 @@ void TTSImplQt::preprocessText(QString& text)
 {
     //! If the voice is in the mode where it spells letters out, split each character.
     //! Sequences of periods are also replaced with the phrase "x dots".
-    if(getMode() == SPEECH_MODES::spellingOutSpeech)
-    {
+    if (getMode() == SPEECH_MODES::spellingOutSpeech) {
         QRegExp regexp("(\\.+)");
         regexp.setMinimal(false);
 
-        while(text.contains(regexp))
-        {
-            if(regexp.matchedLength() == 1)
-            {
+        while (text.contains(regexp)) {
+            if (regexp.matchedLength() == 1) {
                 text.replace(regexp.cap(0),
                              QString("</spell> ").
                              append(" dot, ").
                              append("<spell>"));
-            }
-            else
-            {
+            } else {
                 text.replace(regexp.cap(0),
                              QString("</spell> ").
                              append(QString::number(regexp.matchedLength())).append(" dots, ").

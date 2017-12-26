@@ -7,13 +7,12 @@
 #include <QFile>
 #include <QUrl>
 
-namespace Utilities
-{
-    bool readFile(QStringList& linelist, QString path);
+namespace Utilities {
+bool readFile(QStringList& linelist, QString path);
 
-    bool writeToFile(QStringList& linelist, QFile& file);
+bool writeToFile(QStringList& linelist, QFile& file);
 
-    bool existsFile(QString path);
+bool existsFile(QString path);
 
-    bool openUrl(QUrl url);
+bool openUrl(QUrl url);
 }

@@ -16,30 +16,27 @@ CrosswordLoader::CrosswordLoader()
 {
 }
 
-bool CrosswordLoader::loadPuzzle(CrosswordBase &puzzle, QString filePath, QString extension)
+bool CrosswordLoader::loadPuzzle(CrosswordBase& puzzle, QString filePath, QString extension)
 {
     QStringList linelist;
 
-    if(!Utilities::readFile(linelist, filePath))
-    {
+    if (!Utilities::readFile(linelist, filePath)) {
         return false;
     }
 
     puzzle.clear();
 
-    if(extension == FileFormats::XWC3D || extension == FileFormats::XWCR3D)
-    {
+    if (extension == FileFormats::XWC3D || extension == FileFormats::XWCR3D) {
         XWC3DLoader loader;
         puzzle.m_loaded = readInFile(loader, puzzle, linelist);
     }
 
-    else if(extension == FileFormats::XWC)
-    {
+    else if (extension == FileFormats::XWC) {
         XWCLoader loader;
         puzzle.m_loaded = readInFile(loader, puzzle, linelist);
     }
-    if(!puzzle.m_loaded)
-    {
+
+    if (!puzzle.m_loaded) {
         puzzle.clear();
         return false;
     }
@@ -47,31 +44,27 @@ bool CrosswordLoader::loadPuzzle(CrosswordBase &puzzle, QString filePath, QStrin
     return true;
 }
 
-bool CrosswordLoader::savePuzzle(CrosswordBase &puzzle, QString filePath, QString extension)
+bool CrosswordLoader::savePuzzle(CrosswordBase& puzzle, QString filePath, QString extension)
 {
-    if(puzzle.getRefEntries().size() <= 0 || puzzle.getRefGrid().getSize() <= 0 || !puzzle.m_loaded)
-    {
+    if (puzzle.getRefEntries().size() <= 0 || puzzle.getRefGrid().getSize() <= 0 || !puzzle.m_loaded) {
         return false;
     }
 
-    if(puzzle.getRefGrid().getDimensions().getZ() > 1 && (extension != FileFormats::XWC3D && extension != FileFormats::XWCR3D))
-    {
+    if (puzzle.getRefGrid().getDimensions().getZ() > 1 && (extension != FileFormats::XWC3D &&
+                                                           extension != FileFormats::XWCR3D)) {
         return false;
     }
 
     QFile file(filePath);
-    if (!file.open(QIODevice::WriteOnly | QIODevice::Text))
-    {
+
+    if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
         return false;
     }
 
-    if(extension == FileFormats::XWC3D || extension == FileFormats::XWCR3D)
-    {
+    if (extension == FileFormats::XWC3D || extension == FileFormats::XWCR3D) {
         XWC3DLoader loader;
         return writeOutFile(loader, puzzle, file);
-    }
-    else if(extension == FileFormats::XWC)
-    {
+    } else if (extension == FileFormats::XWC) {
         XWCLoader loader;
         return writeOutFile(loader, puzzle, file);
     }
@@ -79,22 +72,22 @@ bool CrosswordLoader::savePuzzle(CrosswordBase &puzzle, QString filePath, QStrin
     return false;
 }
 
-bool CrosswordLoader::readInFile(CrosswordLoaderInterface& loader, CrosswordBase& puzzle, QStringList& linelist)
+bool CrosswordLoader::readInFile(CrosswordLoaderInterface& loader, CrosswordBase& puzzle,
+                                 QStringList& linelist)
 {
     puzzle.clear();
 
-    if(!loader.loadMetaData(puzzle, linelist))
-    {
+    if (!loader.loadMetadata(puzzle, linelist)) {
         emit(loaderError(tr("Loader error"), tr("Error loading crossword metadata")));
         return false;
     }
-    if(!loader.loadGrid(puzzle, linelist))
-    {
+
+    if (!loader.loadGrid(puzzle, linelist)) {
         emit(loaderError(tr("Loader error"), tr("Error loading crossword grid")));
         return false;
     }
-    if(!loader.loadClues(puzzle, linelist))
-    {
+
+    if (!loader.loadClues(puzzle, linelist)) {
         emit(loaderError(tr("Loader error"), tr("Error loading crossword clues")));
         return false;
     }
@@ -102,22 +95,22 @@ bool CrosswordLoader::readInFile(CrosswordLoaderInterface& loader, CrosswordBase
     return true;
 }
 
-bool CrosswordLoader::writeOutFile(CrosswordLoaderInterface &loader, CrosswordBase &puzzle, QFile& file)
+bool CrosswordLoader::writeOutFile(CrosswordLoaderInterface& loader, CrosswordBase& puzzle,
+                                   QFile& file)
 {
     QStringList linelist;
 
-    if(!loader.saveMetaData(puzzle, linelist))
-    {
+    if (!loader.saveMetadata(puzzle, linelist)) {
         emit(loaderError(tr("Loader error"), tr("Error saving crossword metadata")));
         return false;
     }
-    if(!loader.saveGrid(puzzle, linelist))
-    {
+
+    if (!loader.saveGrid(puzzle, linelist)) {
         emit(loaderError(tr("Loader error"), tr("Error saving crossword grid")));
         return false;
     }
-    if(!loader.saveClues(puzzle, linelist))
-    {
+
+    if (!loader.saveClues(puzzle, linelist)) {
         emit(loaderError(tr("Loader error"), tr("Error saving crossword clues")));
         return false;
     }

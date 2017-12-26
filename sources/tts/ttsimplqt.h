@@ -8,9 +8,8 @@
 
 #include <QTextToSpeech>
 
-class TTSImplQt : public TTSBase
-{
-public:
+class TTSImplQt : public TTSBase {
+  public:
     TTSImplQt();
     ~TTSImplQt();
 
@@ -18,9 +17,9 @@ public:
     virtual QString decreaseSpeechRate();
     virtual bool speak(QString text);
 
-protected:
+  protected:
     virtual void preprocessText(QString& text);
 
-private:
+  private:
     QTextToSpeech* m_speech;
 };

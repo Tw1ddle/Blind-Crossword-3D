@@ -21,7 +21,7 @@ uivec3 Letter::getLocation() const
     return m_location;
 }
 
-bool Letter::operator ==(const Letter &letter) const
+bool Letter::operator ==(const Letter& letter) const
 {
-    return (this == &letter);
+    return this == &letter;
 }

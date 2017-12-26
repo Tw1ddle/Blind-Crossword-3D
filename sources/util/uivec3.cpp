@@ -44,12 +44,12 @@ void uivec3::setZ(unsigned int z)
     this->z = z;
 }
 
-uivec3 uivec3::operator -(const uivec3 &vec) const
+uivec3 uivec3::operator -(const uivec3& vec) const
 {
     return uivec3(this->x - vec.x, this->y - vec.y, this->z - vec.z);
 }
 
-bool uivec3::operator ==(const uivec3 &vec) const
+bool uivec3::operator ==(const uivec3& vec) const
 {
     return (x == vec.getX() && y == vec.y && z == vec.z);
 }

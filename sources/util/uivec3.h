@@ -3,9 +3,8 @@
 
 #pragma once
 
-class uivec3
-{
-public:
+class uivec3 {
+  public:
     uivec3(unsigned int x, unsigned int y, unsigned int z);
     uivec3();
 
@@ -19,7 +18,7 @@ public:
     uivec3 operator-(const uivec3& vec) const;
     bool operator==(const uivec3& vec) const;
 
-private:
+  private:
     unsigned int x;
     unsigned int y;
     unsigned int z;

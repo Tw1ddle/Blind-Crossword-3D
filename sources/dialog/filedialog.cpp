@@ -6,7 +6,8 @@
 
 #include "tts/itexttospeech.h"
 
-FileDialog::FileDialog(QWidget* parent, const QString& caption, const QString& directory, const QString& nameFilter, const QStringList& filter)
+FileDialog::FileDialog(QWidget* parent, const QString& caption, const QString& directory,
+                       const QString& nameFilter, const QStringList& filter)
 {
     Q_UNUSED(nameFilter);
     Q_UNUSED(parent);
@@ -37,7 +38,8 @@ FileDialog::FileDialog(QWidget* parent, const QString& caption, const QString& d
     m_view->setMinimumWidth(640);
     m_view->setMinimumHeight(480);
 
-    connect(m_view, SIGNAL(selectedItemChanged(QModelIndex, QModelIndex)), this, SLOT(updateCurrent(QModelIndex, QModelIndex)));
+    connect(m_view, SIGNAL(selectedItemChanged(QModelIndex, QModelIndex)), this,
+            SLOT(updateCurrent(QModelIndex, QModelIndex)));
     connect(m_view, SIGNAL(activated(QModelIndex)), this, SLOT(onFileSelected(QModelIndex)));
     connect(m_view, SIGNAL(clicked(QModelIndex)), this, SLOT(onSelectionChanged(QModelIndex)));
 }
@@ -57,27 +59,28 @@ void FileDialog::onSelectionChanged(const QModelIndex& current)
 {
     m_currentFilePath = m_model->filePath(current);
 
-    QString fileName = m_model->fileInfo(current).completeBaseName(); // read the file name without the extension
+    QString fileName = m_model->fileInfo(
+                           current).completeBaseName(); // read the file name without the extension
     ITextToSpeech::instance().speak(fileName);
 }
 
-FileListView::FileListView(QWidget *parent) : QListView(parent)
+FileListView::FileListView(QWidget* parent) : QListView(parent)
 {
     setFont(QFont("Lucida Console", 20, -1, false));
 }
 
-void FileListView::keyPressEvent(QKeyEvent *event)
+void FileListView::keyPressEvent(QKeyEvent* event)
 {
     QModelIndex oldIdx = currentIndex();
     QListView::keyPressEvent(event);
     QModelIndex newIdx = currentIndex();
-    if(oldIdx.row() != newIdx.row())
-    {
+
+    if (oldIdx.row() != newIdx.row()) {
         emit clicked(newIdx);
     }
 }
 
-void FileDialog::onFileSelected(const QModelIndex &index)
+void FileDialog::onFileSelected(const QModelIndex& index)
 {
     m_currentFilePath = m_model->filePath(index);
     accept();

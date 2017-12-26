@@ -9,10 +9,11 @@
 #include "crossword/crosswordword.h"
 #include "util/uivec3.h"
 
-class CrosswordEntry
-{
-public:
-    CrosswordEntry(QString direction, QString identifier, QString number, QString solution, Word guess, std::vector<unsigned int> wordComponentLengths, QString clue, std::vector<unsigned int> entryIndices = std::vector<unsigned int>());
+class CrosswordEntry {
+  public:
+    CrosswordEntry(QString direction, QString identifier, QString number, QString solution, Word guess,
+                   std::vector<unsigned int> wordComponentLengths, QString clue,
+                   std::vector<unsigned int> entryIndices = std::vector<unsigned int>());
 
     QString getDirection() const;
     QString getIdentifier() const;
@@ -35,7 +36,7 @@ public:
     void resetGuess();
     void setGuess(QString word);
 
-private:
+  private:
     QString m_id;
 
     QString m_entryString;
@@ -48,23 +49,20 @@ private:
     std::vector<unsigned int> m_entryIndices;
 };
 
-struct SortByIdentifier
-{
+struct SortByIdentifier {
     bool operator()(const CrosswordEntry& lhs, const CrosswordEntry& rhs);
 };
 
-namespace ClueDirections
-{
-    typedef QString DIRECTION;
-
-    const DIRECTION ACROSS = "Across";
-    const DIRECTION BACKWARDS = "Backwards";
-    const DIRECTION AWAY = "Away";
-    const DIRECTION TOWARDS = "Towards";
-    const DIRECTION DOWN = "Down";
-    const DIRECTION UP = "Up";
-    const DIRECTION CLOCKWISE = "Clockwise";
-    const DIRECTION ANTICLOCKWISE = "Anticlockwise";
-    const DIRECTION DIAMETRIC = "Diametric";
-    const DIRECTION SNAKING = "Snaking";
+namespace ClueDirections {
+typedef QString DIRECTION;
+const DIRECTION ACROSS = "Across";
+const DIRECTION BACKWARDS = "Backwards";
+const DIRECTION AWAY = "Away";
+const DIRECTION TOWARDS = "Towards";
+const DIRECTION DOWN = "Down";
+const DIRECTION UP = "Up";
+const DIRECTION CLOCKWISE = "Clockwise";
+const DIRECTION ANTICLOCKWISE = "Anticlockwise";
+const DIRECTION DIAMETRIC = "Diametric";
+const DIRECTION SNAKING = "Snaking";
 }

@@ -4,12 +4,12 @@ TTSBase::TTSBase()
 {
 }
 
-QStringList &TTSBase::getSpeechLog()
+QStringList& TTSBase::getSpeechLog()
 {
     return m_speechLog;
 }
 
-const QStringList &TTSBase::getSpeechLog() const
+const QStringList& TTSBase::getSpeechLog() const
 {
     return m_speechLog;
 }

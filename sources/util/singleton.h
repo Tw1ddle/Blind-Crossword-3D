@@ -4,34 +4,29 @@
 #pragma once
 
 template <typename T>
-class Singleton
-{
-public:
-    Singleton()
-    {
-        if(s_instance)
-        {
+class Singleton {
+  public:
+    Singleton() {
+        if (s_instance) {
             throw;
         }
+
         s_instance = static_cast<T*>(this);
     }
 
-    static inline T& instance()
-    {
+    static inline T& instance() {
         return *s_instance;
     }
 
-    static inline bool exists()
-    {
+    static inline bool exists() {
         return s_instance != 0;
     }
 
-    virtual ~Singleton()
-    {
+    virtual ~Singleton() {
         s_instance = 0;
     }
 
-protected:
+  protected:
     static T* s_instance;
 };
 

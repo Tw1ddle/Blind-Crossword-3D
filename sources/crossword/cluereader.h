@@ -10,20 +10,19 @@
 
 #include "crosswordentry.h"
 
-class ClueReader : public QObject
-{
+class ClueReader : public QObject {
     Q_OBJECT
 
-public:
+  public:
     ClueReader();
 
     QString getWord() const;
     QString advanceWord();
 
-public slots:
+  public slots:
     void setText(CrosswordEntry entry);
 
-private:
+  private:
     QString m_text;
     unsigned int m_index;
     const QChar m_separator;

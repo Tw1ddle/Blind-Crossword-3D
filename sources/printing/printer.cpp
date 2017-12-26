@@ -27,15 +27,15 @@ QTextDocument* Printer::getPuzzleDocumentForPrinting(CrosswordBase& puzzle) cons
     std::vector<CrosswordEntry> entries = puzzle.getEntries();
     std::sort(entries.begin(), entries.end(), SortByIdentifier());
 
-    for(unsigned int i = 0; i < entries.size(); i++)
-    {
+    for (unsigned int i = 0; i < entries.size(); i++) {
         QString id = entries.at(i).getIdentifier();
         QString entryName = entries.at(i).getEntry();
         QString direction = entries.at(i).getDirection();
         QString answer = entries.at(i).getGuess().getString();
 
         // QTextEdit understands a HTML subset and \n is treated as a space, so using <br/> tag for newlines instead
-        textToPrint.append(id).append(" - ").append(entryName).append(" ").append(direction).append(" --- ").append(answer).append("<br/>");
+        textToPrint.append(id).append(" - ").append(entryName).append(" ").append(
+            direction).append(" --- ").append(answer).append("<br/>");
     }
 
     textToPrint.append("<br/>").append(postalAddress);
@@ -56,8 +56,8 @@ QString Printer::openPrintDialog(CrosswordBase& puzzle, QWidget* parentWidget)
 
     QPrinter* printer = new QPrinter(QPrinter::HighResolution);
     QPrintDialog printDialog(printer, parentWidget);
-    if(printDialog.exec() == QDialog::Accepted)
-    {
+
+    if (printDialog.exec() == QDialog::Accepted) {
         document->print(printer);
 
         delete document;
@@ -80,12 +80,9 @@ QString Printer::getPostalAddress(const QString path) const
 
     Utilities::readFile(postalAddressList, path);
 
-    if(!postalAddressList.isEmpty())
-    {
+    if (!postalAddressList.isEmpty()) {
         postalAddress = postalAddressList.join(" ");
-    }
-    else
-    {
+    } else {
         postalAddress = "Error. Unable to find postal address.";
     }
 

@@ -1,16 +1,16 @@
 #include "crosswordentrytablemodel.h"
 
+#include <cassert>
+
 #include <QMessageBox>
 #include <QString>
-#include <assert.h>
 
-namespace CrosswordEntryTableHeader
-{
-    const unsigned int identifierColumnId = 0;
-    const unsigned int entryColumnId = 4;
-    const unsigned int wordColumnId = 1;
-    const unsigned int clueColumnId = 2;
-    const unsigned int wordLengthColumnId = 3;
+namespace CrosswordEntryTableHeader {
+const unsigned int identifierColumnId = 0;
+const unsigned int entryColumnId = 4;
+const unsigned int wordColumnId = 1;
+const unsigned int clueColumnId = 2;
+const unsigned int wordLengthColumnId = 3;
 }
 
 const QString identifierColumnHeader = "Day";
@@ -19,8 +19,10 @@ const QString wordColumnHeader = "Guess";
 const QString clueColumnHeader = "Clue";
 const QString wordLengthColumnHeader = "Lengths";
 
-CrosswordEntryTableModel::CrosswordEntryTableModel(const CrosswordBase& puzzle, std::vector<CrosswordEntry>& refCrosswordEntries, QObject *parent) :
-    QAbstractTableModel(parent), m_refPuzzle(puzzle), m_refEntries(refCrosswordEntries), m_refGrid(puzzle.getGrid())
+CrosswordEntryTableModel::CrosswordEntryTableModel(const CrosswordBase& puzzle,
+                                                   std::vector<CrosswordEntry>& refCrosswordEntries, QObject* parent) :
+    QAbstractTableModel(parent), m_refPuzzle(puzzle), m_refEntries(refCrosswordEntries),
+    m_refGrid(puzzle.getGrid())
 {
 }
 
@@ -38,57 +40,46 @@ int CrosswordEntryTableModel::columnCount(const QModelIndex& parent) const
 
 QVariant CrosswordEntryTableModel::data(const QModelIndex& index, int role) const
 {
-    if (!index.isValid())
-    {
+    if (!index.isValid()) {
         return QVariant();
     }
 
-    if (index.row() >= m_refEntries.size() || index.row() < 0)
-    {
+    if (index.row() >= m_refEntries.size() || index.row() < 0) {
         return QVariant();
     }
 
-    if (role == Qt::DisplayRole)
-    {
-        if(index.column() == CrosswordEntryTableHeader::identifierColumnId)
-        {
+    if (role == Qt::DisplayRole) {
+        if (index.column() == CrosswordEntryTableHeader::identifierColumnId) {
             return m_refEntries.at(index.row()).getIdentifier().toUInt();
         }
-        if (index.column() == CrosswordEntryTableHeader::entryColumnId)
-        {
+
+        if (index.column() == CrosswordEntryTableHeader::entryColumnId) {
             QString entryString = m_refEntries.at(index.row()).getEntry();
             QString entryDirectionName = m_refEntries.at(index.row()).getDirection();
             QString entry = entryString.append(QString(" ")).append(entryDirectionName);
 
             return entry;
-        }
-        else if (index.column() == CrosswordEntryTableHeader::wordColumnId)
-        {
+        } else if (index.column() == CrosswordEntryTableHeader::wordColumnId) {
             return m_refEntries.at(index.row()).getGuess().getString();
-        }
-        else if(index.column() == CrosswordEntryTableHeader::clueColumnId)
-        {
+        } else if (index.column() == CrosswordEntryTableHeader::clueColumnId) {
             return m_refEntries.at(index.row()).getClue();
-        }
-        else if(index.column() == CrosswordEntryTableHeader::wordLengthColumnId)
-        {
+        } else if (index.column() == CrosswordEntryTableHeader::wordLengthColumnId) {
             return m_refEntries.at(index.row()).getSolutionComponentLengths();
         }
     }
+
     return QVariant();
 }
 
-QVariant CrosswordEntryTableModel::headerData(int section, Qt::Orientation orientation, int role) const
+QVariant CrosswordEntryTableModel::headerData(int section, Qt::Orientation orientation,
+                                              int role) const
 {
-    if (role != Qt::DisplayRole)
-    {
+    if (role != Qt::DisplayRole) {
         return QVariant();
     }
 
-    if (orientation == Qt::Horizontal)
-    {
-        switch (section)
-        {
+    if (orientation == Qt::Horizontal) {
+        switch (section) {
             case CrosswordEntryTableHeader::identifierColumnId:
                 return identifierColumnHeader;
 
@@ -108,6 +99,7 @@ QVariant CrosswordEntryTableModel::headerData(int section, Qt::Orientation orien
                 return QVariant();
         }
     }
+
     return QVariant();
 }
 
@@ -116,13 +108,12 @@ bool CrosswordEntryTableModel::existsConflictingWords(QString word, QModelIndex 
     CrosswordEntry currentEntry = m_refEntries.at(index.row());
 
     bool conflict = false;
-    for(int i = 0; i < word.size(); i++)
-    {
-        if(currentEntry.getGuess().getString().at(i) == word.at(i) || currentEntry.getGuess().getString().at(i) == QChar(Qt::Key_Period) || word.at(i) == QChar(Qt::Key_Period))
-        {
-        }
-        else
-        {
+
+    for (int i = 0; i < word.size(); i++) {
+        if (currentEntry.getGuess().getString().at(i) == word.at(i) ||
+                currentEntry.getGuess().getString().at(i) == QChar(Qt::Key_Period) ||
+                word.at(i) == QChar(Qt::Key_Period)) {
+        } else {
             conflict = true;
         }
     }
@@ -138,14 +129,11 @@ void CrosswordEntryTableModel::crosswordEntriesChanged()
 
 void CrosswordEntryTableModel::amendGuess(QString word, QModelIndex index)
 {
-    if(m_refPuzzle.getType() == CrosswordStatus::WITHOUT_ANSWERS)
-    {
+    if (m_refPuzzle.getType() == CrosswordStatus::WITHOUT_ANSWERS) {
         emit guessAmendationRequestRejected();
 
         return;
-    }
-    else
-    {
+    } else {
         QString amendedGuess;
         QString removedLetters;
         QString guess = m_refEntries.at(index.row()).getGuess().getString();
@@ -155,18 +143,13 @@ void CrosswordEntryTableModel::amendGuess(QString word, QModelIndex index)
         assert(guess.size() == word.size());
         assert(word.size() == solution.size());
 
-        for(int i = 0; i < guess.size(); i++)
-        {
-            if(guess.at(i) == solution.at(i))
-            {
+        for (int i = 0; i < guess.size(); i++) {
+            if (guess.at(i) == solution.at(i)) {
                 amendedGuess.push_back(solution.at(i));
-            }
-            else
-            {
+            } else {
                 amendedGuess.push_back(Qt::Key_Period);
 
-                if(guess.at(i) != Qt::Key_Period)
-                {
+                if (guess.at(i) != Qt::Key_Period) {
                     removedLetters.push_back(guess.at(i));
                 }
             }
@@ -184,8 +167,7 @@ void CrosswordEntryTableModel::amendGuess(QString word, QModelIndex index)
 
 void CrosswordEntryTableModel::enterGuess(QString word, QModelIndex index)
 {
-    if(existsConflictingWords(word, index))
-    {
+    if (existsConflictingWords(word, index)) {
         emit conflictingWordError();
         return;
     }
@@ -212,7 +194,8 @@ void CrosswordEntryTableModel::eraseGuess(QModelIndex index)
     emit guessErased();
 }
 
-void CrosswordEntryTableModel::tableViewSelectionChanged(const QModelIndex& current, const QModelIndex& previous)
+void CrosswordEntryTableModel::tableViewSelectionChanged(const QModelIndex& current,
+                                                         const QModelIndex& previous)
 {
     Q_UNUSED(previous);
 

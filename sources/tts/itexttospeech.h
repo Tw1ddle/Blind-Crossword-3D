@@ -8,16 +8,14 @@
 
 #include "util/singleton.h"
 
-namespace SPEECH_MODES
-{
-    typedef QString SPEECHMODE;
-    const SPEECHMODE normalSpeech = "normalspeech";
-    const SPEECHMODE spellingOutSpeech = "spellingoutspeech";
+namespace SPEECH_MODES {
+typedef QString SPEECHMODE;
+const SPEECHMODE normalSpeech = "normalspeech";
+const SPEECHMODE spellingOutSpeech = "spellingoutspeech";
 }
 
-class ITextToSpeech : public Singleton<ITextToSpeech>
-{
-public:
+class ITextToSpeech : public Singleton<ITextToSpeech> {
+  public:
     ~ITextToSpeech() {}
 
     virtual bool speak(QString text) = 0;
@@ -30,6 +28,6 @@ public:
 
     virtual const QStringList& getSpeechLog() const = 0;
 
-protected:
+  protected:
     ITextToSpeech() {}
 };

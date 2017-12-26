@@ -6,25 +6,24 @@
 #include <QTableView>
 #include <QModelIndex>
 
-class CrosswordEntryTableViewController : public QTableView
-{
+class CrosswordEntryTableViewController : public QTableView {
     Q_OBJECT
-public:
-    explicit CrosswordEntryTableViewController(QWidget *parent = 0);
+  public:
+    explicit CrosswordEntryTableViewController(QWidget* parent = 0);
 
-signals:
+  signals:
     void guessSubmitted(QString guess, QModelIndex index);
     void guessAmendationRequested(QString guess, QModelIndex index);
     void guessErasureRequested(QModelIndex index);
     void modelIndexChanged(const QModelIndex& selected, const QModelIndex& deselected);
 
-protected:
-    void keyPressEvent(QKeyEvent *event);
-    void currentChanged(const QModelIndex &current, const QModelIndex &previous);
+  protected:
+    void keyPressEvent(QKeyEvent* event);
+    void currentChanged(const QModelIndex& current, const QModelIndex& previous);
     int sizeHintForColumn(int column) const;
-    void keyboardSearch(const QString &search);
+    void keyboardSearch(const QString& search);
 
-private:
+  private:
     bool enterGuess();
     bool amendGuess();
     bool eraseGuess();
@@ -38,7 +37,7 @@ private:
 
     void sortEntries();
 
-private slots:
+  private slots:
     void conflictingWordError();
     void reportGuessAccepted(QString guess);
     void reportGuessAmended(QString removedLetters);

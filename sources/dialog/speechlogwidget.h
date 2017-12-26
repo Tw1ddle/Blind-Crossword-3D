@@ -5,12 +5,11 @@
 
 #include <QTextEdit>
 
-class SpeechLogWidget : public QTextEdit
-{
+class SpeechLogWidget : public QTextEdit {
     Q_OBJECT
-public:
-    explicit SpeechLogWidget(QObject *parent = 0);
+  public:
+    explicit SpeechLogWidget(QObject* parent = 0);
 
-protected:
-    void focusInEvent(QFocusEvent *e);
+  protected:
+    void focusInEvent(QFocusEvent* e);
 };

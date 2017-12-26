@@ -6,18 +6,18 @@
 
 #include "tts/itexttospeech.h"
 
-GuessWordDialog::GuessWordDialog(QWidget *parent) :
+GuessWordDialog::GuessWordDialog(QWidget* parent) :
     QDialog(parent)
 {
     setWindowFlags(Qt::Dialog | Qt::WindowTitleHint);
 
     m_wordEdit = new QLineEdit;
 
-    QGridLayout *gLayout = new QGridLayout;
+    QGridLayout* gLayout = new QGridLayout;
     gLayout->setColumnStretch(1, 2);
     gLayout->addWidget(m_wordEdit, 0, 1);
 
-    QVBoxLayout *mainLayout = new QVBoxLayout;
+    QVBoxLayout* mainLayout = new QVBoxLayout;
     mainLayout->addLayout(gLayout);
     setLayout(mainLayout);
 
@@ -37,15 +37,13 @@ QLineEdit* GuessWordDialog::getLineEdit()
     return m_wordEdit;
 }
 
-void GuessWordDialog::readText(const QString &text)
+void GuessWordDialog::readText(const QString& text)
 {
-    if(text.contains(Qt::Key_Space))
-    {
+    if (text.contains(Qt::Key_Space)) {
         m_wordEdit->setText(QString(text).replace(Qt::Key_Space, Qt::Key_Period));
     }
 
-    if(text.size() >= 1)
-    {
+    if (text.size() >= 1) {
         SPEECH_MODES::SPEECHMODE mode = ITextToSpeech::instance().getMode();
 
         ITextToSpeech::instance().setMode(SPEECH_MODES::spellingOutSpeech);

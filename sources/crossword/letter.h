@@ -8,9 +8,8 @@
 
 #include "util/uivec3.h"
 
-class Letter
-{
-public:
+class Letter {
+  public:
     Letter(QChar letter, uivec3 location);
 
     void setChar(QChar letter);
@@ -18,7 +17,7 @@ public:
     uivec3 getLocation() const;
     bool operator==(const Letter& letter) const;
 
-private:
+  private:
     QChar m_letter;
     uivec3 m_location;
 };

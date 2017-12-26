@@ -9,12 +9,11 @@
 #include <QString>
 #include <QStringList>
 
-class TTSBase : public ITextToSpeech
-{
-public:
+class TTSBase : public ITextToSpeech {
+  public:
     virtual const QStringList& getSpeechLog() const;
 
-protected:
+  protected:
     TTSBase();
     ~TTSBase() {}
 
@@ -24,7 +23,7 @@ protected:
     virtual SPEECH_MODES::SPEECHMODE getMode() const;
     virtual bool setMode(SPEECH_MODES::SPEECHMODE mode);
 
-private:
+  private:
     QString m_mode;
     QStringList m_speechLog;
 };

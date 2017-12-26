@@ -4,7 +4,9 @@
 
 #include <assert.h>
 
-CrosswordEntry::CrosswordEntry(QString direction, QString identifier, QString entry, QString solution, Word guess, std::vector<unsigned int> wordComponentLengths, QString clue, std::vector<unsigned int> entryIndices)
+CrosswordEntry::CrosswordEntry(QString direction, QString identifier, QString entry,
+                               QString solution, Word guess, std::vector<unsigned int> wordComponentLengths, QString clue,
+                               std::vector<unsigned int> entryIndices)
 {
     m_id = identifier;
     m_wordDirection = direction;
@@ -25,15 +27,11 @@ std::vector<uivec3> CrosswordEntry::getEntryPositions() const
 {
     std::vector<uivec3> entryPositions;
 
-    if(m_entryIndices.empty())
-    {
+    if (m_entryIndices.empty()) {
         entryPositions.push_back(m_guess.getPositions().at(0));
         return entryPositions;
-    }
-    else
-    {
-        for(unsigned int i = 0; i < m_entryIndices.size(); i++)
-        {
+    } else {
+        for (unsigned int i = 0; i < m_entryIndices.size(); i++) {
             entryPositions.push_back(getGuess().getPositions().at(m_entryIndices.at(i)));
         }
 
@@ -45,9 +43,9 @@ QString CrosswordEntry::getEntryPositionsString() const
 {
     QString entryIndices;
 
-    for(unsigned int i = 0; i < m_entryIndices.size(); i++)
-    {
-        entryIndices.append(QString::number(m_entryIndices.at(i) + 1)).append(","); // + 1, we use this for exporting to xwc3d files
+    for (unsigned int i = 0; i < m_entryIndices.size(); i++) {
+        entryIndices.append(QString::number(m_entryIndices.at(i) +
+                                            1)).append(","); // + 1, we use this for exporting to xwc3d files
     }
 
     entryIndices.truncate(entryIndices.size() - 1);
@@ -80,12 +78,11 @@ void CrosswordEntry::setGuess(QString word)
 QString CrosswordEntry::getSolutionComponentLengths() const
 {
     QString comp;
-    for(unsigned int i = 0; i < m_solutionComponentLengths.size(); i++)
-    {
+
+    for (unsigned int i = 0; i < m_solutionComponentLengths.size(); i++) {
         comp.append(QString::number(m_solutionComponentLengths.at(i)));
 
-        if(i != m_solutionComponentLengths.size() - 1)
-        {
+        if (i != m_solutionComponentLengths.size() - 1) {
             comp.append(",");
         }
     }
@@ -105,12 +102,9 @@ void CrosswordEntry::resetGuess()
 
 bool CrosswordEntry::isGuessCorrect() const
 {
-    if(m_guess.getString() == m_solution)
-    {
+    if (m_guess.getString() == m_solution) {
         return true;
-    }
-    else
-    {
+    } else {
         return false;
     }
 }
@@ -130,28 +124,26 @@ QString CrosswordEntry::getEntry() const
     return m_entryString;
 }
 
-std::vector<std::pair<unsigned int, uivec3> > CrosswordEntry::getWordEntryStartingPositionPairs() const
+std::vector<std::pair<unsigned int, uivec3> > CrosswordEntry::getWordEntryStartingPositionPairs()
+const
 {
     std::vector<std::pair<unsigned int, uivec3> > pairs;
 
     QStringList entries = m_entryString.split(" ", QString::SkipEmptyParts);
     std::vector<unsigned int> entryNumbers;
 
-    for(int i = 0; i < entries.size(); i++)
-    {
+    for (int i = 0; i < entries.size(); i++) {
         bool converted = false;
         unsigned int entryNumber = entries.at(i).toUInt(&converted);
 
-        if(converted)
-        {
+        if (converted) {
             entryNumbers.push_back(entryNumber);
         }
     }
 
-    if(getEntryPositions().size() == entryNumbers.size()) // this should only ever be the case if we have a line like "Stage 2 Anagram" as the entry name
-    {
-        for(unsigned int k = 0; k < entryNumbers.size(); k++)
-        {
+    if (getEntryPositions().size() ==
+            entryNumbers.size()) { // this should only ever be the case if we have a line like "Stage 2 Anagram" as the entry name
+        for (unsigned int k = 0; k < entryNumbers.size(); k++) {
             pairs.push_back(std::pair<unsigned int, uivec3>(entryNumbers.at(k), getEntryPositions().at(k)));
         }
     }

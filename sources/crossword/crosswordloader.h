@@ -11,31 +11,29 @@
 
 class CrosswordBase;
 
-class CrosswordLoaderInterface
-{
-public:
-    virtual bool loadMetaData(CrosswordBase& puzzle, QStringList& linelist) = 0;
+class CrosswordLoaderInterface {
+  public:
+    virtual bool loadMetadata(CrosswordBase& puzzle, QStringList& linelist) = 0;
     virtual bool loadGrid(CrosswordBase& puzzle, QStringList& linelist) = 0;
     virtual bool loadClues(CrosswordBase& puzzle, QStringList& linelist) = 0;
 
-    virtual bool saveMetaData(CrosswordBase& puzzle, QStringList& linelist) = 0;
+    virtual bool saveMetadata(CrosswordBase& puzzle, QStringList& linelist) = 0;
     virtual bool saveGrid(CrosswordBase& puzzle, QStringList& linelist) = 0;
     virtual bool saveClues(CrosswordBase& puzzle, QStringList& linelist) = 0;
 };
 
-class CrosswordLoader : public QObject
-{
+class CrosswordLoader : public QObject {
     Q_OBJECT
-public:
+  public:
     CrosswordLoader();
 
     bool savePuzzle(CrosswordBase& puzzle, QString filePath, QString extension);
     bool loadPuzzle(CrosswordBase& puzzle, QString filePath, QString extension);
 
-private:
+  private:
     bool readInFile(CrosswordLoaderInterface& loader, CrosswordBase& puzzle, QStringList& linelist);
     bool writeOutFile(CrosswordLoaderInterface& loader, CrosswordBase& puzzle, QFile& file);
 
-signals:
+  signals:
     void loaderError(const QString&, const QString&);
 };

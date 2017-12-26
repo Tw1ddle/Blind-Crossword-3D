@@ -10,18 +10,17 @@ class QLabel;
 class QPushButton;
 class QLineEdit;
 
-class GuessWordDialog : public QDialog
-{
+class GuessWordDialog : public QDialog {
     Q_OBJECT
-public:
-    explicit GuessWordDialog(QWidget *parent = 0);
+  public:
+    explicit GuessWordDialog(QWidget* parent = 0);
     
     QLineEdit* getLineEdit();
 
-public slots:
+  public slots:
     void readText(const QString& text);
     void readOnDimissal();
 
- private:
+  private:
     QLineEdit* m_wordEdit;
 };

@@ -33,26 +33,24 @@ class QSortFilterProxyModel;
 
 class ClueReader;
 
-namespace Ui
-{
-    class MainWindow;
+namespace Ui {
+class MainWindow;
 }
 
-class MainWindow : public QMainWindow
-{
+class MainWindow : public QMainWindow {
     Q_OBJECT
     
-public:
-    explicit MainWindow(QWidget *parent = 0);
+  public:
+    explicit MainWindow(QWidget* parent = 0);
     ~MainWindow();
 
-signals:
+  signals:
     void puzzleLoaded();
 
-protected:
+  protected:
     void closeEvent(QCloseEvent* event);
 
-private slots:
+  private slots:
     void loadCrossword();
     void saveCrossword();
     void printAnswers();
@@ -83,11 +81,11 @@ private slots:
 
     void raiseError(QString title, QString error);
 
-private:
+  private:
     // if we're debugging, add a text edit with everything the voice says
-    #ifdef QT_DEBUG
+#ifdef QT_DEBUG
     SpeechLogWidget m_SpeechLogWidget;
-    #endif // QT_DEBUG
+#endif // QT_DEBUG
 
     void createShortcuts();
     QString getIntroString() const;

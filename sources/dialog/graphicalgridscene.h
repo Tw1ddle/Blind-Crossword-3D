@@ -17,16 +17,15 @@
 class GridData;
 class GraphicalGridItem;
 
-class GraphicalGridScene : public QGraphicsScene
-{
+class GraphicalGridScene : public QGraphicsScene {
     Q_OBJECT
-public:
+  public:
     GraphicalGridScene(const CrosswordBase& puzzle);
 
-protected:
-    void drawBackground(QPainter *painter, const QRectF &rect);
+  protected:
+    void drawBackground(QPainter* painter, const QRectF& rect);
 
-private:
+  private:
     const CrosswordBase& m_RefPuzzle;
     const GridData& m_RefGrid;
     const std::vector<CrosswordEntry>& m_RefCrosswordEntries;
@@ -40,7 +39,7 @@ private:
     void build2DDisc(unsigned int xDim, unsigned int yDim, uivec3 offset, unsigned int discNumber);
     void build2DGrid(unsigned int xDim, unsigned int yDim, uivec3 offset, unsigned int gridNumber);
 
-public slots:
+  public slots:
     void buildPuzzleGrid();
     void repaintPuzzleGrid();
     void highlightSelection(CrosswordEntry selectedCrosswordEntry);

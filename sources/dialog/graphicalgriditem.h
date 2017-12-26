@@ -9,12 +9,11 @@
 #include "util/uivec3.h"
 #include "crossword/letter.h"
 
-class GraphicalGridItem : public QGraphicsItem
-{
-public:
-    GraphicalGridItem(const Letter* letter, unsigned int gridId, QGraphicsItem *parent = 0);
+class GraphicalGridItem : public QGraphicsItem {
+  public:
+    GraphicalGridItem(const Letter* letter, unsigned int gridId, QGraphicsItem* parent = 0);
 
-    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
+    void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget);
 
     void setCrosswordEntryNumber(unsigned int entryNumber);
     void setColor(QColor color);
@@ -26,7 +25,7 @@ public:
     QRectF boundingRect() const;
 
     static const unsigned int sc_Size = 50u;
-private:
+  private:
     const Letter* m_LetterRef;
     QColor m_Color;
     QString m_CrosswordEntryNumber;

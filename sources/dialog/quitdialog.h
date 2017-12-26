@@ -5,11 +5,10 @@
 
 #include <QDialog>
 
-class QuitDialog : public QDialog
-{
+class QuitDialog : public QDialog {
     Q_OBJECT
-public:
-    explicit QuitDialog(QWidget *parent = 0);
+  public:
+    explicit QuitDialog(QWidget* parent = 0);
 
     QString getTitleString() const;
     QString getBodyString() const;
@@ -17,7 +16,7 @@ public:
     QString getAcceptedText() const;
     QString getRejectedText() const;
     
-private:
+  private:
     QString m_quitTitle;
     QString m_quitBody;
     QString m_acceptedText;

@@ -8,18 +8,17 @@
 #include "crossword/crosswordbase.h"
 #include "crossword/crosswordloader.h"
 
-class XWC3DLoader : public CrosswordLoaderInterface
-{
-public:
-    bool loadMetaData(CrosswordBase& puzzle, QStringList& linelist);
+class XWC3DLoader : public CrosswordLoaderInterface {
+  public:
+    bool loadMetadata(CrosswordBase& puzzle, QStringList& linelist);
     bool loadGrid(CrosswordBase& puzzle, QStringList& linelist);
     bool loadClues(CrosswordBase& puzzle, QStringList& linelist);
 
-    bool saveMetaData(CrosswordBase& puzzle, QStringList& linelist);
+    bool saveMetadata(CrosswordBase& puzzle, QStringList& linelist);
     bool saveGrid(CrosswordBase& puzzle, QStringList& linelist);
     bool saveClues(CrosswordBase& puzzle, QStringList& linelist);
 
-private:
+  private:
     bool loadXWC3DGrid(CrosswordBase& puzzle, QStringList& linelist);
     bool loadXWCR3DGrid(CrosswordBase& puzzle, QStringList& linelist);
 

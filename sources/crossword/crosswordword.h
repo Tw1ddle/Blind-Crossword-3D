@@ -4,15 +4,15 @@
 
 #pragma once
 
-#include <QString>
 #include <vector>
+
+#include <QString>
 
 #include "letter.h"
 #include "util/uivec3.h"
 
-class Word
-{
-public:
+class Word {
+  public:
     Word();
     Word(std::vector<Letter*> word);
 
@@ -24,6 +24,6 @@ public:
 
     void setString(QString string);
 
-private:
+  private:
     std::vector<Letter*> m_word;
 };
