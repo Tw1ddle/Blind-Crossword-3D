@@ -5,7 +5,7 @@
 
 #include <QChar>
 
-namespace ShortcutKeys {
+namespace controls {
 
 extern const QChar exitShortcutKey;
 extern const QChar loadShortcutKey;

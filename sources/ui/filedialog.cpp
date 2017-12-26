@@ -1,10 +1,12 @@
-#include "dialog/filedialog.h"
+#include "ui/filedialog.h"
 
 #include <QBoxLayout>
 #include <QFileInfo>
 #include <QListView>
 
 #include "tts/itexttospeech.h"
+
+namespace ui {
 
 FileDialog::FileDialog(QWidget* parent, const QString& caption, const QString& directory,
                        const QString& nameFilter, const QStringList& filter)
@@ -86,3 +88,4 @@ void FileDialog::onFileSelected(const QModelIndex& index)
     accept();
 }
 
+}

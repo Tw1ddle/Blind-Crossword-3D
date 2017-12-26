@@ -4,10 +4,10 @@
 
 #pragma once
 
-#include "tts/itexttospeech.h"
-
 #include <QString>
 #include <QStringList>
+
+#include "tts/itexttospeech.h"
 
 namespace tts {
 

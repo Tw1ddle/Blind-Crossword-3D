@@ -3,6 +3,8 @@
 
 #pragma once
 
+namespace util {
+
 template <typename T>
 class Singleton {
   public:
@@ -32,3 +34,5 @@ class Singleton {
 
 template <typename T>
 T* Singleton<T>::s_instance = 0;
+
+}

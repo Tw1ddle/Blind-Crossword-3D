@@ -13,12 +13,14 @@
 #include "crossword/crosswordentry.h"
 #include "crossword/crosswordgrid.h"
 
-namespace CrosswordEntryTableHeader {
-extern const unsigned int identifierColumnId;
-extern const unsigned int entryColumnId;
-extern const unsigned int wordColumnId;
-extern const unsigned int clueColumnId;
-extern const unsigned int wordLengthColumnId;
+namespace ui {
+
+namespace tableheader {
+const unsigned int identifierColumnId = 0;
+const unsigned int entryColumnId = 4;
+const unsigned int wordColumnId = 1;
+const unsigned int clueColumnId = 2;
+const unsigned int wordLengthColumnId = 3;
 }
 
 class CrosswordEntryTableModel : public QAbstractTableModel {
@@ -55,3 +57,5 @@ class CrosswordEntryTableModel : public QAbstractTableModel {
 
     bool existsConflictingWords(QString word, QModelIndex index);
 };
+
+}

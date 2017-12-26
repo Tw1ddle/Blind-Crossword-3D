@@ -1,10 +1,12 @@
-#include "dialog/guessworddialog.h"
+#include "ui/guessworddialog.h"
 
 #include <QLineEdit>
 #include <QShortcut>
 #include <QVBoxLayout>
 
 #include "tts/itexttospeech.h"
+
+namespace ui {
 
 GuessWordDialog::GuessWordDialog(QWidget* parent) :
     QDialog(parent)
@@ -55,4 +57,6 @@ void GuessWordDialog::readText(const QString& text)
 void GuessWordDialog::readOnDimissal()
 {
     tts::ITextToSpeech::instance().speak("Text entry mode has been cancelled.");
+}
+
 }

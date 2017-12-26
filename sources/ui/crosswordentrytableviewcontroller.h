@@ -6,6 +6,8 @@
 #include <QModelIndex>
 #include <QTableView>
 
+namespace ui {
+
 class CrosswordEntryTableViewController : public QTableView {
     Q_OBJECT
   public:
@@ -44,3 +46,5 @@ class CrosswordEntryTableViewController : public QTableView {
     void reportGuessErased();
     void reportGuessAmendationRejected();
 };
+
+}

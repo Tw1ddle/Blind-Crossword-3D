@@ -1,4 +1,4 @@
-#include "dialog/crosswordentrytableviewcontroller.h"
+#include "ui/crosswordentrytableviewcontroller.h"
 
 #include <cassert>
 
@@ -11,10 +11,12 @@
 #include <QShortcut>
 #include <QSortFilterProxyModel>
 
-#include "dialog/crosswordentrytablemodel.h" // we (only) need to know about the names of the headers.
-#include "dialog/guessworddialog.h"
+#include "controls/controls.h"
+#include "ui/crosswordentrytablemodel.h" // we (only) need to know about the names of the headers.
+#include "ui/guessworddialog.h"
 #include "tts/itexttospeech.h"
-#include "shortcutkeys.h"
+
+namespace ui {
 
 CrosswordEntryTableViewController::CrosswordEntryTableViewController(QWidget* parent) :
     QTableView(parent)
@@ -39,7 +41,7 @@ bool CrosswordEntryTableViewController::enterGuess()
         tts::ITextToSpeech::instance().speak("Enter your answer.");
 
         QString wordAtSelection = currentSelection.sibling(currentSelection.row(),
-                                                           CrosswordEntryTableHeader::wordColumnId).data().toString();
+                                                           tableheader::wordColumnId).data().toString();
 
         assert(wordAtSelection.length() != 0);
 
@@ -67,7 +69,7 @@ bool CrosswordEntryTableViewController::amendGuess()
 
     if (currentSelection.isValid()) {
         QString wordAtSelection = currentSelection.sibling(currentSelection.row(),
-                                                           CrosswordEntryTableHeader::wordColumnId).data().toString();
+                                                           tableheader::wordColumnId).data().toString();
 
         assert(wordAtSelection.length() != 0);
 
@@ -103,21 +105,21 @@ void CrosswordEntryTableViewController::keyPressEvent(QKeyEvent* event)
         QChar pressedKey = static_cast<QChar>(event->key());
         QTableView::keyboardSearch(QString(pressedKey));
     } else {
-        if (event->key() == ShortcutKeys::enterGuessKey ||
-                event->key() == ShortcutKeys::enterGuessKeyAlternative) {
+        if (event->key() == controls::enterGuessKey ||
+                event->key() == controls::enterGuessKeyAlternative) {
             enterGuess();
-        } else if (event->key() == ShortcutKeys::amendGuessKey) {
+        } else if (event->key() == controls::amendGuessKey) {
             amendGuess();
-        } else if (event->key() == ShortcutKeys::deleteGuessKey ||
-                   event->key() == ShortcutKeys::deleteGuessKeyAlternative) {
+        } else if (event->key() == controls::deleteGuessKey ||
+                   event->key() == controls::deleteGuessKeyAlternative) {
             eraseGuess();
         }
 
-        else if (event->key() == ShortcutKeys::readCurrentGuessKey) {
+        else if (event->key() == controls::readCurrentGuessKey) {
             readCurrentGuess();
         }
 
-        else if (event->key() == ShortcutKeys::sortEntriesKey) {
+        else if (event->key() == controls::sortEntriesKey) {
             sortEntries();
         }
     }
@@ -138,15 +140,15 @@ void CrosswordEntryTableViewController::currentChanged(const QModelIndex& curren
 
         if (current.row() != previous.row()) {
             QString identifierAtSelection = QString("Day ").append(current.sibling(current.row(),
-                                                                                   CrosswordEntryTableHeader::identifierColumnId).data().toString());
+                                                                                   tableheader::identifierColumnId).data().toString());
             QString entryNumberAtSelection = current.sibling(current.row(),
-                                                             CrosswordEntryTableHeader::entryColumnId).data().toString();
+                                                             tableheader::entryColumnId).data().toString();
             QString wordAtSelection = current.sibling(current.row(),
-                                                      CrosswordEntryTableHeader::wordColumnId).data().toString();
+                                                      tableheader::wordColumnId).data().toString();
             QString clueAtSelection = current.sibling(current.row(),
-                                                      CrosswordEntryTableHeader::clueColumnId).data().toString();
+                                                      tableheader::clueColumnId).data().toString();
             QString wordLengthsAtSelection = current.sibling(current.row(),
-                                                             CrosswordEntryTableHeader::wordLengthColumnId).data().toString().append(" letters");
+                                                             tableheader::wordLengthColumnId).data().toString().append(" letters");
 
             assert(!identifierAtSelection.isNull());
             assert(!entryNumberAtSelection.isNull());
@@ -164,15 +166,15 @@ void CrosswordEntryTableViewController::currentChanged(const QModelIndex& curren
 
             tts::ITextToSpeech::instance().speak(line);
         } else if (current.column() != previous.column()) {
-            if (current.column() == CrosswordEntryTableHeader::identifierColumnId) {
+            if (current.column() == tableheader::identifierColumnId) {
                 readCurrentIdentifier();
-            } else if (current.column() == CrosswordEntryTableHeader::entryColumnId) {
+            } else if (current.column() == tableheader::entryColumnId) {
                 readCurrentEntryNumber();
-            } else if (current.column() == CrosswordEntryTableHeader::wordColumnId) {
+            } else if (current.column() == tableheader::wordColumnId) {
                 readCurrentGuess();
-            } else if (current.column() == CrosswordEntryTableHeader::clueColumnId) {
+            } else if (current.column() == tableheader::clueColumnId) {
                 readCurrentClue();
-            } else if (current.column() == CrosswordEntryTableHeader::wordLengthColumnId) {
+            } else if (current.column() == tableheader::wordLengthColumnId) {
                 readWordLengths();
             } else {
                 assert(false);
@@ -241,7 +243,7 @@ void CrosswordEntryTableViewController::reportGuessAmended(QString removedLetter
 {
     QModelIndex currentSelection = selectionModel()->currentIndex();
     QString wordAtSelection = currentSelection.sibling(currentSelection.row(),
-                                                       CrosswordEntryTableHeader::wordColumnId).data().toString();
+                                                       tableheader::wordColumnId).data().toString();
 
     if (removedLetters.isNull() && !wordAtSelection.contains(QChar(Qt::Key_Period))) {
         tts::ITextToSpeech::instance().speak("Your guess is correct.");
@@ -268,7 +270,7 @@ void CrosswordEntryTableViewController::readCurrentIdentifier()
 {
     QModelIndex currentSelection = selectionModel()->currentIndex();
     QString entryAtSelection = currentSelection.sibling(currentSelection.row(),
-                                                        CrosswordEntryTableHeader::identifierColumnId).data().toString();
+                                                        tableheader::identifierColumnId).data().toString();
 
     tts::ITextToSpeech::instance().speak(entryAtSelection.append("."));
 }
@@ -277,7 +279,7 @@ void CrosswordEntryTableViewController::readCurrentEntryNumber()
 {
     QModelIndex currentSelection = selectionModel()->currentIndex();
     QString entryAtSelection = currentSelection.sibling(currentSelection.row(),
-                                                        CrosswordEntryTableHeader::entryColumnId).data().toString();
+                                                        tableheader::entryColumnId).data().toString();
 
     tts::ITextToSpeech::instance().speak(entryAtSelection.append("."));
 }
@@ -286,7 +288,7 @@ void CrosswordEntryTableViewController::readCurrentGuess()
 {
     QModelIndex currentSelection = selectionModel()->currentIndex();
     QString wordAtSelection = currentSelection.sibling(currentSelection.row(),
-                                                       CrosswordEntryTableHeader::wordColumnId).data().toString();
+                                                       tableheader::wordColumnId).data().toString();
 
     if (wordAtSelection.contains(QRegExp("(\\.+)"))) {
         tts::SPEECH_MODES::SPEECHMODE mode = tts::ITextToSpeech::instance().getMode();
@@ -303,7 +305,7 @@ void CrosswordEntryTableViewController::readCurrentClue()
 {
     QModelIndex currentSelection = selectionModel()->currentIndex();
     QString clueAtSelection = currentSelection.sibling(currentSelection.row(),
-                                                       CrosswordEntryTableHeader::clueColumnId).data().toString();
+                                                       tableheader::clueColumnId).data().toString();
 
     tts::ITextToSpeech::instance().speak(clueAtSelection.append("."));
 }
@@ -312,7 +314,7 @@ void CrosswordEntryTableViewController::readWordLengths()
 {
     QModelIndex currentSelection = selectionModel()->currentIndex();
     QString wordLengthsAtSelection = currentSelection.sibling(currentSelection.row(),
-                                                              CrosswordEntryTableHeader::wordLengthColumnId).data().toString();
+                                                              tableheader::wordLengthColumnId).data().toString();
 
     tts::SPEECH_MODES::SPEECHMODE mode = tts::ITextToSpeech::instance().getMode();
 
@@ -329,12 +331,12 @@ void CrosswordEntryTableViewController::sortEntries()
 
     switch (s_Sort) {
         case 0:
-            sortByColumn(CrosswordEntryTableHeader::identifierColumnId, Qt::AscendingOrder);
+            sortByColumn(tableheader::identifierColumnId, Qt::AscendingOrder);
             tts::ITextToSpeech::instance().speak("Sorted clues by day.");
             break;
 
         case 1:
-            sortByColumn(CrosswordEntryTableHeader::clueColumnId, Qt::AscendingOrder);
+            sortByColumn(tableheader::clueColumnId, Qt::AscendingOrder);
             tts::ITextToSpeech::instance().speak("Sorted clues by alphabetical order of clues.");
             break;
     }
@@ -344,4 +346,6 @@ void CrosswordEntryTableViewController::sortEntries()
     if (s_Sort >= cs_NumSorts) {
         s_Sort = 0;
     }
+}
+
 }

@@ -10,6 +10,8 @@
 #include "crossword/letter.h"
 #include "util/uivec3.h"
 
+namespace ui {
+
 class GraphicalGridItem : public QGraphicsItem {
   public:
     GraphicalGridItem(const crossword::Letter* letter, unsigned int gridId, QGraphicsItem* parent = 0);
@@ -36,3 +38,5 @@ class GraphicalGridItem : public QGraphicsItem {
     static const float CROSSWORD_LETTER_SCALE;
     static const float CROSSWORD_ENTRY_NUMBER_SCALE;
 };
+
+}

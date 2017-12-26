@@ -8,6 +8,8 @@
 
 class CrosswordEntry;
 
+namespace ui {
+
 class GraphicalGridView : public QGraphicsView {
     Q_OBJECT
   public:
@@ -28,3 +30,5 @@ class GraphicalGridView : public QGraphicsView {
     void zoomAnimationFinished();
     void scalingTime(qreal x);
 };
+
+}

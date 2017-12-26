@@ -1,6 +1,8 @@
-#include "dialog/speechlogwidget.h"
+#include "ui/speechlogwidget.h"
 
 #include "tts/itexttospeech.h"
+
+namespace ui {
 
 SpeechLogWidget::SpeechLogWidget(QObject*) :
     QTextEdit()
@@ -18,4 +20,6 @@ void SpeechLogWidget::focusInEvent(QFocusEvent* e)
     for (int i = 0 ; i < tts::ITextToSpeech::instance().getSpeechLog().size(); i++) {
         this->append(tts::ITextToSpeech::instance().getSpeechLog().at(i));
     }
+}
+
 }

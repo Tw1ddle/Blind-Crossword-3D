@@ -1,8 +1,8 @@
-#include "shortcutkeys.h"
+#include "controls.h"
 
 #include <QKeyEvent>
 
-namespace ShortcutKeys {
+namespace controls {
 
 // General app navigation controls
 const QChar exitShortcutKey = Qt::Key_Q; //Quit

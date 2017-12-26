@@ -1,11 +1,13 @@
-#include "dialog/graphicalgridview.h"
+#include "ui/graphicalgridview.h"
 
 #include <QPrinter>
 #include <QPrintDialog>
 #include <QResizeEvent>
 #include <QTimeLine>
 
-#include "shortcutkeys.h"
+#include "controls/controls.h"
+
+namespace ui {
 
 const double GraphicalGridView::ZOOM_FACTOR = 1.25;
 const int GraphicalGridView::KEYBOARD_ZOOM_FACTOR = 75;
@@ -27,9 +29,9 @@ void GraphicalGridView::keyPressEvent(QKeyEvent* event)
 {
     QGraphicsView::keyPressEvent(event);
 
-    if (event->key() == ShortcutKeys::zoomInKey) {
+    if (event->key() == controls::zoomInKey) {
         zoom(KEYBOARD_ZOOM_FACTOR);
-    } else if (event->key() == ShortcutKeys::zoomOutKey) {
+    } else if (event->key() == controls::zoomOutKey) {
         zoom(-KEYBOARD_ZOOM_FACTOR);
     }
 }
@@ -68,4 +70,6 @@ void GraphicalGridView::scalingTime(qreal x)
 
     float factor = 1.0f + static_cast<float>(m_numScheduledScalings) / 450.0f;
     scale(factor, factor);
+}
+
 }

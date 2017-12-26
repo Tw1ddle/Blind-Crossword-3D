@@ -1,4 +1,4 @@
-#include "dialog/graphicalgridscene.h"
+#include "ui/graphicalgridscene.h"
 
 #include <cassert>
 
@@ -9,7 +9,9 @@
 #include <QVector3D>
 
 #include "crossword/crosswordgrid.h"
-#include "dialog/graphicalgriditem.h"
+#include "ui/graphicalgriditem.h"
+
+namespace ui {
 
 GraphicalGridScene::GraphicalGridScene(const crossword::CrosswordBase& puzzle) :
     QGraphicsScene(), m_refPuzzle(puzzle), m_refGrid(puzzle.getGrid()),
@@ -167,4 +169,6 @@ void GraphicalGridScene::buildPuzzleGrid()
 void GraphicalGridScene::repaintPuzzleGrid()
 {
     update();
+}
+
 }

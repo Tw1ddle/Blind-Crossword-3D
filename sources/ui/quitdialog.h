@@ -5,6 +5,8 @@
 
 #include <QDialog>
 
+namespace ui {
+
 class QuitDialog : public QDialog {
     Q_OBJECT
   public:
@@ -21,3 +23,5 @@ class QuitDialog : public QDialog {
     QString m_acceptedText;
     QString m_rejectedText;
 };
+
+}

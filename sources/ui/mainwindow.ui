@@ -54,7 +54,7 @@
       <property name="childrenCollapsible">
        <bool>false</bool>
       </property>
-      <widget class="CrosswordEntryTableViewController" name="wordTableView">
+      <widget class="ui::CrosswordEntryTableViewController" name="wordTableView">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
          <horstretch>0</horstretch>
@@ -131,7 +131,7 @@
         <bool>true</bool>
        </attribute>
       </widget>
-      <widget class="GraphicalGridView" name="graphicsView">
+      <widget class="ui::GraphicalGridView" name="graphicsView">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
          <horstretch>0</horstretch>
@@ -431,14 +431,14 @@
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
   <customwidget>
-   <class>CrosswordEntryTableViewController</class>
+   <class>ui::CrosswordEntryTableViewController</class>
    <extends>QTableView</extends>
-   <header>dialog/crosswordentrytableviewcontroller.h</header>
+   <header>ui/crosswordentrytableviewcontroller.h</header>
   </customwidget>
   <customwidget>
-   <class>GraphicalGridView</class>
+   <class>ui::GraphicalGridView</class>
    <extends>QGraphicsView</extends>
-   <header>dialog/graphicalgridview.h</header>
+   <header>ui/graphicalgridview.h</header>
   </customwidget>
  </customwidgets>
  <resources>

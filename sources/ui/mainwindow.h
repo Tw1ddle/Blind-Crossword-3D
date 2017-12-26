@@ -23,21 +23,32 @@
 #include <QMainWindow>
 
 #include "crossword/crosswordbase.h"
-#include "dialog/speechlogwidget.h"
 #include "loader/crosswordloader.h"
+#include "ui/speechlogwidget.h"
 
 namespace Ui {
+
 class MainWindow;
+
 }
 
-class GraphicalGridScene;
-class CrosswordEntryTableModel;
 class QShortcut;
 class QSortFilterProxyModel;
 
-namespace crossword {
-class ClueReader;
+namespace ui {
+
+class GraphicalGridScene;
+class CrosswordEntryTableModel;
+
 }
+
+namespace crossword {
+
+class ClueReader;
+
+}
+
+namespace ui {
 
 class MainWindow : public QMainWindow {
     Q_OBJECT
@@ -133,3 +144,5 @@ class MainWindow : public QMainWindow {
     QShortcut* m_readLastSpokenPhraseShortcut;
     QShortcut* m_cycleViewVisibilityShortcut;
 };
+
+}

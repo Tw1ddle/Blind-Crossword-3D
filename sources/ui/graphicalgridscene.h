@@ -21,7 +21,13 @@ class GridData;
 
 }
 
+namespace ui {
+
 class GraphicalGridItem;
+
+}
+
+namespace ui {
 
 class GraphicalGridScene : public QGraphicsScene {
     Q_OBJECT
@@ -53,3 +59,5 @@ class GraphicalGridScene : public QGraphicsScene {
     std::vector<util::uivec3> m_selectedGridLocations;
     std::vector<QColor> m_savedColours;
 };
+
+}

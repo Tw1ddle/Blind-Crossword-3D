@@ -1,4 +1,4 @@
-#include "dialog/mainwindow.h"
+#include "ui/mainwindow.h"
 
 #include "ui_mainwindow.h"
 
@@ -7,18 +7,20 @@
 #include <QSortFilterProxyModel>
 #include <QUrl>
 
-#include "shortcutkeys.h"
+#include "controls/controls.h"
 #include "crossword/cluereader.h"
 #include "crossword/crosswordbase.h"
-#include "dialog/crosswordentrytablemodel.h"
-#include "dialog/filedialog.h"
-#include "dialog/graphicalgridscene.h"
-#include "dialog/quitdialog.h"
 #include "email/emailer.h"
 #include "printing/printer.h"
 #include "tts/itexttospeech.h"
+#include "ui/crosswordentrytablemodel.h"
+#include "ui/filedialog.h"
+#include "ui/graphicalgridscene.h"
+#include "ui/quitdialog.h"
 #include "util/util.h"
 #include "version/version.h"
+
+namespace ui {
 
 // TODO ensure this is created and scanned when loading crosswords in future
 const QString MainWindow::DEFAULT_SAVE_FOLDER = QString("/saved_crosswords");
@@ -41,10 +43,10 @@ MainWindow::MainWindow(QWidget* parent) :
 
     createShortcuts();
 
-    m_graphicsScene = new GraphicalGridScene(m_crossword);
+    m_graphicsScene = new ui::GraphicalGridScene(m_crossword);
     ui->graphicsView->setScene(m_graphicsScene);
 
-    m_tableModel = new CrosswordEntryTableModel(m_crossword, m_crossword.getRefEntries());
+    m_tableModel = new ui::CrosswordEntryTableModel(m_crossword, m_crossword.getRefEntries());
     m_proxyModel = new QSortFilterProxyModel(this);
     m_proxyModel->setSourceModel(m_tableModel);
     ui->wordTableView->setModel(m_proxyModel);
@@ -228,25 +230,25 @@ void MainWindow::cycleTableViewFilter()
     switch (s_Filter) {
         case 0:
             m_proxyModel->setFilterRegExp(showUnstarted);
-            m_proxyModel->setFilterKeyColumn(CrosswordEntryTableHeader::wordColumnId);
+            m_proxyModel->setFilterKeyColumn(tableheader::wordColumnId);
             tts::ITextToSpeech::instance().speak("Showing unstarted crossword entries.");
             break;
 
         case 1:
             m_proxyModel->setFilterRegExp(showCompleted);
-            m_proxyModel->setFilterKeyColumn(CrosswordEntryTableHeader::wordColumnId);
+            m_proxyModel->setFilterKeyColumn(tableheader::wordColumnId);
             tts::ITextToSpeech::instance().speak("Showing completed crossword entries.");
             break;
 
         case 2:
             m_proxyModel->setFilterRegExp(showPartial);
-            m_proxyModel->setFilterKeyColumn(CrosswordEntryTableHeader::wordColumnId);
+            m_proxyModel->setFilterKeyColumn(tableheader::wordColumnId);
             tts::ITextToSpeech::instance().speak("Showing partially completed crossword entries.");
             break;
 
         case 3:
             m_proxyModel->setFilterRegExp(showAll);
-            m_proxyModel->setFilterKeyColumn(CrosswordEntryTableHeader::wordColumnId);
+            m_proxyModel->setFilterKeyColumn(tableheader::wordColumnId);
             tts::ITextToSpeech::instance().speak("Filtering disabled.");
             break;
     }
@@ -451,12 +453,12 @@ void MainWindow::scoreCrossword()
 QString MainWindow::getIntroString() const
 {
     return QString("Welcome to ").append(version::getApplicationName().append(". "))
-           .append("Press ").append(ShortcutKeys::loadShortcutKey).append(" to load a crossword. ")
-           .append("Press ").append(ShortcutKeys::exitShortcutKey).append(" to quit the program. ")
+           .append("Press ").append(controls::loadShortcutKey).append(" to load a crossword. ")
+           .append("Press ").append(controls::exitShortcutKey).append(" to quit the program. ")
            .append("Press ").append(
-               ShortcutKeys::helpShortcutKey).append(" to open a help document in your web browser. ")
+               controls::helpShortcutKey).append(" to open a help document in your web browser. ")
            .append("Press ").append(
-               ShortcutKeys::tutorialShortcutKey).append(" to open a guide document in your web browser. ");
+               controls::tutorialShortcutKey).append(" to open a guide document in your web browser. ");
 }
 
 void MainWindow::showAbout()
@@ -473,70 +475,70 @@ void MainWindow::raiseError(QString title, QString error)
 
 void MainWindow::createShortcuts()
 {
-    m_loadShortcut = new QShortcut(QKeySequence(ShortcutKeys::loadShortcutKey), this);
+    m_loadShortcut = new QShortcut(QKeySequence(controls::loadShortcutKey), this);
     connect(m_loadShortcut, SIGNAL(activated()), this, SLOT(loadCrossword()));
 
-    m_saveShortcut = new QShortcut(QKeySequence(ShortcutKeys::saveShortcutKey), this);
+    m_saveShortcut = new QShortcut(QKeySequence(controls::saveShortcutKey), this);
     connect(m_saveShortcut, SIGNAL(activated()), this, SLOT(saveCrossword()));
 
-    m_helpShortcut = new QShortcut(QKeySequence(ShortcutKeys::helpShortcutKey), this);
+    m_helpShortcut = new QShortcut(QKeySequence(controls::helpShortcutKey), this);
     connect(m_helpShortcut, SIGNAL(activated()), this, SLOT(openHelp()));
 
-    m_exitShortcut = new QShortcut(QKeySequence(ShortcutKeys::exitShortcutKey), this);
+    m_exitShortcut = new QShortcut(QKeySequence(controls::exitShortcutKey), this);
     connect(m_exitShortcut, SIGNAL(activated()), this, SLOT(exitConfirmation()));
 
-    m_tutorialShortcut = new QShortcut(QKeySequence(ShortcutKeys::tutorialShortcutKey), this);
+    m_tutorialShortcut = new QShortcut(QKeySequence(controls::tutorialShortcutKey), this);
     connect(m_tutorialShortcut, SIGNAL(activated()), this, SLOT(openTutorial()));
 
-    m_emailAnswersShortcut = new QShortcut(QKeySequence(ShortcutKeys::emailAnswersKey), this);
+    m_emailAnswersShortcut = new QShortcut(QKeySequence(controls::emailAnswersKey), this);
     connect(m_emailAnswersShortcut, SIGNAL(activated()), this, SLOT(emailAnswers()));
 
-    m_emailFeedbackShortcut = new QShortcut(QKeySequence(ShortcutKeys::emailFeedbackKey), this);
+    m_emailFeedbackShortcut = new QShortcut(QKeySequence(controls::emailFeedbackKey), this);
     connect(m_emailFeedbackShortcut, SIGNAL(activated()), this, SLOT(emailFeedback()));
 
-    m_printAnswersShortcut = new QShortcut(QKeySequence(ShortcutKeys::printAnswersKey), this);
+    m_printAnswersShortcut = new QShortcut(QKeySequence(controls::printAnswersKey), this);
     connect(m_printAnswersShortcut, SIGNAL(activated()), this, SLOT(printAnswers()));
 
-    m_scoreShortcut = new QShortcut(QKeySequence(ShortcutKeys::markShortcutKey), this);
+    m_scoreShortcut = new QShortcut(QKeySequence(controls::markShortcutKey), this);
     connect(m_scoreShortcut, SIGNAL(activated()), this, SLOT(scoreCrossword()));
 
-    m_filePropertiesShortcut = new QShortcut(QKeySequence(ShortcutKeys::filePropertiesShortcutKey),
+    m_filePropertiesShortcut = new QShortcut(QKeySequence(controls::filePropertiesShortcutKey),
                                              this);
     connect(m_filePropertiesShortcut, SIGNAL(activated()), this, SLOT(showFileProperties()));
 
-    m_filterTableViewShortcut = new QShortcut(QKeySequence(ShortcutKeys::filterTableViewShortcutKey),
+    m_filterTableViewShortcut = new QShortcut(QKeySequence(controls::filterTableViewShortcutKey),
                                               this);
     connect(m_filterTableViewShortcut, SIGNAL(activated()), this, SLOT(cycleTableViewFilter()));
 
-    m_cycleSpeechModeShortcut = new QShortcut(QKeySequence(ShortcutKeys::cycleSpeechModeShortcutKey),
+    m_cycleSpeechModeShortcut = new QShortcut(QKeySequence(controls::cycleSpeechModeShortcutKey),
                                               this);
     connect(m_cycleSpeechModeShortcut, SIGNAL(activated()), this, SLOT(cycleSpeechMode()));
 
-    m_stopSpeechShortcut = new QShortcut(QKeySequence(ShortcutKeys::stopSpeechKey), this);
+    m_stopSpeechShortcut = new QShortcut(QKeySequence(controls::stopSpeechKey), this);
     connect(m_stopSpeechShortcut, SIGNAL(activated()), this, SLOT(stopSpeech()));
 
-    m_readCurrentClueWordShortcut = new QShortcut(QKeySequence(ShortcutKeys::readCurrentClueWordKey),
+    m_readCurrentClueWordShortcut = new QShortcut(QKeySequence(controls::readCurrentClueWordKey),
                                                   this);
     connect(m_readCurrentClueWordShortcut, SIGNAL(activated()), this, SLOT(readCurrentWordInClue()));
 
-    m_advanceCurrentClueWordShortcut = new QShortcut(QKeySequence(ShortcutKeys::advanceClueWordKey),
+    m_advanceCurrentClueWordShortcut = new QShortcut(QKeySequence(controls::advanceClueWordKey),
                                                      this);
     connect(m_advanceCurrentClueWordShortcut, SIGNAL(activated()), this,
             SLOT(advanceToNextWordInClue()));
 
-    m_increaseSpeechRateShortcut = new QShortcut(QKeySequence(ShortcutKeys::increaseSpeechRateKey),
+    m_increaseSpeechRateShortcut = new QShortcut(QKeySequence(controls::increaseSpeechRateKey),
                                                  this);
     connect(m_increaseSpeechRateShortcut, SIGNAL(activated()), this, SLOT(increaseSpeechRate()));
 
-    m_decreaseSpeechRateShortcut = new QShortcut(QKeySequence(ShortcutKeys::decreaseSpeechRateKey),
+    m_decreaseSpeechRateShortcut = new QShortcut(QKeySequence(controls::decreaseSpeechRateKey),
                                                  this);
     connect(m_decreaseSpeechRateShortcut, SIGNAL(activated()), this, SLOT(decreaseSpeechRate()));
 
-    m_readLastSpokenPhraseShortcut = new QShortcut(QKeySequence(ShortcutKeys::readLastSpokenPhraseKey),
+    m_readLastSpokenPhraseShortcut = new QShortcut(QKeySequence(controls::readLastSpokenPhraseKey),
                                                    this);
     connect(m_readLastSpokenPhraseShortcut, SIGNAL(activated()), this, SLOT(readLastSpokenPhrase()));
 
-    m_cycleViewVisibilityShortcut = new QShortcut(QKeySequence(ShortcutKeys::cycleViewVisibilityKey),
+    m_cycleViewVisibilityShortcut = new QShortcut(QKeySequence(controls::cycleViewVisibilityKey),
                                                   this);
     connect(m_cycleViewVisibilityShortcut, SIGNAL(activated()), this, SLOT(cycleViewVisibility()));
 }
@@ -559,4 +561,6 @@ void MainWindow::closeEvent(QCloseEvent* event)
 void MainWindow::exitConfirmation()
 {
     close();
+}
+
 }

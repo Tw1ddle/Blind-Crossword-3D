@@ -1,17 +1,11 @@
-#include "dialog/crosswordentrytablemodel.h"
+#include "ui/crosswordentrytablemodel.h"
 
 #include <cassert>
 
 #include <QMessageBox>
 #include <QString>
 
-namespace CrosswordEntryTableHeader {
-const unsigned int identifierColumnId = 0;
-const unsigned int entryColumnId = 4;
-const unsigned int wordColumnId = 1;
-const unsigned int clueColumnId = 2;
-const unsigned int wordLengthColumnId = 3;
-}
+namespace ui {
 
 const QString identifierColumnHeader = "Day";
 const QString entryColumnHeader = "Direction";
@@ -49,21 +43,21 @@ QVariant CrosswordEntryTableModel::data(const QModelIndex& index, int role) cons
     }
 
     if (role == Qt::DisplayRole) {
-        if (index.column() == CrosswordEntryTableHeader::identifierColumnId) {
+        if (index.column() == tableheader::identifierColumnId) {
             return m_refEntries.at(index.row()).getIdentifier().toUInt();
         }
 
-        if (index.column() == CrosswordEntryTableHeader::entryColumnId) {
+        if (index.column() == tableheader::entryColumnId) {
             QString entryString = m_refEntries.at(index.row()).getEntry();
             QString entryDirectionName = m_refEntries.at(index.row()).getDirection();
             QString entry = entryString.append(QString(" ")).append(entryDirectionName);
 
             return entry;
-        } else if (index.column() == CrosswordEntryTableHeader::wordColumnId) {
+        } else if (index.column() == tableheader::wordColumnId) {
             return m_refEntries.at(index.row()).getGuess().getString();
-        } else if (index.column() == CrosswordEntryTableHeader::clueColumnId) {
+        } else if (index.column() == tableheader::clueColumnId) {
             return m_refEntries.at(index.row()).getClue();
-        } else if (index.column() == CrosswordEntryTableHeader::wordLengthColumnId) {
+        } else if (index.column() == tableheader::wordLengthColumnId) {
             return m_refEntries.at(index.row()).getSolutionComponentLengths();
         }
     }
@@ -80,19 +74,19 @@ QVariant CrosswordEntryTableModel::headerData(int section, Qt::Orientation orien
 
     if (orientation == Qt::Horizontal) {
         switch (section) {
-            case CrosswordEntryTableHeader::identifierColumnId:
+            case tableheader::identifierColumnId:
                 return identifierColumnHeader;
 
-            case CrosswordEntryTableHeader::entryColumnId:
+            case tableheader::entryColumnId:
                 return entryColumnHeader;
 
-            case CrosswordEntryTableHeader::wordColumnId:
+            case tableheader::wordColumnId:
                 return wordColumnHeader;
 
-            case CrosswordEntryTableHeader::clueColumnId:
+            case tableheader::clueColumnId:
                 return clueColumnHeader;
 
-            case CrosswordEntryTableHeader::wordLengthColumnId:
+            case tableheader::wordLengthColumnId:
                 return wordLengthColumnHeader;
 
             default:
@@ -202,4 +196,6 @@ void CrosswordEntryTableModel::tableViewSelectionChanged(const QModelIndex& curr
     crossword::CrosswordEntry newCrosswordEntry = m_refEntries.at(current.row());
 
     emit crosswordEntrySelectionChanged(newCrosswordEntry);
+}
+
 }

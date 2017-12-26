@@ -1,11 +1,13 @@
-#include "dialog/quitdialog.h"
+#include "ui/quitdialog.h"
 
 #include <QLabel>
 #include <QShortcut>
 #include <QVBoxLayout>
 
-#include "shortcutkeys.h"
+#include "controls/controls.h"
 #include "version/version.h"
+
+namespace ui {
 
 QuitDialog::QuitDialog(QWidget* parent) :
     QDialog(parent)
@@ -17,9 +19,9 @@ QuitDialog::QuitDialog(QWidget* parent) :
     m_quitTitle = QString("Quit ").append(version::getApplicationName()).append("?");
     m_quitBody =
         QString("Are you sure you want to quit the program? Unsaved progress will be lost. Press ")
-        .append(ShortcutKeys::confirmActionKey).append(" to quit.")
+        .append(controls::confirmActionKey).append(" to quit.")
         .append(" Press ").append(
-            ShortcutKeys::rejectActionKey).append(" to return to the crossword puzzle.");
+            controls::rejectActionKey).append(" to return to the crossword puzzle.");
 
     m_acceptedText = QString("Thank you for playing").append(version::getApplicationName()).append(".");
     m_rejectedText = "Continue to solve the crossword puzzle.";
@@ -37,10 +39,10 @@ QuitDialog::QuitDialog(QWidget* parent) :
 
     setWindowTitle(m_quitTitle);
 
-    QShortcut* quitShortcut = new QShortcut(QKeySequence(ShortcutKeys::confirmActionKey), this);
+    QShortcut* quitShortcut = new QShortcut(QKeySequence(controls::confirmActionKey), this);
     connect(quitShortcut, SIGNAL(activated()), this, SLOT(accept()));
 
-    QShortcut* returnShortcut = new QShortcut(QKeySequence(ShortcutKeys::rejectActionKey), this);
+    QShortcut* returnShortcut = new QShortcut(QKeySequence(controls::rejectActionKey), this);
     connect(returnShortcut, SIGNAL(activated()), this, SLOT(reject()));
 }
 
@@ -62,4 +64,6 @@ QString QuitDialog::getAcceptedText() const
 QString QuitDialog::getRejectedText() const
 {
     return m_rejectedText;
+}
+
 }

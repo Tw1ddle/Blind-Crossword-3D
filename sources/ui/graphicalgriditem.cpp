@@ -1,9 +1,11 @@
-#include "dialog/graphicalgriditem.h"
+#include "ui/graphicalgriditem.h"
 
 #include <QFont>
 #include <QPainter>
 
 #include "crossword/letter.h"
+
+namespace ui {
 
 const float GraphicalGridItem::CROSSWORD_LETTER_SCALE = 0.8f;
 const float GraphicalGridItem::CROSSWORD_ENTRY_NUMBER_SCALE = 0.30f;
@@ -83,4 +85,6 @@ void GraphicalGridItem::setLetter(const crossword::Letter* letter)
 QString GraphicalGridItem::getCrosswordEntryNumber() const
 {
     return m_crosswordEntryNumber;
+}
+
 }

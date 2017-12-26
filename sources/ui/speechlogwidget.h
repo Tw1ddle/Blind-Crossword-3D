@@ -5,6 +5,8 @@
 
 #include <QTextEdit>
 
+namespace ui {
+
 class SpeechLogWidget : public QTextEdit {
     Q_OBJECT
   public:
@@ -13,3 +15,5 @@ class SpeechLogWidget : public QTextEdit {
   protected:
     void focusInEvent(QFocusEvent* e);
 };
+
+}

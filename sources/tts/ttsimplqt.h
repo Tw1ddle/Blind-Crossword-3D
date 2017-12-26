@@ -4,9 +4,9 @@
 
 #pragma once
 
-#include "tts/ttsbase.h"
-
 #include <QTextToSpeech>
+
+#include "tts/ttsbase.h"
 
 namespace tts {
 

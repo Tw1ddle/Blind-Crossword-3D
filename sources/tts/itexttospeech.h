@@ -16,7 +16,7 @@ const SPEECHMODE normalSpeech = "normalspeech";
 const SPEECHMODE spellingOutSpeech = "spellingoutspeech";
 }
 
-class ITextToSpeech : public Singleton<ITextToSpeech> {
+class ITextToSpeech : public util::Singleton<ITextToSpeech> {
   public:
     ~ITextToSpeech() {}
 

@@ -10,6 +10,8 @@ class QLabel;
 class QPushButton;
 class QLineEdit;
 
+namespace ui {
+
 class GuessWordDialog : public QDialog {
     Q_OBJECT
   public:
@@ -23,3 +25,5 @@ class GuessWordDialog : public QDialog {
   private:
     QLineEdit* m_wordEdit;
 };
+
+}

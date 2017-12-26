@@ -8,6 +8,8 @@
 #include <QFileSystemModel>
 #include <QListView>
 
+namespace ui {
+
 class FileListView : public QListView {
   public:
     FileListView(QWidget* parent);
@@ -34,3 +36,5 @@ class FileDialog : public QDialog {
     FileListView* m_view;
     QString m_currentFilePath;
 };
+
+}
