@@ -17,13 +17,13 @@ class Printer {
   public:
     Printer();
 
-    QString openPrintDialog(CrosswordBase& puzzle, QWidget* parentWidget);
+    QString openPrintDialog(crossword::CrosswordBase& puzzle, QWidget* parentWidget);
 
   private:
     static const QString POSTAL_ADDRESS_LOCATION;
 
     QString getPostalAddress(const QString path) const;
-    QTextDocument* getPuzzleDocumentForPrinting(CrosswordBase& puzzle) const;
+    QTextDocument* getPuzzleDocumentForPrinting(crossword::CrosswordBase& puzzle) const;
 };
 
 }

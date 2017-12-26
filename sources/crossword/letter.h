@@ -8,6 +8,8 @@
 
 #include "util/uivec3.h"
 
+namespace crossword {
+
 class Letter {
   public:
     Letter(QChar letter, util::uivec3 location);
@@ -21,3 +23,5 @@ class Letter {
     QChar m_letter;
     util::uivec3 m_location;
 };
+
+}

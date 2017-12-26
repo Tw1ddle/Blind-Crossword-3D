@@ -26,15 +26,17 @@
 #include "dialog/speechlogwidget.h"
 #include "loader/crosswordloader.h"
 
+namespace Ui {
+class MainWindow;
+}
+
 class GraphicalGridScene;
 class CrosswordEntryTableModel;
 class QShortcut;
 class QSortFilterProxyModel;
 
+namespace crossword {
 class ClueReader;
-
-namespace Ui {
-class MainWindow;
 }
 
 class MainWindow : public QMainWindow {
@@ -99,13 +101,13 @@ class MainWindow : public QMainWindow {
     Ui::MainWindow* ui;
 
     loader::CrosswordLoader m_crosswordLoader;
-    CrosswordBase m_crossword;
+    crossword::CrosswordBase m_crossword;
 
     GraphicalGridScene* m_graphicsScene;
     CrosswordEntryTableModel* m_tableModel;
     QSortFilterProxyModel* m_proxyModel;
 
-    ClueReader* m_clueReader;
+    crossword::ClueReader* m_clueReader;
 
     QShortcut* m_exitShortcut;
     QShortcut* m_loadShortcut;

@@ -1,8 +1,7 @@
 #include "crossword/cluereader.h"
 
-//!
-//! Assigns the character index of the text to begin at, and the separator used to break the text into pieces.
-//!
+namespace crossword {
+
 ClueReader::ClueReader() : m_index(0u), m_separator(QChar(Qt::Key_Space))
 {
 }
@@ -35,4 +34,6 @@ void ClueReader::setText(CrosswordEntry entry)
 {
     m_index = 0;
     m_text = entry.getClue();
+}
+
 }

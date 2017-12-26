@@ -24,8 +24,8 @@ extern const unsigned int wordLengthColumnId;
 class CrosswordEntryTableModel : public QAbstractTableModel {
     Q_OBJECT
   public:
-    CrosswordEntryTableModel(const CrosswordBase& puzzle,
-                             std::vector<CrosswordEntry>& refCrosswordEntries, QObject* parent = 0);
+    CrosswordEntryTableModel(const crossword::CrosswordBase& puzzle,
+                             std::vector<crossword::CrosswordEntry>& refCrosswordEntries, QObject* parent = 0);
 
     int rowCount(const QModelIndex& parent) const;
     int columnCount(const QModelIndex& parent) const;
@@ -46,12 +46,12 @@ class CrosswordEntryTableModel : public QAbstractTableModel {
     void guessAmendationRequestRejected();
     void guessErased();
 
-    void crosswordEntrySelectionChanged(CrosswordEntry newCrosswordEntrySelection);
+    void crosswordEntrySelectionChanged(crossword::CrosswordEntry newCrosswordEntrySelection);
 
   private:
-    std::vector<CrosswordEntry>& m_refEntries;
-    const GridData& m_refGrid;
-    const CrosswordBase& m_refPuzzle;
+    std::vector<crossword::CrosswordEntry>& m_refEntries;
+    const crossword::GridData& m_refGrid;
+    const crossword::CrosswordBase& m_refPuzzle;
 
     bool existsConflictingWords(QString word, QModelIndex index);
 };

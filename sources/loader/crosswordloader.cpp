@@ -18,7 +18,8 @@ CrosswordLoader::CrosswordLoader()
 {
 }
 
-bool CrosswordLoader::loadPuzzle(CrosswordBase& puzzle, QString filePath, QString extension)
+bool CrosswordLoader::loadPuzzle(crossword::CrosswordBase& puzzle, QString filePath,
+                                 QString extension)
 {
     QStringList linelist;
 
@@ -28,12 +29,12 @@ bool CrosswordLoader::loadPuzzle(CrosswordBase& puzzle, QString filePath, QStrin
 
     puzzle.clear();
 
-    if (extension == fileformat::XWC3D || extension == fileformat::XWCR3D) {
+    if (extension == crossword::fileformat::XWC3D || extension == crossword::fileformat::XWCR3D) {
         XWC3DLoader loader;
         puzzle.m_loaded = readInFile(loader, puzzle, linelist);
     }
 
-    else if (extension == fileformat::XWC) {
+    else if (extension == crossword::fileformat::XWC) {
         XWCLoader loader;
         puzzle.m_loaded = readInFile(loader, puzzle, linelist);
     }
@@ -46,14 +47,15 @@ bool CrosswordLoader::loadPuzzle(CrosswordBase& puzzle, QString filePath, QStrin
     return true;
 }
 
-bool CrosswordLoader::savePuzzle(CrosswordBase& puzzle, QString filePath, QString extension)
+bool CrosswordLoader::savePuzzle(crossword::CrosswordBase& puzzle, QString filePath,
+                                 QString extension)
 {
     if (puzzle.getRefEntries().size() <= 0 || puzzle.getRefGrid().getSize() <= 0 || !puzzle.m_loaded) {
         return false;
     }
 
-    if (puzzle.getRefGrid().getDimensions().getZ() > 1 && (extension != fileformat::XWC3D &&
-                                                           extension != fileformat::XWCR3D)) {
+    if (puzzle.getRefGrid().getDimensions().getZ() > 1 && (extension != crossword::fileformat::XWC3D &&
+                                                           extension != crossword::fileformat::XWCR3D)) {
         return false;
     }
 
@@ -63,10 +65,10 @@ bool CrosswordLoader::savePuzzle(CrosswordBase& puzzle, QString filePath, QStrin
         return false;
     }
 
-    if (extension == fileformat::XWC3D || extension == fileformat::XWCR3D) {
+    if (extension == crossword::fileformat::XWC3D || extension == crossword::fileformat::XWCR3D) {
         loader::XWC3DLoader loader;
         return writeOutFile(loader, puzzle, file);
-    } else if (extension == fileformat::XWC) {
+    } else if (extension == crossword::fileformat::XWC) {
         loader::XWCLoader loader;
         return writeOutFile(loader, puzzle, file);
     }
@@ -74,7 +76,7 @@ bool CrosswordLoader::savePuzzle(CrosswordBase& puzzle, QString filePath, QStrin
     return false;
 }
 
-bool CrosswordLoader::readInFile(CrosswordLoaderInterface& loader, CrosswordBase& puzzle,
+bool CrosswordLoader::readInFile(CrosswordLoaderInterface& loader, crossword::CrosswordBase& puzzle,
                                  QStringList& linelist)
 {
     puzzle.clear();
@@ -97,7 +99,8 @@ bool CrosswordLoader::readInFile(CrosswordLoaderInterface& loader, CrosswordBase
     return true;
 }
 
-bool CrosswordLoader::writeOutFile(CrosswordLoaderInterface& loader, CrosswordBase& puzzle,
+bool CrosswordLoader::writeOutFile(CrosswordLoaderInterface& loader,
+                                   crossword::CrosswordBase& puzzle,
                                    QFile& file)
 {
     QStringList linelist;

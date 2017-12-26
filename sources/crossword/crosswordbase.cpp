@@ -9,6 +9,8 @@
 #include "crossword/crosswordstatus.h"
 #include "util/util.h"
 
+namespace crossword {
+
 CrosswordBase::CrosswordBase() : m_loaded(false), m_fileFormatVersion(0.0f)
 {
 }
@@ -113,7 +115,7 @@ unsigned int CrosswordBase::removeIncorrectEntries()
 
 QString CrosswordBase::getScore() const
 {
-    if (m_type != CrosswordStatus::WITHOUT_ANSWERS) {
+    if (m_type != crossword::WITHOUT_ANSWERS) {
         if (m_loaded) {
             return QString("The current score for this crossword is: ").
                    append(QString::number(scoreSolution())).
@@ -149,7 +151,7 @@ fileformat::FORMAT CrosswordBase::getFormat() const
     return m_fileFormat;
 }
 
-CrosswordStatus::CROSSWORD_TYPE CrosswordBase::getType() const
+crossword::CROSSWORD_TYPE CrosswordBase::getType() const
 {
     return m_type;
 }
@@ -173,4 +175,6 @@ bool CrosswordBase::loadBackgroundImage(QString filename)
     }
 
     return false;
+}
+
 }

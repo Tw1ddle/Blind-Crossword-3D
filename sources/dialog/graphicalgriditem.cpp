@@ -8,7 +8,7 @@
 const float GraphicalGridItem::CROSSWORD_LETTER_SCALE = 0.8f;
 const float GraphicalGridItem::CROSSWORD_ENTRY_NUMBER_SCALE = 0.30f;
 
-GraphicalGridItem::GraphicalGridItem(const Letter* letter, unsigned int gridId,
+GraphicalGridItem::GraphicalGridItem(const crossword::Letter* letter, unsigned int gridId,
                                      QGraphicsItem* parent) :
     QGraphicsItem(parent), m_letterRef(letter)
 {
@@ -75,7 +75,7 @@ QColor GraphicalGridItem::getColor() const
     return m_color;
 }
 
-void GraphicalGridItem::setLetter(const Letter* letter)
+void GraphicalGridItem::setLetter(const crossword::Letter* letter)
 {
     m_letterRef = letter;
 }

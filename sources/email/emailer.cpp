@@ -39,7 +39,7 @@ bool Emailer::openFeedbackEmail()
     }
 }
 
-bool Emailer::openSendResultsEmail(CrosswordBase& puzzle)
+bool Emailer::openSendResultsEmail(crossword::CrosswordBase& puzzle)
 {
     QDir dir;
     QString emailAddress = getEmailAddress(dir.absolutePath().append(ANSWERS_EMAIL_ADDRESS_LOCATION));
@@ -50,8 +50,8 @@ bool Emailer::openSendResultsEmail(CrosswordBase& puzzle)
     emailBody.append(puzzle.getInformation().append("%0A%0A"));
 
     //copy and sort by calendar date
-    std::vector<CrosswordEntry> entries = puzzle.getEntries();
-    std::sort(entries.begin(), entries.end(), SortByIdentifier());
+    std::vector<crossword::CrosswordEntry> entries = puzzle.getEntries();
+    std::sort(entries.begin(), entries.end(), crossword::SortByIdentifier());
 
     for (unsigned int i = 0; i < entries.size(); i++) {
         QString id = entries.at(i).getIdentifier();

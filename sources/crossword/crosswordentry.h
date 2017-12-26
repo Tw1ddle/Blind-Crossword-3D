@@ -9,6 +9,8 @@
 #include "crossword/crosswordword.h"
 #include "util/uivec3.h"
 
+namespace crossword {
+
 class CrosswordEntry {
   public:
     CrosswordEntry(QString direction, QString identifier, QString number, QString solution, Word guess,
@@ -66,5 +68,7 @@ const DIRECTION CLOCKWISE = "Clockwise";
 const DIRECTION ANTICLOCKWISE = "Anticlockwise";
 const DIRECTION DIAMETRIC = "Diametric";
 const DIRECTION SNAKING = "Snaking";
+
+}
 
 }

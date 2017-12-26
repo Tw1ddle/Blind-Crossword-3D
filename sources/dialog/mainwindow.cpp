@@ -49,7 +49,7 @@ MainWindow::MainWindow(QWidget* parent) :
     m_proxyModel->setSourceModel(m_tableModel);
     ui->wordTableView->setModel(m_proxyModel);
 
-    m_clueReader = new ClueReader();
+    m_clueReader = new crossword::ClueReader();
 
     connect(this, SIGNAL(puzzleLoaded()), m_tableModel, SLOT(crosswordEntriesChanged()));
     connect(this, SIGNAL(puzzleLoaded()), ui->wordTableView, SLOT(setFocus(Qt::OtherFocusReason)));

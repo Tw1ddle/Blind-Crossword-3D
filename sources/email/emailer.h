@@ -7,14 +7,18 @@
 
 #include <QString>
 
+namespace crossword {
+
 class CrosswordBase;
+
+}
 
 namespace email {
 
 class Emailer {
   public:
     bool openFeedbackEmail();
-    bool openSendResultsEmail(CrosswordBase& puzzle);
+    bool openSendResultsEmail(crossword::CrosswordBase& puzzle);
     bool openEmail(QString address, QString subject, QString content);
 
   private:

@@ -5,7 +5,7 @@
 
 #include <QString>
 
-namespace CrosswordStatus {
+namespace crossword {
 
 typedef QString CROSSWORD_TYPE;
 const CROSSWORD_TYPE WITHOUT_ANSWERS = "Without Answers";

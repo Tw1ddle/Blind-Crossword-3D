@@ -1,5 +1,7 @@
 #include "crossword/letter.h"
 
+namespace crossword {
+
 Letter::Letter(QChar letter, util::uivec3 location)
 {
     m_letter = letter;
@@ -24,4 +26,6 @@ util::uivec3 Letter::getLocation() const
 bool Letter::operator ==(const Letter& letter) const
 {
     return this == &letter;
+}
+
 }

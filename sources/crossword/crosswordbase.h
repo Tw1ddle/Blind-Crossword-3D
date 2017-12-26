@@ -27,6 +27,8 @@ class XWCLoader;
 
 }
 
+namespace crossword {
+
 class CrosswordBase {
     friend class loader::CrosswordLoader;
     friend class loader::XWC3DLoader;
@@ -50,7 +52,7 @@ class CrosswordBase {
     QString getInformation() const;
     QString getScore() const;
     fileformat::FORMAT getFormat() const;
-    CrosswordStatus::CROSSWORD_TYPE getType() const;
+    crossword::CROSSWORD_TYPE getType() const;
     bool isComplete() const;
 
     const GridData& getGrid() const;
@@ -85,3 +87,5 @@ class CrosswordBase {
     fileformat::FORMAT m_fileFormat;
     float m_fileFormatVersion;
 };
+
+}

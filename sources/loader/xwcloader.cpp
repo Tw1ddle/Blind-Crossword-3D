@@ -2,9 +2,9 @@
 
 namespace loader {
 
-bool XWCLoader::loadMetadata(CrosswordBase& puzzle, QStringList& linelist)
+bool XWCLoader::loadMetadata(crossword::CrosswordBase& puzzle, QStringList& linelist)
 {
-    puzzle.m_fileFormat = fileformat::XWC;
+    puzzle.m_fileFormat = crossword::fileformat::XWC;
 
     puzzle.m_title = linelist.takeFirst();
     puzzle.m_authors = linelist.takeFirst();
@@ -25,7 +25,7 @@ bool XWCLoader::loadMetadata(CrosswordBase& puzzle, QStringList& linelist)
     return true;
 }
 
-bool XWCLoader::loadGrid(CrosswordBase& puzzle, QStringList& linelist)
+bool XWCLoader::loadGrid(crossword::CrosswordBase& puzzle, QStringList& linelist)
 {
     unsigned int gridX = puzzle.getRefGrid().getDimensions().getX();
     unsigned int gridY = puzzle.getRefGrid().getDimensions().getY();
@@ -35,9 +35,9 @@ bool XWCLoader::loadGrid(CrosswordBase& puzzle, QStringList& linelist)
 
         for (unsigned int ch = 0; ch < gridY; ch++) {
             if (currentLine.at(ch) == '1') {
-                puzzle.getRefGrid().push_back(Letter(QChar(), util::uivec3(ch, x, 0)));
+                puzzle.getRefGrid().push_back(crossword::Letter(QChar(), util::uivec3(ch, x, 0)));
             } else {
-                puzzle.getRefGrid().push_back(Letter(QChar(Qt::Key_Period), util::uivec3(ch, x, 0)));
+                puzzle.getRefGrid().push_back(crossword::Letter(QChar(Qt::Key_Period), util::uivec3(ch, x, 0)));
             }
         }
     }
@@ -49,7 +49,7 @@ bool XWCLoader::loadGrid(CrosswordBase& puzzle, QStringList& linelist)
     return true;
 }
 
-bool XWCLoader::loadClues(CrosswordBase& puzzle, QStringList& linelist)
+bool XWCLoader::loadClues(crossword::CrosswordBase& puzzle, QStringList& linelist)
 {
     if (!loadAcrossClues(puzzle, linelist)) {
         return false;
@@ -62,14 +62,14 @@ bool XWCLoader::loadClues(CrosswordBase& puzzle, QStringList& linelist)
     return true;
 }
 
-bool XWCLoader::loadAcrossClues(CrosswordBase& puzzle, QStringList& linelist)
+bool XWCLoader::loadAcrossClues(crossword::CrosswordBase& puzzle, QStringList& linelist)
 {
     unsigned int numAcross = linelist.takeFirst().toUInt();
 
     for (unsigned int i = 0; i < numAcross; i++) {
         QStringList list = linelist.takeFirst().split("|");
 
-        QString direction(cluedirections::ACROSS);
+        QString direction(crossword::cluedirections::ACROSS);
 
         QString identifier = "0";
 
@@ -87,7 +87,7 @@ bool XWCLoader::loadAcrossClues(CrosswordBase& puzzle, QStringList& linelist)
 
         unsigned int length = list.takeFirst().toUInt();
 
-        std::vector<Letter*> letters;
+        std::vector<crossword::Letter*> letters;
         QString wordString = list.takeFirst();
 
         for (unsigned int j = 0; j < length; j++) {
@@ -98,7 +98,7 @@ bool XWCLoader::loadAcrossClues(CrosswordBase& puzzle, QStringList& linelist)
             letters.push_back(puzzle.getRefGrid().getRefLetterAt(puzzle.toGridIndex(letterPosition)));
         }
 
-        Word word(letters);
+        crossword::Word word(letters);
 
         if (length != wordString.length() || length != letters.size()) {
             return false;
@@ -116,22 +116,23 @@ bool XWCLoader::loadAcrossClues(CrosswordBase& puzzle, QStringList& linelist)
             wordComponentLengths.push_back(wordComponents.takeFirst().toUInt());
         }
 
-        puzzle.m_entries.push_back(CrosswordEntry(direction, identifier, number, wordString, word,
-                                                  wordComponentLengths, clue));
+        puzzle.m_entries.push_back(crossword::CrosswordEntry(direction, identifier, number, wordString,
+                                                             word,
+                                                             wordComponentLengths, clue));
     }
 
     return true;
 }
 
 
-bool XWCLoader::loadAwayClues(CrosswordBase& puzzle, QStringList& linelist)
+bool XWCLoader::loadAwayClues(crossword::CrosswordBase& puzzle, QStringList& linelist)
 {
     unsigned int numAway = linelist.takeFirst().toUInt();
 
     for (unsigned int i = 0; i < numAway; i++) {
         QStringList list = linelist.takeFirst().split("|");
 
-        QString direction(cluedirections::AWAY);
+        QString direction(crossword::cluedirections::AWAY);
 
         QString identifier = "0"; // unused
 
@@ -143,7 +144,7 @@ bool XWCLoader::loadAwayClues(CrosswordBase& puzzle, QStringList& linelist)
 
         unsigned int length = list.takeFirst().toUInt();
 
-        std::vector<Letter*> letters;
+        std::vector<crossword::Letter*> letters;
         QString wordString = list.takeFirst();
 
         for (unsigned int j = 0; j < length; j++) {
@@ -154,7 +155,7 @@ bool XWCLoader::loadAwayClues(CrosswordBase& puzzle, QStringList& linelist)
             letters.push_back(puzzle.getRefGrid().getRefLetterAt(puzzle.toGridIndex(letterPosition)));
         }
 
-        Word word(letters);
+        crossword::Word word(letters);
 
         if (length != wordString.length() || length != letters.size()) {
             return false;
@@ -173,14 +174,15 @@ bool XWCLoader::loadAwayClues(CrosswordBase& puzzle, QStringList& linelist)
             wordComponentLengths.push_back(wordComponents.takeFirst().toUInt());
         }
 
-        puzzle.m_entries.push_back(CrosswordEntry(direction, identifier, number, wordString, word,
-                                                  wordComponentLengths, clue));
+        puzzle.m_entries.push_back(crossword::CrosswordEntry(direction, identifier, number, wordString,
+                                                             word,
+                                                             wordComponentLengths, clue));
     }
 
     return true;
 }
 
-bool XWCLoader::saveMetadata(CrosswordBase& puzzle, QStringList& linelist)
+bool XWCLoader::saveMetadata(crossword::CrosswordBase& puzzle, QStringList& linelist)
 {
     linelist.push_back(puzzle.m_title);
     linelist.push_back(puzzle.m_authors);
@@ -191,7 +193,7 @@ bool XWCLoader::saveMetadata(CrosswordBase& puzzle, QStringList& linelist)
     return true;
 }
 
-bool XWCLoader::saveGrid(CrosswordBase& puzzle, QStringList& linelist)
+bool XWCLoader::saveGrid(crossword::CrosswordBase& puzzle, QStringList& linelist)
 {
     QStringList gridlist;
 
@@ -215,17 +217,17 @@ bool XWCLoader::saveGrid(CrosswordBase& puzzle, QStringList& linelist)
     return true;
 }
 
-bool XWCLoader::saveClues(CrosswordBase& puzzle, QStringList& linelist)
+bool XWCLoader::saveClues(crossword::CrosswordBase& puzzle, QStringList& linelist)
 {
     unsigned int acrossEntries = 0;
     unsigned int awayEntries = 0;
 
     for (unsigned int i = 0; i < puzzle.getRefEntries().size(); i++) {
-        if (puzzle.getRefEntries().at(i).getDirection() == cluedirections::ACROSS) {
+        if (puzzle.getRefEntries().at(i).getDirection() == crossword::cluedirections::ACROSS) {
             acrossEntries++;
         }
 
-        if (puzzle.getRefEntries().at(i).getDirection() == cluedirections::AWAY) {
+        if (puzzle.getRefEntries().at(i).getDirection() == crossword::cluedirections::AWAY) {
             awayEntries++;
         }
     }
@@ -233,7 +235,7 @@ bool XWCLoader::saveClues(CrosswordBase& puzzle, QStringList& linelist)
     linelist.push_back(QString::number(acrossEntries));
 
     for (unsigned int i = 0; i < acrossEntries; i++) {
-        CrosswordEntry entry = puzzle.getRefEntries().at(i);
+        crossword::CrosswordEntry entry = puzzle.getRefEntries().at(i);
         QString entryString = entry.getEntry().append("|")
                               .append(QString::number(entry.getStartingPosition().getX() + 1)).append("|")
                               .append(QString::number(entry.getStartingPosition().getY() + 1)).append(("|"))
@@ -248,7 +250,7 @@ bool XWCLoader::saveClues(CrosswordBase& puzzle, QStringList& linelist)
     linelist.push_back(QString::number(awayEntries));
 
     for (unsigned int i = acrossEntries; i < awayEntries + acrossEntries; i++) {
-        CrosswordEntry entry = puzzle.getRefEntries().at(i);
+        crossword::CrosswordEntry entry = puzzle.getRefEntries().at(i);
         QString entryString = entry.getEntry().append("|")
                               .append(QString::number(entry.getStartingPosition().getX() + 1)).append("|")
                               .append(QString::number(entry.getStartingPosition().getY() + 1)).append(("|"))

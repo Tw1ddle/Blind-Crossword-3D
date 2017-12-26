@@ -4,6 +4,8 @@
 
 #include <QStringList>
 
+namespace crossword {
+
 CrosswordEntry::CrosswordEntry(QString direction, QString identifier, QString entry,
                                QString solution, Word guess, std::vector<unsigned int> wordComponentLengths, QString clue,
                                std::vector<unsigned int> entryIndices)
@@ -164,4 +166,6 @@ bool SortByIdentifier::operator()(const CrosswordEntry& lhs, const CrosswordEntr
     assert(ok1 && ok2);
 
     return comparison;
+}
+
 }

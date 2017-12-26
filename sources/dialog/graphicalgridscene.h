@@ -15,18 +15,23 @@
 #include "crossword/letter.h"
 #include "util/uivec3.h"
 
+namespace crossword {
+
 class GridData;
+
+}
+
 class GraphicalGridItem;
 
 class GraphicalGridScene : public QGraphicsScene {
     Q_OBJECT
   public:
-    GraphicalGridScene(const CrosswordBase& puzzle);
+    GraphicalGridScene(const crossword::CrosswordBase& puzzle);
 
   public slots:
     void buildPuzzleGrid();
     void repaintPuzzleGrid();
-    void highlightSelection(CrosswordEntry selectedCrosswordEntry);
+    void highlightSelection(crossword::CrosswordEntry selectedCrosswordEntry);
     void updateGrid();
 
   protected:
@@ -38,9 +43,9 @@ class GraphicalGridScene : public QGraphicsScene {
     void build2DGrid(unsigned int xDim, unsigned int yDim, util::uivec3 offset,
                      unsigned int gridNumber);
 
-    const CrosswordBase& m_refPuzzle;
-    const GridData& m_refGrid;
-    const std::vector<CrosswordEntry>& m_refCrosswordEntries;
+    const crossword::CrosswordBase& m_refPuzzle;
+    const crossword::GridData& m_refGrid;
+    const std::vector<crossword::CrosswordEntry>& m_refCrosswordEntries;
     const QPixmap& m_refBackgroundImage;
 
     std::vector<GraphicalGridItem*> m_graphicsGridItems;

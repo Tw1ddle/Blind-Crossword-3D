@@ -9,6 +9,8 @@
 
 #include "crossword/crosswordentry.h"
 
+namespace crossword {
+
 class ClueReader : public QObject {
     Q_OBJECT
 
@@ -26,3 +28,5 @@ class ClueReader : public QObject {
     unsigned int m_index;
     const QChar m_separator;
 };
+
+}

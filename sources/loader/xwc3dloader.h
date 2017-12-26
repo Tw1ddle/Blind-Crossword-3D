@@ -12,24 +12,25 @@ namespace loader {
 
 class XWC3DLoader : public CrosswordLoaderInterface {
   public:
-    bool loadMetadata(CrosswordBase& puzzle, QStringList& linelist);
-    bool loadGrid(CrosswordBase& puzzle, QStringList& linelist);
-    bool loadClues(CrosswordBase& puzzle, QStringList& linelist);
+    bool loadMetadata(crossword::CrosswordBase& puzzle, QStringList& linelist);
+    bool loadGrid(crossword::CrosswordBase& puzzle, QStringList& linelist);
+    bool loadClues(crossword::CrosswordBase& puzzle, QStringList& linelist);
 
-    bool saveMetadata(CrosswordBase& puzzle, QStringList& linelist);
-    bool saveGrid(CrosswordBase& puzzle, QStringList& linelist);
-    bool saveClues(CrosswordBase& puzzle, QStringList& linelist);
+    bool saveMetadata(crossword::CrosswordBase& puzzle, QStringList& linelist);
+    bool saveGrid(crossword::CrosswordBase& puzzle, QStringList& linelist);
+    bool saveClues(crossword::CrosswordBase& puzzle, QStringList& linelist);
 
   private:
-    bool loadXWC3DGrid(CrosswordBase& puzzle, QStringList& linelist);
-    bool loadXWCR3DGrid(CrosswordBase& puzzle, QStringList& linelist);
+    bool loadXWC3DGrid(crossword::CrosswordBase& puzzle, QStringList& linelist);
+    bool loadXWCR3DGrid(crossword::CrosswordBase& puzzle, QStringList& linelist);
 
-    bool saveXWC3DGrid(CrosswordBase& puzzle, QStringList& linelist);
+    bool saveXWC3DGrid(crossword::CrosswordBase& puzzle, QStringList& linelist);
 
-    bool loadCluesHelper(CrosswordBase& puzzle, QStringList& linelist, QString direction);
-    bool loadSnakingClues(CrosswordBase& puzzle, QStringList& linelist, unsigned int numsnaking);
+    bool loadCluesHelper(crossword::CrosswordBase& puzzle, QStringList& linelist, QString direction);
+    bool loadSnakingClues(crossword::CrosswordBase& puzzle, QStringList& linelist,
+                          unsigned int numsnaking);
 
-    bool saveCluesHelper(CrosswordBase& puzzle, QStringList& linelist, QString direction);
+    bool saveCluesHelper(crossword::CrosswordBase& puzzle, QStringList& linelist, QString direction);
 };
 
 }

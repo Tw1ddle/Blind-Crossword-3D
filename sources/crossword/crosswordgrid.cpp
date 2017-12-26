@@ -1,5 +1,7 @@
 #include "crossword/crosswordgrid.h"
 
+namespace crossword {
+
 GridData::GridData()
 {
 }
@@ -38,4 +40,6 @@ void GridData::clear()
 std::size_t GridData::getSize() const
 {
     return m_letters.size();
+}
+
 }

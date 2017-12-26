@@ -11,7 +11,7 @@
 #include "crossword/crosswordgrid.h"
 #include "dialog/graphicalgriditem.h"
 
-GraphicalGridScene::GraphicalGridScene(const CrosswordBase& puzzle) :
+GraphicalGridScene::GraphicalGridScene(const crossword::CrosswordBase& puzzle) :
     QGraphicsScene(), m_refPuzzle(puzzle), m_refGrid(puzzle.getGrid()),
     m_refCrosswordEntries(puzzle.getEntries()), m_refBackgroundImage(puzzle.getBackgroundImage())
 {
@@ -34,7 +34,7 @@ void GraphicalGridScene::build2DDisc(unsigned int xDim, unsigned int yDim, util:
 
         for (unsigned int x = 0; x < xDim; x++) {
             util::uivec3 index = util::uivec3(x, y, discNumber);
-            const Letter* letter = m_refGrid.getLetterAt(m_refPuzzle.toGridIndex(index));
+            const crossword::Letter* letter = m_refGrid.getLetterAt(m_refPuzzle.toGridIndex(index));
             GraphicalGridItem* item = new GraphicalGridItem(letter, discNumber);
 
             QVector3D position(0, -r, 0);
@@ -62,7 +62,7 @@ void GraphicalGridScene::build2DGrid(unsigned int xDim, unsigned int yDim, util:
     for (unsigned int y = 0; y < yDim; y++) {
         for (unsigned int x = 0; x < xDim; x++) {
             util::uivec3 index = util::uivec3(x, y, gridNumber);
-            const Letter* letter = m_refGrid.getLetterAt(m_refPuzzle.toGridIndex(index));
+            const crossword::Letter* letter = m_refGrid.getLetterAt(m_refPuzzle.toGridIndex(index));
             GraphicalGridItem* item = new GraphicalGridItem(letter, gridNumber);
             item->setPos(QPointF(x * GraphicalGridItem::SIZE + offset.getX(),
                                  (yDim - y) * GraphicalGridItem::SIZE));
@@ -94,7 +94,7 @@ void GraphicalGridScene::updateGrid()
     }
 }
 
-void GraphicalGridScene::highlightSelection(CrosswordEntry selectedCrosswordEntry)
+void GraphicalGridScene::highlightSelection(crossword::CrosswordEntry selectedCrosswordEntry)
 {
     for (unsigned int i = 0; i < m_savedColours.size(); i++) {
         assert(m_savedColours.size() == m_selectedGridLocations.size());
@@ -129,10 +129,11 @@ void GraphicalGridScene::buildPuzzleGrid()
     m_graphicsGridItems.clear();
 
     for (unsigned int z = 0; z < m_refGrid.getDimensions().getZ(); z++) {
-        if (m_refPuzzle.getFormat() == fileformat::XWC3D || m_refPuzzle.getFormat() == fileformat::XWC) {
+        if (m_refPuzzle.getFormat() == crossword::fileformat::XWC3D ||
+                m_refPuzzle.getFormat() == crossword::fileformat::XWC) {
             build2DGrid(m_refGrid.getDimensions().getX(), m_refGrid.getDimensions().getY(),
                         util::uivec3(z * (m_refGrid.getDimensions().getX() + 1) * GraphicalGridItem::SIZE, 0, 0), z);
-        } else if (m_refPuzzle.getFormat() == fileformat::XWCR3D) {
+        } else if (m_refPuzzle.getFormat() == crossword::fileformat::XWCR3D) {
             build2DDisc(m_refGrid.getDimensions().getX(), m_refGrid.getDimensions().getY(),
                         util::uivec3(z * (m_refGrid.getDimensions().getX() + 1) * GraphicalGridItem::SIZE, 0, 0), z);
         }

@@ -12,14 +12,14 @@
 
 class GraphicalGridItem : public QGraphicsItem {
   public:
-    GraphicalGridItem(const Letter* letter, unsigned int gridId, QGraphicsItem* parent = 0);
+    GraphicalGridItem(const crossword::Letter* letter, unsigned int gridId, QGraphicsItem* parent = 0);
 
     void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget);
 
     void setCrosswordEntryNumber(unsigned int entryNumber);
     void setColor(QColor color);
     QColor getColor() const;
-    void setLetter(const Letter* letter);
+    void setLetter(const crossword::Letter* letter);
 
     QString getCrosswordEntryNumber() const;
 
@@ -28,7 +28,7 @@ class GraphicalGridItem : public QGraphicsItem {
     static const unsigned int SIZE = 50u;
 
   private:
-    const Letter* m_letterRef;
+    const crossword::Letter* m_letterRef;
     QColor m_color;
     QString m_crosswordEntryNumber;
     unsigned int m_gridId;

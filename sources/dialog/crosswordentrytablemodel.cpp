@@ -19,8 +19,8 @@ const QString wordColumnHeader = "Guess";
 const QString clueColumnHeader = "Clue";
 const QString wordLengthColumnHeader = "Lengths";
 
-CrosswordEntryTableModel::CrosswordEntryTableModel(const CrosswordBase& puzzle,
-                                                   std::vector<CrosswordEntry>& refCrosswordEntries, QObject* parent) :
+CrosswordEntryTableModel::CrosswordEntryTableModel(const crossword::CrosswordBase& puzzle,
+                                                   std::vector<crossword::CrosswordEntry>& refCrosswordEntries, QObject* parent) :
     QAbstractTableModel(parent), m_refPuzzle(puzzle), m_refEntries(refCrosswordEntries),
     m_refGrid(puzzle.getGrid())
 {
@@ -105,7 +105,7 @@ QVariant CrosswordEntryTableModel::headerData(int section, Qt::Orientation orien
 
 bool CrosswordEntryTableModel::existsConflictingWords(QString word, QModelIndex index)
 {
-    CrosswordEntry currentEntry = m_refEntries.at(index.row());
+    crossword::CrosswordEntry currentEntry = m_refEntries.at(index.row());
 
     bool conflict = false;
 
@@ -129,7 +129,7 @@ void CrosswordEntryTableModel::crosswordEntriesChanged()
 
 void CrosswordEntryTableModel::amendGuess(QString word, QModelIndex index)
 {
-    if (m_refPuzzle.getType() == CrosswordStatus::WITHOUT_ANSWERS) {
+    if (m_refPuzzle.getType() == crossword::WITHOUT_ANSWERS) {
         emit guessAmendationRequestRejected();
 
         return;
@@ -199,7 +199,7 @@ void CrosswordEntryTableModel::tableViewSelectionChanged(const QModelIndex& curr
 {
     Q_UNUSED(previous);
 
-    CrosswordEntry newCrosswordEntry = m_refEntries.at(current.row());
+    crossword::CrosswordEntry newCrosswordEntry = m_refEntries.at(current.row());
 
     emit crosswordEntrySelectionChanged(newCrosswordEntry);
 }

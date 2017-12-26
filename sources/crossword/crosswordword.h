@@ -11,6 +11,8 @@
 #include "crossword/letter.h"
 #include "util/uivec3.h"
 
+namespace crossword {
+
 class Word {
   public:
     Word();
@@ -27,3 +29,5 @@ class Word {
   private:
     std::vector<Letter*> m_word;
 };
+
+}

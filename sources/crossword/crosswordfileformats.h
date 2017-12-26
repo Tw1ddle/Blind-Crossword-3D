@@ -4,11 +4,17 @@
 
 #pragma once
 
+#include <QString>
+
+namespace crossword {
+
 namespace fileformat {
 
 typedef QString FORMAT;
 const FORMAT XWC3D = "xwc3d";
 const FORMAT XWCR3D = "xwcr3d";
 const FORMAT XWC = "xwc";
+
+}
 
 }

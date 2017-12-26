@@ -8,6 +8,8 @@
 #include "crossword/letter.h"
 #include "util/uivec3.h"
 
+namespace crossword {
+
 class GridData {
   public:
     GridData();
@@ -26,3 +28,5 @@ class GridData {
     util::uivec3 m_gridDimensions;
     std::vector<Letter> m_letters;
 };
+
+}

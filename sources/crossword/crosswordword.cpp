@@ -2,6 +2,8 @@
 
 #include <cassert>
 
+namespace crossword {
+
 Word::Word()
 {
 }
@@ -67,4 +69,6 @@ QString Word::getString() const
     }
 
     return word;
+}
+
 }
