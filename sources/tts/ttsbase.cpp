@@ -1,5 +1,7 @@
 #include "tts/ttsbase.h"
 
+namespace tts {
+
 TTSBase::TTSBase()
 {
 }
@@ -29,4 +31,6 @@ bool TTSBase::setMode(SPEECH_MODES::SPEECHMODE mode)
     m_mode = mode;
 
     return true;
+}
+
 }

@@ -1,5 +1,7 @@
 #include "tts/ttsimplqt.h"
 
+namespace tts {
+
 TTSImplQt instance;
 
 TTSImplQt::TTSImplQt() : m_speech{new QTextToSpeech()}
@@ -60,4 +62,6 @@ void TTSImplQt::preprocessText(QString& text)
         text.prepend("<spell>");
         text.append("</spell>");
     }
+}
+
 }

@@ -8,6 +8,8 @@
 
 #include <QTextToSpeech>
 
+namespace tts {
+
 class TTSImplQt : public TTSBase {
   public:
     TTSImplQt();
@@ -23,3 +25,5 @@ class TTSImplQt : public TTSBase {
   private:
     QTextToSpeech* m_speech;
 };
+
+}

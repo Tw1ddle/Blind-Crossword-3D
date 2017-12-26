@@ -61,7 +61,7 @@ void FileDialog::onSelectionChanged(const QModelIndex& current)
 
     QString fileName = m_model->fileInfo(
                            current).completeBaseName(); // read the file name without the extension
-    ITextToSpeech::instance().speak(fileName);
+    tts::ITextToSpeech::instance().speak(fileName);
 }
 
 FileListView::FileListView(QWidget* parent) : QListView(parent)

@@ -15,7 +15,7 @@ void SpeechLogWidget::focusInEvent(QFocusEvent* e)
 
     clear();
 
-    for (int i = 0 ; i < ITextToSpeech::instance().getSpeechLog().size(); i++) {
-        this->append(ITextToSpeech::instance().getSpeechLog().at(i));
+    for (int i = 0 ; i < tts::ITextToSpeech::instance().getSpeechLog().size(); i++) {
+        this->append(tts::ITextToSpeech::instance().getSpeechLog().at(i));
     }
 }

@@ -36,7 +36,7 @@ bool CrosswordEntryTableViewController::enterGuess()
     QModelIndex currentSelection = proxy->mapToSource(selectionModel()->currentIndex());
 
     if (currentSelection.isValid()) {
-        ITextToSpeech::instance().speak("Enter your answer.");
+        tts::ITextToSpeech::instance().speak("Enter your answer.");
 
         QString wordAtSelection = currentSelection.sibling(currentSelection.row(),
                                                            CrosswordEntryTableHeader::wordColumnId).data().toString();
@@ -162,7 +162,7 @@ void CrosswordEntryTableViewController::currentChanged(const QModelIndex& curren
                            append(". ").
                            append(entryNumberAtSelection);
 
-            ITextToSpeech::instance().speak(line);
+            tts::ITextToSpeech::instance().speak(line);
         } else if (current.column() != previous.column()) {
             if (current.column() == CrosswordEntryTableHeader::identifierColumnId) {
                 readCurrentIdentifier();
@@ -208,14 +208,14 @@ void CrosswordEntryTableViewController::keyboardSearch(const QString& search)
 bool CrosswordEntryTableViewController::validateInput(QString guess, unsigned int requiredLength)
 {
     if (guess.length() != requiredLength) {
-        ITextToSpeech::instance().speak(QString("The word has to be ").append(QString::number(
-                                                                                  requiredLength)).append("characters long."));
+        tts::ITextToSpeech::instance().speak(QString("The word has to be ").append(QString::number(
+                                                                                       requiredLength)).append("characters long."));
     } else if (guess.contains(QRegExp("\\s"))) {
-        ITextToSpeech::instance().speak("The word must not contain spaces.");
+        tts::ITextToSpeech::instance().speak("The word must not contain spaces.");
     } else if (guess.contains(QRegExp("\\d"))) {
-        ITextToSpeech::instance().speak("The word must not contain numbers.");
+        tts::ITextToSpeech::instance().speak("The word must not contain numbers.");
     } else if (guess.contains(QRegExp("[^a-zA-Z&\\.]"))) {
-        ITextToSpeech::instance().speak("The word must not contain non-word characters.");
+        tts::ITextToSpeech::instance().speak("The word must not contain non-word characters.");
     } else {
         return true;
     }
@@ -225,16 +225,16 @@ bool CrosswordEntryTableViewController::validateInput(QString guess, unsigned in
 
 void CrosswordEntryTableViewController::conflictingWordError()
 {
-    ITextToSpeech::instance().speak("The word conflicts with an intersecting word.");
+    tts::ITextToSpeech::instance().speak("The word conflicts with an intersecting word.");
 }
 
 void CrosswordEntryTableViewController::reportGuessAccepted(QString guess)
 {
-    SPEECH_MODES::SPEECHMODE mode = ITextToSpeech::instance().getMode();
+    tts::SPEECH_MODES::SPEECHMODE mode = tts::ITextToSpeech::instance().getMode();
 
-    ITextToSpeech::instance().setMode(SPEECH_MODES::spellingOutSpeech);
-    ITextToSpeech::instance().speak(guess);
-    ITextToSpeech::instance().setMode(mode);
+    tts::ITextToSpeech::instance().setMode(tts::SPEECH_MODES::spellingOutSpeech);
+    tts::ITextToSpeech::instance().speak(guess);
+    tts::ITextToSpeech::instance().setMode(mode);
 }
 
 void CrosswordEntryTableViewController::reportGuessAmended(QString removedLetters)
@@ -244,24 +244,24 @@ void CrosswordEntryTableViewController::reportGuessAmended(QString removedLetter
                                                        CrosswordEntryTableHeader::wordColumnId).data().toString();
 
     if (removedLetters.isNull() && !wordAtSelection.contains(QChar(Qt::Key_Period))) {
-        ITextToSpeech::instance().speak("Your guess is correct.");
+        tts::ITextToSpeech::instance().speak("Your guess is correct.");
     }
 
     if (removedLetters.isNull()) {
-        ITextToSpeech::instance().speak("There are no incorrect letters in your guess.");
+        tts::ITextToSpeech::instance().speak("There are no incorrect letters in your guess.");
     } else {
-        ITextToSpeech::instance().speak("Incorrect letters have been removed from your guess.");
+        tts::ITextToSpeech::instance().speak("Incorrect letters have been removed from your guess.");
     }
 }
 
 void CrosswordEntryTableViewController::reportGuessErased()
 {
-    ITextToSpeech::instance().speak("Your guess has been deleted.");
+    tts::ITextToSpeech::instance().speak("Your guess has been deleted.");
 }
 
 void CrosswordEntryTableViewController::reportGuessAmendationRejected()
 {
-    ITextToSpeech::instance().speak("Guesses cannot be validated in this puzzle");
+    tts::ITextToSpeech::instance().speak("Guesses cannot be validated in this puzzle");
 }
 
 void CrosswordEntryTableViewController::readCurrentIdentifier()
@@ -270,7 +270,7 @@ void CrosswordEntryTableViewController::readCurrentIdentifier()
     QString entryAtSelection = currentSelection.sibling(currentSelection.row(),
                                                         CrosswordEntryTableHeader::identifierColumnId).data().toString();
 
-    ITextToSpeech::instance().speak(entryAtSelection.append("."));
+    tts::ITextToSpeech::instance().speak(entryAtSelection.append("."));
 }
 
 void CrosswordEntryTableViewController::readCurrentEntryNumber()
@@ -279,7 +279,7 @@ void CrosswordEntryTableViewController::readCurrentEntryNumber()
     QString entryAtSelection = currentSelection.sibling(currentSelection.row(),
                                                         CrosswordEntryTableHeader::entryColumnId).data().toString();
 
-    ITextToSpeech::instance().speak(entryAtSelection.append("."));
+    tts::ITextToSpeech::instance().speak(entryAtSelection.append("."));
 }
 
 void CrosswordEntryTableViewController::readCurrentGuess()
@@ -289,13 +289,13 @@ void CrosswordEntryTableViewController::readCurrentGuess()
                                                        CrosswordEntryTableHeader::wordColumnId).data().toString();
 
     if (wordAtSelection.contains(QRegExp("(\\.+)"))) {
-        SPEECH_MODES::SPEECHMODE mode = ITextToSpeech::instance().getMode();
+        tts::SPEECH_MODES::SPEECHMODE mode = tts::ITextToSpeech::instance().getMode();
 
-        ITextToSpeech::instance().setMode(SPEECH_MODES::spellingOutSpeech);
-        ITextToSpeech::instance().speak(wordAtSelection);
-        ITextToSpeech::instance().setMode(mode);
+        tts::ITextToSpeech::instance().setMode(tts::SPEECH_MODES::spellingOutSpeech);
+        tts::ITextToSpeech::instance().speak(wordAtSelection);
+        tts::ITextToSpeech::instance().setMode(mode);
     } else {
-        ITextToSpeech::instance().speak(wordAtSelection);
+        tts::ITextToSpeech::instance().speak(wordAtSelection);
     }
 }
 
@@ -305,7 +305,7 @@ void CrosswordEntryTableViewController::readCurrentClue()
     QString clueAtSelection = currentSelection.sibling(currentSelection.row(),
                                                        CrosswordEntryTableHeader::clueColumnId).data().toString();
 
-    ITextToSpeech::instance().speak(clueAtSelection.append("."));
+    tts::ITextToSpeech::instance().speak(clueAtSelection.append("."));
 }
 
 void CrosswordEntryTableViewController::readWordLengths()
@@ -314,12 +314,12 @@ void CrosswordEntryTableViewController::readWordLengths()
     QString wordLengthsAtSelection = currentSelection.sibling(currentSelection.row(),
                                                               CrosswordEntryTableHeader::wordLengthColumnId).data().toString();
 
-    SPEECH_MODES::SPEECHMODE mode = ITextToSpeech::instance().getMode();
+    tts::SPEECH_MODES::SPEECHMODE mode = tts::ITextToSpeech::instance().getMode();
 
-    ITextToSpeech::instance().setMode(SPEECH_MODES::spellingOutSpeech);
-    ITextToSpeech::instance().speak(wordLengthsAtSelection);
+    tts::ITextToSpeech::instance().setMode(tts::SPEECH_MODES::spellingOutSpeech);
+    tts::ITextToSpeech::instance().speak(wordLengthsAtSelection);
 
-    ITextToSpeech::instance().setMode(mode);
+    tts::ITextToSpeech::instance().setMode(mode);
 }
 
 void CrosswordEntryTableViewController::sortEntries()
@@ -330,12 +330,12 @@ void CrosswordEntryTableViewController::sortEntries()
     switch (s_Sort) {
         case 0:
             sortByColumn(CrosswordEntryTableHeader::identifierColumnId, Qt::AscendingOrder);
-            ITextToSpeech::instance().speak("Sorted clues by day.");
+            tts::ITextToSpeech::instance().speak("Sorted clues by day.");
             break;
 
         case 1:
             sortByColumn(CrosswordEntryTableHeader::clueColumnId, Qt::AscendingOrder);
-            ITextToSpeech::instance().speak("Sorted clues by alphabetical order of clues.");
+            tts::ITextToSpeech::instance().speak("Sorted clues by alphabetical order of clues.");
             break;
     }
 

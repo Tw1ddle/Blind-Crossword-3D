@@ -9,6 +9,8 @@
 #include <QString>
 #include <QStringList>
 
+namespace tts {
+
 class TTSBase : public ITextToSpeech {
   public:
     virtual const QStringList& getSpeechLog() const;
@@ -27,3 +29,5 @@ class TTSBase : public ITextToSpeech {
     QString m_mode;
     QStringList m_speechLog;
 };
+
+}

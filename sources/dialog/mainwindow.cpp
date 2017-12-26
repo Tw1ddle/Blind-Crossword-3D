@@ -89,7 +89,7 @@ MainWindow::MainWindow(QWidget* parent) :
     connect(m_tableModel, SIGNAL(crosswordEntrySelectionChanged(CrosswordEntry)), m_clueReader,
             SLOT(setText(CrosswordEntry)));
 
-    ITextToSpeech::instance().speak(getIntroString());
+    tts::ITextToSpeech::instance().speak(getIntroString());
 }
 
 MainWindow::~MainWindow()
@@ -108,7 +108,7 @@ void MainWindow::loadCrossword()
         loadPath = dir.absolutePath();
     }
 
-    ITextToSpeech::instance().speak("Opening crossword list. Use the arrow keys to navigate the list.");
+    tts::ITextToSpeech::instance().speak("Opening crossword list. Use the arrow keys to navigate the list.");
 
     QStringList fileNameFilter;
     fileNameFilter.push_back(QString("*.xwc"));
@@ -134,10 +134,10 @@ void MainWindow::loadCrossword()
         if (m_crosswordLoader.loadPuzzle(m_crossword, path, extension)) {
             emit puzzleLoaded();
 
-            ITextToSpeech::instance().speak(fileInfo.completeBaseName().append(" was loaded."));
+            tts::ITextToSpeech::instance().speak(fileInfo.completeBaseName().append(" was loaded."));
         }
     } else {
-        ITextToSpeech::instance().speak("No crossword was selected.");
+        tts::ITextToSpeech::instance().speak("No crossword was selected.");
     }
 }
 
@@ -174,12 +174,12 @@ void MainWindow::saveCrossword()
     QFileInfo updatedFileInfo(path);
 
     if (m_crosswordLoader.savePuzzle(m_crossword, path, m_crossword.getFormat())) {
-        ITextToSpeech::instance().speak(QString("Crossword was saved as: ")
-                                        .append(updatedFileInfo.fileName())
-                                        .append(" in folder: ")
-                                        .append(updatedFileInfo.filePath()));
+        tts::ITextToSpeech::instance().speak(QString("Crossword was saved as: ")
+                                             .append(updatedFileInfo.fileName())
+                                             .append(" in folder: ")
+                                             .append(updatedFileInfo.filePath()));
     } else {
-        ITextToSpeech::instance().speak(
+        tts::ITextToSpeech::instance().speak(
             QString("Crossword could not be saved. Are you sure a crossword is open?"));
     }
 }
@@ -191,13 +191,13 @@ void MainWindow::cycleSpeechMode()
 
     switch (s_SpeechMode) {
         case 0:
-            ITextToSpeech::instance().speak("Spelling speech mode activated. Words will be spelled out letter by letter.");
-            ITextToSpeech::instance().setMode(SPEECH_MODES::spellingOutSpeech);
+            tts::ITextToSpeech::instance().speak("Spelling speech mode activated. Words will be spelled out letter by letter.");
+            tts::ITextToSpeech::instance().setMode(tts::SPEECH_MODES::spellingOutSpeech);
             break;
 
         case 1:
-            ITextToSpeech::instance().setMode(SPEECH_MODES::normalSpeech);
-            ITextToSpeech::instance().speak("Regular speech mode activated. Words will be read normally.");
+            tts::ITextToSpeech::instance().setMode(tts::SPEECH_MODES::normalSpeech);
+            tts::ITextToSpeech::instance().speak("Regular speech mode activated. Words will be read normally.");
             break;
     }
 
@@ -229,25 +229,25 @@ void MainWindow::cycleTableViewFilter()
         case 0:
             m_proxyModel->setFilterRegExp(showUnstarted);
             m_proxyModel->setFilterKeyColumn(CrosswordEntryTableHeader::wordColumnId);
-            ITextToSpeech::instance().speak("Showing unstarted crossword entries.");
+            tts::ITextToSpeech::instance().speak("Showing unstarted crossword entries.");
             break;
 
         case 1:
             m_proxyModel->setFilterRegExp(showCompleted);
             m_proxyModel->setFilterKeyColumn(CrosswordEntryTableHeader::wordColumnId);
-            ITextToSpeech::instance().speak("Showing completed crossword entries.");
+            tts::ITextToSpeech::instance().speak("Showing completed crossword entries.");
             break;
 
         case 2:
             m_proxyModel->setFilterRegExp(showPartial);
             m_proxyModel->setFilterKeyColumn(CrosswordEntryTableHeader::wordColumnId);
-            ITextToSpeech::instance().speak("Showing partially completed crossword entries.");
+            tts::ITextToSpeech::instance().speak("Showing partially completed crossword entries.");
             break;
 
         case 3:
             m_proxyModel->setFilterRegExp(showAll);
             m_proxyModel->setFilterKeyColumn(CrosswordEntryTableHeader::wordColumnId);
-            ITextToSpeech::instance().speak("Filtering disabled.");
+            tts::ITextToSpeech::instance().speak("Filtering disabled.");
             break;
     }
 
@@ -265,19 +265,19 @@ void MainWindow::cycleViewVisibility()
 
     switch (s_Visibility) {
         case 0:
-            ITextToSpeech::instance().speak("Grid shown, clues hidden.");
+            tts::ITextToSpeech::instance().speak("Grid shown, clues hidden.");
             ui->wordTableView->setHidden(true);
             ui->graphicsView->setHidden(false);
             break;
 
         case 1:
-            ITextToSpeech::instance().speak("Clues shown, grid hidden.");
+            tts::ITextToSpeech::instance().speak("Clues shown, grid hidden.");
             ui->wordTableView->setHidden(false);
             ui->graphicsView->setHidden(true);
             break;
 
         case 2:
-            ITextToSpeech::instance().speak("Clues and grid shown.");
+            tts::ITextToSpeech::instance().speak("Clues and grid shown.");
             ui->wordTableView->setHidden(false);
             ui->graphicsView->setHidden(false);
             break;
@@ -306,9 +306,9 @@ void MainWindow::viewLicense()
     }
 
     if (openedSuccessfully) {
-        ITextToSpeech::instance().speak("Opening license document in web browser. Use your screen reader to read the license document.");
+        tts::ITextToSpeech::instance().speak("Opening license document in web browser. Use your screen reader to read the license document.");
     } else {
-        ITextToSpeech::instance().speak("Error, could not open license document.");
+        tts::ITextToSpeech::instance().speak("Error, could not open license document.");
     }
 }
 
@@ -325,9 +325,9 @@ void MainWindow::openHelp()
     }
 
     if (openedSuccessfully) {
-        ITextToSpeech::instance().speak("Opening help page in web browser. Use your screen reader to read the help page.");
+        tts::ITextToSpeech::instance().speak("Opening help page in web browser. Use your screen reader to read the help page.");
     } else {
-        ITextToSpeech::instance().speak("Error, could not open help page.");
+        tts::ITextToSpeech::instance().speak("Error, could not open help page.");
     }
 }
 
@@ -344,9 +344,9 @@ void MainWindow::openTutorial()
     }
 
     if (openedSuccessfully) {
-        ITextToSpeech::instance().speak("Opening guide page in web browser. Use your screen reader to read the guide page.");
+        tts::ITextToSpeech::instance().speak("Opening guide page in web browser. Use your screen reader to read the guide page.");
     } else {
-        ITextToSpeech::instance().speak("Error, could not open guide page.");
+        tts::ITextToSpeech::instance().speak("Error, could not open guide page.");
     }
 }
 
@@ -361,23 +361,23 @@ void MainWindow::openCalendarPuzzlesWebsite()
 
         if (!address.empty()) {
             if (util::openUrl(QUrl(address.takeFirst()))) {
-                ITextToSpeech::instance().speak("Opening Calendar Puzzles website in web browser. Use your screen reader to read the website.");
+                tts::ITextToSpeech::instance().speak("Opening Calendar Puzzles website in web browser. Use your screen reader to read the website.");
             } else {
-                ITextToSpeech::instance().speak("Error, could not open Calendar Puzzles website.");
+                tts::ITextToSpeech::instance().speak("Error, could not open Calendar Puzzles website.");
             }
         }
     } else {
-        ITextToSpeech::instance().speak("Error, could not find Calendar Puzzles website address.");
+        tts::ITextToSpeech::instance().speak("Error, could not find Calendar Puzzles website address.");
     }
 }
 
 void MainWindow::printAnswers()
 {
-    ITextToSpeech::instance().speak("Opening a print dialog for printing your answers. Use your screen reader to work with the dialog.");
+    tts::ITextToSpeech::instance().speak("Opening a print dialog for printing your answers. Use your screen reader to work with the dialog.");
 
     printing::Printer printer;
     QString result = printer.openPrintDialog(m_crossword, this);
-    ITextToSpeech::instance().speak(result);
+    tts::ITextToSpeech::instance().speak(result);
 }
 
 void MainWindow::emailAnswers()
@@ -385,9 +385,9 @@ void MainWindow::emailAnswers()
     email::Emailer emailer;
 
     if (emailer.openSendResultsEmail(m_crossword)) {
-        ITextToSpeech::instance().speak("Opening an email containing your answers. Use your screen reader to work with the email.");
+        tts::ITextToSpeech::instance().speak("Opening an email containing your answers. Use your screen reader to work with the email.");
     } else {
-        ITextToSpeech::instance().speak("Failed to open an email containing your answers.");
+        tts::ITextToSpeech::instance().speak("Failed to open an email containing your answers.");
     }
 }
 
@@ -396,56 +396,56 @@ void MainWindow::emailFeedback()
     email::Emailer emailer;
 
     if (emailer.openFeedbackEmail()) {
-        ITextToSpeech::instance().speak("Opening a feedback email. Use your screen reader to work with the email.");
+        tts::ITextToSpeech::instance().speak("Opening a feedback email. Use your screen reader to work with the email.");
     } else {
-        ITextToSpeech::instance().speak("Failed to open feedback email.");
+        tts::ITextToSpeech::instance().speak("Failed to open feedback email.");
     }
 }
 
 void MainWindow::showFileProperties()
 {
-    ITextToSpeech::instance().speak(m_crossword.getInformation());
+    tts::ITextToSpeech::instance().speak(m_crossword.getInformation());
 }
 
 void MainWindow::stopSpeech()
 {
-    ITextToSpeech::instance().speak("");
+    tts::ITextToSpeech::instance().speak("");
 }
 
 void MainWindow::readLastSpokenPhrase()
 {
     QString lastSpokenPhrase;
 
-    if (ITextToSpeech::instance().getSpeechLog().isEmpty() == false) {
-        lastSpokenPhrase = ITextToSpeech::instance().getSpeechLog().back();
+    if (tts::ITextToSpeech::instance().getSpeechLog().isEmpty() == false) {
+        lastSpokenPhrase = tts::ITextToSpeech::instance().getSpeechLog().back();
     }
 
-    ITextToSpeech::instance().speak(lastSpokenPhrase);
+    tts::ITextToSpeech::instance().speak(lastSpokenPhrase);
 }
 
 void MainWindow::advanceToNextWordInClue()
 {
-    ITextToSpeech::instance().speak(m_clueReader->advanceWord());
+    tts::ITextToSpeech::instance().speak(m_clueReader->advanceWord());
 }
 
 void MainWindow::readCurrentWordInClue()
 {
-    ITextToSpeech::instance().speak(m_clueReader->getWord());
+    tts::ITextToSpeech::instance().speak(m_clueReader->getWord());
 }
 
 void MainWindow::increaseSpeechRate()
 {
-    ITextToSpeech::instance().speak(ITextToSpeech::instance().increaseSpeechRate());
+    tts::ITextToSpeech::instance().speak(tts::ITextToSpeech::instance().increaseSpeechRate());
 }
 
 void MainWindow::decreaseSpeechRate()
 {
-    ITextToSpeech::instance().speak(ITextToSpeech::instance().decreaseSpeechRate());
+    tts::ITextToSpeech::instance().speak(tts::ITextToSpeech::instance().decreaseSpeechRate());
 }
 
 void MainWindow::scoreCrossword()
 {
-    ITextToSpeech::instance().speak(m_crossword.getScore());
+    tts::ITextToSpeech::instance().speak(m_crossword.getScore());
 }
 
 QString MainWindow::getIntroString() const
@@ -461,14 +461,14 @@ QString MainWindow::getIntroString() const
 
 void MainWindow::showAbout()
 {
-    ITextToSpeech::instance().speak(QString(
-                                        version::getApplicationName().append(" is a 2D and 3D crossword puzzle game for the blind or partially sighted. ")
-                                        .append("You are using ").append(version::getApplicationVersionDescription())));
+    tts::ITextToSpeech::instance().speak(QString(
+                                             version::getApplicationName().append(" is a 2D and 3D crossword puzzle game for the blind or partially sighted. ")
+                                             .append("You are using ").append(version::getApplicationVersionDescription())));
 }
 
 void MainWindow::raiseError(QString title, QString error)
 {
-    ITextToSpeech::instance().speak(QString(title).append(" - ").append(error));
+    tts::ITextToSpeech::instance().speak(QString(title).append(" - ").append(error));
 }
 
 void MainWindow::createShortcuts()
@@ -545,13 +545,13 @@ void MainWindow::closeEvent(QCloseEvent* event)
 {
     QuitDialog dialog;
 
-    ITextToSpeech::instance().speak(dialog.getBodyString());
+    tts::ITextToSpeech::instance().speak(dialog.getBodyString());
 
     if (dialog.exec()) {
         // Quits silently rather than synchronously reading "goodbye" message
         event->accept();
     } else {
-        ITextToSpeech::instance().speak(dialog.getRejectedText());
+        tts::ITextToSpeech::instance().speak(dialog.getRejectedText());
         event->ignore();
     }
 }

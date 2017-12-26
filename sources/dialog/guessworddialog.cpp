@@ -44,15 +44,15 @@ void GuessWordDialog::readText(const QString& text)
     }
 
     if (text.size() >= 1) {
-        SPEECH_MODES::SPEECHMODE mode = ITextToSpeech::instance().getMode();
+        tts::SPEECH_MODES::SPEECHMODE mode = tts::ITextToSpeech::instance().getMode();
 
-        ITextToSpeech::instance().setMode(SPEECH_MODES::spellingOutSpeech);
-        ITextToSpeech::instance().speak(m_wordEdit->text().at(text.size() - 1));
-        ITextToSpeech::instance().setMode(mode);
+        tts::ITextToSpeech::instance().setMode(tts::SPEECH_MODES::spellingOutSpeech);
+        tts::ITextToSpeech::instance().speak(m_wordEdit->text().at(text.size() - 1));
+        tts::ITextToSpeech::instance().setMode(mode);
     }
 }
 
 void GuessWordDialog::readOnDimissal()
 {
-    ITextToSpeech::instance().speak("Text entry mode has been cancelled.");
+    tts::ITextToSpeech::instance().speak("Text entry mode has been cancelled.");
 }

@@ -8,6 +8,8 @@
 
 #include "util/singleton.h"
 
+namespace tts {
+
 namespace SPEECH_MODES {
 typedef QString SPEECHMODE;
 const SPEECHMODE normalSpeech = "normalspeech";
@@ -31,3 +33,5 @@ class ITextToSpeech : public Singleton<ITextToSpeech> {
   protected:
     ITextToSpeech() {}
 };
+
+}
