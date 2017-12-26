@@ -1,6 +1,7 @@
 #include "xwc3dloader.h"
 
 #include <algorithm>
+#include <cstdlib>
 
 bool XWC3DLoader::loadMetadata(CrosswordBase& puzzle, QStringList& linelist)
 {
