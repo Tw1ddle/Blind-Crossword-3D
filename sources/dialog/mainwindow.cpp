@@ -301,7 +301,7 @@ void MainWindow::viewLicense()
     bool openedSuccessfully = false;
 
     if (dir.exists(filePath)) {
-        openedSuccessfully = Utilities::openUrl(url);
+        openedSuccessfully = util::openUrl(url);
     }
 
     if (openedSuccessfully) {
@@ -320,7 +320,7 @@ void MainWindow::openHelp()
     bool openedSuccessfully = false;
 
     if (dir.exists(filePath)) {
-        openedSuccessfully = Utilities::openUrl(url);
+        openedSuccessfully = util::openUrl(url);
     }
 
     if (openedSuccessfully) {
@@ -339,7 +339,7 @@ void MainWindow::openTutorial()
     bool openedSuccessfully = false;
 
     if (dir.exists(filePath)) {
-        openedSuccessfully = Utilities::openUrl(url);
+        openedSuccessfully = util::openUrl(url);
     }
 
     if (openedSuccessfully) {
@@ -354,12 +354,12 @@ void MainWindow::openCalendarPuzzlesWebsite()
     QDir dir;
     QString filePath = dir.absolutePath().append(WEBSITE_ADDRESS_LOCATION);
 
-    if (Utilities::existsFile(filePath)) {
+    if (util::existsFile(filePath)) {
         QStringList address;
-        Utilities::readFile(address, filePath);
+        util::readFile(address, filePath);
 
         if (!address.empty()) {
-            if (Utilities::openUrl(QUrl(address.takeFirst()))) {
+            if (util::openUrl(QUrl(address.takeFirst()))) {
                 ITextToSpeech::instance().speak("Opening Calendar Puzzles website in web browser. Use your screen reader to read the website.");
             } else {
                 ITextToSpeech::instance().speak("Error, could not open Calendar Puzzles website.");

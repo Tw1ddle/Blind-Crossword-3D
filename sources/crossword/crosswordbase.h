@@ -26,8 +26,14 @@ class CrosswordBase {
   public:
     CrosswordBase();
 
+    //!
+    //! Converts from uivec3 (x,y,z) coordinate to a single number index into the crossword grid.
+    //!
     unsigned int toGridIndex(uivec3 index) const;
 
+    //!
+    //! Gets all the crossword entries who share a letter with the crossword entry identified by the supplied crossword entry id (day number)
+    //!
     std::vector<CrosswordEntry> getIntersectingCrosswordEntries(unsigned int crosswordEntryId) const;
     unsigned int removeIncorrectEntries();
 

@@ -4,7 +4,7 @@
 #include <QTextStream>
 #include <QDesktopServices>
 
-namespace Utilities {
+namespace util {
 bool readFile(QStringList& linelist, QString path)
 {
     QFile file(path);

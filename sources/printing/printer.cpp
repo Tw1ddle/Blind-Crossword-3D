@@ -78,7 +78,7 @@ QString Printer::getPostalAddress(const QString path) const
 
     QStringList postalAddressList;
 
-    Utilities::readFile(postalAddressList, path);
+    util::readFile(postalAddressList, path);
 
     if (!postalAddressList.isEmpty()) {
         postalAddress = postalAddressList.join(" ");

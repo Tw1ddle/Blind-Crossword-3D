@@ -7,7 +7,7 @@
 #include <QFile>
 #include <QUrl>
 
-namespace Utilities {
+namespace util {
 bool readFile(QStringList& linelist, QString path);
 
 bool writeToFile(QStringList& linelist, QFile& file);

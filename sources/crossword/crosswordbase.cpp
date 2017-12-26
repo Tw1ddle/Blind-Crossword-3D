@@ -14,18 +14,12 @@ CrosswordBase::CrosswordBase() : m_loaded(false), m_fileFormatVersion(0.0f)
 {
 }
 
-//!
-//! Converts from uivec3 (x,y,z) coordinate to a single number index into the crossword grid.
-//!
 unsigned int CrosswordBase::toGridIndex(uivec3 index) const
 {
     return index.getX() + getGrid().getDimensions().getX() * index.getY() +
            getGrid().getDimensions().getY() * getGrid().getDimensions().getX() * index.getZ();
 }
 
-//!
-//! Gets all the crossword entries who share a letter with the crossword entry identified by the supplied crossword entry id (day number)
-//!
 std::vector<CrosswordEntry> CrosswordBase::getIntersectingCrosswordEntries(
     unsigned int crosswordEntryId) const
 {
@@ -173,7 +167,7 @@ bool CrosswordBase::loadBackgroundImage(QString filename)
 
     QDir dir;
 
-    if (Utilities::existsFile(dir.absolutePath().append(path))) {
+    if (util::existsFile(dir.absolutePath().append(path))) {
         m_backgroundImage = QPixmap(dir.absolutePath().append(path));
 
         return true;

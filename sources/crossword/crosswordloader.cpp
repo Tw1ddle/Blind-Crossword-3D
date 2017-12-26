@@ -20,7 +20,7 @@ bool CrosswordLoader::loadPuzzle(CrosswordBase& puzzle, QString filePath, QStrin
 {
     QStringList linelist;
 
-    if (!Utilities::readFile(linelist, filePath)) {
+    if (!util::readFile(linelist, filePath)) {
         return false;
     }
 
@@ -78,17 +78,17 @@ bool CrosswordLoader::readInFile(CrosswordLoaderInterface& loader, CrosswordBase
     puzzle.clear();
 
     if (!loader.loadMetadata(puzzle, linelist)) {
-        emit(loaderError(tr("Loader error"), tr("Error loading crossword metadata")));
+        emit loaderError(tr("Loader error"), tr("Error loading crossword metadata"));
         return false;
     }
 
     if (!loader.loadGrid(puzzle, linelist)) {
-        emit(loaderError(tr("Loader error"), tr("Error loading crossword grid")));
+        emit loaderError(tr("Loader error"), tr("Error loading crossword grid"));
         return false;
     }
 
     if (!loader.loadClues(puzzle, linelist)) {
-        emit(loaderError(tr("Loader error"), tr("Error loading crossword clues")));
+        emit loaderError(tr("Loader error"), tr("Error loading crossword clues"));
         return false;
     }
 
@@ -101,21 +101,21 @@ bool CrosswordLoader::writeOutFile(CrosswordLoaderInterface& loader, CrosswordBa
     QStringList linelist;
 
     if (!loader.saveMetadata(puzzle, linelist)) {
-        emit(loaderError(tr("Loader error"), tr("Error saving crossword metadata")));
+        emit loaderError(tr("Loader error"), tr("Error saving crossword metadata") );
         return false;
     }
 
     if (!loader.saveGrid(puzzle, linelist)) {
-        emit(loaderError(tr("Loader error"), tr("Error saving crossword grid")));
+        emit loaderError(tr("Loader error"), tr("Error saving crossword grid"));
         return false;
     }
 
     if (!loader.saveClues(puzzle, linelist)) {
-        emit(loaderError(tr("Loader error"), tr("Error saving crossword clues")));
+        emit loaderError(tr("Loader error"), tr("Error saving crossword clues"));
         return false;
     }
 
-    return Utilities::writeToFile(linelist, file);
+    return util::writeToFile(linelist, file);
 }
 
 

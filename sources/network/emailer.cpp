@@ -92,7 +92,7 @@ QString Emailer::getEmailAddress(const QString path) const
     QStringList emailAddresses;
     QString emailAddress;
 
-    Utilities::readFile(emailAddresses, path);
+    util::readFile(emailAddresses, path);
 
     if (!emailAddresses.isEmpty()) {
         emailAddress = emailAddresses.takeFirst();
