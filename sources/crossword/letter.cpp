@@ -1,6 +1,6 @@
-#include "letter.h"
+#include "crossword/letter.h"
 
-Letter::Letter(QChar letter, uivec3 location)
+Letter::Letter(QChar letter, util::uivec3 location)
 {
     m_letter = letter;
     m_location = location;
@@ -16,7 +16,7 @@ void Letter::setChar(QChar letter)
     m_letter = letter;
 }
 
-uivec3 Letter::getLocation() const
+util::uivec3 Letter::getLocation() const
 {
     return m_location;
 }

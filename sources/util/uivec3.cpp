@@ -1,55 +1,59 @@
-#include "uivec3.h"
+#include "util/uivec3.h"
+
+namespace util {
 
 uivec3::uivec3()
 {
-    this->x = 0u;
-    this->y = 0u;
-    this->z = 0u;
+    this->m_x = 0u;
+    this->m_y = 0u;
+    this->m_z = 0u;
 }
 
 uivec3::uivec3(unsigned int x, unsigned int y, unsigned int z)
 {
-    this->x = x;
-    this->y = y;
-    this->z = z;
+    this->m_x = x;
+    this->m_y = y;
+    this->m_z = z;
 }
 
 unsigned int uivec3::getX() const
 {
-    return x;
+    return m_x;
 }
 
 unsigned int uivec3::getY() const
 {
-    return y;
+    return m_y;
 }
 
 unsigned int uivec3::getZ() const
 {
-    return z;
+    return m_z;
 }
 
 void uivec3::setX(unsigned int x)
 {
-    this->x = x;
+    this->m_x = x;
 }
 
 void uivec3::setY(unsigned int y)
 {
-    this->y = y;
+    this->m_y = y;
 }
 
 void uivec3::setZ(unsigned int z)
 {
-    this->z = z;
+    this->m_z = z;
 }
 
 uivec3 uivec3::operator -(const uivec3& vec) const
 {
-    return uivec3(this->x - vec.x, this->y - vec.y, this->z - vec.z);
+    return uivec3(this->m_x - vec.m_x, this->m_y - vec.m_y, this->m_z - vec.m_z);
 }
 
 bool uivec3::operator ==(const uivec3& vec) const
 {
-    return (x == vec.getX() && y == vec.y && z == vec.z);
+    return (m_x == vec.getX() && m_y == vec.m_y && m_z == vec.m_z);
+}
+
 }

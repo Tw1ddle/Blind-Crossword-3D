@@ -1,4 +1,4 @@
-#include "crosswordentrytablemodel.h"
+#include "dialog/crosswordentrytablemodel.h"
 
 #include <cassert>
 

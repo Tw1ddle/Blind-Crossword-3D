@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include "itexttospeech.h"
+#include "tts/itexttospeech.h"
 
 #include <QString>
 #include <QStringList>

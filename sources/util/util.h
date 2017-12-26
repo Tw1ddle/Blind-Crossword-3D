@@ -3,16 +3,18 @@
 
 #pragma once
 
-#include <QStringList>
 #include <QFile>
+#include <QStringList>
 #include <QUrl>
 
 namespace util {
+
 bool readFile(QStringList& linelist, QString path);
 
-bool writeToFile(QStringList& linelist, QFile& file);
+bool writeFile(QStringList& linelist, QFile& file);
 
-bool existsFile(QString path);
+bool fileExists(QString path);
 
 bool openUrl(QUrl url);
+
 }

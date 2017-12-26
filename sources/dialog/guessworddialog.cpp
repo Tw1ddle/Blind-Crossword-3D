@@ -1,4 +1,4 @@
-#include "guessworddialog.h"
+#include "dialog/guessworddialog.h"
 
 #include <QLineEdit>
 #include <QShortcut>

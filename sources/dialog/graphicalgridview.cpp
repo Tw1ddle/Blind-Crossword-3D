@@ -1,9 +1,9 @@
-#include "graphicalgridview.h"
+#include "dialog/graphicalgridview.h"
 
-#include <QResizeEvent>
-#include <QTimeLine>
 #include <QPrinter>
 #include <QPrintDialog>
+#include <QResizeEvent>
+#include <QTimeLine>
 
 #include "shortcutkeys.h"
 

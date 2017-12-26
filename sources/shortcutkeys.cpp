@@ -3,6 +3,7 @@
 #include <QKeyEvent>
 
 namespace ShortcutKeys {
+
 // General app navigation controls
 const QChar exitShortcutKey = Qt::Key_Q; //Quit
 const QChar loadShortcutKey = Qt::Key_L; // Load
@@ -47,5 +48,6 @@ const QChar readLastSpokenPhraseKey = Qt::Key_R; // Repeat
 
 const QChar sortEntriesKey = Qt::Key_1;
 const QChar filterTableViewShortcutKey = Qt::Key_2;
+
 }
 

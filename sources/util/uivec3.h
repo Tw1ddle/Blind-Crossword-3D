@@ -3,6 +3,8 @@
 
 #pragma once
 
+namespace util {
+
 class uivec3 {
   public:
     uivec3(unsigned int x, unsigned int y, unsigned int z);
@@ -19,7 +21,9 @@ class uivec3 {
     bool operator==(const uivec3& vec) const;
 
   private:
-    unsigned int x;
-    unsigned int y;
-    unsigned int z;
+    unsigned int m_x;
+    unsigned int m_y;
+    unsigned int m_z;
 };
+
+}

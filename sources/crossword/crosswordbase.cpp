@@ -1,20 +1,19 @@
-#include "crosswordbase.h"
+#include "crossword/crosswordbase.h"
 
 #include <cassert>
 
-#include <QMessageBox>
-#include <QDir>
 #include <QColor>
+#include <QDir>
+#include <QMessageBox>
 
-#include "util/utilities.h"
-#include "crosswordstatus.h"
-
+#include "crossword/crosswordstatus.h"
+#include "util/util.h"
 
 CrosswordBase::CrosswordBase() : m_loaded(false), m_fileFormatVersion(0.0f)
 {
 }
 
-unsigned int CrosswordBase::toGridIndex(uivec3 index) const
+unsigned int CrosswordBase::toGridIndex(util::uivec3 index) const
 {
     return index.getX() + getGrid().getDimensions().getX() * index.getY() +
            getGrid().getDimensions().getY() * getGrid().getDimensions().getX() * index.getZ();
@@ -36,7 +35,7 @@ std::vector<CrosswordEntry> CrosswordBase::getIntersectingCrosswordEntries(
     return entries;
 }
 
-void CrosswordBase::setDimensions(uivec3 dimensions)
+void CrosswordBase::setDimensions(util::uivec3 dimensions)
 {
     m_grid.setDimensions(dimensions);
 }
@@ -61,7 +60,7 @@ const QPixmap& CrosswordBase::getBackgroundImage() const
     return m_backgroundImage;
 }
 
-const std::vector<std::pair<uivec3, QString> >& CrosswordBase::getHighlights() const
+const std::vector<std::pair<util::uivec3, QString> >& CrosswordBase::getHighlights() const
 {
     return m_highlights;
 }
@@ -167,7 +166,7 @@ bool CrosswordBase::loadBackgroundImage(QString filename)
 
     QDir dir;
 
-    if (util::existsFile(dir.absolutePath().append(path))) {
+    if (util::fileExists(dir.absolutePath().append(path))) {
         m_backgroundImage = QPixmap(dir.absolutePath().append(path));
 
         return true;

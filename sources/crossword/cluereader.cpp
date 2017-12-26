@@ -1,4 +1,4 @@
-#include "cluereader.h"
+#include "crossword/cluereader.h"
 
 //!
 //! Assigns the character index of the text to begin at, and the separator used to break the text into pieces.

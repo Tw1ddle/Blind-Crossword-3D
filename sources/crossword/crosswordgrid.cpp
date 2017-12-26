@@ -1,15 +1,15 @@
-#include "crosswordgrid.h"
+#include "crossword/crosswordgrid.h"
 
 GridData::GridData()
 {
 }
 
-uivec3 GridData::getDimensions() const
+util::uivec3 GridData::getDimensions() const
 {
     return m_gridDimensions;
 }
 
-void GridData::setDimensions(uivec3 dimensions)
+void GridData::setDimensions(util::uivec3 dimensions)
 {
     m_gridDimensions = dimensions;
 }
@@ -32,7 +32,7 @@ const Letter* GridData::getLetterAt(unsigned int index) const
 void GridData::clear()
 {
     m_letters.clear();
-    m_gridDimensions = uivec3(0u, 0u, 0u);
+    m_gridDimensions = util::uivec3(0u, 0u, 0u);
 }
 
 std::size_t GridData::getSize() const

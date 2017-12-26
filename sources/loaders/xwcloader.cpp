@@ -1,4 +1,4 @@
-#include "xwcloader.h"
+#include "loaders/xwcloader.h"
 
 bool XWCLoader::loadMetadata(CrosswordBase& puzzle, QStringList& linelist)
 {
@@ -14,7 +14,7 @@ bool XWCLoader::loadMetadata(CrosswordBase& puzzle, QStringList& linelist)
 
     unsigned int gridY = linelist.takeFirst().toUInt();
     unsigned int gridX = linelist.takeFirst().toUInt();
-    puzzle.setDimensions(uivec3(gridX, gridY, 1));
+    puzzle.setDimensions(util::uivec3(gridX, gridY, 1));
 
     if (gridY <= 0 || gridX <= 0) {
         return false;
@@ -33,9 +33,9 @@ bool XWCLoader::loadGrid(CrosswordBase& puzzle, QStringList& linelist)
 
         for (unsigned int ch = 0; ch < gridY; ch++) {
             if (currentLine.at(ch) == '1') {
-                puzzle.getRefGrid().push_back(Letter(QChar(), uivec3(ch, x, 0)));
+                puzzle.getRefGrid().push_back(Letter(QChar(), util::uivec3(ch, x, 0)));
             } else {
-                puzzle.getRefGrid().push_back(Letter(QChar(Qt::Key_Period), uivec3(ch, x, 0)));
+                puzzle.getRefGrid().push_back(Letter(QChar(Qt::Key_Period), util::uivec3(ch, x, 0)));
             }
         }
     }
@@ -81,7 +81,7 @@ bool XWCLoader::loadAcrossClues(CrosswordBase& puzzle, QStringList& linelist)
             return false;
         }
 
-        uivec3 startingPosition(posX, posY, 0);
+        util::uivec3 startingPosition(posX, posY, 0);
 
         unsigned int length = list.takeFirst().toUInt();
 
@@ -90,7 +90,7 @@ bool XWCLoader::loadAcrossClues(CrosswordBase& puzzle, QStringList& linelist)
 
         for (unsigned int j = 0; j < length; j++) {
             QChar letterChar = wordString.at(j);
-            uivec3 letterPosition = startingPosition;
+            util::uivec3 letterPosition = startingPosition;
             letterPosition.setX(letterPosition.getX() + j);
 
             letters.push_back(puzzle.getRefGrid().getRefLetterAt(puzzle.toGridIndex(letterPosition)));
@@ -137,7 +137,7 @@ bool XWCLoader::loadAwayClues(CrosswordBase& puzzle, QStringList& linelist)
 
         unsigned int posY = list.takeFirst().toUInt() - 1;
         unsigned int posX = list.takeFirst().toUInt() - 1;
-        uivec3 startingPosition(posX, posY, 0);
+        util::uivec3 startingPosition(posX, posY, 0);
 
         unsigned int length = list.takeFirst().toUInt();
 
@@ -146,7 +146,7 @@ bool XWCLoader::loadAwayClues(CrosswordBase& puzzle, QStringList& linelist)
 
         for (unsigned int j = 0; j < length; j++) {
             QChar letterChar = wordString.at(j);
-            uivec3 letterPosition = startingPosition;
+            util::uivec3 letterPosition = startingPosition;
             letterPosition.setY(letterPosition.getY() + j);
 
             letters.push_back(puzzle.getRefGrid().getRefLetterAt(puzzle.toGridIndex(letterPosition)));

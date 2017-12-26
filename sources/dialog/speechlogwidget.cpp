@@ -1,4 +1,4 @@
-#include "speechlogwidget.h"
+#include "dialog/speechlogwidget.h"
 
 #include "tts/itexttospeech.h"
 

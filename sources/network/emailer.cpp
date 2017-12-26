@@ -1,12 +1,12 @@
-#include "emailer.h"
+#include "network/emailer.h"
 
-#include <QString>
-#include <QDir>
-#include <QUrl>
 #include <QDesktopServices>
+#include <QDir>
+#include <QString>
+#include <QUrl>
 
-#include "util/utilities.h"
 #include "crossword/crosswordbase.h"
+#include "util/util.h"
 #include "version/version.h"
 
 const QString Emailer::FEEDBACK_EMAIL_ADDRESS_LOCATION =

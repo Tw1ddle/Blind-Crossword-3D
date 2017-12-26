@@ -1,16 +1,16 @@
-#include "crosswordloader.h"
-#include "crosswordbase.h"
+#include "crossword/crosswordloader.h"
 
 #include <cassert>
 
 #include <QFile>
-#include <QTextStream>
-#include <QStringList>
 #include <QString>
+#include <QStringList>
+#include <QTextStream>
 
+#include "crossword/crosswordbase.h"
 #include "loaders/xwcloader.h"
 #include "loaders/xwc3dloader.h"
-#include "util/utilities.h"
+#include "util/util.h"
 
 CrosswordLoader::CrosswordLoader()
 {
@@ -115,7 +115,7 @@ bool CrosswordLoader::writeOutFile(CrosswordLoaderInterface& loader, CrosswordBa
         return false;
     }
 
-    return util::writeToFile(linelist, file);
+    return util::writeFile(linelist, file);
 }
 
 

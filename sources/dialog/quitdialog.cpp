@@ -1,8 +1,8 @@
-#include "quitdialog.h"
+#include "dialog/quitdialog.h"
 
+#include <QLabel>
 #include <QShortcut>
 #include <QVBoxLayout>
-#include <QLabel>
 
 #include "shortcutkeys.h"
 #include "version/version.h"

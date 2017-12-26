@@ -1,23 +1,24 @@
-#include "mainwindow.h"
+#include "dialog/mainwindow.h"
+
 #include "ui_mainwindow.h"
 
-#include <QShortcut>
 #include <QCloseEvent>
-#include <QUrl>
+#include <QShortcut>
 #include <QSortFilterProxyModel>
+#include <QUrl>
 
-#include "version/version.h"
-#include "crossword/crosswordbase.h"
-#include "dialog/graphicalgridscene.h"
-#include "dialog/crosswordentrytablemodel.h"
 #include "shortcutkeys.h"
-#include "dialog/quitdialog.h"
-#include "dialog/filedialog.h"
-#include "tts/itexttospeech.h"
 #include "crossword/cluereader.h"
+#include "crossword/crosswordbase.h"
+#include "dialog/crosswordentrytablemodel.h"
+#include "dialog/filedialog.h"
+#include "dialog/graphicalgridscene.h"
+#include "dialog/quitdialog.h"
 #include "network/emailer.h"
 #include "printing/printer.h"
-#include "util/utilities.h"
+#include "tts/itexttospeech.h"
+#include "util/util.h"
+#include "version/version.h"
 
 // TODO ensure this is created and scanned when loading crosswords in future
 const QString MainWindow::DEFAULT_SAVE_FOLDER = QString("/saved_crosswords");
@@ -354,7 +355,7 @@ void MainWindow::openCalendarPuzzlesWebsite()
     QDir dir;
     QString filePath = dir.absolutePath().append(WEBSITE_ADDRESS_LOCATION);
 
-    if (util::existsFile(filePath)) {
+    if (util::fileExists(filePath)) {
         QStringList address;
         util::readFile(address, filePath);
 

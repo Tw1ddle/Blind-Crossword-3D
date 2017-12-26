@@ -6,6 +6,7 @@
 #include <QChar>
 
 namespace ShortcutKeys {
+
 extern const QChar exitShortcutKey;
 extern const QChar loadShortcutKey;
 extern const QChar saveShortcutKey;
@@ -46,4 +47,5 @@ extern const QChar zoomOutKey;
 extern const QChar cycleViewVisibilityKey;
 
 extern const QString tableNavigationKeys;
+
 }

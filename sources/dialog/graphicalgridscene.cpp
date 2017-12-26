@@ -1,15 +1,15 @@
-#include "graphicalgridscene.h"
+#include "dialog/graphicalgridscene.h"
 
 #include <cassert>
 
 #include <QGraphicsItem>
 #include <QGraphicsView>
+#include <QMatrix4x4>
 #include <QPainter>
 #include <QVector3D>
-#include <QMatrix4x4>
 
-#include "dialog/graphicalgriditem.h"
 #include "crossword/crosswordgrid.h"
+#include "dialog/graphicalgriditem.h"
 
 GraphicalGridScene::GraphicalGridScene(const CrosswordBase& puzzle) :
     QGraphicsScene(), m_refPuzzle(puzzle), m_refGrid(puzzle.getGrid()),
@@ -23,7 +23,7 @@ void GraphicalGridScene::drawBackground(QPainter* painter, const QRectF& rect)
                                                           m_refBackgroundImage.height()));
 }
 
-void GraphicalGridScene::build2DDisc(unsigned int xDim, unsigned int yDim, uivec3 offset,
+void GraphicalGridScene::build2DDisc(unsigned int xDim, unsigned int yDim, util::uivec3 offset,
                                      unsigned int discNumber)
 {
     QGraphicsItemGroup* disc = new QGraphicsItemGroup();
@@ -33,7 +33,7 @@ void GraphicalGridScene::build2DDisc(unsigned int xDim, unsigned int yDim, uivec
                   2.5; // magic number is for making the spacing of the rings better
 
         for (unsigned int x = 0; x < xDim; x++) {
-            uivec3 index = uivec3(x, y, discNumber);
+            util::uivec3 index = util::uivec3(x, y, discNumber);
             const Letter* letter = m_refGrid.getLetterAt(m_refPuzzle.toGridIndex(index));
             GraphicalGridItem* item = new GraphicalGridItem(letter, discNumber);
 
@@ -54,14 +54,14 @@ void GraphicalGridScene::build2DDisc(unsigned int xDim, unsigned int yDim, uivec
     addItem(disc);
 }
 
-void GraphicalGridScene::build2DGrid(unsigned int xDim, unsigned int yDim, uivec3 offset,
+void GraphicalGridScene::build2DGrid(unsigned int xDim, unsigned int yDim, util::uivec3 offset,
                                      unsigned int gridNumber)
 {
     QGraphicsItemGroup* grid = new QGraphicsItemGroup();
 
     for (unsigned int y = 0; y < yDim; y++) {
         for (unsigned int x = 0; x < xDim; x++) {
-            uivec3 index = uivec3(x, y, gridNumber);
+            util::uivec3 index = util::uivec3(x, y, gridNumber);
             const Letter* letter = m_refGrid.getLetterAt(m_refPuzzle.toGridIndex(index));
             GraphicalGridItem* item = new GraphicalGridItem(letter, gridNumber);
             item->setPos(QPointF(x * GraphicalGridItem::SIZE + offset.getX(),
@@ -84,10 +84,10 @@ void GraphicalGridScene::updateGrid()
     }
 
     // set the highlights
-    std::vector<std::pair<uivec3, QString> > highlights = m_refPuzzle.getHighlights();
+    std::vector<std::pair<util::uivec3, QString> > highlights = m_refPuzzle.getHighlights();
 
     for (unsigned int j = 0; j < highlights.size(); j++) {
-        uivec3 index = m_refPuzzle.getHighlights().at(j).first;
+        util::uivec3 index = m_refPuzzle.getHighlights().at(j).first;
         GraphicalGridItem* item = m_graphicsGridItems.at(m_refPuzzle.toGridIndex(
                                                              index)); // only works while the only graphic items are graphic grid items
         item->setColor(m_refPuzzle.getHighlights().at(j).second);
@@ -99,7 +99,7 @@ void GraphicalGridScene::highlightSelection(CrosswordEntry selectedCrosswordEntr
     for (unsigned int i = 0; i < m_savedColours.size(); i++) {
         assert(m_savedColours.size() == m_selectedGridLocations.size());
 
-        uivec3 index = m_selectedGridLocations.at(i);
+        util::uivec3 index = m_selectedGridLocations.at(i);
         GraphicalGridItem* item = m_graphicsGridItems.at(m_refPuzzle.toGridIndex(index));
         item->setColor(m_savedColours.at(i));
     }
@@ -109,13 +109,13 @@ void GraphicalGridScene::highlightSelection(CrosswordEntry selectedCrosswordEntr
 
 
     for (unsigned int i = 0; i < m_selectedGridLocations.size(); i++) {
-        uivec3 index = m_selectedGridLocations.at(i);
+        util::uivec3 index = m_selectedGridLocations.at(i);
         GraphicalGridItem* item = m_graphicsGridItems.at(m_refPuzzle.toGridIndex(index));
         m_savedColours.push_back(item->getColor());
     }
 
     for (unsigned int i = 0; i < m_selectedGridLocations.size(); i++) {
-        uivec3 index = m_selectedGridLocations.at(i);
+        util::uivec3 index = m_selectedGridLocations.at(i);
         GraphicalGridItem* item = m_graphicsGridItems.at(m_refPuzzle.toGridIndex(index));
         item->setColor(Qt::cyan);
     }
@@ -131,23 +131,23 @@ void GraphicalGridScene::buildPuzzleGrid()
     for (unsigned int z = 0; z < m_refGrid.getDimensions().getZ(); z++) {
         if (m_refPuzzle.getFormat() == fileformat::XWC3D || m_refPuzzle.getFormat() == fileformat::XWC) {
             build2DGrid(m_refGrid.getDimensions().getX(), m_refGrid.getDimensions().getY(),
-                        uivec3(z * (m_refGrid.getDimensions().getX() + 1) * GraphicalGridItem::SIZE, 0, 0), z);
+                        util::uivec3(z * (m_refGrid.getDimensions().getX() + 1) * GraphicalGridItem::SIZE, 0, 0), z);
         } else if (m_refPuzzle.getFormat() == fileformat::XWCR3D) {
             build2DDisc(m_refGrid.getDimensions().getX(), m_refGrid.getDimensions().getY(),
-                        uivec3(z * (m_refGrid.getDimensions().getX() + 1) * GraphicalGridItem::SIZE, 0, 0), z);
+                        util::uivec3(z * (m_refGrid.getDimensions().getX() + 1) * GraphicalGridItem::SIZE, 0, 0), z);
         }
     }
 
     for (unsigned int j = 0; j < m_refPuzzle.getHighlights().size(); j++) {
-        uivec3 index = m_refPuzzle.getHighlights().at(j).first;
+        util::uivec3 index = m_refPuzzle.getHighlights().at(j).first;
         GraphicalGridItem* item = m_graphicsGridItems.at(m_refPuzzle.toGridIndex(index));
         item->setColor(m_refPuzzle.getHighlights().at(j).second);
     }
 
     // set the numbers on the grid
     for (unsigned int k = 0; k < m_refCrosswordEntries.size(); k++) {
-        std::vector<std::pair<unsigned int, uivec3> > entryPairs = m_refCrosswordEntries.at(
-                                                                       k).getWordEntryStartingPositionPairs();
+        std::vector<std::pair<unsigned int, util::uivec3> > entryPairs = m_refCrosswordEntries.at(
+                                                                             k).getWordEntryStartingPositionPairs();
 
         for (unsigned int l = 0; l < entryPairs.size(); l++) {
             GraphicalGridItem* item = m_graphicsGridItems.at(m_refPuzzle.toGridIndex(entryPairs.at(l).second));

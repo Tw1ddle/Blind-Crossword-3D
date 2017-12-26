@@ -10,14 +10,14 @@
 
 class Letter {
   public:
-    Letter(QChar letter, uivec3 location);
+    Letter(QChar letter, util::uivec3 location);
 
     void setChar(QChar letter);
     QChar getChar() const;
-    uivec3 getLocation() const;
+    util::uivec3 getLocation() const;
     bool operator==(const Letter& letter) const;
 
   private:
     QChar m_letter;
-    uivec3 m_location;
+    util::uivec3 m_location;
 };

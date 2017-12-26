@@ -1,10 +1,11 @@
-#include "utilities.h"
+#include "util/util.h"
 
 #include <QFile>
 #include <QTextStream>
 #include <QDesktopServices>
 
 namespace util {
+
 bool readFile(QStringList& linelist, QString path)
 {
     QFile file(path);
@@ -23,7 +24,7 @@ bool readFile(QStringList& linelist, QString path)
     do {
         currentLine = in.readLine();
 
-        if (currentLine.length() != 0) { //skips empty lines
+        if (currentLine.length() != 0) { // Skip empty lines
             linelist << currentLine;
         }
     } while (!currentLine.isNull());
@@ -31,18 +32,7 @@ bool readFile(QStringList& linelist, QString path)
     return true;
 }
 
-bool existsFile(QString path)
-{
-    QFile file(path);
-
-    if (!file.exists()) {
-        return false;
-    }
-
-    return true;
-}
-
-bool writeToFile(QStringList& linelist, QFile& file)
+bool writeFile(QStringList& linelist, QFile& file)
 {
     QTextStream out(&file);
 
@@ -58,8 +48,14 @@ bool writeToFile(QStringList& linelist, QFile& file)
     return false;
 }
 
+bool fileExists(QString path)
+{
+    return QFile(path).exists();
+}
+
 bool openUrl(QUrl url)
 {
     return QDesktopServices::openUrl(url);
 }
+
 }

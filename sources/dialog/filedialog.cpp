@@ -1,8 +1,8 @@
-#include "filedialog.h"
+#include "dialog/filedialog.h"
 
+#include <QBoxLayout>
 #include <QFileInfo>
 #include <QListView>
-#include <QBoxLayout>
 
 #include "tts/itexttospeech.h"
 

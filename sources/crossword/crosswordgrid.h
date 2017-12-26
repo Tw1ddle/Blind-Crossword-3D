@@ -19,10 +19,10 @@ class GridData {
     std::size_t getSize() const;
     void clear();
 
-    uivec3 getDimensions() const;
-    void setDimensions(uivec3 dimensions);
+    util::uivec3 getDimensions() const;
+    void setDimensions(util::uivec3 dimensions);
 
   private:
-    uivec3 m_gridDimensions;
+    util::uivec3 m_gridDimensions;
     std::vector<Letter> m_letters;
 };

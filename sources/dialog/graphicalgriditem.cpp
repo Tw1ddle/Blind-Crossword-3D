@@ -1,4 +1,4 @@
-#include "graphicalgriditem.h"
+#include "dialog/graphicalgriditem.h"
 
 #include <QFont>
 #include <QPainter>

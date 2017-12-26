@@ -16,7 +16,7 @@ class Word {
     Word();
     Word(std::vector<Letter*> word);
 
-    std::vector<uivec3> getPositions() const;
+    std::vector<util::uivec3> getPositions() const;
     QString getString() const;
     std::size_t getLength() const;
     bool containsLetter(Letter* letter) const; // compares pointers

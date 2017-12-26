@@ -22,8 +22,8 @@
 
 #include <QMainWindow>
 
-#include "crossword/crosswordloader.h"
 #include "crossword/crosswordbase.h"
+#include "crossword/crosswordloader.h"
 #include "dialog/speechlogwidget.h"
 
 class GraphicalGridScene;

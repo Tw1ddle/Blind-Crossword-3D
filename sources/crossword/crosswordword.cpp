@@ -1,4 +1,4 @@
-#include "crosswordword.h"
+#include "crossword/crosswordword.h"
 
 #include <cassert>
 
@@ -47,9 +47,9 @@ void Word::setString(QString string)
     }
 }
 
-std::vector<uivec3> Word::getPositions() const
+std::vector<util::uivec3> Word::getPositions() const
 {
-    std::vector<uivec3> positions;
+    std::vector<util::uivec3> positions;
 
     for (unsigned int i = 0; i < getLength(); i++) {
         positions.push_back(m_word.at(i)->getLocation());

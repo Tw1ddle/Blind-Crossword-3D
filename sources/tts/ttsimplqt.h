@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include "ttsbase.h"
+#include "tts/ttsbase.h"
 
 #include <QTextToSpeech>
 

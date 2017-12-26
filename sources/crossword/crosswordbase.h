@@ -30,7 +30,7 @@ class CrosswordBase {
     //!
     //! Converts from uivec3 (x,y,z) coordinate to a single number index into the crossword grid.
     //!
-    unsigned int toGridIndex(uivec3 index) const;
+    unsigned int toGridIndex(util::uivec3 index) const;
 
     //!
     //! Gets all the crossword entries who share a letter with the crossword entry identified by the supplied crossword entry id (day number)
@@ -48,13 +48,13 @@ class CrosswordBase {
     const GridData& getGrid() const;
     const std::vector<CrosswordEntry>& getEntries() const;
     const QPixmap& getBackgroundImage() const;
-    const std::vector<std::pair<uivec3, QString> >& getHighlights() const;
+    const std::vector<std::pair<util::uivec3, QString> >& getHighlights() const;
 
     std::vector<CrosswordEntry>& getRefEntries();
 
   protected:
     GridData& getRefGrid();
-    void setDimensions(uivec3 dimensions);
+    void setDimensions(util::uivec3 dimensions);
 
   private:
     void clear();
@@ -64,7 +64,7 @@ class CrosswordBase {
     QString m_title;
     QString m_authors;
     QString m_type;
-    std::vector<std::pair<uivec3, QString> >
+    std::vector<std::pair<util::uivec3, QString> >
     m_highlights; //! Uses the W3 SVG colour scheme, see: http://www.w3.org/TR/SVG/types.html#ColorKeywords
     QString m_notes;
 

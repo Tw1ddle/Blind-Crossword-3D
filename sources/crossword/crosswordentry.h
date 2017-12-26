@@ -23,11 +23,11 @@ class CrosswordEntry {
     QString getClue() const;
     QString getSolutionComponentLengths() const;
 
-    uivec3 getStartingPosition() const;
-    std::vector<uivec3> getEntryPositions() const;
+    util::uivec3 getStartingPosition() const;
+    std::vector<util::uivec3> getEntryPositions() const;
     QString getEntryPositionsString() const;
 
-    std::vector<std::pair<unsigned int, uivec3> > getWordEntryStartingPositionPairs() const;
+    std::vector<std::pair<unsigned int, util::uivec3> > getWordEntryStartingPositionPairs() const;
 
     bool isGuessCorrect() const;
 

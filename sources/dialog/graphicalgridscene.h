@@ -33,8 +33,10 @@ class GraphicalGridScene : public QGraphicsScene {
     void drawBackground(QPainter* painter, const QRectF& rect);
 
   private:
-    void build2DDisc(unsigned int xDim, unsigned int yDim, uivec3 offset, unsigned int discNumber);
-    void build2DGrid(unsigned int xDim, unsigned int yDim, uivec3 offset, unsigned int gridNumber);
+    void build2DDisc(unsigned int xDim, unsigned int yDim, util::uivec3 offset,
+                     unsigned int discNumber);
+    void build2DGrid(unsigned int xDim, unsigned int yDim, util::uivec3 offset,
+                     unsigned int gridNumber);
 
     const CrosswordBase& m_refPuzzle;
     const GridData& m_refGrid;
@@ -43,6 +45,6 @@ class GraphicalGridScene : public QGraphicsScene {
 
     std::vector<GraphicalGridItem*> m_graphicsGridItems;
 
-    std::vector<uivec3> m_selectedGridLocations;
+    std::vector<util::uivec3> m_selectedGridLocations;
     std::vector<QColor> m_savedColours;
 };

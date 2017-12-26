@@ -1,8 +1,8 @@
-#include "crosswordentry.h"
+#include "crossword/crosswordentry.h"
+
+#include <cassert>
 
 #include <QStringList>
-
-#include <assert.h>
 
 CrosswordEntry::CrosswordEntry(QString direction, QString identifier, QString entry,
                                QString solution, Word guess, std::vector<unsigned int> wordComponentLengths, QString clue,
@@ -18,14 +18,14 @@ CrosswordEntry::CrosswordEntry(QString direction, QString identifier, QString en
     m_entryIndices = entryIndices;
 }
 
-uivec3 CrosswordEntry::getStartingPosition() const
+util::uivec3 CrosswordEntry::getStartingPosition() const
 {
     return m_guess.getPositions().at(0);
 }
 
-std::vector<uivec3> CrosswordEntry::getEntryPositions() const
+std::vector<util::uivec3> CrosswordEntry::getEntryPositions() const
 {
-    std::vector<uivec3> entryPositions;
+    std::vector<util::uivec3> entryPositions;
 
     if (m_entryIndices.empty()) {
         entryPositions.push_back(m_guess.getPositions().at(0));
@@ -124,10 +124,11 @@ QString CrosswordEntry::getEntry() const
     return m_entryString;
 }
 
-std::vector<std::pair<unsigned int, uivec3> > CrosswordEntry::getWordEntryStartingPositionPairs()
+std::vector<std::pair<unsigned int, util::uivec3> >
+CrosswordEntry::getWordEntryStartingPositionPairs()
 const
 {
-    std::vector<std::pair<unsigned int, uivec3> > pairs;
+    std::vector<std::pair<unsigned int, util::uivec3> > pairs;
 
     QStringList entries = m_entryString.split(" ", QString::SkipEmptyParts);
     std::vector<unsigned int> entryNumbers;
@@ -144,7 +145,8 @@ const
     if (getEntryPositions().size() ==
             entryNumbers.size()) { // this should only ever be the case if we have a line like "Stage 2 Anagram" as the entry name
         for (unsigned int k = 0; k < entryNumbers.size(); k++) {
-            pairs.push_back(std::pair<unsigned int, uivec3>(entryNumbers.at(k), getEntryPositions().at(k)));
+            pairs.push_back(std::pair<unsigned int, util::uivec3>(entryNumbers.at(k),
+                                                                  getEntryPositions().at(k)));
         }
     }
 

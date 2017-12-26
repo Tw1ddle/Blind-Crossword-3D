@@ -1,12 +1,12 @@
-#include "printer.h"
+#include "printing/printer.h"
 
-#include <QStringList>
 #include <QDir>
-#include <QPrinter>
 #include <QPrintDialog>
+#include <QPrinter>
+#include <QStringList>
 #include <QTextEdit>
 
-#include "util/utilities.h"
+#include "util/util.h"
 
 const QString Printer::POSTAL_ADDRESS_LOCATION = QString("/Config/postal_address.txt");
 
