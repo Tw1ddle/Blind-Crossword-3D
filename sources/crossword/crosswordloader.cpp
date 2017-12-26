@@ -26,12 +26,12 @@ bool CrosswordLoader::loadPuzzle(CrosswordBase& puzzle, QString filePath, QStrin
 
     puzzle.clear();
 
-    if (extension == FileFormats::XWC3D || extension == FileFormats::XWCR3D) {
+    if (extension == fileformat::XWC3D || extension == fileformat::XWCR3D) {
         XWC3DLoader loader;
         puzzle.m_loaded = readInFile(loader, puzzle, linelist);
     }
 
-    else if (extension == FileFormats::XWC) {
+    else if (extension == fileformat::XWC) {
         XWCLoader loader;
         puzzle.m_loaded = readInFile(loader, puzzle, linelist);
     }
@@ -50,8 +50,8 @@ bool CrosswordLoader::savePuzzle(CrosswordBase& puzzle, QString filePath, QStrin
         return false;
     }
 
-    if (puzzle.getRefGrid().getDimensions().getZ() > 1 && (extension != FileFormats::XWC3D &&
-                                                           extension != FileFormats::XWCR3D)) {
+    if (puzzle.getRefGrid().getDimensions().getZ() > 1 && (extension != fileformat::XWC3D &&
+                                                           extension != fileformat::XWCR3D)) {
         return false;
     }
 
@@ -61,10 +61,10 @@ bool CrosswordLoader::savePuzzle(CrosswordBase& puzzle, QString filePath, QStrin
         return false;
     }
 
-    if (extension == FileFormats::XWC3D || extension == FileFormats::XWCR3D) {
+    if (extension == fileformat::XWC3D || extension == fileformat::XWCR3D) {
         XWC3DLoader loader;
         return writeOutFile(loader, puzzle, file);
-    } else if (extension == FileFormats::XWC) {
+    } else if (extension == fileformat::XWC) {
         XWCLoader loader;
         return writeOutFile(loader, puzzle, file);
     }

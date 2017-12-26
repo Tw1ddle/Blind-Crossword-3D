@@ -3,8 +3,8 @@
 
 #pragma once
 
-#include <QTableView>
 #include <QModelIndex>
+#include <QTableView>
 
 class CrosswordEntryTableViewController : public QTableView {
     Q_OBJECT

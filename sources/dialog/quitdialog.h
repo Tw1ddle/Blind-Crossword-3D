@@ -12,7 +12,6 @@ class QuitDialog : public QDialog {
 
     QString getTitleString() const;
     QString getBodyString() const;
-
     QString getAcceptedText() const;
     QString getRejectedText() const;
     

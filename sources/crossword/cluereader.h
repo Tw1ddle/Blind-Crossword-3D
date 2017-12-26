@@ -6,9 +6,8 @@
 
 #include <QObject>
 #include <QString>
-#include <QStringList>
 
-#include "crosswordentry.h"
+#include "crossword/crosswordentry.h"
 
 class ClueReader : public QObject {
     Q_OBJECT

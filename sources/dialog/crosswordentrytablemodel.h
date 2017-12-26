@@ -5,9 +5,9 @@
 #pragma once
 
 #include <QAbstractTableModel>
-#include <QString>
-#include <QModelIndex>
 #include <QItemSelection>
+#include <QModelIndex>
+#include <QString>
 
 #include "crossword/crosswordbase.h"
 #include "crossword/crosswordentry.h"

@@ -4,9 +4,9 @@
 
 #pragma once
 
-#include <QListView>
-#include <QFileSystemModel>
 #include <QDialog>
+#include <QFileSystemModel>
+#include <QListView>
 
 class FileListView : public QListView {
   public:

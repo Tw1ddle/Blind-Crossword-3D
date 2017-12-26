@@ -8,7 +8,7 @@ bool XWC3DLoader::loadMetadata(CrosswordBase& puzzle, QStringList& linelist)
     puzzle.m_fileFormat = linelist.takeFirst();
     puzzle.m_fileFormatVersion = linelist.takeFirst().toFloat();
 
-    if (puzzle.m_fileFormat != FileFormats::XWC3D && puzzle.m_fileFormat != FileFormats::XWCR3D) {
+    if (puzzle.m_fileFormat != fileformat::XWC3D && puzzle.m_fileFormat != fileformat::XWCR3D) {
         return false;
     }
 
@@ -61,9 +61,9 @@ bool XWC3DLoader::loadMetadata(CrosswordBase& puzzle, QStringList& linelist)
 
 bool XWC3DLoader::loadGrid(CrosswordBase& puzzle, QStringList& linelist)
 {
-    if (puzzle.getFormat() == FileFormats::XWC3D) {
+    if (puzzle.getFormat() == fileformat::XWC3D) {
         return loadXWC3DGrid(puzzle, linelist);
-    } else if (puzzle.getFormat() == FileFormats::XWCR3D) {
+    } else if (puzzle.getFormat() == fileformat::XWCR3D) {
         return loadXWCR3DGrid(puzzle, linelist);
     }
 
@@ -152,7 +152,7 @@ bool XWC3DLoader::loadCluesHelper(CrosswordBase& puzzle, QStringList& linelist, 
 
     unsigned int numClues = linelist.takeFirst().toUInt();
 
-    if (direction == ClueDirections::SNAKING) {
+    if (direction == cluedirections::SNAKING) {
         return loadSnakingClues(puzzle, linelist, numClues);
     }
 
@@ -174,7 +174,7 @@ bool XWC3DLoader::loadCluesHelper(CrosswordBase& puzzle, QStringList& linelist, 
         std::vector<Letter*> letters;
         QString wordString = list.takeFirst();
 
-        if (direction == ClueDirections::ACROSS) {
+        if (direction == cluedirections::ACROSS) {
             for (unsigned int j = 0; j < length; j++) {
                 QChar letterChar = wordString.at(j);
                 uivec3 letterPosition = startingPosition;
@@ -182,7 +182,7 @@ bool XWC3DLoader::loadCluesHelper(CrosswordBase& puzzle, QStringList& linelist, 
 
                 letters.push_back(puzzle.getRefGrid().getRefLetterAt(puzzle.toGridIndex(letterPosition)));
             }
-        } else if (direction == ClueDirections::BACKWARDS) {
+        } else if (direction == cluedirections::BACKWARDS) {
             for (unsigned int j = 0; j < length; j++) {
                 QChar letterChar = wordString.at(j);
                 uivec3 letterPosition = startingPosition;
@@ -190,7 +190,7 @@ bool XWC3DLoader::loadCluesHelper(CrosswordBase& puzzle, QStringList& linelist, 
 
                 letters.push_back(puzzle.getRefGrid().getRefLetterAt(puzzle.toGridIndex(letterPosition)));
             }
-        } else if (direction == ClueDirections::AWAY) {
+        } else if (direction == cluedirections::AWAY) {
             for (unsigned int j = 0; j < length; j++) {
                 QChar letterChar = wordString.at(j);
                 uivec3 letterPosition = startingPosition;
@@ -198,7 +198,7 @@ bool XWC3DLoader::loadCluesHelper(CrosswordBase& puzzle, QStringList& linelist, 
 
                 letters.push_back(puzzle.getRefGrid().getRefLetterAt(puzzle.toGridIndex(letterPosition)));
             }
-        } else if (direction == ClueDirections::TOWARDS) {
+        } else if (direction == cluedirections::TOWARDS) {
             for (unsigned int j = 0; j < length; j++) {
                 QChar letterChar = wordString.at(j);
                 uivec3 letterPosition = startingPosition;
@@ -206,7 +206,7 @@ bool XWC3DLoader::loadCluesHelper(CrosswordBase& puzzle, QStringList& linelist, 
 
                 letters.push_back(puzzle.getRefGrid().getRefLetterAt(puzzle.toGridIndex(letterPosition)));
             }
-        } else if (direction == ClueDirections::DOWN) {
+        } else if (direction == cluedirections::DOWN) {
             for (unsigned int j = 0; j < length; j++) {
                 QChar letterChar = wordString.at(j);
                 uivec3 letterPosition = startingPosition;
@@ -214,7 +214,7 @@ bool XWC3DLoader::loadCluesHelper(CrosswordBase& puzzle, QStringList& linelist, 
 
                 letters.push_back(puzzle.getRefGrid().getRefLetterAt(puzzle.toGridIndex(letterPosition)));
             }
-        } else if (direction == ClueDirections::UP) {
+        } else if (direction == cluedirections::UP) {
             for (unsigned int j = 0; j < length; j++) {
                 QChar letterChar = wordString.at(j);
                 uivec3 letterPosition = startingPosition;
@@ -222,7 +222,7 @@ bool XWC3DLoader::loadCluesHelper(CrosswordBase& puzzle, QStringList& linelist, 
 
                 letters.push_back(puzzle.getRefGrid().getRefLetterAt(puzzle.toGridIndex(letterPosition)));
             }
-        } else if (direction == ClueDirections::CLOCKWISE) {
+        } else if (direction == cluedirections::CLOCKWISE) {
             for (unsigned int j = 0; j < length; j++) {
                 QChar letterChar = wordString.at(j);
                 uivec3 letterPosition = startingPosition;
@@ -230,7 +230,7 @@ bool XWC3DLoader::loadCluesHelper(CrosswordBase& puzzle, QStringList& linelist, 
 
                 letters.push_back(puzzle.getRefGrid().getRefLetterAt(puzzle.toGridIndex(letterPosition)));
             }
-        } else if (direction == ClueDirections::ANTICLOCKWISE) {
+        } else if (direction == cluedirections::ANTICLOCKWISE) {
             for (unsigned int j = 0; j < length; j++) {
                 QChar letterChar = wordString.at(j);
                 uivec3 letterPosition = startingPosition;
@@ -238,7 +238,7 @@ bool XWC3DLoader::loadCluesHelper(CrosswordBase& puzzle, QStringList& linelist, 
 
                 letters.push_back(puzzle.getRefGrid().getRefLetterAt(puzzle.toGridIndex(letterPosition)));
             }
-        } else if (direction == ClueDirections::DIAMETRIC) {
+        } else if (direction == cluedirections::DIAMETRIC) {
             for (unsigned int j = 0; j < length; j++) {
                 QChar letterChar = wordString.at(j);
                 uivec3 letterPosition = startingPosition;
@@ -284,7 +284,7 @@ bool XWC3DLoader::loadCluesHelper(CrosswordBase& puzzle, QStringList& linelist, 
 bool XWC3DLoader::loadSnakingClues(CrosswordBase& puzzle, QStringList& linelist,
                                    unsigned int numsnaking)
 {
-    QString direction(ClueDirections::SNAKING);
+    QString direction(cluedirections::SNAKING);
 
     for (unsigned int i = 0; i < numsnaking; i++) {
         QStringList list = linelist.takeFirst().split("|");
@@ -412,21 +412,21 @@ bool XWC3DLoader::saveXWC3DGrid(CrosswordBase& puzzle, QStringList& linelist)
 
 bool XWC3DLoader::saveClues(CrosswordBase& puzzle, QStringList& linelist)
 {
-    if (puzzle.getFormat() == FileFormats::XWC3D) {
-        saveCluesHelper(puzzle, linelist, ClueDirections::ACROSS);
-        saveCluesHelper(puzzle, linelist, ClueDirections::BACKWARDS);
-        saveCluesHelper(puzzle, linelist, ClueDirections::AWAY);
-        saveCluesHelper(puzzle, linelist, ClueDirections::TOWARDS);
-        saveCluesHelper(puzzle, linelist, ClueDirections::DOWN);
-        saveCluesHelper(puzzle, linelist, ClueDirections::UP);
-        saveCluesHelper(puzzle, linelist, ClueDirections::SNAKING);
-    } else if (puzzle.getFormat() == FileFormats::XWCR3D) {
-        saveCluesHelper(puzzle, linelist, ClueDirections::CLOCKWISE);
-        saveCluesHelper(puzzle, linelist, ClueDirections::ANTICLOCKWISE);
-        saveCluesHelper(puzzle, linelist, ClueDirections::DIAMETRIC);
-        saveCluesHelper(puzzle, linelist, ClueDirections::DOWN);
-        saveCluesHelper(puzzle, linelist, ClueDirections::UP);
-        saveCluesHelper(puzzle, linelist, ClueDirections::SNAKING);
+    if (puzzle.getFormat() == fileformat::XWC3D) {
+        saveCluesHelper(puzzle, linelist, cluedirections::ACROSS);
+        saveCluesHelper(puzzle, linelist, cluedirections::BACKWARDS);
+        saveCluesHelper(puzzle, linelist, cluedirections::AWAY);
+        saveCluesHelper(puzzle, linelist, cluedirections::TOWARDS);
+        saveCluesHelper(puzzle, linelist, cluedirections::DOWN);
+        saveCluesHelper(puzzle, linelist, cluedirections::UP);
+        saveCluesHelper(puzzle, linelist, cluedirections::SNAKING);
+    } else if (puzzle.getFormat() == fileformat::XWCR3D) {
+        saveCluesHelper(puzzle, linelist, cluedirections::CLOCKWISE);
+        saveCluesHelper(puzzle, linelist, cluedirections::ANTICLOCKWISE);
+        saveCluesHelper(puzzle, linelist, cluedirections::DIAMETRIC);
+        saveCluesHelper(puzzle, linelist, cluedirections::DOWN);
+        saveCluesHelper(puzzle, linelist, cluedirections::UP);
+        saveCluesHelper(puzzle, linelist, cluedirections::SNAKING);
     }
 
     return true;
@@ -451,7 +451,7 @@ bool XWC3DLoader::saveCluesHelper(CrosswordBase& /*puzzle*/, QStringList& lineli
         CrosswordEntry entry = entries.at(i);
         QString entryString;
 
-        if (direction != ClueDirections::SNAKING) {
+        if (direction != cluedirections::SNAKING) {
             entryString
             .append(entry.getIdentifier()).append("|")
             .append(entry.getEntry()).append("|")

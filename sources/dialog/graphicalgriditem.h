@@ -4,10 +4,11 @@
 
 #pragma once
 
+#include <QColor>
 #include <QGraphicsItem>
 
-#include "util/uivec3.h"
 #include "crossword/letter.h"
+#include "util/uivec3.h"
 
 class GraphicalGridItem : public QGraphicsItem {
   public:
@@ -24,13 +25,14 @@ class GraphicalGridItem : public QGraphicsItem {
 
     QRectF boundingRect() const;
 
-    static const unsigned int sc_Size = 50u;
-  private:
-    const Letter* m_LetterRef;
-    QColor m_Color;
-    QString m_CrosswordEntryNumber;
-    unsigned int m_GridId;
+    static const unsigned int SIZE = 50u;
 
-    static const float sc_CrosswordLetterScale;
-    static const float sc_CrosswordEntryNumberScale;
+  private:
+    const Letter* m_letterRef;
+    QColor m_color;
+    QString m_crosswordEntryNumber;
+    unsigned int m_gridId;
+
+    static const float CROSSWORD_LETTER_SCALE;
+    static const float CROSSWORD_ENTRY_NUMBER_SCALE;
 };

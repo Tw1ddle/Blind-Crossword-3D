@@ -5,7 +5,7 @@
 
 #include <vector>
 
-#include "letter.h"
+#include "crossword/letter.h"
 #include "util/uivec3.h"
 
 class GridData {

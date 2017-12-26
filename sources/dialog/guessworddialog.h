@@ -14,7 +14,6 @@ class GuessWordDialog : public QDialog {
     Q_OBJECT
   public:
     explicit GuessWordDialog(QWidget* parent = 0);
-    
     QLineEdit* getLineEdit();
 
   public slots:

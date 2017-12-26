@@ -7,13 +7,14 @@
 
 #pragma once
 
-#include <QString>
-#include <QPixmap>
 #include <vector>
 
+#include <QString>
+#include <QPixmap>
+
 #include "crossword/crosswordentry.h"
-#include "crossword/crosswordgrid.h"
 #include "crossword/crosswordfileformats.h"
+#include "crossword/crosswordgrid.h"
 #include "crossword/crosswordstatus.h"
 
 const QString BACKGROUND_IMAGES_FOLDER = ":/backgrounds";
@@ -40,7 +41,7 @@ class CrosswordBase {
     QString getTitle() const;
     QString getInformation() const;
     QString getScore() const;
-    FileFormats::FORMAT getFormat() const;
+    fileformat::FORMAT getFormat() const;
     CrosswordStatus::CROSSWORD_TYPE getType() const;
     bool isComplete() const;
 
@@ -73,6 +74,6 @@ class CrosswordBase {
     std::vector<CrosswordEntry> m_entries;
 
     bool m_loaded;
-    FileFormats::FORMAT m_fileFormat;
+    fileformat::FORMAT m_fileFormat;
     float m_fileFormatVersion;
 };

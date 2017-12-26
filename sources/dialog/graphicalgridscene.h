@@ -4,15 +4,16 @@
 
 #pragma once
 
-#include <QGraphicsScene>
-#include <QGraphicsRectItem>
-#include <QPixmap>
 #include <vector>
 
-#include "util/uivec3.h"
-#include "crossword/letter.h"
-#include "crossword/crosswordentry.h"
+#include <QGraphicsRectItem>
+#include <QGraphicsScene>
+#include <QPixmap>
+
 #include "crossword/crosswordbase.h"
+#include "crossword/crosswordentry.h"
+#include "crossword/letter.h"
+#include "util/uivec3.h"
 
 class GridData;
 class GraphicalGridItem;
@@ -22,26 +23,26 @@ class GraphicalGridScene : public QGraphicsScene {
   public:
     GraphicalGridScene(const CrosswordBase& puzzle);
 
-  protected:
-    void drawBackground(QPainter* painter, const QRectF& rect);
-
-  private:
-    const CrosswordBase& m_RefPuzzle;
-    const GridData& m_RefGrid;
-    const std::vector<CrosswordEntry>& m_RefCrosswordEntries;
-    const QPixmap& m_RefBackgroundImage;
-
-    std::vector<GraphicalGridItem*> m_GraphicsGridItems;
-
-    std::vector<uivec3> m_SelectedGridLocations;
-    std::vector<QColor> m_SavedColours;
-
-    void build2DDisc(unsigned int xDim, unsigned int yDim, uivec3 offset, unsigned int discNumber);
-    void build2DGrid(unsigned int xDim, unsigned int yDim, uivec3 offset, unsigned int gridNumber);
-
   public slots:
     void buildPuzzleGrid();
     void repaintPuzzleGrid();
     void highlightSelection(CrosswordEntry selectedCrosswordEntry);
     void updateGrid();
+
+  protected:
+    void drawBackground(QPainter* painter, const QRectF& rect);
+
+  private:
+    void build2DDisc(unsigned int xDim, unsigned int yDim, uivec3 offset, unsigned int discNumber);
+    void build2DGrid(unsigned int xDim, unsigned int yDim, uivec3 offset, unsigned int gridNumber);
+
+    const CrosswordBase& m_refPuzzle;
+    const GridData& m_refGrid;
+    const std::vector<CrosswordEntry>& m_refCrosswordEntries;
+    const QPixmap& m_refBackgroundImage;
+
+    std::vector<GraphicalGridItem*> m_graphicsGridItems;
+
+    std::vector<uivec3> m_selectedGridLocations;
+    std::vector<QColor> m_savedColours;
 };

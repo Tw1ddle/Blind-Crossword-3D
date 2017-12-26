@@ -5,9 +5,9 @@
 
 #pragma once
 
+#include <QFile>
 #include <QString>
 #include <QStringList>
-#include <QFile>
 
 class CrosswordBase;
 

@@ -8,7 +8,7 @@
 
 #include <QString>
 
-#include "letter.h"
+#include "crossword/letter.h"
 #include "util/uivec3.h"
 
 class Word {

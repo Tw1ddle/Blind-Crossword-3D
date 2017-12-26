@@ -145,7 +145,7 @@ QString CrosswordBase::getTitle() const
     return m_title;
 }
 
-FileFormats::FORMAT CrosswordBase::getFormat() const
+fileformat::FORMAT CrosswordBase::getFormat() const
 {
     return m_fileFormat;
 }

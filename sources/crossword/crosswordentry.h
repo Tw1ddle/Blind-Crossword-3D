@@ -53,7 +53,8 @@ struct SortByIdentifier {
     bool operator()(const CrosswordEntry& lhs, const CrosswordEntry& rhs);
 };
 
-namespace ClueDirections {
+namespace cluedirections {
+
 typedef QString DIRECTION;
 const DIRECTION ACROSS = "Across";
 const DIRECTION BACKWARDS = "Backwards";
@@ -65,4 +66,5 @@ const DIRECTION CLOCKWISE = "Clockwise";
 const DIRECTION ANTICLOCKWISE = "Anticlockwise";
 const DIRECTION DIAMETRIC = "Diametric";
 const DIRECTION SNAKING = "Snaking";
+
 }
