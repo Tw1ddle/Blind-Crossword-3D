@@ -30,15 +30,15 @@ bool CrosswordLoader::loadPuzzle(CrosswordBase &puzzle, QString filePath, QStrin
     if(extension == FileFormats::XWC3D || extension == FileFormats::XWCR3D)
     {
         XWC3DLoader loader;
-        puzzle.m_Loaded = readInFile(loader, puzzle, linelist);
+        puzzle.m_loaded = readInFile(loader, puzzle, linelist);
     }
 
     else if(extension == FileFormats::XWC)
     {
         XWCLoader loader;
-        puzzle.m_Loaded = readInFile(loader, puzzle, linelist);
+        puzzle.m_loaded = readInFile(loader, puzzle, linelist);
     }
-    if(!puzzle.m_Loaded)
+    if(!puzzle.m_loaded)
     {
         puzzle.clear();
         return false;
@@ -49,7 +49,7 @@ bool CrosswordLoader::loadPuzzle(CrosswordBase &puzzle, QString filePath, QStrin
 
 bool CrosswordLoader::savePuzzle(CrosswordBase &puzzle, QString filePath, QString extension)
 {
-    if(puzzle.getRefEntries().size() <= 0 || puzzle.getRefGrid().getSize() <= 0 || !puzzle.m_Loaded)
+    if(puzzle.getRefEntries().size() <= 0 || puzzle.getRefGrid().getSize() <= 0 || !puzzle.m_loaded)
     {
         return false;
     }

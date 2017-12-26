@@ -46,29 +46,11 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
+signals:
+    void puzzleLoaded();
+
 protected:
     void closeEvent(QCloseEvent* event);
-    
-private:
-    Ui::MainWindow* ui;
-
-    CrosswordLoader m_CrosswordLoader;
-    CrosswordBase m_Crossword;
-
-    GraphicalGridScene* m_GraphicsScene;
-    CrosswordEntryTableModel* m_TableModel;
-    QSortFilterProxyModel* m_ProxyModel;
-
-    ClueReader* m_ClueReader;
-
-    // if we're debugging, add a text edit with everything the voice says
-    #ifdef QT_DEBUG
-        SpeechLogWidget m_SpeechLogWidget;
-    #endif // QT_DEBUG
-
-    void createShortcuts();
-
-    QString getIntroString() const;
 
 private slots:
     void loadCrossword();
@@ -101,37 +83,53 @@ private slots:
 
     void raiseError(QString title, QString error);
 
-signals:
-    void puzzleLoaded();
-
 private:
-    static const QString m_DefaultSaveFolder;
-    static const QString m_HelpFileLocation;
-    static const QString m_TutorialFileLocation;
-    static const QString m_LicenseFileLocation;
-    static const QString m_CalendarPuzzlesWebsiteAddressLocation;
+    // if we're debugging, add a text edit with everything the voice says
+    #ifdef QT_DEBUG
+    SpeechLogWidget m_SpeechLogWidget;
+    #endif // QT_DEBUG
 
-    QShortcut* m_ExitShortcut;
-    QShortcut* m_LoadShortcut;
-    QShortcut* m_SaveShortcut;
-    QShortcut* m_HelpShortcut;
-    QShortcut* m_TutorialShortcut;
+    void createShortcuts();
+    QString getIntroString() const;
 
-    QShortcut* m_EmailAnswersShortcut;
-    QShortcut* m_EmailFeedbackShortcut;
-    QShortcut* m_PrintAnswersShortcut;
+    static const QString DEFAULT_SAVE_FOLDER;
+    static const QString HELP_FILE_LOCATION;
+    static const QString TUTORIAL_FILE_LOCATION;
+    static const QString LICENSE_FILE_LOCATION;
+    static const QString WEBSITE_ADDRESS_LOCATION;
 
-    QShortcut* m_ScoreShortcut;
-    QShortcut* m_RevealAnswerShortcut;
-    QShortcut* m_FilePropertiesShortcut;
-    QShortcut* m_FilterTableViewShortcut;
-    QShortcut* m_CycleSpeechModeShortcut;
-    QShortcut* m_ReadCrosswordThemePhraseShortcut;
-    QShortcut* m_StopSpeechShortcut;
-    QShortcut* m_ReadCurrentClueWordShortcut;
-    QShortcut* m_AdvanceCurrentClueWordShortcut;
-    QShortcut* m_IncreaseSpeechRateShortcut;
-    QShortcut* m_DecreaseSpeechRateShortcut;
-    QShortcut* m_ReadLastSpokenPhraseShortcut;
-    QShortcut* m_CycleViewVisibilityShortcut;
+    Ui::MainWindow* ui;
+
+    CrosswordLoader m_crosswordLoader;
+    CrosswordBase m_crossword;
+
+    GraphicalGridScene* m_graphicsScene;
+    CrosswordEntryTableModel* m_tableModel;
+    QSortFilterProxyModel* m_proxyModel;
+
+    ClueReader* m_clueReader;
+
+    QShortcut* m_exitShortcut;
+    QShortcut* m_loadShortcut;
+    QShortcut* m_saveShortcut;
+    QShortcut* m_helpShortcut;
+    QShortcut* m_tutorialShortcut;
+
+    QShortcut* m_emailAnswersShortcut;
+    QShortcut* m_emailFeedbackShortcut;
+    QShortcut* m_printAnswersShortcut;
+
+    QShortcut* m_scoreShortcut;
+    QShortcut* m_revealAnswerShortcut;
+    QShortcut* m_filePropertiesShortcut;
+    QShortcut* m_filterTableViewShortcut;
+    QShortcut* m_cycleSpeechModeShortcut;
+    QShortcut* m_readCrosswordThemePhraseShortcut;
+    QShortcut* m_stopSpeechShortcut;
+    QShortcut* m_readCurrentClueWordShortcut;
+    QShortcut* m_advanceCurrentClueWordShortcut;
+    QShortcut* m_increaseSpeechRateShortcut;
+    QShortcut* m_decreaseSpeechRateShortcut;
+    QShortcut* m_readLastSpokenPhraseShortcut;
+    QShortcut* m_cycleViewVisibilityShortcut;
 };

@@ -19,7 +19,7 @@ public:
     QString openPrintDialog(CrosswordBase& puzzle, QWidget* parentWidget);
 
 private:
-    static const QString sc_PostalAddressFileLocation;
+    static const QString POSTAL_ADDRESS_LOCATION;
 
     QString getPostalAddress(const QString path) const;
     QTextDocument* getPuzzleDocumentForPrinting(CrosswordBase& puzzle) const;

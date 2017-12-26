@@ -33,13 +33,6 @@ public:
     QVariant data(const QModelIndex& index, int role) const;
     QVariant headerData(int section, Qt::Orientation orientation, int role) const;
 
-private:
-    std::vector<CrosswordEntry>& m_RefEntries;
-    const GridData& m_RefGrid;
-    const CrosswordBase& m_RefPuzzle;
-
-    bool existsConflictingWords(QString word, QModelIndex index);
-
 public slots:
     void crosswordEntriesChanged();
     void amendGuess(QString word, QModelIndex index);
@@ -55,4 +48,11 @@ signals:
     void guessErased();
 
     void crosswordEntrySelectionChanged(CrosswordEntry newCrosswordEntrySelection);
+
+private:
+    std::vector<CrosswordEntry>& m_refEntries;
+    const GridData& m_refGrid;
+    const CrosswordBase& m_refPuzzle;
+
+    bool existsConflictingWords(QString word, QModelIndex index);
 };

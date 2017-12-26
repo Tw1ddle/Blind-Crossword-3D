@@ -25,12 +25,12 @@ public:
 
     QString getSelectedFilePath() const;
 
-private:
-    QFileSystemModel* m_Model;
-    FileListView* m_View;
-    QString m_CurrentFilePath;
-    
 public slots:
     void onSelectionChanged(const QModelIndex& current);
     void onFileSelected(const QModelIndex& index);
+
+private:
+    QFileSystemModel* m_model;
+    FileListView* m_view;
+    QString m_currentFilePath;
 };

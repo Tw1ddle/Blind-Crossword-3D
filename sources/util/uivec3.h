@@ -20,5 +20,7 @@ public:
     bool operator==(const uivec3& vec) const;
 
 private:
-    unsigned int x, y, z;
+    unsigned int x;
+    unsigned int y;
+    unsigned int z;
 };

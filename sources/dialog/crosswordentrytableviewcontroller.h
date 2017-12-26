@@ -12,14 +12,19 @@ class CrosswordEntryTableViewController : public QTableView
 public:
     explicit CrosswordEntryTableViewController(QWidget *parent = 0);
 
+signals:
+    void guessSubmitted(QString guess, QModelIndex index);
+    void guessAmendationRequested(QString guess, QModelIndex index);
+    void guessErasureRequested(QModelIndex index);
+    void modelIndexChanged(const QModelIndex& selected, const QModelIndex& deselected);
+
 protected:
     void keyPressEvent(QKeyEvent *event);
     void currentChanged(const QModelIndex &current, const QModelIndex &previous);
     int sizeHintForColumn(int column) const;
-
     void keyboardSearch(const QString &search);
 
- private:
+private:
     bool enterGuess();
     bool amendGuess();
     bool eraseGuess();
@@ -39,10 +44,4 @@ private slots:
     void reportGuessAmended(QString removedLetters);
     void reportGuessErased();
     void reportGuessAmendationRejected();
-
-signals:
-    void guessSubmitted(QString guess, QModelIndex index);
-    void guessAmendationRequested(QString guess, QModelIndex index);
-    void guessErasureRequested(QModelIndex index);
-    void modelIndexChanged(const QModelIndex& selected, const QModelIndex& deselected);
 };

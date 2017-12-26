@@ -10,7 +10,7 @@
 #include "crosswordstatus.h"
 
 
-CrosswordBase::CrosswordBase() : m_Loaded(false), m_FileFormatVersion(0.0f)
+CrosswordBase::CrosswordBase() : m_loaded(false), m_fileFormatVersion(0.0f)
 {
 }
 
@@ -34,7 +34,7 @@ std::vector<CrosswordEntry> CrosswordBase::getIntersectingCrosswordEntries(unsig
         Word word = getEntries().at(crosswordEntryId).getGuess();
         if(getEntries().at(i).intersectsWord((&word)))
         {
-            entries.push_back(m_Entries.at(i));
+            entries.push_back(m_entries.at(i));
         }
     }
 
@@ -43,37 +43,37 @@ std::vector<CrosswordEntry> CrosswordBase::getIntersectingCrosswordEntries(unsig
 
 void CrosswordBase::setDimensions(uivec3 dimensions)
 {
-    m_Grid.setDimensions(dimensions);
+    m_grid.setDimensions(dimensions);
 }
 
 GridData &CrosswordBase::getRefGrid()
 {
-    return m_Grid;
+    return m_grid;
 }
 
 std::vector<CrosswordEntry>& CrosswordBase::getRefEntries()
 {
-    return m_Entries;
+    return m_entries;
 }
 
 const GridData& CrosswordBase::getGrid() const
 {
-    return m_Grid;
+    return m_grid;
 }
 
 const QPixmap& CrosswordBase::getBackgroundImage() const
 {
-    return m_BackgroundImage;
+    return m_backgroundImage;
 }
 
 const std::vector<std::pair<uivec3, QString> >& CrosswordBase::getHighlights() const
 {
-    return m_Highlights;
+    return m_highlights;
 }
 
 const std::vector<CrosswordEntry>& CrosswordBase::getEntries() const
 {
-    return m_Entries;
+    return m_entries;
 }
 //!
 //! Resets the crossword file.
@@ -91,9 +91,9 @@ unsigned int CrosswordBase::scoreSolution() const
 {
     unsigned int score = 0;
 
-    for(unsigned int i = 0; i < m_Entries.size(); i++)
+    for(unsigned int i = 0; i < m_entries.size(); i++)
     {
-        if(m_Entries.at(i).isGuessCorrect())
+        if(m_entries.at(i).isGuessCorrect())
         {
             score++;
         }
@@ -108,11 +108,11 @@ unsigned int CrosswordBase::removeIncorrectEntries()
 {
     unsigned int entriesRemoved = 0;
 
-    for(unsigned int i = 0; i < m_Entries.size(); i++)
+    for(unsigned int i = 0; i < m_entries.size(); i++)
     {
-        if(!m_Entries.at(i).isGuessCorrect())
+        if(!m_entries.at(i).isGuessCorrect())
         {
-            m_Entries.at(i).resetGuess();
+            m_entries.at(i).resetGuess();
             entriesRemoved++;
         }
     }
@@ -121,14 +121,14 @@ unsigned int CrosswordBase::removeIncorrectEntries()
 
 QString CrosswordBase::getScore() const
 {
-    if(m_Type != CrosswordStatus::WITHOUT_ANSWERS)
+    if(m_type != CrosswordStatus::WITHOUT_ANSWERS)
     {
-        if(m_Loaded)
+        if(m_loaded)
         {
             return QString("The current score for this crossword is: ").
                     append(QString::number(scoreSolution())).
                     append(" out of ").
-                    append(QString::number(m_Entries.size())).append(". ");
+                    append(QString::number(m_entries.size())).append(". ");
         }
         else
         {
@@ -143,12 +143,12 @@ QString CrosswordBase::getScore() const
 
 QString CrosswordBase::getInformation() const
 {
-    if(m_Loaded)
+    if(m_loaded)
     {
-        return QString("Crossword title: ").append(m_Title).append(". \n").
-                append("Author: ").append(m_Authors).append(". \n").
-                append("Type: ").append(m_Type).append(". \n").
-                append(m_Notes);
+        return QString("Crossword title: ").append(m_title).append(". \n").
+                append("Author: ").append(m_authors).append(". \n").
+                append("Type: ").append(m_type).append(". \n").
+                append(m_notes);
     }
     else
     {
@@ -158,22 +158,22 @@ QString CrosswordBase::getInformation() const
 
 QString CrosswordBase::getTitle() const
 {
-    return m_Title;
+    return m_title;
 }
 
 FileFormats::FORMAT CrosswordBase::getFormat() const
 {
-    return m_FileFormat;
+    return m_fileFormat;
 }
 
 CrosswordStatus::CROSSWORD_TYPE CrosswordBase::getType() const
 {
-    return m_Type;
+    return m_type;
 }
 
 bool CrosswordBase::isComplete() const
 {
-    return (scoreSolution() == m_Entries.size());
+    return (scoreSolution() == m_entries.size());
 }
 
 bool CrosswordBase::loadBackgroundImage(QString filename)
@@ -185,7 +185,7 @@ bool CrosswordBase::loadBackgroundImage(QString filename)
 
     if(Utilities::existsFile(dir.absolutePath().append(path)))
     {
-        m_BackgroundImage = QPixmap(dir.absolutePath().append(path));
+        m_backgroundImage = QPixmap(dir.absolutePath().append(path));
 
         return true;
     }

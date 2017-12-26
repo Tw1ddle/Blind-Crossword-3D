@@ -36,16 +36,16 @@ public:
     void setGuess(QString word);
 
 private:
-    QString m_Identifier;
+    QString m_id;
 
-    QString m_EntryString;
-    QString m_WordDirection;
-    QString m_Solution;
-    Word m_Guess;
-    QString m_Clue;
+    QString m_entryString;
+    QString m_wordDirection;
+    QString m_solution;
+    Word m_guess;
+    QString m_clue;
 
-    std::vector<unsigned int> m_SolutionComponentLengths;
-    std::vector<unsigned int> m_EntryIndices;
+    std::vector<unsigned int> m_solutionComponentLengths;
+    std::vector<unsigned int> m_entryIndices;
 };
 
 struct SortByIdentifier

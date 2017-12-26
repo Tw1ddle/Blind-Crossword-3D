@@ -23,5 +23,5 @@ public slots:
     void readOnDimissal();
 
  private:
-    QLineEdit* m_WordEdit;
+    QLineEdit* m_wordEdit;
 };

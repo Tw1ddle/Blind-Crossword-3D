@@ -8,7 +8,7 @@
 
 #include "util/utilities.h"
 
-const QString Printer::sc_PostalAddressFileLocation = QString("/Config/postal_address.txt");
+const QString Printer::POSTAL_ADDRESS_LOCATION = QString("/Config/postal_address.txt");
 
 Printer::Printer()
 {
@@ -17,7 +17,7 @@ Printer::Printer()
 QTextDocument* Printer::getPuzzleDocumentForPrinting(CrosswordBase& puzzle) const
 {
     QDir dir;
-    QString postalAddress = getPostalAddress(dir.absolutePath().append(sc_PostalAddressFileLocation));
+    QString postalAddress = getPostalAddress(dir.absolutePath().append(POSTAL_ADDRESS_LOCATION));
 
     QString textToPrint;
 

@@ -19,11 +19,13 @@
 #include "printing/printer.h"
 #include "util/utilities.h"
 
-const QString MainWindow::m_DefaultSaveFolder = QString("/assets/crosswords");
-const QString MainWindow::m_HelpFileLocation = QString("/assets/help/help.html");
-const QString MainWindow::m_TutorialFileLocation = QString("/assets/help/tutorial.html");
-const QString MainWindow::m_LicenseFileLocation = QString("/assets/license/gplv3.htm");
-const QString MainWindow::m_CalendarPuzzlesWebsiteAddressLocation = QString("/assets/config/calendarpuzzles_website_address.txt");
+// TODO ensure this is created and scanned when loading crosswords in future
+const QString MainWindow::DEFAULT_SAVE_FOLDER = QString("/saved_crosswords");
+
+const QString MainWindow::HELP_FILE_LOCATION = QString(":/assets/help/help.html");
+const QString MainWindow::TUTORIAL_FILE_LOCATION = QString(":/assets/help/tutorial.html");
+const QString MainWindow::LICENSE_FILE_LOCATION = QString(":/assets/license/gplv3.htm");
+const QString MainWindow::WEBSITE_ADDRESS_LOCATION = QString(":/assets/config/calendarpuzzles_website_address.txt");
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -36,41 +38,41 @@ MainWindow::MainWindow(QWidget *parent) :
 
     createShortcuts();
 
-    m_GraphicsScene = new GraphicalGridScene(m_Crossword);
-    ui->graphicsView->setScene(m_GraphicsScene);
+    m_graphicsScene = new GraphicalGridScene(m_crossword);
+    ui->graphicsView->setScene(m_graphicsScene);
 
-    m_TableModel = new CrosswordEntryTableModel(m_Crossword, m_Crossword.getRefEntries());
-    m_ProxyModel = new QSortFilterProxyModel(this);
-    m_ProxyModel->setSourceModel(m_TableModel);
-    ui->wordTableView->setModel(m_ProxyModel);
+    m_tableModel = new CrosswordEntryTableModel(m_crossword, m_crossword.getRefEntries());
+    m_proxyModel = new QSortFilterProxyModel(this);
+    m_proxyModel->setSourceModel(m_tableModel);
+    ui->wordTableView->setModel(m_proxyModel);
 
-    m_ClueReader = new ClueReader();
+    m_clueReader = new ClueReader();
 
-    connect(this, SIGNAL(puzzleLoaded()), m_TableModel, SLOT(crosswordEntriesChanged()));
+    connect(this, SIGNAL(puzzleLoaded()), m_tableModel, SLOT(crosswordEntriesChanged()));
     connect(this, SIGNAL(puzzleLoaded()), ui->wordTableView, SLOT(setFocus(Qt::OtherFocusReason)));
-    connect(this, SIGNAL(puzzleLoaded()), m_GraphicsScene, SLOT(buildPuzzleGrid()));
+    connect(this, SIGNAL(puzzleLoaded()), m_graphicsScene, SLOT(buildPuzzleGrid()));
 
-    connect(m_TableModel, SIGNAL(conflictingWordError()), ui->wordTableView, SLOT(conflictingWordError()));
-    connect(ui->wordTableView, SIGNAL(modelIndexChanged(const QModelIndex&, const QModelIndex&)), m_TableModel, SLOT(tableViewSelectionChanged(const QModelIndex&, const QModelIndex&)));
+    connect(m_tableModel, SIGNAL(conflictingWordError()), ui->wordTableView, SLOT(conflictingWordError()));
+    connect(ui->wordTableView, SIGNAL(modelIndexChanged(const QModelIndex&, const QModelIndex&)), m_tableModel, SLOT(tableViewSelectionChanged(const QModelIndex&, const QModelIndex&)));
 
     connect(ui->wordTableView, SIGNAL(guessSubmitted(QString,QModelIndex)), this, SLOT(checkIfPuzzleWasCompleted()));
-    connect(ui->wordTableView, SIGNAL(guessSubmitted(QString, QModelIndex)), m_TableModel, SLOT(enterGuess(QString, QModelIndex)));
-    connect(ui->wordTableView, SIGNAL(guessAmendationRequested(QString, QModelIndex)), m_TableModel, SLOT(amendGuess(QString, QModelIndex)));
-    connect(ui->wordTableView, SIGNAL(guessErasureRequested(QModelIndex)), m_TableModel, SLOT(eraseGuess(QModelIndex)));
+    connect(ui->wordTableView, SIGNAL(guessSubmitted(QString, QModelIndex)), m_tableModel, SLOT(enterGuess(QString, QModelIndex)));
+    connect(ui->wordTableView, SIGNAL(guessAmendationRequested(QString, QModelIndex)), m_tableModel, SLOT(amendGuess(QString, QModelIndex)));
+    connect(ui->wordTableView, SIGNAL(guessErasureRequested(QModelIndex)), m_tableModel, SLOT(eraseGuess(QModelIndex)));
 
-    connect(m_TableModel, SIGNAL(guessValidated(QString)), ui->wordTableView, SLOT(reportGuessAccepted(QString)));
-    connect(m_TableModel, SIGNAL(guessAmended(QString)), ui->wordTableView, SLOT(reportGuessAmended(QString)));
-    connect(m_TableModel, SIGNAL(guessErased()), ui->wordTableView, SLOT(reportGuessErased()));
-    connect(m_TableModel, SIGNAL(guessAmendationRequestRejected()), ui->wordTableView, SLOT(reportGuessAmendationRejected()));
+    connect(m_tableModel, SIGNAL(guessValidated(QString)), ui->wordTableView, SLOT(reportGuessAccepted(QString)));
+    connect(m_tableModel, SIGNAL(guessAmended(QString)), ui->wordTableView, SLOT(reportGuessAmended(QString)));
+    connect(m_tableModel, SIGNAL(guessErased()), ui->wordTableView, SLOT(reportGuessErased()));
+    connect(m_tableModel, SIGNAL(guessAmendationRequestRejected()), ui->wordTableView, SLOT(reportGuessAmendationRejected()));
 
-    connect(m_TableModel, SIGNAL(guessValidated(QString)), m_GraphicsScene, SLOT(repaintPuzzleGrid()));
-    connect(m_TableModel, SIGNAL(guessAmended(QString)), m_GraphicsScene, SLOT(repaintPuzzleGrid()));
-    connect(m_TableModel, SIGNAL(guessErased()), m_GraphicsScene, SLOT(repaintPuzzleGrid()));
-    connect(m_TableModel, SIGNAL(crosswordEntrySelectionChanged(CrosswordEntry)), m_GraphicsScene, SLOT(highlightSelection(CrosswordEntry)));
+    connect(m_tableModel, SIGNAL(guessValidated(QString)), m_graphicsScene, SLOT(repaintPuzzleGrid()));
+    connect(m_tableModel, SIGNAL(guessAmended(QString)), m_graphicsScene, SLOT(repaintPuzzleGrid()));
+    connect(m_tableModel, SIGNAL(guessErased()), m_graphicsScene, SLOT(repaintPuzzleGrid()));
+    connect(m_tableModel, SIGNAL(crosswordEntrySelectionChanged(CrosswordEntry)), m_graphicsScene, SLOT(highlightSelection(CrosswordEntry)));
 
-    connect(&m_CrosswordLoader, SIGNAL(loaderError(QString, QString)), this, SLOT(showError(QString, QString)));
+    connect(&m_crosswordLoader, SIGNAL(loaderError(QString, QString)), this, SLOT(showError(QString, QString)));
 
-    connect(m_TableModel, SIGNAL(crosswordEntrySelectionChanged(CrosswordEntry)), m_ClueReader, SLOT(setText(CrosswordEntry)));
+    connect(m_tableModel, SIGNAL(crosswordEntrySelectionChanged(CrosswordEntry)), m_clueReader, SLOT(setText(CrosswordEntry)));
 
     ITextToSpeech::instance().speak(getIntroString());
 }
@@ -84,9 +86,9 @@ void MainWindow::loadCrossword()
 {
     QDir dir;
     QString loadPath;
-    if(dir.exists(dir.absolutePath().append(m_DefaultSaveFolder)))
+    if(dir.exists(dir.absolutePath().append(DEFAULT_SAVE_FOLDER)))
     {
-        loadPath = dir.absolutePath().append(m_DefaultSaveFolder);
+        loadPath = dir.absolutePath().append(DEFAULT_SAVE_FOLDER);
     }
     else
     {
@@ -116,7 +118,7 @@ void MainWindow::loadCrossword()
         QFileInfo fileInfo(path);
         QString extension = fileInfo.suffix();
 
-        if(m_CrosswordLoader.loadPuzzle(m_Crossword, path, extension))
+        if(m_crosswordLoader.loadPuzzle(m_crossword, path, extension))
         {
             emit puzzleLoaded();
 
@@ -133,11 +135,11 @@ void MainWindow::saveCrossword()
 {
     QDir dir;
     QString path = dir.absolutePath()
-            .append(m_DefaultSaveFolder)
+            .append(DEFAULT_SAVE_FOLDER)
             .append("/")
-            .append(m_Crossword.getTitle())
+            .append(m_crossword.getTitle())
             .append(".")
-            .append(m_Crossword.getFormat());
+            .append(m_crossword.getFormat());
 
     QFileInfo fileInfo(path);
 
@@ -149,10 +151,10 @@ void MainWindow::saveCrossword()
                 .append(separatorTag)
                 .append(QString::number(extraTag))
                 .append(".")
-                .append(m_Crossword.getFormat());
+                .append(m_crossword.getFormat());
 
         path = dir.absolutePath()
-                .append(m_DefaultSaveFolder)
+                .append(DEFAULT_SAVE_FOLDER)
                 .append("/")
                 .append(updatedFileName);
 
@@ -160,7 +162,7 @@ void MainWindow::saveCrossword()
     }
 
     QFileInfo updatedFileInfo(path);
-    if(m_CrosswordLoader.savePuzzle(m_Crossword, path, m_Crossword.getFormat()))
+    if(m_crosswordLoader.savePuzzle(m_crossword, path, m_crossword.getFormat()))
     {
         ITextToSpeech::instance().speak(QString("Crossword was saved as: ")
                                         .append(updatedFileInfo.fileName())
@@ -217,23 +219,23 @@ void MainWindow::cycleTableViewFilter()
     switch(s_Filter)
     {
         case 0:
-            m_ProxyModel->setFilterRegExp(showUnstarted);
-            m_ProxyModel->setFilterKeyColumn(CrosswordEntryTableHeader::wordColumnId);
+            m_proxyModel->setFilterRegExp(showUnstarted);
+            m_proxyModel->setFilterKeyColumn(CrosswordEntryTableHeader::wordColumnId);
             ITextToSpeech::instance().speak("Showing unstarted crossword entries.");
             break;
         case 1:
-            m_ProxyModel->setFilterRegExp(showCompleted);
-            m_ProxyModel->setFilterKeyColumn(CrosswordEntryTableHeader::wordColumnId);
+            m_proxyModel->setFilterRegExp(showCompleted);
+            m_proxyModel->setFilterKeyColumn(CrosswordEntryTableHeader::wordColumnId);
             ITextToSpeech::instance().speak("Showing completed crossword entries.");
             break;
         case 2:
-            m_ProxyModel->setFilterRegExp(showPartial);
-            m_ProxyModel->setFilterKeyColumn(CrosswordEntryTableHeader::wordColumnId);
+            m_proxyModel->setFilterRegExp(showPartial);
+            m_proxyModel->setFilterKeyColumn(CrosswordEntryTableHeader::wordColumnId);
             ITextToSpeech::instance().speak("Showing partially completed crossword entries.");
             break;
         case 3:
-             m_ProxyModel->setFilterRegExp(showAll);
-             m_ProxyModel->setFilterKeyColumn(CrosswordEntryTableHeader::wordColumnId);
+             m_proxyModel->setFilterRegExp(showAll);
+             m_proxyModel->setFilterKeyColumn(CrosswordEntryTableHeader::wordColumnId);
              ITextToSpeech::instance().speak("Filtering disabled.");
             break;
     }
@@ -281,7 +283,7 @@ void MainWindow::cycleViewVisibility()
 void MainWindow::viewLicense()
 {
     QDir dir;
-    QString filePath = dir.absolutePath().append(m_LicenseFileLocation);
+    QString filePath = dir.absolutePath().append(LICENSE_FILE_LOCATION);
     QUrl url = QUrl::fromLocalFile(filePath);
 
     bool openedSuccessfully = false;
@@ -303,7 +305,7 @@ void MainWindow::viewLicense()
 void MainWindow::openHelp()
 {
     QDir dir;
-    QString filePath = dir.absolutePath().append(m_HelpFileLocation);
+    QString filePath = dir.absolutePath().append(HELP_FILE_LOCATION);
     QUrl url = QUrl::fromLocalFile(filePath);
 
     bool openedSuccessfully = false;
@@ -325,7 +327,7 @@ void MainWindow::openHelp()
 void MainWindow::openTutorial()
 {
     QDir dir;
-    QString filePath = dir.absolutePath().append(m_TutorialFileLocation);
+    QString filePath = dir.absolutePath().append(TUTORIAL_FILE_LOCATION);
     QUrl url = QUrl::fromLocalFile(filePath);
 
     bool openedSuccessfully = false;
@@ -347,7 +349,7 @@ void MainWindow::openTutorial()
 void MainWindow::openCalendarPuzzlesWebsite()
 {
     QDir dir;
-    QString filePath = dir.absolutePath().append(m_CalendarPuzzlesWebsiteAddressLocation);
+    QString filePath = dir.absolutePath().append(WEBSITE_ADDRESS_LOCATION);
     if(Utilities::existsFile(filePath))
     {
         QStringList address;
@@ -377,7 +379,7 @@ void MainWindow::printAnswers()
 
     Printer printer;
 
-    QString result = printer.openPrintDialog(m_Crossword, this);
+    QString result = printer.openPrintDialog(m_crossword, this);
 
     ITextToSpeech::instance().speak(result);
 }
@@ -386,7 +388,7 @@ void MainWindow::emailAnswers()
 {
     Emailer emailer;
 
-    if(emailer.openSendResultsEmail(m_Crossword))
+    if(emailer.openSendResultsEmail(m_crossword))
     {
         ITextToSpeech::instance().speak("Opening an email containing your answers. Use your screen reader to work with the email.");
     }
@@ -412,7 +414,7 @@ void MainWindow::emailFeedback()
 
 void MainWindow::showFileProperties()
 {
-    ITextToSpeech::instance().speak(m_Crossword.getInformation());
+    ITextToSpeech::instance().speak(m_crossword.getInformation());
 }
 
 void MainWindow::stopSpeech()
@@ -434,12 +436,12 @@ void MainWindow::readLastSpokenPhrase()
 
 void MainWindow::advanceToNextWordInClue()
 {
-    ITextToSpeech::instance().speak(m_ClueReader->advanceWord());
+    ITextToSpeech::instance().speak(m_clueReader->advanceWord());
 }
 
 void MainWindow::readCurrentWordInClue()
 {
-    ITextToSpeech::instance().speak(m_ClueReader->getWord());
+    ITextToSpeech::instance().speak(m_clueReader->getWord());
 }
 
 void MainWindow::increaseSpeechRate()
@@ -454,7 +456,7 @@ void MainWindow::decreaseSpeechRate()
 
 void MainWindow::scoreCrossword()
 {
-    ITextToSpeech::instance().speak(m_Crossword.getScore());
+    ITextToSpeech::instance().speak(m_crossword.getScore());
 }
 
 QString MainWindow::getIntroString() const
@@ -479,62 +481,62 @@ void MainWindow::raiseError(QString title, QString error)
 
 void MainWindow::createShortcuts()
 {
-    m_LoadShortcut = new QShortcut(QKeySequence(ShortcutKeys::loadShortcutKey), this);
-    connect(m_LoadShortcut, SIGNAL(activated()), this, SLOT(loadCrossword()));
+    m_loadShortcut = new QShortcut(QKeySequence(ShortcutKeys::loadShortcutKey), this);
+    connect(m_loadShortcut, SIGNAL(activated()), this, SLOT(loadCrossword()));
 
-    m_SaveShortcut = new QShortcut(QKeySequence(ShortcutKeys::saveShortcutKey), this);
-    connect(m_SaveShortcut, SIGNAL(activated()), this, SLOT(saveCrossword()));
+    m_saveShortcut = new QShortcut(QKeySequence(ShortcutKeys::saveShortcutKey), this);
+    connect(m_saveShortcut, SIGNAL(activated()), this, SLOT(saveCrossword()));
 
-    m_HelpShortcut = new QShortcut(QKeySequence(ShortcutKeys::helpShortcutKey), this);
-    connect(m_HelpShortcut, SIGNAL(activated()), this, SLOT(openHelp()));
+    m_helpShortcut = new QShortcut(QKeySequence(ShortcutKeys::helpShortcutKey), this);
+    connect(m_helpShortcut, SIGNAL(activated()), this, SLOT(openHelp()));
 
-    m_ExitShortcut = new QShortcut(QKeySequence(ShortcutKeys::exitShortcutKey), this);
-    connect(m_ExitShortcut, SIGNAL(activated()), this, SLOT(exitConfirmation()));
+    m_exitShortcut = new QShortcut(QKeySequence(ShortcutKeys::exitShortcutKey), this);
+    connect(m_exitShortcut, SIGNAL(activated()), this, SLOT(exitConfirmation()));
 
-    m_TutorialShortcut = new QShortcut(QKeySequence(ShortcutKeys::tutorialShortcutKey), this);
-    connect(m_TutorialShortcut, SIGNAL(activated()), this, SLOT(openTutorial()));
+    m_tutorialShortcut = new QShortcut(QKeySequence(ShortcutKeys::tutorialShortcutKey), this);
+    connect(m_tutorialShortcut, SIGNAL(activated()), this, SLOT(openTutorial()));
 
-    m_EmailAnswersShortcut = new QShortcut(QKeySequence(ShortcutKeys::emailAnswersKey), this);
-    connect(m_EmailAnswersShortcut, SIGNAL(activated()), this, SLOT(emailAnswers()));
+    m_emailAnswersShortcut = new QShortcut(QKeySequence(ShortcutKeys::emailAnswersKey), this);
+    connect(m_emailAnswersShortcut, SIGNAL(activated()), this, SLOT(emailAnswers()));
 
-    m_EmailFeedbackShortcut = new QShortcut(QKeySequence(ShortcutKeys::emailFeedbackKey), this);
-    connect(m_EmailFeedbackShortcut, SIGNAL(activated()), this, SLOT(emailFeedback()));
+    m_emailFeedbackShortcut = new QShortcut(QKeySequence(ShortcutKeys::emailFeedbackKey), this);
+    connect(m_emailFeedbackShortcut, SIGNAL(activated()), this, SLOT(emailFeedback()));
 
-    m_PrintAnswersShortcut = new QShortcut(QKeySequence(ShortcutKeys::printAnswersKey), this);
-    connect(m_PrintAnswersShortcut, SIGNAL(activated()), this, SLOT(printAnswers()));
+    m_printAnswersShortcut = new QShortcut(QKeySequence(ShortcutKeys::printAnswersKey), this);
+    connect(m_printAnswersShortcut, SIGNAL(activated()), this, SLOT(printAnswers()));
 
-    m_ScoreShortcut = new QShortcut(QKeySequence(ShortcutKeys::markShortcutKey), this);
-    connect(m_ScoreShortcut, SIGNAL(activated()), this, SLOT(scoreCrossword()));
+    m_scoreShortcut = new QShortcut(QKeySequence(ShortcutKeys::markShortcutKey), this);
+    connect(m_scoreShortcut, SIGNAL(activated()), this, SLOT(scoreCrossword()));
 
-    m_FilePropertiesShortcut = new QShortcut(QKeySequence(ShortcutKeys::filePropertiesShortcutKey), this);
-    connect(m_FilePropertiesShortcut, SIGNAL(activated()), this, SLOT(showFileProperties()));
+    m_filePropertiesShortcut = new QShortcut(QKeySequence(ShortcutKeys::filePropertiesShortcutKey), this);
+    connect(m_filePropertiesShortcut, SIGNAL(activated()), this, SLOT(showFileProperties()));
 
-    m_FilterTableViewShortcut = new QShortcut(QKeySequence(ShortcutKeys::filterTableViewShortcutKey), this);
-    connect(m_FilterTableViewShortcut, SIGNAL(activated()), this, SLOT(cycleTableViewFilter()));
+    m_filterTableViewShortcut = new QShortcut(QKeySequence(ShortcutKeys::filterTableViewShortcutKey), this);
+    connect(m_filterTableViewShortcut, SIGNAL(activated()), this, SLOT(cycleTableViewFilter()));
 
-    m_CycleSpeechModeShortcut = new QShortcut(QKeySequence(ShortcutKeys::cycleSpeechModeShortcutKey), this);
-    connect(m_CycleSpeechModeShortcut, SIGNAL(activated()), this, SLOT(cycleSpeechMode()));
+    m_cycleSpeechModeShortcut = new QShortcut(QKeySequence(ShortcutKeys::cycleSpeechModeShortcutKey), this);
+    connect(m_cycleSpeechModeShortcut, SIGNAL(activated()), this, SLOT(cycleSpeechMode()));
 
-    m_StopSpeechShortcut = new QShortcut(QKeySequence(ShortcutKeys::stopSpeechKey), this);
-    connect(m_StopSpeechShortcut, SIGNAL(activated()), this, SLOT(stopSpeech()));
+    m_stopSpeechShortcut = new QShortcut(QKeySequence(ShortcutKeys::stopSpeechKey), this);
+    connect(m_stopSpeechShortcut, SIGNAL(activated()), this, SLOT(stopSpeech()));
 
-    m_ReadCurrentClueWordShortcut = new QShortcut(QKeySequence(ShortcutKeys::readCurrentClueWordKey), this);
-    connect(m_ReadCurrentClueWordShortcut, SIGNAL(activated()), this, SLOT(readCurrentWordInClue()));
+    m_readCurrentClueWordShortcut = new QShortcut(QKeySequence(ShortcutKeys::readCurrentClueWordKey), this);
+    connect(m_readCurrentClueWordShortcut, SIGNAL(activated()), this, SLOT(readCurrentWordInClue()));
 
-    m_AdvanceCurrentClueWordShortcut = new QShortcut(QKeySequence(ShortcutKeys::advanceClueWordKey), this);
-    connect(m_AdvanceCurrentClueWordShortcut, SIGNAL(activated()), this, SLOT(advanceToNextWordInClue()));
+    m_advanceCurrentClueWordShortcut = new QShortcut(QKeySequence(ShortcutKeys::advanceClueWordKey), this);
+    connect(m_advanceCurrentClueWordShortcut, SIGNAL(activated()), this, SLOT(advanceToNextWordInClue()));
 
-    m_IncreaseSpeechRateShortcut = new QShortcut(QKeySequence(ShortcutKeys::increaseSpeechRateKey), this);
-    connect(m_IncreaseSpeechRateShortcut, SIGNAL(activated()), this, SLOT(increaseSpeechRate()));
+    m_increaseSpeechRateShortcut = new QShortcut(QKeySequence(ShortcutKeys::increaseSpeechRateKey), this);
+    connect(m_increaseSpeechRateShortcut, SIGNAL(activated()), this, SLOT(increaseSpeechRate()));
 
-    m_DecreaseSpeechRateShortcut = new QShortcut(QKeySequence(ShortcutKeys::decreaseSpeechRateKey), this);
-    connect(m_DecreaseSpeechRateShortcut, SIGNAL(activated()), this, SLOT(decreaseSpeechRate()));
+    m_decreaseSpeechRateShortcut = new QShortcut(QKeySequence(ShortcutKeys::decreaseSpeechRateKey), this);
+    connect(m_decreaseSpeechRateShortcut, SIGNAL(activated()), this, SLOT(decreaseSpeechRate()));
 
-    m_ReadLastSpokenPhraseShortcut = new QShortcut(QKeySequence(ShortcutKeys::readLastSpokenPhraseKey), this);
-    connect(m_ReadLastSpokenPhraseShortcut, SIGNAL(activated()), this, SLOT(readLastSpokenPhrase()));
+    m_readLastSpokenPhraseShortcut = new QShortcut(QKeySequence(ShortcutKeys::readLastSpokenPhraseKey), this);
+    connect(m_readLastSpokenPhraseShortcut, SIGNAL(activated()), this, SLOT(readLastSpokenPhrase()));
 
-    m_CycleViewVisibilityShortcut = new QShortcut(QKeySequence(ShortcutKeys::cycleViewVisibilityKey), this);
-    connect(m_CycleViewVisibilityShortcut, SIGNAL(activated()), this, SLOT(cycleViewVisibility()));
+    m_cycleViewVisibilityShortcut = new QShortcut(QKeySequence(ShortcutKeys::cycleViewVisibilityKey), this);
+    connect(m_cycleViewVisibilityShortcut, SIGNAL(activated()), this, SLOT(cycleViewVisibility()));
 }
 
 void MainWindow::closeEvent(QCloseEvent* event)

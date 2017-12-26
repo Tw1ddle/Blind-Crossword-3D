@@ -7,13 +7,13 @@
 
 #include "shortcutkeys.h"
 
-const double GraphicalGridView::cs_ZoomFactor = 1.25;
-const int GraphicalGridView::cs_KeyboardZoomFactor = 75;
+const double GraphicalGridView::ZOOM_FACTOR = 1.25;
+const int GraphicalGridView::KEYBOARD_ZOOM_FACTOR = 75;
 
 GraphicalGridView::GraphicalGridView(QWidget *parent) :
     QGraphicsView(parent)
 {
-    m_NumScheduledScalings = 0;
+    m_numScheduledScalings = 0;
 }
 
 void GraphicalGridView::wheelEvent(QWheelEvent *event)
@@ -29,22 +29,22 @@ void GraphicalGridView::keyPressEvent(QKeyEvent *event)
 
     if(event->key() == ShortcutKeys::zoomInKey)
     {
-        zoom(cs_KeyboardZoomFactor);
+        zoom(KEYBOARD_ZOOM_FACTOR);
     }
     else if(event->key() == ShortcutKeys::zoomOutKey)
     {
-        zoom(-cs_KeyboardZoomFactor);
+        zoom(-KEYBOARD_ZOOM_FACTOR);
     }
 }
 
 void GraphicalGridView::zoom(int x)
 {
     int numSteps = x/15;
-    m_NumScheduledScalings += numSteps;
+    m_numScheduledScalings += numSteps;
 
-    if(m_NumScheduledScalings * numSteps < 0)
+    if(m_numScheduledScalings * numSteps < 0)
     {
-        m_NumScheduledScalings = numSteps;
+        m_numScheduledScalings = numSteps;
     }
 
     QTimeLine *anim = new QTimeLine(350, this);
@@ -58,13 +58,13 @@ void GraphicalGridView::zoom(int x)
 // http://qt-project.org/wiki/SmoothZoomInQGraphicsView
 void GraphicalGridView::zoomAnimationFinished()
 {
-    if(m_NumScheduledScalings > 0)
+    if(m_numScheduledScalings > 0)
     {
-        m_NumScheduledScalings--;
+        m_numScheduledScalings--;
     }
     else
     {
-        m_NumScheduledScalings++;
+        m_numScheduledScalings++;
         sender()->~QObject();
     }
 }
@@ -73,6 +73,6 @@ void GraphicalGridView::scalingTime(qreal x)
 {
     Q_UNUSED(x);
 
-    float factor = 1.0f + static_cast<float>(m_NumScheduledScalings) / 450.0f;
+    float factor = 1.0f + static_cast<float>(m_numScheduledScalings) / 450.0f;
     scale(factor, factor);
 }

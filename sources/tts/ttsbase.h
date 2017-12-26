@@ -25,6 +25,6 @@ protected:
     virtual bool setMode(SPEECH_MODES::SPEECHMODE mode);
 
 private:
-    QString m_Mode;
-    QStringList m_SpeechLog;
+    QString m_mode;
+    QStringList m_speechLog;
 };

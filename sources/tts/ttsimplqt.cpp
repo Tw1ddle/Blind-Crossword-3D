@@ -2,8 +2,6 @@
 
 TTSImplQt instance;
 
-const float TTSImplQt::sc_SpeedRateAdjustmentStepSize = 2.0f;
-
 TTSImplQt::TTSImplQt() : m_speech{new QTextToSpeech()}
 {
     setMode(SPEECH_MODES::normalSpeech);

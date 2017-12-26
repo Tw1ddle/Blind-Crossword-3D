@@ -2,13 +2,13 @@
 
 bool XWCLoader::loadMetaData(CrosswordBase& puzzle, QStringList& linelist)
 {
-    puzzle.m_FileFormat = FileFormats::XWC;
+    puzzle.m_fileFormat = FileFormats::XWC;
 
-    puzzle.m_Title = linelist.takeFirst();
-    puzzle.m_Authors = linelist.takeFirst();
-    puzzle.m_Type = linelist.takeFirst();
+    puzzle.m_title = linelist.takeFirst();
+    puzzle.m_authors = linelist.takeFirst();
+    puzzle.m_type = linelist.takeFirst();
 
-    if(puzzle.m_Title.isNull() || puzzle.m_Authors.isNull() || puzzle.m_Type.isNull())
+    if(puzzle.m_title.isNull() || puzzle.m_authors.isNull() || puzzle.m_type.isNull())
     {
         return false;
     }
@@ -124,7 +124,7 @@ bool XWCLoader::loadAcrossClues(CrosswordBase &puzzle, QStringList &linelist)
            wordComponentLengths.push_back(wordComponents.takeFirst().toUInt());
        }
 
-       puzzle.m_Entries.push_back(CrosswordEntry(direction, identifier, number, wordString, word, wordComponentLengths, clue));
+       puzzle.m_entries.push_back(CrosswordEntry(direction, identifier, number, wordString, word, wordComponentLengths, clue));
     }
 
     return true;
@@ -181,7 +181,7 @@ bool XWCLoader::loadAwayClues(CrosswordBase &puzzle, QStringList &linelist)
            wordComponentLengths.push_back(wordComponents.takeFirst().toUInt());
        }
 
-        puzzle.m_Entries.push_back(CrosswordEntry(direction, identifier, number, wordString, word, wordComponentLengths, clue));
+        puzzle.m_entries.push_back(CrosswordEntry(direction, identifier, number, wordString, word, wordComponentLengths, clue));
     }
 
     return true;
@@ -189,9 +189,9 @@ bool XWCLoader::loadAwayClues(CrosswordBase &puzzle, QStringList &linelist)
 
 bool XWCLoader::saveMetaData(CrosswordBase &puzzle, QStringList &linelist)
 {
-    linelist.push_back(puzzle.m_Title);
-    linelist.push_back(puzzle.m_Authors);
-    linelist.push_back(puzzle.m_Type);
+    linelist.push_back(puzzle.m_title);
+    linelist.push_back(puzzle.m_authors);
+    linelist.push_back(puzzle.m_type);
     linelist.push_back(QString::number(puzzle.getRefGrid().getDimensions().getX()));
     linelist.push_back(QString::number(puzzle.getRefGrid().getDimensions().getY()));
 

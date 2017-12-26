@@ -19,6 +19,6 @@ public:
     bool operator==(const Letter& letter) const;
 
 private:
-    QChar m_Letter;
-    uivec3 m_Location;
+    QChar m_letter;
+    uivec3 m_location;
 };

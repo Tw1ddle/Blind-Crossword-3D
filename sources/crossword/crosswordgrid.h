@@ -24,6 +24,6 @@ public:
     void setDimensions(uivec3 dimensions);
 
 private:
-    uivec3 m_GridDimensions;
-    std::vector<Letter> m_Letters;
+    uivec3 m_gridDimensions;
+    std::vector<Letter> m_letters;
 };

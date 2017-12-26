@@ -11,11 +11,11 @@ GuessWordDialog::GuessWordDialog(QWidget *parent) :
 {
     setWindowFlags(Qt::Dialog | Qt::WindowTitleHint);
 
-    m_WordEdit = new QLineEdit;
+    m_wordEdit = new QLineEdit;
 
     QGridLayout *gLayout = new QGridLayout;
     gLayout->setColumnStretch(1, 2);
-    gLayout->addWidget(m_WordEdit, 0, 1);
+    gLayout->addWidget(m_wordEdit, 0, 1);
 
     QVBoxLayout *mainLayout = new QVBoxLayout;
     mainLayout->addLayout(gLayout);
@@ -24,7 +24,7 @@ GuessWordDialog::GuessWordDialog(QWidget *parent) :
     QShortcut* submitWord = new QShortcut(QKeySequence(Qt::Key_Return), this);
     connect(submitWord, SIGNAL(activated()), this, SLOT(accept()));
 
-    connect(m_WordEdit, SIGNAL(textEdited(QString)), this, SLOT(readText(QString)));
+    connect(m_wordEdit, SIGNAL(textEdited(QString)), this, SLOT(readText(QString)));
     connect(this, SIGNAL(rejected()), this, SLOT(readOnDimissal()));
 
     setFont(QFont("Lucida Console", 32, -1, false));
@@ -34,14 +34,14 @@ GuessWordDialog::GuessWordDialog(QWidget *parent) :
 
 QLineEdit* GuessWordDialog::getLineEdit()
 {
-    return m_WordEdit;
+    return m_wordEdit;
 }
 
 void GuessWordDialog::readText(const QString &text)
 {
     if(text.contains(Qt::Key_Space))
     {
-        m_WordEdit->setText(QString(text).replace(Qt::Key_Space, Qt::Key_Period));
+        m_wordEdit->setText(QString(text).replace(Qt::Key_Space, Qt::Key_Period));
     }
 
     if(text.size() >= 1)
@@ -49,7 +49,7 @@ void GuessWordDialog::readText(const QString &text)
         SPEECH_MODES::SPEECHMODE mode = ITextToSpeech::instance().getMode();
 
         ITextToSpeech::instance().setMode(SPEECH_MODES::spellingOutSpeech);
-        ITextToSpeech::instance().speak(m_WordEdit->text().at(text.size() - 1));
+        ITextToSpeech::instance().speak(m_wordEdit->text().at(text.size() - 1));
         ITextToSpeech::instance().setMode(mode);
     }
 }

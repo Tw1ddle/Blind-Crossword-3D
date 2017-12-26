@@ -19,9 +19,9 @@ protected:
     virtual void keyPressEvent(QKeyEvent *event);
 
 private:
-    const static double cs_ZoomFactor;
-    const static int cs_KeyboardZoomFactor;
-    int m_NumScheduledScalings;
+    const static double ZOOM_FACTOR;
+    const static int KEYBOARD_ZOOM_FACTOR;
+    int m_numScheduledScalings;
 
     void zoom(int x);
 

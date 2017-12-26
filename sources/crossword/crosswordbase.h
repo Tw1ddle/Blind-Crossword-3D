@@ -56,18 +56,18 @@ private:
     unsigned int scoreSolution() const;
     bool loadBackgroundImage(QString filename);
 
-    QString m_Title;
-    QString m_Authors;
-    QString m_Type;
-    std::vector<std::pair<uivec3, QString> > m_Highlights; //! Uses the W3 SVG colour scheme, see: http://www.w3.org/TR/SVG/types.html#ColorKeywords
-    QString m_Notes;
+    QString m_title;
+    QString m_authors;
+    QString m_type;
+    std::vector<std::pair<uivec3, QString> > m_highlights; //! Uses the W3 SVG colour scheme, see: http://www.w3.org/TR/SVG/types.html#ColorKeywords
+    QString m_notes;
 
-    QPixmap m_BackgroundImage;
-    QString m_BackgroundImageFilename;
-    GridData m_Grid;
-    std::vector<CrosswordEntry> m_Entries;
+    QPixmap m_backgroundImage;
+    QString m_backgroundImageFilename;
+    GridData m_grid;
+    std::vector<CrosswordEntry> m_entries;
 
-    bool m_Loaded;
-    FileFormats::FORMAT m_FileFormat;
-    float m_FileFormatVersion;
+    bool m_loaded;
+    FileFormats::FORMAT m_fileFormat;
+    float m_fileFormatVersion;
 };

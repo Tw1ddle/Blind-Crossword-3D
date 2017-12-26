@@ -17,8 +17,8 @@ public:
     bool openEmail(QString address, QString subject, QString content);
 
 private:
-    const static QString sc_AnswersEmailAddressFileLocation;
-    const static QString sc_FeedbackEmailAddressFileLocation;
+    const static QString ANSWERS_EMAIL_ADDRESS_LOCATION;
+    const static QString FEEDBACK_EMAIL_ADDRESS_LOCATION;
 
     QString getEmailAddress(const QString path) const;
 };

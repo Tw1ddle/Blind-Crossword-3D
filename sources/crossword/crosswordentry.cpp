@@ -6,35 +6,35 @@
 
 CrosswordEntry::CrosswordEntry(QString direction, QString identifier, QString entry, QString solution, Word guess, std::vector<unsigned int> wordComponentLengths, QString clue, std::vector<unsigned int> entryIndices)
 {
-    m_Identifier = identifier;
-    m_WordDirection = direction;
-    m_EntryString = entry;
-    m_Solution = solution;
-    m_Guess = guess;
-    m_SolutionComponentLengths = wordComponentLengths;
-    m_Clue = clue;
-    m_EntryIndices = entryIndices;
+    m_id = identifier;
+    m_wordDirection = direction;
+    m_entryString = entry;
+    m_solution = solution;
+    m_guess = guess;
+    m_solutionComponentLengths = wordComponentLengths;
+    m_clue = clue;
+    m_entryIndices = entryIndices;
 }
 
 uivec3 CrosswordEntry::getStartingPosition() const
 {
-    return m_Guess.getPositions().at(0);
+    return m_guess.getPositions().at(0);
 }
 
 std::vector<uivec3> CrosswordEntry::getEntryPositions() const
 {
     std::vector<uivec3> entryPositions;
 
-    if(m_EntryIndices.empty())
+    if(m_entryIndices.empty())
     {
-        entryPositions.push_back(m_Guess.getPositions().at(0));
+        entryPositions.push_back(m_guess.getPositions().at(0));
         return entryPositions;
     }
     else
     {
-        for(unsigned int i = 0; i < m_EntryIndices.size(); i++)
+        for(unsigned int i = 0; i < m_entryIndices.size(); i++)
         {
-            entryPositions.push_back(getGuess().getPositions().at(m_EntryIndices.at(i)));
+            entryPositions.push_back(getGuess().getPositions().at(m_entryIndices.at(i)));
         }
 
         return entryPositions;
@@ -45,9 +45,9 @@ QString CrosswordEntry::getEntryPositionsString() const
 {
     QString entryIndices;
 
-    for(unsigned int i = 0; i < m_EntryIndices.size(); i++)
+    for(unsigned int i = 0; i < m_entryIndices.size(); i++)
     {
-        entryIndices.append(QString::number(m_EntryIndices.at(i) + 1)).append(","); // + 1, we use this for exporting to xwc3d files
+        entryIndices.append(QString::number(m_entryIndices.at(i) + 1)).append(","); // + 1, we use this for exporting to xwc3d files
     }
 
     entryIndices.truncate(entryIndices.size() - 1);
@@ -57,34 +57,34 @@ QString CrosswordEntry::getEntryPositionsString() const
 
 QString CrosswordEntry::getSolution() const
 {
-    return m_Solution;
+    return m_solution;
 }
 
 QString CrosswordEntry::getClue() const
 {
-    return m_Clue;
+    return m_clue;
 }
 
 Word CrosswordEntry::getGuess() const
 {
-    return m_Guess;
+    return m_guess;
 }
 
 void CrosswordEntry::setGuess(QString word)
 {
-    assert(m_Guess.getLength() == m_Solution.length());
+    assert(m_guess.getLength() == m_solution.length());
 
-    m_Guess.setString(word);
+    m_guess.setString(word);
 }
 
 QString CrosswordEntry::getSolutionComponentLengths() const
 {
     QString comp;
-    for(unsigned int i = 0; i < m_SolutionComponentLengths.size(); i++)
+    for(unsigned int i = 0; i < m_solutionComponentLengths.size(); i++)
     {
-        comp.append(QString::number(m_SolutionComponentLengths.at(i)));
+        comp.append(QString::number(m_solutionComponentLengths.at(i)));
 
-        if(i != m_SolutionComponentLengths.size() - 1)
+        if(i != m_solutionComponentLengths.size() - 1)
         {
             comp.append(",");
         }
@@ -95,17 +95,17 @@ QString CrosswordEntry::getSolutionComponentLengths() const
 
 QString CrosswordEntry::getIdentifier() const
 {
-    return m_Identifier;
+    return m_id;
 }
 
 void CrosswordEntry::resetGuess()
 {
-    m_Guess.setString(QString(m_Guess.getString().size(), QChar(46)));
+    m_guess.setString(QString(m_guess.getString().size(), QChar(46)));
 }
 
 bool CrosswordEntry::isGuessCorrect() const
 {
-    if(m_Guess.getString() == m_Solution)
+    if(m_guess.getString() == m_solution)
     {
         return true;
     }
@@ -117,24 +117,24 @@ bool CrosswordEntry::isGuessCorrect() const
 
 bool CrosswordEntry::intersectsWord(Word* word) const
 {
-    return m_Guess.intersectsWord(word);
+    return m_guess.intersectsWord(word);
 }
 
 QString CrosswordEntry::getDirection() const
 {
-    return m_WordDirection;
+    return m_wordDirection;
 }
 
 QString CrosswordEntry::getEntry() const
 {
-    return m_EntryString;
+    return m_entryString;
 }
 
 std::vector<std::pair<unsigned int, uivec3> > CrosswordEntry::getWordEntryStartingPositionPairs() const
 {
     std::vector<std::pair<unsigned int, uivec3> > pairs;
 
-    QStringList entries = m_EntryString.split(" ", QString::SkipEmptyParts);
+    QStringList entries = m_entryString.split(" ", QString::SkipEmptyParts);
     std::vector<unsigned int> entryNumbers;
 
     for(int i = 0; i < entries.size(); i++)

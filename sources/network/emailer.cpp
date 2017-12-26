@@ -9,13 +9,13 @@
 #include "crossword/crosswordbase.h"
 #include "version/version.h"
 
-const QString Emailer::sc_FeedbackEmailAddressFileLocation = QString("/Config/feedback_email_address.txt");
-const QString Emailer::sc_AnswersEmailAddressFileLocation = QString("/Config/answers_email_address.txt");
+const QString Emailer::FEEDBACK_EMAIL_ADDRESS_LOCATION = QString("/Config/feedback_email_address.txt");
+const QString Emailer::ANSWERS_EMAIL_ADDRESS_LOCATION = QString("/Config/answers_email_address.txt");
 
 bool Emailer::openFeedbackEmail()
 {
     QDir dir;
-    QString emailAddress = getEmailAddress(dir.absolutePath().append(sc_FeedbackEmailAddressFileLocation));
+    QString emailAddress = getEmailAddress(dir.absolutePath().append(FEEDBACK_EMAIL_ADDRESS_LOCATION));
 
     QString emailSubject = version::getApplicationVersionDescription().append(" feedback message");
 
@@ -40,7 +40,7 @@ bool Emailer::openFeedbackEmail()
 bool Emailer::openSendResultsEmail(CrosswordBase& puzzle)
 {
     QDir dir;
-    QString emailAddress = getEmailAddress(dir.absolutePath().append(sc_AnswersEmailAddressFileLocation));
+    QString emailAddress = getEmailAddress(dir.absolutePath().append(ANSWERS_EMAIL_ADDRESS_LOCATION));
 
     QString emailSubject = puzzle.getTitle().append(" answers");
 

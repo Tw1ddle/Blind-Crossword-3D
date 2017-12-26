@@ -18,8 +18,8 @@ public:
     QString getRejectedText() const;
     
 private:
-    QString m_QuitTitle;
-    QString m_QuitBody;
-    QString m_AcceptedText;
-    QString m_RejectedText;
+    QString m_quitTitle;
+    QString m_quitBody;
+    QString m_acceptedText;
+    QString m_rejectedText;
 };

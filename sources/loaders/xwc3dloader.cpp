@@ -4,26 +4,26 @@
 
 bool XWC3DLoader::loadMetaData(CrosswordBase& puzzle, QStringList& linelist)
 {
-    puzzle.m_FileFormat = linelist.takeFirst();
-    puzzle.m_FileFormatVersion = linelist.takeFirst().toFloat();
+    puzzle.m_fileFormat = linelist.takeFirst();
+    puzzle.m_fileFormatVersion = linelist.takeFirst().toFloat();
 
-    if(puzzle.m_FileFormat != FileFormats::XWC3D && puzzle.m_FileFormat != FileFormats::XWCR3D)
+    if(puzzle.m_fileFormat != FileFormats::XWC3D && puzzle.m_fileFormat != FileFormats::XWCR3D)
     {
         return false;
     }
 
-    puzzle.m_Title = linelist.takeFirst();
-    puzzle.m_Authors = linelist.takeFirst();
-    puzzle.m_Type = linelist.takeFirst();
-    puzzle.m_Notes = linelist.takeFirst();
+    puzzle.m_title = linelist.takeFirst();
+    puzzle.m_authors = linelist.takeFirst();
+    puzzle.m_type = linelist.takeFirst();
+    puzzle.m_notes = linelist.takeFirst();
 
-    if(puzzle.m_Title.isNull() || puzzle.m_Authors.isNull() || puzzle.m_Type.isNull() || puzzle.m_Notes.isNull())
+    if(puzzle.m_title.isNull() || puzzle.m_authors.isNull() || puzzle.m_type.isNull() || puzzle.m_notes.isNull())
     {
         return false;
     }
 
-    puzzle.m_BackgroundImageFilename = linelist.takeFirst();
-    if(!puzzle.loadBackgroundImage(puzzle.m_BackgroundImageFilename))
+    puzzle.m_backgroundImageFilename = linelist.takeFirst();
+    if(!puzzle.loadBackgroundImage(puzzle.m_backgroundImageFilename))
     {
         //return false;
     }
@@ -54,7 +54,7 @@ bool XWC3DLoader::loadMetaData(CrosswordBase& puzzle, QStringList& linelist)
 
                 QString SVGWorldWideWebColorName = currentCatchPhraseCoordinateList.takeFirst();
 
-                puzzle.m_Highlights.push_back(std::pair<uivec3, QString>(uivec3(x, y, z), SVGWorldWideWebColorName));
+                puzzle.m_highlights.push_back(std::pair<uivec3, QString>(uivec3(x, y, z), SVGWorldWideWebColorName));
             }
         }
     }
@@ -331,7 +331,7 @@ bool XWC3DLoader::loadCluesHelper(CrosswordBase &puzzle, QStringList &linelist, 
            wordComponentLengths.push_back(wordComponents.takeFirst().toUInt());
        }
 
-       puzzle.m_Entries.push_back(CrosswordEntry(direction, identifier, entry, wordString, word, wordComponentLengths, clue));
+       puzzle.m_entries.push_back(CrosswordEntry(direction, identifier, entry, wordString, word, wordComponentLengths, clue));
     }
 
     return true;
@@ -391,7 +391,7 @@ bool XWC3DLoader::loadSnakingClues(CrosswordBase& puzzle, QStringList& linelist,
             wordComponentLengths.push_back(wordComponents.takeFirst().toUInt());
         }
 
-        puzzle.m_Entries.push_back(CrosswordEntry(direction, identifier, entryString, wordString, word, wordComponentLengths, clue, entryIndices));
+        puzzle.m_entries.push_back(CrosswordEntry(direction, identifier, entryString, wordString, word, wordComponentLengths, clue, entryIndices));
     }
 
     return true;
@@ -399,13 +399,13 @@ bool XWC3DLoader::loadSnakingClues(CrosswordBase& puzzle, QStringList& linelist,
 
 bool XWC3DLoader::saveMetaData(CrosswordBase &puzzle, QStringList &linelist)
 {
-    linelist += puzzle.m_FileFormat;
-    linelist += QString::number(puzzle.m_FileFormatVersion);
-    linelist += puzzle.m_Title;
-    linelist += puzzle.m_Authors;
-    linelist += puzzle.m_Type;
-    linelist += puzzle.m_Notes;
-    linelist += puzzle.m_BackgroundImageFilename;
+    linelist += puzzle.m_fileFormat;
+    linelist += QString::number(puzzle.m_fileFormatVersion);
+    linelist += puzzle.m_title;
+    linelist += puzzle.m_authors;
+    linelist += puzzle.m_type;
+    linelist += puzzle.m_notes;
+    linelist += puzzle.m_backgroundImageFilename;
 
     linelist += QString::number(puzzle.getRefGrid().getDimensions().getX());
     linelist += QString::number(puzzle.getRefGrid().getDimensions().getY());
@@ -413,16 +413,16 @@ bool XWC3DLoader::saveMetaData(CrosswordBase &puzzle, QStringList &linelist)
 
     QString highlightCoordinates;
 
-    if(puzzle.m_Highlights.size() == 0)
+    if(puzzle.m_highlights.size() == 0)
     {
         highlightCoordinates.push_back("This puzzle has no highlight.");
     }
     else
     {
-        for(unsigned int i = 0; i < puzzle.m_Highlights.size(); i++)
+        for(unsigned int i = 0; i < puzzle.m_highlights.size(); i++)
         {
-            uivec3 coordinate = puzzle.m_Highlights.at(i).first;
-            QString color = puzzle.m_Highlights.at(i).second;
+            uivec3 coordinate = puzzle.m_highlights.at(i).first;
+            QString color = puzzle.m_highlights.at(i).second;
 
             highlightCoordinates.append(QString::number(coordinate.getX() + 1)).append(",")
                     .append(QString::number(coordinate.getY() + 1)).append(",")

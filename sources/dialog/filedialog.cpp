@@ -11,53 +11,53 @@ FileDialog::FileDialog(QWidget* parent, const QString& caption, const QString& d
     Q_UNUSED(nameFilter);
     Q_UNUSED(parent);
 
-    m_Model = new QFileSystemModel(this);
-    m_View = new FileListView(this);
+    m_model = new QFileSystemModel(this);
+    m_view = new FileListView(this);
 
     setWindowTitle(caption);
     setWindowFlags(Qt::Dialog);
 
-    m_Model->setFilter(QDir::Files);
-    m_Model->setNameFilters(filter);
-    m_Model->setRootPath(directory);
+    m_model->setFilter(QDir::Files);
+    m_model->setNameFilters(filter);
+    m_model->setRootPath(directory);
 
-    m_View->setIconSize(QSize(0, 0)); //todo check this hides the icons everywhere
+    m_view->setIconSize(QSize(0, 0)); //todo check this hides the icons everywhere
 
-    m_Model->setNameFilterDisables(false);
+    m_model->setNameFilterDisables(false);
 
-    m_View->setModel(m_Model);
+    m_view->setModel(m_model);
 
     QVBoxLayout* layout = new QVBoxLayout;
-    layout->addWidget(m_View);
+    layout->addWidget(m_view);
     setLayout(layout);
     setWindowFlags(Qt::WindowSystemMenuHint | Qt::WindowTitleHint);
 
-    m_View->setRootIndex(m_Model->index(directory));
-    m_View->setFocus();
-    m_View->setMinimumWidth(640);
-    m_View->setMinimumHeight(480);
+    m_view->setRootIndex(m_model->index(directory));
+    m_view->setFocus();
+    m_view->setMinimumWidth(640);
+    m_view->setMinimumHeight(480);
 
-    connect(m_View, SIGNAL(selectedItemChanged(QModelIndex, QModelIndex)), this, SLOT(updateCurrent(QModelIndex, QModelIndex)));
-    connect(m_View, SIGNAL(activated(QModelIndex)), this, SLOT(onFileSelected(QModelIndex)));
-    connect(m_View, SIGNAL(clicked(QModelIndex)), this, SLOT(onSelectionChanged(QModelIndex)));
+    connect(m_view, SIGNAL(selectedItemChanged(QModelIndex, QModelIndex)), this, SLOT(updateCurrent(QModelIndex, QModelIndex)));
+    connect(m_view, SIGNAL(activated(QModelIndex)), this, SLOT(onFileSelected(QModelIndex)));
+    connect(m_view, SIGNAL(clicked(QModelIndex)), this, SLOT(onSelectionChanged(QModelIndex)));
 }
 
 FileDialog::~FileDialog()
 {
-    delete m_Model;
-    delete m_View;
+    delete m_model;
+    delete m_view;
 }
 
 QString FileDialog::getSelectedFilePath() const
 {
-    return m_CurrentFilePath;
+    return m_currentFilePath;
 }
 
 void FileDialog::onSelectionChanged(const QModelIndex& current)
 {
-    m_CurrentFilePath = m_Model->filePath(current);
+    m_currentFilePath = m_model->filePath(current);
 
-    QString fileName = m_Model->fileInfo(current).completeBaseName(); // read the file name without the extension
+    QString fileName = m_model->fileInfo(current).completeBaseName(); // read the file name without the extension
     ITextToSpeech::instance().speak(fileName);
 }
 
@@ -79,7 +79,7 @@ void FileListView::keyPressEvent(QKeyEvent *event)
 
 void FileDialog::onFileSelected(const QModelIndex &index)
 {
-    m_CurrentFilePath = m_Model->filePath(index);
+    m_currentFilePath = m_model->filePath(index);
     accept();
 }
 

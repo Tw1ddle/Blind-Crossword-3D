@@ -3,21 +3,21 @@
 //!
 //! Assigns the character index of the text to begin at, and the separator used to break the text into pieces.
 //!
-ClueReader::ClueReader() : m_Index(0u), m_Separator(QChar(Qt::Key_Space))
+ClueReader::ClueReader() : m_index(0u), m_separator(QChar(Qt::Key_Space))
 {
 }
 
 QString ClueReader::advanceWord()
 {
-    QStringList words = m_Text.split(m_Separator, QString::SkipEmptyParts);
+    QStringList words = m_text.split(m_separator, QString::SkipEmptyParts);
 
-    if(m_Index >= static_cast<std::size_t>(words.size()) - 1)
+    if(m_index >= static_cast<std::size_t>(words.size()) - 1)
     {
-        m_Index = 0;
+        m_index = 0;
     }
     else
     {
-        m_Index++;
+        m_index++;
     }
 
     return getWord();
@@ -25,11 +25,11 @@ QString ClueReader::advanceWord()
 
 QString ClueReader::getWord() const
 {
-    QStringList words = m_Text.split(m_Separator, QString::SkipEmptyParts);
+    QStringList words = m_text.split(m_separator, QString::SkipEmptyParts);
 
-    if(m_Index < static_cast<std::size_t>(words.size()))
+    if(m_index < static_cast<std::size_t>(words.size()))
     {
-        return words.at(m_Index);
+        return words.at(m_index);
     }
     else
     {
@@ -39,6 +39,6 @@ QString ClueReader::getWord() const
 
 void ClueReader::setText(CrosswordEntry entry)
 {
-    m_Index = 0;
-    m_Text = entry.getClue();
+    m_index = 0;
+    m_text = entry.getClue();
 }

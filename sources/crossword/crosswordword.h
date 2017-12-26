@@ -25,5 +25,5 @@ public:
     void setString(QString string);
 
 private:
-    std::vector<Letter*> m_Word;
+    std::vector<Letter*> m_word;
 };

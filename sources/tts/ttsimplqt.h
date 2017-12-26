@@ -22,6 +22,5 @@ protected:
     virtual void preprocessText(QString& text);
 
 private:
-    const static float sc_SpeedRateAdjustmentStepSize;
     QTextToSpeech* m_speech;
 };

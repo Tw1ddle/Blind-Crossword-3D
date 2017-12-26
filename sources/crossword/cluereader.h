@@ -24,7 +24,7 @@ public slots:
     void setText(CrosswordEntry entry);
 
 private:
-    QString m_Text;
-    unsigned int m_Index;
-    const QChar m_Separator;
+    QString m_text;
+    unsigned int m_index;
+    const QChar m_separator;
 };
