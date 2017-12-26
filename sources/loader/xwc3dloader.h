@@ -6,7 +6,9 @@
 #include <QStringList>
 
 #include "crossword/crosswordbase.h"
-#include "crossword/crosswordloader.h"
+#include "loader/crosswordloader.h"
+
+namespace loader {
 
 class XWC3DLoader : public CrosswordLoaderInterface {
   public:
@@ -29,3 +31,5 @@ class XWC3DLoader : public CrosswordLoaderInterface {
 
     bool saveCluesHelper(CrosswordBase& puzzle, QStringList& linelist, QString direction);
 };
+
+}

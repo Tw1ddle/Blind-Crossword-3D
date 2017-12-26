@@ -11,6 +11,8 @@
 class QTextDocument;
 class QWidget;
 
+namespace printing {
+
 class Printer {
   public:
     Printer();
@@ -23,3 +25,5 @@ class Printer {
     QString getPostalAddress(const QString path) const;
     QTextDocument* getPuzzleDocumentForPrinting(CrosswordBase& puzzle) const;
 };
+
+}

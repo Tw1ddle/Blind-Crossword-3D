@@ -8,6 +8,8 @@
 
 #include "util/util.h"
 
+namespace printing {
+
 const QString Printer::POSTAL_ADDRESS_LOCATION = QString("/Config/postal_address.txt");
 
 Printer::Printer()
@@ -87,4 +89,6 @@ QString Printer::getPostalAddress(const QString path) const
     }
 
     return postalAddress;
+}
+
 }

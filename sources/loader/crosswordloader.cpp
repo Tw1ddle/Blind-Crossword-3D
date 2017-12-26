@@ -1,4 +1,4 @@
-#include "crossword/crosswordloader.h"
+#include "loader/crosswordloader.h"
 
 #include <cassert>
 
@@ -8,9 +8,11 @@
 #include <QTextStream>
 
 #include "crossword/crosswordbase.h"
-#include "loaders/xwcloader.h"
-#include "loaders/xwc3dloader.h"
+#include "loader/xwcloader.h"
+#include "loader/xwc3dloader.h"
 #include "util/util.h"
+
+namespace loader {
 
 CrosswordLoader::CrosswordLoader()
 {
@@ -62,10 +64,10 @@ bool CrosswordLoader::savePuzzle(CrosswordBase& puzzle, QString filePath, QStrin
     }
 
     if (extension == fileformat::XWC3D || extension == fileformat::XWCR3D) {
-        XWC3DLoader loader;
+        loader::XWC3DLoader loader;
         return writeOutFile(loader, puzzle, file);
     } else if (extension == fileformat::XWC) {
-        XWCLoader loader;
+        loader::XWCLoader loader;
         return writeOutFile(loader, puzzle, file);
     }
 
@@ -118,4 +120,4 @@ bool CrosswordLoader::writeOutFile(CrosswordLoaderInterface& loader, CrosswordBa
     return util::writeFile(linelist, file);
 }
 
-
+}

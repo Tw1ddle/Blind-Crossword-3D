@@ -1,4 +1,4 @@
-#include "network/emailer.h"
+#include "email/emailer.h"
 
 #include <QDesktopServices>
 #include <QDir>
@@ -8,6 +8,8 @@
 #include "crossword/crosswordbase.h"
 #include "util/util.h"
 #include "version/version.h"
+
+namespace email {
 
 const QString Emailer::FEEDBACK_EMAIL_ADDRESS_LOCATION =
     QString("/Config/feedback_email_address.txt");
@@ -101,4 +103,6 @@ QString Emailer::getEmailAddress(const QString path) const
     }
 
     return emailAddress;
+}
+
 }

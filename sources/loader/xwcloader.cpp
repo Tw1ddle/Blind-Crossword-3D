@@ -1,4 +1,6 @@
-#include "loaders/xwcloader.h"
+#include "loader/xwcloader.h"
+
+namespace loader {
 
 bool XWCLoader::loadMetadata(CrosswordBase& puzzle, QStringList& linelist)
 {
@@ -259,4 +261,6 @@ bool XWCLoader::saveClues(CrosswordBase& puzzle, QStringList& linelist)
     }
 
     return true;
+}
+
 }

@@ -6,10 +6,13 @@
 #pragma once
 
 #include <QFile>
+#include <QObject>
 #include <QString>
 #include <QStringList>
 
 class CrosswordBase;
+
+namespace loader {
 
 class CrosswordLoaderInterface {
   public:
@@ -37,3 +40,5 @@ class CrosswordLoader : public QObject {
   signals:
     void loaderError(const QString&, const QString&);
 };
+
+}

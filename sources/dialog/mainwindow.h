@@ -23,8 +23,8 @@
 #include <QMainWindow>
 
 #include "crossword/crosswordbase.h"
-#include "crossword/crosswordloader.h"
 #include "dialog/speechlogwidget.h"
+#include "loader/crosswordloader.h"
 
 class GraphicalGridScene;
 class CrosswordEntryTableModel;
@@ -98,7 +98,7 @@ class MainWindow : public QMainWindow {
 
     Ui::MainWindow* ui;
 
-    CrosswordLoader m_crosswordLoader;
+    loader::CrosswordLoader m_crosswordLoader;
     CrosswordBase m_crossword;
 
     GraphicalGridScene* m_graphicsScene;

@@ -6,7 +6,9 @@
 #include <QStringList>
 
 #include "crossword/crosswordbase.h"
-#include "crossword/crosswordloader.h"
+#include "loader/crosswordloader.h"
+
+namespace loader {
 
 class XWCLoader : public CrosswordLoaderInterface {
   public:
@@ -22,3 +24,5 @@ class XWCLoader : public CrosswordLoaderInterface {
     bool loadAcrossClues(CrosswordBase& puzzle, QStringList& linelist);
     bool loadAwayClues(CrosswordBase& puzzle, QStringList& linelist);
 };
+
+}

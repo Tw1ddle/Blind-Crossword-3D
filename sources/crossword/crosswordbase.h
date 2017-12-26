@@ -19,10 +19,18 @@
 
 const QString BACKGROUND_IMAGES_FOLDER = ":/backgrounds";
 
+namespace loader {
+
+class CrosswordLoader;
+class XWC3DLoader;
+class XWCLoader;
+
+}
+
 class CrosswordBase {
-    friend class CrosswordLoader;
-    friend class XWC3DLoader;
-    friend class XWCLoader;
+    friend class loader::CrosswordLoader;
+    friend class loader::XWC3DLoader;
+    friend class loader::XWCLoader;
 
   public:
     CrosswordBase();

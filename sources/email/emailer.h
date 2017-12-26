@@ -9,6 +9,8 @@
 
 class CrosswordBase;
 
+namespace email {
+
 class Emailer {
   public:
     bool openFeedbackEmail();
@@ -21,3 +23,5 @@ class Emailer {
 
     QString getEmailAddress(const QString path) const;
 };
+
+}

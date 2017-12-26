@@ -1,7 +1,9 @@
-#include "loaders/xwc3dloader.h"
+#include "loader/xwc3dloader.h"
 
 #include <algorithm>
 #include <cstdlib>
+
+namespace loader {
 
 bool XWC3DLoader::loadMetadata(CrosswordBase& puzzle, QStringList& linelist)
 {
@@ -490,4 +492,6 @@ bool XWC3DLoader::saveCluesHelper(CrosswordBase& /*puzzle*/, QStringList& lineli
     linelist += entrylist;
 
     return true;
+}
+
 }

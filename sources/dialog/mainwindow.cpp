@@ -14,7 +14,7 @@
 #include "dialog/filedialog.h"
 #include "dialog/graphicalgridscene.h"
 #include "dialog/quitdialog.h"
-#include "network/emailer.h"
+#include "email/emailer.h"
 #include "printing/printer.h"
 #include "tts/itexttospeech.h"
 #include "util/util.h"
@@ -375,16 +375,14 @@ void MainWindow::printAnswers()
 {
     ITextToSpeech::instance().speak("Opening a print dialog for printing your answers. Use your screen reader to work with the dialog.");
 
-    Printer printer;
-
+    printing::Printer printer;
     QString result = printer.openPrintDialog(m_crossword, this);
-
     ITextToSpeech::instance().speak(result);
 }
 
 void MainWindow::emailAnswers()
 {
-    Emailer emailer;
+    email::Emailer emailer;
 
     if (emailer.openSendResultsEmail(m_crossword)) {
         ITextToSpeech::instance().speak("Opening an email containing your answers. Use your screen reader to work with the email.");
@@ -395,7 +393,7 @@ void MainWindow::emailAnswers()
 
 void MainWindow::emailFeedback()
 {
-    Emailer emailer;
+    email::Emailer emailer;
 
     if (emailer.openFeedbackEmail()) {
         ITextToSpeech::instance().speak("Opening a feedback email. Use your screen reader to work with the email.");
