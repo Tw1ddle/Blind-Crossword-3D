@@ -91,7 +91,6 @@ bool XWCLoader::loadAcrossClues(crossword::CrosswordBase& puzzle, QStringList& l
         QString wordString = list.takeFirst();
 
         for (unsigned int j = 0; j < length; j++) {
-            QChar letterChar = wordString.at(j);
             util::uivec3 letterPosition = startingPosition;
             letterPosition.setX(letterPosition.getX() + j);
 
@@ -148,7 +147,6 @@ bool XWCLoader::loadAwayClues(crossword::CrosswordBase& puzzle, QStringList& lin
         QString wordString = list.takeFirst();
 
         for (unsigned int j = 0; j < length; j++) {
-            QChar letterChar = wordString.at(j);
             util::uivec3 letterPosition = startingPosition;
             letterPosition.setY(letterPosition.getY() + j);
 

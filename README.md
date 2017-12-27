@@ -19,7 +19,7 @@ To get started, read the [quickstart tutorial](http://tw1ddle.github.io/Blind-Cr
 
 ## Download
 
-Download for Windows [here](https://www.dropbox.com/s/mx3vts0548v7zg2/Blind%20Crossword%203D%201.0.zip).
+Download Blind Crossword 3D for Windows [here](https://www.dropbox.com/s/mx3vts0548v7zg2/Blind%20Crossword%203D%201.0.zip).
 
 ## Screenshots
 
@@ -27,8 +27,8 @@ Download for Windows [here](https://www.dropbox.com/s/mx3vts0548v7zg2/Blind%20Cr
 
 ## Building
 
- * Download Qt and Qt Creator (tested with Qt 5.10).
- * Open BlindCrossword3D.pro, build and run.
+ * Download and install [Qt](https://download.qt.io/archive/qt/).
+ * Open [BlindCrossword3D.pro](https://github.com/Tw1ddle/Blind-Crossword-3D/blob/master/BlindCrossword3D.pro) in Qt Creator, then build and run.
 
 ## Contributing
 
