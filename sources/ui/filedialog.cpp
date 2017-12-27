@@ -40,8 +40,6 @@ FileDialog::FileDialog(QWidget* parent, const QString& caption, const QString& d
     m_view->setMinimumWidth(1024);
     m_view->setMinimumHeight(540);
 
-    connect(m_view, SIGNAL(selectedItemChanged(QModelIndex, QModelIndex)), this,
-            SLOT(updateCurrent(QModelIndex, QModelIndex)));
     connect(m_view, SIGNAL(activated(QModelIndex)), this, SLOT(onFileSelected(QModelIndex)));
     connect(m_view, SIGNAL(clicked(QModelIndex)), this, SLOT(onSelectionChanged(QModelIndex)));
 }

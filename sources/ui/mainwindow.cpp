@@ -45,43 +45,56 @@ MainWindow::MainWindow(QWidget* parent) :
 
     m_clueReader = new crossword::ClueReader();
 
-    connect(this, SIGNAL(puzzleLoaded()), m_tableModel, SLOT(crosswordEntriesChanged()));
-    connect(this, SIGNAL(puzzleLoaded()), ui->wordTableView, SLOT(setFocus(Qt::OtherFocusReason)));
-    connect(this, SIGNAL(puzzleLoaded()), m_graphicsScene, SLOT(buildPuzzleGrid()));
+    connect(this, &MainWindow::puzzleLoaded, m_tableModel,
+            &ui::CrosswordEntryTableModel::crosswordEntriesChanged);
+    connect(this, &MainWindow::puzzleLoaded, [this]() {
+        ui->wordTableView->setFocus(Qt::OtherFocusReason);
+    });
+    connect(this, &MainWindow::puzzleLoaded, m_graphicsScene, [this]() {
+        m_graphicsScene->buildPuzzleGrid();
+    });
 
-    connect(m_tableModel, SIGNAL(conflictingWordError()), ui->wordTableView,
-            SLOT(conflictingWordError()));
-    connect(ui->wordTableView, SIGNAL(modelIndexChanged(const QModelIndex&, const QModelIndex&)),
-            m_tableModel, SLOT(tableViewSelectionChanged(const QModelIndex&, const QModelIndex&)));
+    connect(m_tableModel, &ui::CrosswordEntryTableModel::conflictingWordError, ui->wordTableView,
+            &ui::CrosswordEntryTableViewController::conflictingWordError);
 
-    connect(ui->wordTableView, SIGNAL(guessSubmitted(QString, QModelIndex)), this,
-            SLOT(checkIfPuzzleWasCompleted()));
-    connect(ui->wordTableView, SIGNAL(guessSubmitted(QString, QModelIndex)), m_tableModel,
-            SLOT(enterGuess(QString, QModelIndex)));
-    connect(ui->wordTableView, SIGNAL(guessAmendationRequested(QString, QModelIndex)), m_tableModel,
-            SLOT(amendGuess(QString, QModelIndex)));
-    connect(ui->wordTableView, SIGNAL(guessErasureRequested(QModelIndex)), m_tableModel,
-            SLOT(eraseGuess(QModelIndex)));
+    connect(ui->wordTableView, &ui::CrosswordEntryTableViewController::modelIndexChanged,
+            m_tableModel, &ui::CrosswordEntryTableModel::tableViewSelectionChanged);
 
-    connect(m_tableModel, SIGNAL(guessValidated(QString)), ui->wordTableView,
-            SLOT(reportGuessAccepted(QString)));
-    connect(m_tableModel, SIGNAL(guessAmended(QString)), ui->wordTableView,
-            SLOT(reportGuessAmended(QString)));
-    connect(m_tableModel, SIGNAL(guessErased()), ui->wordTableView, SLOT(reportGuessErased()));
-    connect(m_tableModel, SIGNAL(guessAmendationRequestRejected()), ui->wordTableView,
-            SLOT(reportGuessAmendationRejected()));
+    //connect(ui->wordTableView, &ui::CrosswordEntryTableViewController::guessSubmitted, this, &MainWindow::checkIfPuzzleWasCompleted);
 
-    connect(m_tableModel, SIGNAL(guessValidated(QString)), m_graphicsScene, SLOT(repaintPuzzleGrid()));
-    connect(m_tableModel, SIGNAL(guessAmended(QString)), m_graphicsScene, SLOT(repaintPuzzleGrid()));
-    connect(m_tableModel, SIGNAL(guessErased()), m_graphicsScene, SLOT(repaintPuzzleGrid()));
-    connect(m_tableModel, SIGNAL(crosswordEntrySelectionChanged(CrosswordEntry)), m_graphicsScene,
-            SLOT(highlightSelection(CrosswordEntry)));
+    connect(ui->wordTableView, &ui::CrosswordEntryTableViewController::guessSubmitted, m_tableModel,
+            &ui::CrosswordEntryTableModel::enterGuess);
+    connect(ui->wordTableView, &ui::CrosswordEntryTableViewController::guessAmendationRequested,
+            m_tableModel,
+            &ui::CrosswordEntryTableModel::amendGuess);
+    connect(ui->wordTableView, &ui::CrosswordEntryTableViewController::guessErasureRequested,
+            m_tableModel,
+            &ui::CrosswordEntryTableModel::eraseGuess);
 
-    connect(&m_crosswordLoader, SIGNAL(loaderError(QString, QString)), this, SLOT(showError(QString,
-                                                                                            QString)));
+    connect(m_tableModel, &ui::CrosswordEntryTableModel::guessValidated, ui->wordTableView,
+            &ui::CrosswordEntryTableViewController::reportGuessAccepted);
+    connect(m_tableModel, &ui::CrosswordEntryTableModel::guessAmended, ui->wordTableView,
+            &ui::CrosswordEntryTableViewController::reportGuessAmended);
+    connect(m_tableModel, &ui::CrosswordEntryTableModel::guessErased, ui->wordTableView,
+            &ui::CrosswordEntryTableViewController::reportGuessErased);
+    connect(m_tableModel, &ui::CrosswordEntryTableModel::guessAmendationRequestRejected,
+            ui->wordTableView,
+            &ui::CrosswordEntryTableViewController::reportGuessAmendationRejected);
 
-    connect(m_tableModel, SIGNAL(crosswordEntrySelectionChanged(CrosswordEntry)), m_clueReader,
-            SLOT(setText(CrosswordEntry)));
+    connect(m_tableModel, &ui::CrosswordEntryTableModel::guessValidated, m_graphicsScene,
+            &ui::GraphicalGridScene::repaintPuzzleGrid);
+    connect(m_tableModel, &ui::CrosswordEntryTableModel::guessAmended, m_graphicsScene,
+            &ui::GraphicalGridScene::repaintPuzzleGrid);
+    connect(m_tableModel, &ui::CrosswordEntryTableModel::guessErased, m_graphicsScene,
+            &ui::GraphicalGridScene::repaintPuzzleGrid);
+
+    connect(m_tableModel, &CrosswordEntryTableModel::crosswordEntrySelectionChanged, m_graphicsScene,
+            &ui::GraphicalGridScene::highlightSelection);
+
+    //connect(&m_crosswordLoader, &loader::CrosswordLoader::loaderError, this, &MainWindow::showError);
+
+    connect(m_tableModel, &CrosswordEntryTableModel::crosswordEntrySelectionChanged, m_clueReader,
+            &crossword::ClueReader::setText);
 
     tts::ITextToSpeech::instance().speak(getIntroString());
 }

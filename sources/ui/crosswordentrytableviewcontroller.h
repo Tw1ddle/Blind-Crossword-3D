@@ -13,6 +13,13 @@ class CrosswordEntryTableViewController : public QTableView {
   public:
     explicit CrosswordEntryTableViewController(QWidget* parent = 0);
 
+  public slots:
+    void conflictingWordError();
+    void reportGuessAccepted(QString guess);
+    void reportGuessAmended(QString removedLetters);
+    void reportGuessErased();
+    void reportGuessAmendationRejected();
+
   signals:
     void guessSubmitted(QString guess, QModelIndex index);
     void guessAmendationRequested(QString guess, QModelIndex index);
@@ -38,13 +45,6 @@ class CrosswordEntryTableViewController : public QTableView {
     void readWordLengths();
 
     void sortEntries();
-
-  private slots:
-    void conflictingWordError();
-    void reportGuessAccepted(QString guess);
-    void reportGuessAmended(QString removedLetters);
-    void reportGuessErased();
-    void reportGuessAmendationRejected();
 };
 
 }
