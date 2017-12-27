@@ -374,7 +374,7 @@ void MainWindow::showFileProperties()
 
 void MainWindow::stopSpeech()
 {
-    tts::ITextToSpeech::instance().speak("");
+    tts::ITextToSpeech::instance().speak(" ");
 }
 
 void MainWindow::readLastSpokenPhrase()
