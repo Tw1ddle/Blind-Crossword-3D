@@ -23,8 +23,6 @@ Download for Windows [here](https://www.dropbox.com/s/mx3vts0548v7zg2/Blind%20Cr
 
 ## Screenshots
 
-![Blind Crossword 3D Screenshot One - Multiple Grids and Clues Shown](https://github.com/Tw1ddle/Blind-Crossword-3D/blob/master/screenshots/windows-blind-crossword-3d-puzzle.png?raw=true)
-
 ![Blind Crossword 3D Screenshot Two - Single Grid and Clues Shown](https://github.com/Tw1ddle/Blind-Crossword-3D/blob/master/screenshots/windows-blind-crossword-3d-puzzle-2.png?raw=true)
 
 ## Building
