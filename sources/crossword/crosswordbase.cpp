@@ -6,6 +6,7 @@
 #include <QDir>
 #include <QMessageBox>
 
+#include "assets/assetpaths.h"
 #include "crossword/crosswordstatus.h"
 #include "util/util.h"
 
@@ -154,21 +155,14 @@ bool CrosswordBase::isComplete() const
 
 bool CrosswordBase::loadBackgroundImage(QString filename)
 {
-    // TODO use asset paths
-    /*
-    QString path = BACKGROUND_IMAGES_FOLDER;
-    path.append("/").append(filename);
+    const QString path = assets::getEmbeddedBackgroundsFolderPath() + "/" + filename;
 
-    QDir dir;
-
-    if (util::fileExists(dir.absolutePath().append(path))) {
-        m_backgroundImage = QPixmap(dir.absolutePath().append(path));
-
-        return true;
+    if (!QFile::exists(path)) {
+        return false;
     }
-    */
 
-    return false;
+    m_backgroundImage = QPixmap(path);
+    return true;
 }
 
 }

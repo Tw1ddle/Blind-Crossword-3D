@@ -16,6 +16,7 @@ QString getLicenseWebsiteAddress();
 QString getHelpWebsiteAddress();
 QString getTutorialWebsiteAddress();
 
+QString getEmbeddedBackgroundsFolderPath();
 QString getEmbeddedCrosswordsFolderPath();
 QString getExternalCrosswordsFolderPath();
 

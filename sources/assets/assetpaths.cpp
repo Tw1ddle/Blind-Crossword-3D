@@ -42,6 +42,11 @@ QString getTutorialWebsiteAddress()
     return "http://tw1ddle.github.io/Blind-Crossword-3D/tutorial.html";
 }
 
+QString getEmbeddedBackgroundsFolderPath()
+{
+    return ":/backgrounds";
+}
+
 QString getEmbeddedCrosswordsFolderPath()
 {
     return ":/crosswords";
