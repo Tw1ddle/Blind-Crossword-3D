@@ -180,7 +180,6 @@ bool XWC3DLoader::loadCluesHelper(crossword::CrosswordBase& puzzle, QStringList&
 
         if (direction == crossword::cluedirections::ACROSS) {
             for (unsigned int j = 0; j < length; j++) {
-                QChar letterChar = wordString.at(j);
                 util::uivec3 letterPosition = startingPosition;
                 letterPosition.setX(letterPosition.getX() + j);
 
@@ -188,7 +187,6 @@ bool XWC3DLoader::loadCluesHelper(crossword::CrosswordBase& puzzle, QStringList&
             }
         } else if (direction == crossword::cluedirections::BACKWARDS) {
             for (unsigned int j = 0; j < length; j++) {
-                QChar letterChar = wordString.at(j);
                 util::uivec3 letterPosition = startingPosition;
                 letterPosition.setX(letterPosition.getX() - j);
 
@@ -196,7 +194,6 @@ bool XWC3DLoader::loadCluesHelper(crossword::CrosswordBase& puzzle, QStringList&
             }
         } else if (direction == crossword::cluedirections::AWAY) {
             for (unsigned int j = 0; j < length; j++) {
-                QChar letterChar = wordString.at(j);
                 util::uivec3 letterPosition = startingPosition;
                 letterPosition.setY(letterPosition.getY() + j);
 
@@ -204,7 +201,6 @@ bool XWC3DLoader::loadCluesHelper(crossword::CrosswordBase& puzzle, QStringList&
             }
         } else if (direction == crossword::cluedirections::TOWARDS) {
             for (unsigned int j = 0; j < length; j++) {
-                QChar letterChar = wordString.at(j);
                 util::uivec3 letterPosition = startingPosition;
                 letterPosition.setY(letterPosition.getY() - j);
 
@@ -212,7 +208,6 @@ bool XWC3DLoader::loadCluesHelper(crossword::CrosswordBase& puzzle, QStringList&
             }
         } else if (direction == crossword::cluedirections::DOWN) {
             for (unsigned int j = 0; j < length; j++) {
-                QChar letterChar = wordString.at(j);
                 util::uivec3 letterPosition = startingPosition;
                 letterPosition.setZ(letterPosition.getZ() + j);
 
@@ -220,7 +215,6 @@ bool XWC3DLoader::loadCluesHelper(crossword::CrosswordBase& puzzle, QStringList&
             }
         } else if (direction == crossword::cluedirections::UP) {
             for (unsigned int j = 0; j < length; j++) {
-                QChar letterChar = wordString.at(j);
                 util::uivec3 letterPosition = startingPosition;
                 letterPosition.setZ(letterPosition.getZ() - j);
 
@@ -228,7 +222,6 @@ bool XWC3DLoader::loadCluesHelper(crossword::CrosswordBase& puzzle, QStringList&
             }
         } else if (direction == crossword::cluedirections::CLOCKWISE) {
             for (unsigned int j = 0; j < length; j++) {
-                QChar letterChar = wordString.at(j);
                 util::uivec3 letterPosition = startingPosition;
                 letterPosition.setX((letterPosition.getX() + j) % puzzle.getGrid().getDimensions().getX());
 
@@ -236,7 +229,6 @@ bool XWC3DLoader::loadCluesHelper(crossword::CrosswordBase& puzzle, QStringList&
             }
         } else if (direction == crossword::cluedirections::ANTICLOCKWISE) {
             for (unsigned int j = 0; j < length; j++) {
-                QChar letterChar = wordString.at(j);
                 util::uivec3 letterPosition = startingPosition;
                 letterPosition.setX((letterPosition.getX() - j) % puzzle.getGrid().getDimensions().getX());
 
@@ -244,7 +236,6 @@ bool XWC3DLoader::loadCluesHelper(crossword::CrosswordBase& puzzle, QStringList&
             }
         } else if (direction == crossword::cluedirections::DIAMETRIC) {
             for (unsigned int j = 0; j < length; j++) {
-                QChar letterChar = wordString.at(j);
                 util::uivec3 letterPosition = startingPosition;
 
                 letterPosition.setY(std::abs(static_cast<long>(letterPosition.getY()) - static_cast<long>(j)));

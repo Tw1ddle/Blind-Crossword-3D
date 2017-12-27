@@ -34,7 +34,14 @@ void extractEmbeddedCrosswordPuzzles()
 
     while (it.hasNext()) {
         it.next();
-        QFile::copy(it.filePath(), destDir.absolutePath() + "/" + it.fileName());
+
+        const QString destinationPath = destDir.absolutePath() + "/" + it.fileName();
+
+        if (QFile::exists(destinationPath)) {
+            QFile::remove(destinationPath);
+        }
+
+        QFile::copy(it.filePath(), destinationPath);
     }
 }
 

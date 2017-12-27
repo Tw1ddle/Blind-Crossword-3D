@@ -15,6 +15,7 @@ bool readFile(QStringList& linelist, QString path)
     }
 
     QTextStream in(&file);
+    in.setCodec("UTF-8");
     QString currentLine;
 
     if (in.atEnd()) {
@@ -35,6 +36,7 @@ bool readFile(QStringList& linelist, QString path)
 bool writeFile(QStringList& linelist, QFile& file)
 {
     QTextStream out(&file);
+    out.setCodec("UTF-8");
 
     while (!linelist.isEmpty()) {
         out << linelist.takeFirst();
