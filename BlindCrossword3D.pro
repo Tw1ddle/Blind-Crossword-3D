@@ -5,7 +5,7 @@ TARGET = BlindCrossword3D
 TEMPLATE = app
 
 # Builds statically against Qt libraries
-#CONFIG += static
+CONFIG += static
 
 # Disables text-to-speech functionality
 #DEFINES += NO_TTS

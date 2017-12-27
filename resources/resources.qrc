@@ -1,5 +1,92 @@
 <RCC>
     <qresource prefix="/">
         <file>icon.ico</file>
+        <file>backgrounds/april2013.jpg</file>
+        <file>backgrounds/april2014.jpg</file>
+        <file>backgrounds/april2015.jpg</file>
+        <file>backgrounds/august2013.jpg</file>
+        <file>backgrounds/august2014.jpg</file>
+        <file>backgrounds/august2015.jpg</file>
+        <file>backgrounds/december2013.jpg</file>
+        <file>backgrounds/december2014.jpg</file>
+        <file>backgrounds/december2015.jpg</file>
+        <file>backgrounds/february2013.jpg</file>
+        <file>backgrounds/february2014.jpg</file>
+        <file>backgrounds/february2015.jpg</file>
+        <file>backgrounds/january2013.jpg</file>
+        <file>backgrounds/january2014.jpg</file>
+        <file>backgrounds/january2015.jpg</file>
+        <file>backgrounds/july2013.jpg</file>
+        <file>backgrounds/july2014.jpg</file>
+        <file>backgrounds/july2015.jpg</file>
+        <file>backgrounds/june2013.jpg</file>
+        <file>backgrounds/june2014.jpg</file>
+        <file>backgrounds/june2015.jpg</file>
+        <file>backgrounds/march2013.jpg</file>
+        <file>backgrounds/march2014.jpg</file>
+        <file>backgrounds/march2015.jpg</file>
+        <file>backgrounds/may2013.jpg</file>
+        <file>backgrounds/may2014.jpg</file>
+        <file>backgrounds/may2015.jpg</file>
+        <file>backgrounds/november2013.jpg</file>
+        <file>backgrounds/november2014.jpg</file>
+        <file>backgrounds/november2015.jpg</file>
+        <file>backgrounds/october2013.jpg</file>
+        <file>backgrounds/october2014.jpg</file>
+        <file>backgrounds/october2015.jpg</file>
+        <file>backgrounds/september2013.jpg</file>
+        <file>backgrounds/september2014.jpg</file>
+        <file>backgrounds/september2015.jpg</file>
+        <file>crosswords/2013 April Arachne NoAnswers.xwc3d</file>
+        <file>crosswords/2013 August Columba NoAnswers.xwc3d</file>
+        <file>crosswords/2013 December Sirius NoAnswers.xwc3d</file>
+        <file>crosswords/2013 February Everyman NoAnswers.xwc3d</file>
+        <file>crosswords/2013 January Rufus NoAnswers.xwc3d</file>
+        <file>crosswords/2013 July Pasquale NoAnswers.xwc3d</file>
+        <file>crosswords/2013 June Tramp NoAnswers.xwc3d</file>
+        <file>crosswords/2013 March Enigmatist NoAnswers.xwc3d</file>
+        <file>crosswords/2013 May Curmudgeon NoAnswers.xwc3d</file>
+        <file>crosswords/2013 November Anax NoAnswers.xwc3d</file>
+        <file>crosswords/2013 October Tyrus NoAnswers.xwc3d</file>
+        <file>crosswords/2013 September Puck NoAnswers.xwc3d</file>
+        <file>crosswords/2014 April Curmudgeon NoAnswers.xwc3d</file>
+        <file>crosswords/2014 August Enigmatist NoAnswers.xwc3d</file>
+        <file>crosswords/2014 December Sirius NoAnswers.xwcr3d</file>
+        <file>crosswords/2014 February Everyman NoAnswers.xwc3d</file>
+        <file>crosswords/2014 January Rufus NoAnswers.xwc3d</file>
+        <file>crosswords/2014 July Aramis NoAnswers.xwc3d</file>
+        <file>crosswords/2014 June Oberto NoAnswers.xwc3d</file>
+        <file>crosswords/2014 March Nutmeg NoAnswers.xwc3d</file>
+        <file>crosswords/2014 May Arachne NoAnswers.xwc3d</file>
+        <file>crosswords/2014 November Samuel NoAnswers.xwc3d</file>
+        <file>crosswords/2014 October Anax NoAnswers.xwc3d</file>
+        <file>crosswords/2014 September Ogre NoAnswers.xwc3d</file>
+        <file>crosswords/2018 April Enigmatist NoAnswers.xwc3d</file>
+        <file>crosswords/2018 August Tramp NoAnswers.xwc3d</file>
+        <file>crosswords/2018 December Puck NoAnswers.xwc3d</file>
+        <file>crosswords/2018 February Vlad NoAnswers.xwc3d</file>
+        <file>crosswords/2018 January Arachne NoAnswers.xwc3d</file>
+        <file>crosswords/2018 July Nutmeg NoAnswers.xwc3d</file>
+        <file>crosswords/2018 June Anax NoAnswers.xwc3d</file>
+        <file>crosswords/2018 March Shark NoAnswers.xwc3d</file>
+        <file>crosswords/2018 May Pasquale NoAnswers.xwc3d</file>
+        <file>crosswords/2018 November Curmudgeon NoAnswers.xwc3d</file>
+        <file>crosswords/2018 October Eclogue NoAnswers.xwc3d</file>
+        <file>crosswords/2018 September Sirius NoAnswers.xwc3d</file>
+        <file>crosswords/Daily Mail Crossword No. 11,226.xwc</file>
+        <file>crosswords/The Herald Crossword April 10, 2001.xwc</file>
+        <file>crosswords/Tutorial 2013 - Quick Start Grid.xwc3d</file>
+        <file>incomplete_crosswords/2015 April Tramp NoAnswers.xwc3d</file>
+        <file>incomplete_crosswords/2015 August Sirius NoAnswers.xwc3d</file>
+        <file>incomplete_crosswords/2015 December Puck NoAnswers.xwc3d</file>
+        <file>incomplete_crosswords/2015 February Everyman NoAnswers.xwc3d</file>
+        <file>incomplete_crosswords/2015 January Rufus NoAnswers.xwc3d</file>
+        <file>incomplete_crosswords/2015 July Sirius NoAnswers.xwc3d</file>
+        <file>incomplete_crosswords/2015 June Pasquale NoAnswers.xwc3d</file>
+        <file>incomplete_crosswords/2015 March Enigmatist NoAnswers.xwc3d</file>
+        <file>incomplete_crosswords/2015 May Curmudgeon NoAnswers.xwc3d</file>
+        <file>incomplete_crosswords/2015 November Raich NoAnswers.xwc3d</file>
+        <file>incomplete_crosswords/2015 October Anax NoAnswers.xwc3d</file>
+        <file>incomplete_crosswords/2015 September Nutmeg NoAnswers.xwc3d</file>
     </qresource>
 </RCC>

@@ -6,11 +6,10 @@
 #include <QStringList>
 #include <QTextEdit>
 
+#include "assets/assetpaths.h"
 #include "util/util.h"
 
 namespace printing {
-
-const QString Printer::POSTAL_ADDRESS_LOCATION = QString("/Config/postal_address.txt");
 
 Printer::Printer()
 {
@@ -19,7 +18,7 @@ Printer::Printer()
 QTextDocument* Printer::getPuzzleDocumentForPrinting(crossword::CrosswordBase& puzzle) const
 {
     QDir dir;
-    QString postalAddress = getPostalAddress(dir.absolutePath().append(POSTAL_ADDRESS_LOCATION));
+    QString postalAddress = assets::getPostalAddress();
 
     QString textToPrint;
 
@@ -72,23 +71,6 @@ QString Printer::openPrintDialog(crossword::CrosswordBase& puzzle, QWidget* pare
     delete printer;
 
     return QString("Print request cancelled.");
-}
-
-QString Printer::getPostalAddress(const QString path) const
-{
-    QString postalAddress;
-
-    QStringList postalAddressList;
-
-    util::readFile(postalAddressList, path);
-
-    if (!postalAddressList.isEmpty()) {
-        postalAddress = postalAddressList.join(" ");
-    } else {
-        postalAddress = "Error. Unable to find postal address.";
-    }
-
-    return postalAddress;
 }
 
 }

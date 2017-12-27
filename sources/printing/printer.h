@@ -20,9 +20,6 @@ class Printer {
     QString openPrintDialog(crossword::CrosswordBase& puzzle, QWidget* parentWidget);
 
   private:
-    static const QString POSTAL_ADDRESS_LOCATION;
-
-    QString getPostalAddress(const QString path) const;
     QTextDocument* getPuzzleDocumentForPrinting(crossword::CrosswordBase& puzzle) const;
 };
 

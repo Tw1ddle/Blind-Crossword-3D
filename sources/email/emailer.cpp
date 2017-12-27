@@ -5,21 +5,17 @@
 #include <QString>
 #include <QUrl>
 
+#include "assets/assetpaths.h"
 #include "crossword/crosswordbase.h"
 #include "util/util.h"
 #include "version/version.h"
 
 namespace email {
 
-const QString Emailer::FEEDBACK_EMAIL_ADDRESS_LOCATION =
-    QString("/Config/feedback_email_address.txt");
-const QString Emailer::ANSWERS_EMAIL_ADDRESS_LOCATION =
-    QString("/Config/answers_email_address.txt");
-
 bool Emailer::openFeedbackEmail()
 {
     QDir dir;
-    QString emailAddress = getEmailAddress(dir.absolutePath().append(FEEDBACK_EMAIL_ADDRESS_LOCATION));
+    QString emailAddress = assets::getFeedbackEmailAddress();
 
     QString emailSubject = version::getApplicationVersionDescription().append(" feedback message");
 
@@ -42,7 +38,7 @@ bool Emailer::openFeedbackEmail()
 bool Emailer::openSendResultsEmail(crossword::CrosswordBase& puzzle)
 {
     QDir dir;
-    QString emailAddress = getEmailAddress(dir.absolutePath().append(ANSWERS_EMAIL_ADDRESS_LOCATION));
+    QString emailAddress = assets::getAnswersEmailAddress();
 
     QString emailSubject = puzzle.getTitle().append(" answers");
 
@@ -87,22 +83,6 @@ bool Emailer::openEmail(QString address, QString subject, QString content)
     } else {
         return false;
     }
-}
-
-QString Emailer::getEmailAddress(const QString path) const
-{
-    QStringList emailAddresses;
-    QString emailAddress;
-
-    util::readFile(emailAddresses, path);
-
-    if (!emailAddresses.isEmpty()) {
-        emailAddress = emailAddresses.takeFirst();
-    } else {
-        emailAddress = "enter@your.email_address_here.com";
-    }
-
-    return emailAddress;
 }
 
 }

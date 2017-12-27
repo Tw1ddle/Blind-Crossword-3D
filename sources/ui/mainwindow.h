@@ -103,12 +103,6 @@ class MainWindow : public QMainWindow {
     void createShortcuts();
     QString getIntroString() const;
 
-    static const QString DEFAULT_SAVE_FOLDER;
-    static const QString HELP_FILE_LOCATION;
-    static const QString TUTORIAL_FILE_LOCATION;
-    static const QString LICENSE_FILE_LOCATION;
-    static const QString WEBSITE_ADDRESS_LOCATION;
-
     Ui::MainWindow* ui;
 
     loader::CrosswordLoader m_crosswordLoader;

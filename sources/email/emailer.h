@@ -20,12 +20,6 @@ class Emailer {
     bool openFeedbackEmail();
     bool openSendResultsEmail(crossword::CrosswordBase& puzzle);
     bool openEmail(QString address, QString subject, QString content);
-
-  private:
-    const static QString ANSWERS_EMAIL_ADDRESS_LOCATION;
-    const static QString FEEDBACK_EMAIL_ADDRESS_LOCATION;
-
-    QString getEmailAddress(const QString path) const;
 };
 
 }

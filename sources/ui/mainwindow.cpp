@@ -7,6 +7,7 @@
 #include <QSortFilterProxyModel>
 #include <QUrl>
 
+#include "assets/assetpaths.h"
 #include "controls/controls.h"
 #include "crossword/cluereader.h"
 #include "crossword/crosswordbase.h"
@@ -21,15 +22,6 @@
 #include "version/version.h"
 
 namespace ui {
-
-// TODO ensure this is created and scanned when loading crosswords in future
-const QString MainWindow::DEFAULT_SAVE_FOLDER = QString("/saved_crosswords");
-
-const QString MainWindow::HELP_FILE_LOCATION = QString(":/assets/help/help.html");
-const QString MainWindow::TUTORIAL_FILE_LOCATION = QString(":/assets/help/tutorial.html");
-const QString MainWindow::LICENSE_FILE_LOCATION = QString(":/assets/license/gplv3.htm");
-const QString MainWindow::WEBSITE_ADDRESS_LOCATION =
-    QString(":/assets/config/calendarpuzzles_website_address.txt");
 
 MainWindow::MainWindow(QWidget* parent) :
     QMainWindow(parent),
@@ -101,13 +93,10 @@ MainWindow::~MainWindow()
 
 void MainWindow::loadCrossword()
 {
-    QDir dir;
-    QString loadPath;
+    QDir dir(assets::getExternalCrosswordsFolderPath());
 
-    if (dir.exists(dir.absolutePath().append(DEFAULT_SAVE_FOLDER))) {
-        loadPath = dir.absolutePath().append(DEFAULT_SAVE_FOLDER);
-    } else {
-        loadPath = dir.absolutePath();
+    if (!dir.exists()) {
+        dir.mkpath(".");
     }
 
     tts::ITextToSpeech::instance().speak("Opening crossword list. Use the arrow keys to navigate the list.");
@@ -119,7 +108,7 @@ void MainWindow::loadCrossword()
 
     FileDialog crosswordDialog(this,
                                "Choose a crossword to load",
-                               loadPath,
+                               dir.absolutePath(),
                                "Crossword Grid 3D(*.xwc3d);; Crossword Disc 3D(*.xwcr3d);;Crossword Compiler (*.xwc)",
                                fileNameFilter);
 
@@ -145,9 +134,13 @@ void MainWindow::loadCrossword()
 
 void MainWindow::saveCrossword()
 {
-    QDir dir;
+    QDir dir(assets::getExternalCrosswordsFolderPath());
+
+    if (!dir.exists()) {
+        dir.mkpath(".");
+    }
+
     QString path = dir.absolutePath()
-                   .append(DEFAULT_SAVE_FOLDER)
                    .append("/")
                    .append(m_crossword.getTitle())
                    .append(".")
@@ -158,7 +151,7 @@ void MainWindow::saveCrossword()
     unsigned int extraTag = 1;
     QString separatorTag = QString("_");
 
-    while (dir.exists(path)) {
+    while (fileInfo.exists(path)) {
         QString updatedFileName = fileInfo.baseName()
                                   .append(separatorTag)
                                   .append(QString::number(extraTag))
@@ -166,7 +159,6 @@ void MainWindow::saveCrossword()
                                   .append(m_crossword.getFormat());
 
         path = dir.absolutePath()
-               .append(DEFAULT_SAVE_FOLDER)
                .append("/")
                .append(updatedFileName);
 
@@ -297,17 +289,7 @@ void MainWindow::cycleViewVisibility()
 
 void MainWindow::viewLicense()
 {
-    QDir dir;
-    QString filePath = dir.absolutePath().append(LICENSE_FILE_LOCATION);
-    QUrl url = QUrl::fromLocalFile(filePath);
-
-    bool openedSuccessfully = false;
-
-    if (dir.exists(filePath)) {
-        openedSuccessfully = util::openUrl(url);
-    }
-
-    if (openedSuccessfully) {
+    if (util::openUrl(assets::getLicenseWebsiteAddress())) {
         tts::ITextToSpeech::instance().speak("Opening license document in web browser. Use your screen reader to read the license document.");
     } else {
         tts::ITextToSpeech::instance().speak("Error, could not open license document.");
@@ -316,17 +298,7 @@ void MainWindow::viewLicense()
 
 void MainWindow::openHelp()
 {
-    QDir dir;
-    QString filePath = dir.absolutePath().append(HELP_FILE_LOCATION);
-    QUrl url = QUrl::fromLocalFile(filePath);
-
-    bool openedSuccessfully = false;
-
-    if (dir.exists(filePath)) {
-        openedSuccessfully = util::openUrl(url);
-    }
-
-    if (openedSuccessfully) {
+    if (util::openUrl(assets::getHelpWebsiteAddress())) {
         tts::ITextToSpeech::instance().speak("Opening help page in web browser. Use your screen reader to read the help page.");
     } else {
         tts::ITextToSpeech::instance().speak("Error, could not open help page.");
@@ -335,17 +307,7 @@ void MainWindow::openHelp()
 
 void MainWindow::openTutorial()
 {
-    QDir dir;
-    QString filePath = dir.absolutePath().append(TUTORIAL_FILE_LOCATION);
-    QUrl url = QUrl::fromLocalFile(filePath);
-
-    bool openedSuccessfully = false;
-
-    if (dir.exists(filePath)) {
-        openedSuccessfully = util::openUrl(url);
-    }
-
-    if (openedSuccessfully) {
+    if (util::openUrl(assets::getTutorialWebsiteAddress())) {
         tts::ITextToSpeech::instance().speak("Opening guide page in web browser. Use your screen reader to read the guide page.");
     } else {
         tts::ITextToSpeech::instance().speak("Error, could not open guide page.");
@@ -354,22 +316,10 @@ void MainWindow::openTutorial()
 
 void MainWindow::openCalendarPuzzlesWebsite()
 {
-    QDir dir;
-    QString filePath = dir.absolutePath().append(WEBSITE_ADDRESS_LOCATION);
-
-    if (util::fileExists(filePath)) {
-        QStringList address;
-        util::readFile(address, filePath);
-
-        if (!address.empty()) {
-            if (util::openUrl(QUrl(address.takeFirst()))) {
-                tts::ITextToSpeech::instance().speak("Opening Calendar Puzzles website in web browser. Use your screen reader to read the website.");
-            } else {
-                tts::ITextToSpeech::instance().speak("Error, could not open Calendar Puzzles website.");
-            }
-        }
+    if (util::openUrl(assets::getWebsiteAddress())) {
+        tts::ITextToSpeech::instance().speak("Opening Calendar Puzzles website in web browser. Use your screen reader to read the website.");
     } else {
-        tts::ITextToSpeech::instance().speak("Error, could not find Calendar Puzzles website address.");
+        tts::ITextToSpeech::instance().speak("Error, could not open Calendar Puzzles website.");
     }
 }
 

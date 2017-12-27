@@ -15,12 +15,35 @@
  */
 
 #include <QApplication>
+#include <QDir>
+#include <QDirIterator>
+#include <QFile>
 
+#include "assets/assetpaths.h"
 #include "ui/mainwindow.h"
+
+void extractEmbeddedCrosswordPuzzles()
+{
+    QDir destDir(assets::getExternalCrosswordsFolderPath());
+
+    if (!destDir.exists()) {
+        destDir.mkpath(".");
+    }
+
+    QDirIterator it(assets::getEmbeddedCrosswordsFolderPath(), QDirIterator::Subdirectories);
+
+    while (it.hasNext()) {
+        it.next();
+        QFile::copy(it.filePath(), destDir.absolutePath() + "/" + it.fileName());
+    }
+}
 
 int main(int argc, char* argv[])
 {
     QApplication a(argc, argv);
+
+    extractEmbeddedCrosswordPuzzles();
+
     ui::MainWindow w;
     w.show();
     return a.exec();
