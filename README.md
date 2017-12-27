@@ -8,6 +8,8 @@ Blind Crossword 3D is free and accessible 2D and 3D crossword puzzle game design
 
 Created to accompany a series of crossword-themed [wall calendars](http://www.calendarpuzzles.co.uk/) by Eric Westbrook and colleagues.
 
+To get started, read the [quickstart tutorial](http://tw1ddle.github.io/Blind-Crossword-3D/tutorial.html) and [help page](http://tw1ddle.github.io/Blind-Crossword-3D/help.html).
+
 ## Features
  * Solve over 30 cryptic three-dimensional crossword puzzles.
  * Fully voiced using system text-to-speech capabilities.
@@ -24,6 +26,11 @@ Download for Windows [here](https://www.dropbox.com/s/mx3vts0548v7zg2/Blind%20Cr
 ![Blind Crossword 3D Screenshot One - Multiple Grids and Clues Shown](https://github.com/Tw1ddle/Blind-Crossword-3D/blob/master/screenshots/windows-blind-crossword-3d-puzzle.png?raw=true)
 
 ![Blind Crossword 3D Screenshot Two - Single Grid and Clues Shown](https://github.com/Tw1ddle/Blind-Crossword-3D/blob/master/screenshots/windows-blind-crossword-3d-puzzle-2.png?raw=true)
+
+## Building
+
+ * Download Qt and Qt Creator (tested with Qt 5.10).
+ * Open BlindCrossword3D.pro, build and run.
 
 ## Contributing
 
