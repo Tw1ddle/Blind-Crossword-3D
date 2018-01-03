@@ -3,40 +3,28 @@
         <file>icon.ico</file>
         <file>backgrounds/april2013.jpg</file>
         <file>backgrounds/april2014.jpg</file>
-        <file>backgrounds/april2015.jpg</file>
         <file>backgrounds/august2013.jpg</file>
         <file>backgrounds/august2014.jpg</file>
-        <file>backgrounds/august2015.jpg</file>
         <file>backgrounds/december2013.jpg</file>
         <file>backgrounds/december2014.jpg</file>
-        <file>backgrounds/december2015.jpg</file>
         <file>backgrounds/february2013.jpg</file>
         <file>backgrounds/february2014.jpg</file>
-        <file>backgrounds/february2015.jpg</file>
         <file>backgrounds/january2013.jpg</file>
         <file>backgrounds/january2014.jpg</file>
-        <file>backgrounds/january2015.jpg</file>
         <file>backgrounds/july2013.jpg</file>
         <file>backgrounds/july2014.jpg</file>
-        <file>backgrounds/july2015.jpg</file>
         <file>backgrounds/june2013.jpg</file>
         <file>backgrounds/june2014.jpg</file>
-        <file>backgrounds/june2015.jpg</file>
         <file>backgrounds/march2013.jpg</file>
         <file>backgrounds/march2014.jpg</file>
-        <file>backgrounds/march2015.jpg</file>
         <file>backgrounds/may2013.jpg</file>
         <file>backgrounds/may2014.jpg</file>
-        <file>backgrounds/may2015.jpg</file>
         <file>backgrounds/november2013.jpg</file>
         <file>backgrounds/november2014.jpg</file>
-        <file>backgrounds/november2015.jpg</file>
         <file>backgrounds/october2013.jpg</file>
         <file>backgrounds/october2014.jpg</file>
-        <file>backgrounds/october2015.jpg</file>
         <file>backgrounds/september2013.jpg</file>
         <file>backgrounds/september2014.jpg</file>
-        <file>backgrounds/september2015.jpg</file>
         <file>crosswords/2013 April Arachne NoAnswers.xwc3d</file>
         <file>crosswords/2013 August Columba NoAnswers.xwc3d</file>
         <file>crosswords/2013 December Sirius NoAnswers.xwc3d</file>
@@ -88,5 +76,17 @@
         <file>incomplete_crosswords/2015 October Anax NoAnswers.xwc3d</file>
         <file>incomplete_crosswords/2015 September Nutmeg NoAnswers.xwc3d</file>
         <file>crosswords/2018 September Sirius NoAnswers.xwcr3d</file>
+        <file>backgrounds/april2018.jpg</file>
+        <file>backgrounds/august2018.jpg</file>
+        <file>backgrounds/december2018.jpg</file>
+        <file>backgrounds/february2018.jpg</file>
+        <file>backgrounds/january2018.jpg</file>
+        <file>backgrounds/july2018.jpg</file>
+        <file>backgrounds/june2018.jpg</file>
+        <file>backgrounds/march2018.jpg</file>
+        <file>backgrounds/may2018.jpg</file>
+        <file>backgrounds/november2018.jpg</file>
+        <file>backgrounds/october2018.jpg</file>
+        <file>backgrounds/september2018.jpg</file>
     </qresource>
 </RCC>
