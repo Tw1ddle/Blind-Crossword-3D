@@ -72,7 +72,6 @@
         <file>crosswords/2018 May Pasquale NoAnswers.xwc3d</file>
         <file>crosswords/2018 November Curmudgeon NoAnswers.xwc3d</file>
         <file>crosswords/2018 October Eclogue NoAnswers.xwc3d</file>
-        <file>crosswords/2018 September Sirius NoAnswers.xwc3d</file>
         <file>crosswords/Daily Mail Crossword No. 11,226.xwc</file>
         <file>crosswords/The Herald Crossword April 10, 2001.xwc</file>
         <file>crosswords/Tutorial - Quick Start Grid.xwc3d</file>
@@ -88,5 +87,6 @@
         <file>incomplete_crosswords/2015 November Raich NoAnswers.xwc3d</file>
         <file>incomplete_crosswords/2015 October Anax NoAnswers.xwc3d</file>
         <file>incomplete_crosswords/2015 September Nutmeg NoAnswers.xwc3d</file>
+        <file>crosswords/2018 September Sirius NoAnswers.xwcr3d</file>
     </qresource>
 </RCC>
