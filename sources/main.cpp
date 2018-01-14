@@ -38,10 +38,15 @@ void extractEmbeddedCrosswordPuzzles()
         const QString destinationPath = destDir.absolutePath() + "/" + it.fileName();
 
         if (QFile::exists(destinationPath)) {
+            QFile(destinationPath).setPermissions(QFileDevice::ReadOther | QFileDevice::WriteOther);
             QFile::remove(destinationPath);
         }
 
         QFile::copy(it.filePath(), destinationPath);
+
+        if (QFile::exists(destinationPath)) {
+            QFile(destinationPath).setPermissions(QFileDevice::ReadOther | QFileDevice::WriteOther);
+        }
     }
 }
 
