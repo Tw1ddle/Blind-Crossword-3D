@@ -45,8 +45,10 @@ MainWindow::MainWindow(QWidget* parent) :
 
     m_clueReader = new crossword::ClueReader();
 
-    connect(this, &MainWindow::puzzleLoaded, m_tableModel,
-            &ui::CrosswordEntryTableModel::crosswordEntriesChanged);
+    connect(this, &MainWindow::puzzleLoaded, [this]() {
+        m_tableModel->crosswordEntriesChanged();
+        ui->wordTableView->sortEntriesByIdentifierAscending();
+    });
     connect(this, &MainWindow::puzzleLoaded, [this]() {
         ui->wordTableView->setFocus(Qt::OtherFocusReason);
     });

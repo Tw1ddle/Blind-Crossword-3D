@@ -21,10 +21,7 @@ namespace ui {
 CrosswordEntryTableViewController::CrosswordEntryTableViewController(QWidget* parent) :
     QTableView(parent)
 {
-    // qt 5.0beta2 -> setSectionResizeMode
-    // qt 4.8 -> setResizeMode
     horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
-
     horizontalHeader()->setSectionsMovable(true);
 
     setTabKeyNavigation(false);
@@ -324,6 +321,16 @@ void CrosswordEntryTableViewController::readWordLengths()
     tts::ITextToSpeech::instance().setMode(mode);
 }
 
+void CrosswordEntryTableViewController::sortEntriesByIdentifierAscending()
+{
+    sortByColumn(tableheader::identifierColumnId, Qt::AscendingOrder);
+}
+
+void CrosswordEntryTableViewController::sortByAlphabeticalOrderOfClue()
+{
+    sortByColumn(tableheader::clueColumnId, Qt::AscendingOrder);
+}
+
 void CrosswordEntryTableViewController::sortEntries()
 {
     const static unsigned int cs_NumSorts = 2;
@@ -331,12 +338,12 @@ void CrosswordEntryTableViewController::sortEntries()
 
     switch (sortId) {
         case 0:
-            sortByColumn(tableheader::identifierColumnId, Qt::AscendingOrder);
+            sortEntriesByIdentifierAscending();
             tts::ITextToSpeech::instance().speak("Sorted clues by day.");
             break;
 
         case 1:
-            sortByColumn(tableheader::clueColumnId, Qt::AscendingOrder);
+            sortByAlphabeticalOrderOfClue();
             tts::ITextToSpeech::instance().speak("Sorted clues by alphabetical order of clues.");
             break;
     }

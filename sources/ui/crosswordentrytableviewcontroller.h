@@ -13,6 +13,9 @@ class CrosswordEntryTableViewController : public QTableView {
   public:
     explicit CrosswordEntryTableViewController(QWidget* parent = 0);
 
+    void sortEntriesByIdentifierAscending();
+    void sortByAlphabeticalOrderOfClue();
+
   public slots:
     void conflictingWordError();
     void reportGuessAccepted(QString guess);
