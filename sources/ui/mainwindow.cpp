@@ -3,6 +3,7 @@
 #include "ui_mainwindow.h"
 
 #include <QCloseEvent>
+#include <QMimeData>
 #include <QShortcut>
 #include <QSortFilterProxyModel>
 #include <QUrl>
@@ -20,6 +21,22 @@
 #include "ui/quitdialog.h"
 #include "util/util.h"
 #include "version/version.h"
+
+namespace {
+
+bool loadCrosswordPuzzle(const QString& path, crossword::CrosswordBase& crossword,
+                         loader::CrosswordLoader& loader)
+{
+    if (path.isNull()) {
+        return false;
+    }
+
+    QFileInfo fileInfo(path);
+    QString extension = fileInfo.suffix();
+    return loader.loadPuzzle(crossword, path, extension);
+}
+
+}
 
 namespace ui {
 
@@ -133,15 +150,10 @@ void MainWindow::loadCrossword()
         path = crosswordDialog.getSelectedFilePath();
     }
 
-    if (!path.isNull()) {
+    if (loadCrosswordPuzzle(path, m_crossword, m_crosswordLoader)) {
+        emit puzzleLoaded();
         QFileInfo fileInfo(path);
-        QString extension = fileInfo.suffix();
-
-        if (m_crosswordLoader.loadPuzzle(m_crossword, path, extension)) {
-            emit puzzleLoaded();
-
-            tts::ITextToSpeech::instance().speak(fileInfo.completeBaseName().append(" was loaded."));
-        }
+        tts::ITextToSpeech::instance().speak(fileInfo.completeBaseName().append(" was loaded."));
     } else {
         tts::ITextToSpeech::instance().speak("No crossword was selected.");
     }
@@ -520,6 +532,48 @@ void MainWindow::closeEvent(QCloseEvent* event)
     } else {
         tts::ITextToSpeech::instance().speak(dialog.getRejectedText());
         event->ignore();
+    }
+}
+
+void MainWindow::dragEnterEvent(QDragEnterEvent* event)
+{
+    event->accept();
+}
+
+void MainWindow::dragMoveEvent(QDragMoveEvent* event)
+{
+    event->accept();
+}
+
+void MainWindow::dragLeaveEvent(QDragLeaveEvent* event)
+{
+    event->accept();
+}
+
+void MainWindow::dropEvent(QDropEvent* event)
+{
+    if (!event->mimeData()->hasUrls()) {
+        return;
+    }
+
+    QStringList urls;
+
+    for (QUrl& url : event->mimeData()->urls()) {
+        urls << url.toLocalFile();
+    }
+
+    if (urls.empty()) {
+        return;
+    }
+
+    const QString firstFile = urls.first();
+
+    if (loadCrosswordPuzzle(firstFile, m_crossword, m_crosswordLoader)) {
+        emit puzzleLoaded();
+        QFileInfo fileInfo(firstFile);
+        tts::ITextToSpeech::instance().speak(fileInfo.completeBaseName().append(" was loaded."));
+    } else {
+        tts::ITextToSpeech::instance().speak("Failed to load crossword.");
     }
 }
 
