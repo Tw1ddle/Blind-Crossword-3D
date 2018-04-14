@@ -5,7 +5,7 @@
 namespace {
 
 const static QString major = "1";
-const static QString minor = "2";
+const static QString minor = "3";
 const static QString applicationName = "Blind Crossword 3D";
 
 }
