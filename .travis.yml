@@ -39,7 +39,7 @@ before_install:
 
 install:
   # Install Qt
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo apt-get install qt514base qt514svg qt514imageformats qt514tools; fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo apt-get install qt514base qt514svg qt514imageformats qt514speech qt514tools; fi
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then source /opt/qt514/bin/qt514-env.sh; fi
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew update; fi
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install qt5; fi
