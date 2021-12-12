@@ -1,14 +1,13 @@
 [![Blind Crossword 3D Logo](https://github.com/Tw1ddle/Blind-Crossword-3D/blob/master/screenshots/logo.png?raw=true "Blind Crossword 3D logo")](https://www.samcodes.co.uk/)
 
-[![Blind Crossword 3D Travis Build Status](https://img.shields.io/travis/Tw1ddle/Blind-Crossword-3D.svg?style=flat-square)](https://travis-ci.org/Tw1ddle/Blind-Crossword-3D)
-[![Blind Crossword 3D AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/m3t7bnffhkcwna7y?svg=true)](https://ci.appveyor.com/project/Tw1ddle/blind-crossword-3D)
+[![Blind Crossword 3D Build Status](https://ci.appveyor.com/api/projects/status/m3t7bnffhkcwna7y?svg=true)](https://ci.appveyor.com/project/Tw1ddle/blind-crossword-3D)
 [![License GPLv3 Badge](https://img.shields.io/badge/License-GPL%20v3-blue.svg?style=flat-square)](https://github.com/Tw1ddle/Blind-Crossword-3D/blob/master/LICENSE)
 
 Blind Crossword 3D is free and accessible 2D and 3D crossword puzzle game designed for blind and partially sighted players.
 
-Created to accompany a series of crossword-themed [wall calendars](http://www.calendarpuzzles.co.uk/) by Eric Westbrook and colleagues.
+Created to accompany a series of crossword-themed [wall calendars](https://3dcalendarpuzzles.co.uk/) by Eric Westbrook and colleagues.
 
-To get started, read the [quickstart tutorial](http://tw1ddle.github.io/Blind-Crossword-3D/tutorial.html) and [help page](http://tw1ddle.github.io/Blind-Crossword-3D/help.html).
+To get started, read the [quickstart tutorial](https://tw1ddle.github.io/Blind-Crossword-3D/tutorial.html) and [help page](https://tw1ddle.github.io/Blind-Crossword-3D/help.html).
 
 ## Features
  * Solve over 30 cryptic three-dimensional crossword puzzles.
@@ -19,7 +18,7 @@ To get started, read the [quickstart tutorial](http://tw1ddle.github.io/Blind-Cr
 
 ## Download
 
-Download Blind Crossword 3D for Windows [here](https://www.dropbox.com/s/mx3vts0548v7zg2/Blind%20Crossword%203D%201.0.zip).
+Download Blind Crossword 3D for Windows [here](https://3dcalendarpuzzles.co.uk/puzzles/blind-crossword-programs/).
 
 ## Screenshots
 
