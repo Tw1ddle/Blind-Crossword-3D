@@ -31,7 +31,9 @@ Download Blind Crossword 3D for Windows [here](https://3dcalendarpuzzles.co.uk/p
 
 ## Contributing
 
-See the [wiki](https://github.com/Tw1ddle/Blind-Crossword-3D/wiki) to learn how to make Blind Crossword 3D better.
+This project needs a maintainer. I developed it as a student with support and encouragement from the partially-sighted crossword setter Eric Westbrook and my university. I would be happy to return the favour to anyone interested in picking it up. If you are interested then contact me.
+
+I have some notes on the [wiki](https://github.com/Tw1ddle/Blind-Crossword-3D/wiki) for how to Blind Crossword 3D better. The [issue tracker](https://github.com/Tw1ddle/Blind-Crossword-3D/issues) also contains plenty of proposals for improvements that were drafted out in collaboration with blind and partially-sighted users.
 
 ## Notes
  * Got a comment or suggestion? Open an issue on GitHub, or send Sam an [email](https://samcodes.co.uk/contact/) or a message via [Twitter](https://twitter.com/Sam_Twidale).
