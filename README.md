@@ -1,7 +1,7 @@
 [![Blind Crossword 3D Logo](https://github.com/Tw1ddle/Blind-Crossword-3D/blob/master/screenshots/logo.png?raw=true "Blind Crossword 3D logo")](https://www.samcodes.co.uk/)
 
-[![Blind Crossword 3D Build Status](https://ci.appveyor.com/api/projects/status/m3t7bnffhkcwna7y?svg=true)](https://ci.appveyor.com/project/Tw1ddle/blind-crossword-3D)
 [![License GPLv3 Badge](https://img.shields.io/badge/License-GPL%20v3-blue.svg?style=flat-square)](https://github.com/Tw1ddle/Blind-Crossword-3D/blob/master/LICENSE)
+[![Build Crossword 3D Build Status Badge](https://ci.appveyor.com/api/projects/status/github/Tw1ddle/Blind-Crossword-3D)](https://ci.appveyor.com/project/Tw1ddle/Blind-Crossword-3D)
 
 Blind Crossword 3D is free and accessible 2D and 3D crossword puzzle game designed for blind and partially sighted players.
 
